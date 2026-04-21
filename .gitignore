@@ -20,8 +20,8 @@ Thumbs.db
 .vscode/
 .idea/
 
-# Generated maps (local working copies)
-maps/local/
+# Generated maps and MIDI (bootstrap output)
+maps/
 
 # Database
 *.db
