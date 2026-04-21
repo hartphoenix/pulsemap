@@ -120,9 +120,11 @@ export interface PlaybackTarget {
 }
 
 /**
- * Declares what a playback adapter can control.
+ * Catalogs what a platform's playback API can do — not what an
+ * adapter must implement. Adapter authors choose which capabilities
+ * to support; the map gives them the information to choose well.
  *
- * Boolean capabilities are present when the adapter supports them.
+ * Boolean capabilities are present when the platform supports them.
  * Omitted or false means unsupported. `rate` uses a discriminated
  * form: "continuous" for arbitrary rate control, or a number array
  * for platforms that only offer fixed speed options (e.g. YouTube
