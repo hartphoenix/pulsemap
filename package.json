@@ -1,0 +1,36 @@
+{
+  "name": "pulsemap",
+  "version": "0.1.0",
+  "description": "An open-source protocol for mapping time-based media and layering synchronized experiences on top.",
+  "type": "module",
+  "scripts": {
+    "bootstrap": "bun run src/bootstrap/index.ts",
+    "lint": "biome check .",
+    "lint:fix": "biome check --write .",
+    "format": "biome format --write .",
+    "test": "bun test",
+    "typecheck": "tsc --noEmit"
+  },
+  "license": "MIT",
+  "author": "Hart Phoenix <rhhart@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hartphoenix/pulsemap.git"
+  },
+  "keywords": [
+    "music",
+    "protocol",
+    "sync",
+    "time-based-media",
+    "lyrics",
+    "chords"
+  ],
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.0",
+    "@types/bun": "^1.2.0",
+    "typescript": "^5.7.0"
+  },
+  "trustedDependencies": [
+    "@biomejs/biome"
+  ]
+}
