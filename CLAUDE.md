@@ -9,6 +9,9 @@ and map database utilities.
 
 ```
 schema/              # TypeScript type definitions for map format
+sdk/
+  adapters/          # PlaybackAdapter interface + reference implementations
+sdk/index.ts         # SDK entry point (re-exports)
 src/
   bootstrap/         # Map generation pipeline (audio → map JSON)
   db/                # SQLite map database utilities
@@ -60,6 +63,25 @@ Maps are JSON files describing the structure of a recording:
 - Provenance for analyzed fields tracked in top-level `analysis` field
 - `playback` lists known platforms with structured capability objects
 - `metadata.extra` extends typed fields using MusicBrainz Picard tag keys
+
+### Adapter SDK
+
+Reference playback adapters for common platforms. Any player can
+import these directly. The protocol defines `PlaybackCapabilities`
+as a catalog of what platforms can do; the SDK provides ready-to-use
+implementations.
+
+- **Interface:** `PlaybackAdapter` in `sdk/adapters/types.ts`
+- **Registry:** `createRegistry()` resolves URLs to platform + source ID
+- **Adapters:** `YouTubeEmbedAdapter` (iframe API, web + iPad)
+- **Volume:** Normalized 0–1 across all adapters
+- **State events:** `onStateChange()` for discrete transitions;
+  `getPosition()` for polling
+- **Capabilities:** Each adapter exposes a `capabilities` object
+  matching `PlaybackCapabilities` from the schema
+
+Players can use SDK adapters directly, extend them, or build their
+own adapter contract. Community-contributed adapters accepted via PR.
 
 ### Bootstrap pipeline
 
