@@ -1,0 +1,77 @@
+[
+  {
+    "title": "Wonderwall",
+    "artist": "Oasis",
+    "url": "https://www.youtube.com/watch?v=bx1Bh8ZvH84",
+    "status": "success",
+    "duration_s": 54,
+    "map_id": "1ef66ec6-e03a-494b-bcd9-d0cf3953cc62",
+    "fields": [
+      "lyrics(31)",
+      "words(283)",
+      "chords(234)",
+      "beats(745)",
+      "midi(4)"
+    ]
+  },
+  {
+    "title": "Let It Be",
+    "artist": "The Beatles",
+    "url": "https://www.youtube.com/watch?v=QDYfEBY9NM4",
+    "status": "success",
+    "duration_s": 46,
+    "map_id": "0cdc9b5b-b16b-4ff1-9f16-5b4ba76f1c17",
+    "fields": [
+      "lyrics(39)",
+      "words(268)",
+      "chords(175)",
+      "beats(561)",
+      "midi(4)"
+    ]
+  },
+  {
+    "title": "Knockin' on Heaven's Door",
+    "artist": "Bob Dylan",
+    "url": "https://www.youtube.com/watch?v=rm9coqlk8fY",
+    "status": "success",
+    "duration_s": 40,
+    "map_id": "01cd9f25-27cf-4cc5-b646-ee4bb3213da4",
+    "fields": [
+      "lyrics(10)",
+      "words(64)",
+      "chords(109)",
+      "beats(351)",
+      "midi(4)"
+    ]
+  },
+  {
+    "title": "Horse with No Name",
+    "artist": "America",
+    "url": "https://www.youtube.com/watch?v=na47wMFfQCo",
+    "status": "success",
+    "duration_s": 48,
+    "map_id": "90141c46-0f99-4435-a90a-af666d6599b7",
+    "fields": [
+      "lyrics(44)",
+      "words(364)",
+      "chords(222)",
+      "beats(519)",
+      "midi(4)"
+    ]
+  },
+  {
+    "title": "Wish You Were Here",
+    "artist": "Pink Floyd",
+    "url": "https://www.youtube.com/watch?v=IXdNnw99-Ic",
+    "status": "success",
+    "duration_s": 54,
+    "map_id": "bf7e5e81-163b-4515-b461-4317db5a0fd1",
+    "fields": [
+      "lyrics(21)",
+      "words(140)",
+      "chords(122)",
+      "beats(588)",
+      "midi(4)"
+    ]
+  }
+]
