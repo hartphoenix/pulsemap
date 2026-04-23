@@ -39,6 +39,7 @@
     "@biomejs/biome"
   ],
   "dependencies": {
-    "@sinclair/typebox": "^0.34.49"
+    "@sinclair/typebox": "^0.34.49",
+    "@tonejs/midi": "^2.0.28"
   }
 }
