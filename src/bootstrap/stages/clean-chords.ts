@@ -58,7 +58,8 @@ export function cleanChords(chords: ChordEvent[], options: ChordCleanupOptions):
 	const bpm = getBpm(options.beats);
 	if (!bpm) return chords;
 
-	const sixteenthMs = 60000 / bpm / 4;
+	const eighthMs = 60000 / bpm / 2;
+	const minChordMs = Math.max(300, eighthMs);
 	const diatonicRoots = options.key ? getDiatonicRoots(options.key) : undefined;
 
 	const filtered: ChordEvent[] = [];
@@ -67,22 +68,11 @@ export function cleanChords(chords: ChordEvent[], options: ChordCleanupOptions):
 		const chord = chords[i];
 		const duration = chord.end != null ? chord.end - chord.t : undefined;
 
-		if (duration != null && duration < sixteenthMs) {
+		if (duration != null && duration < minChordMs) {
 			if (filtered.length > 0) {
 				filtered[filtered.length - 1].end = chord.end;
 			}
 			continue;
-		}
-
-		if (duration != null && duration < sixteenthMs * 2) {
-			const root = parseChordRoot(chord.chord);
-			const isDiatonic = root && diatonicRoots ? diatonicRoots.has(normalizeNote(root)) : true;
-			if (!isDiatonic) {
-				if (filtered.length > 0) {
-					filtered[filtered.length - 1].end = chord.end;
-				}
-				continue;
-			}
 		}
 
 		filtered.push({ ...chord });
