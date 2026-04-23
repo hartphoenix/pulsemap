@@ -126,6 +126,65 @@ describe("validate", () => {
 	it("rejects null", () => {
 		expect(validate(null).valid).toBe(false);
 	});
+
+	it("accepts a map with words array", () => {
+		const map = {
+			...MINIMAL_MAP,
+			words: [
+				{ t: 0, text: "Hello", end: 300 },
+				{ t: 300, text: "world", end: 600 },
+			],
+		};
+		expect(validate(map).valid).toBe(true);
+	});
+
+	it("rejects words with missing text", () => {
+		const map = {
+			...MINIMAL_MAP,
+			words: [{ t: 0 }],
+		};
+		expect(validate(map).valid).toBe(false);
+	});
+
+	it("accepts words and lyrics as independent peer arrays", () => {
+		const map = {
+			...MINIMAL_MAP,
+			lyrics: [{ t: 0, text: "Hello world", end: 600 }],
+			words: [
+				{ t: 0, text: "Hello", end: 300 },
+				{ t: 300, text: "world", end: 600 },
+			],
+		};
+		expect(validate(map).valid).toBe(true);
+	});
+
+	it("accepts playback target with restrictions", () => {
+		const map = {
+			...MINIMAL_MAP,
+			playback: [
+				{
+					platform: "youtube",
+					capabilities: { play: true },
+					restrictions: { mobile_embed: false },
+				},
+			],
+		};
+		expect(validate(map).valid).toBe(true);
+	});
+
+	it("accepts restrictions with additional properties", () => {
+		const map = {
+			...MINIMAL_MAP,
+			playback: [
+				{
+					platform: "youtube",
+					capabilities: {},
+					restrictions: { mobile_embed: false, drm: true },
+				},
+			],
+		};
+		expect(validate(map).valid).toBe(true);
+	});
 });
 
 describe("assertValid", () => {

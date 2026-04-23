@@ -6,6 +6,7 @@ export interface ExtractedAudio {
 	artist?: string;
 	duration?: number;
 	sourceUrl?: string;
+	playableInEmbed?: boolean;
 }
 
 export async function extractAudio(source: string, workDir: string): Promise<ExtractedAudio> {
@@ -24,12 +25,15 @@ export async function extractAudio(source: string, workDir: string): Promise<Ext
 	let artist: string | undefined;
 	let duration: number | undefined;
 
+	let playableInEmbed: boolean | undefined;
+
 	if (metaProc.exitCode === 0) {
 		try {
 			const meta = JSON.parse(metaOutput);
 			title = meta.track || meta.title;
 			artist = meta.artist || meta.creator || meta.uploader;
 			duration = meta.duration ? Math.round(meta.duration * 1000) : undefined;
+			playableInEmbed = meta.playable_in_embed;
 		} catch {
 			// metadata extraction is best-effort
 		}
@@ -53,5 +57,5 @@ export async function extractAudio(source: string, workDir: string): Promise<Ext
 		throw new Error(`Expected audio at ${audioPath} but file not found. yt-dlp stderr: ${stderr}`);
 	}
 
-	return { path: audioPath, title, artist, duration, sourceUrl: source };
+	return { path: audioPath, title, artist, duration, sourceUrl: source, playableInEmbed };
 }

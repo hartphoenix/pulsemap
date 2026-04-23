@@ -63,11 +63,24 @@ export const PlaybackCapabilitiesSchema = Type.Object({
 });
 export type PlaybackCapabilities = Static<typeof PlaybackCapabilitiesSchema>;
 
+export const PlaybackRestrictionsSchema = Type.Object(
+	{
+		mobile_embed: Type.Optional(
+			Type.Boolean({
+				description: "Whether embedded playback works on mobile devices.",
+			}),
+		),
+	},
+	{ additionalProperties: true },
+);
+export type PlaybackRestrictions = Static<typeof PlaybackRestrictionsSchema>;
+
 export const PlaybackTargetSchema = Type.Object({
 	platform: Type.String({ description: "Platform identifier." }),
 	uri: Type.Optional(Type.String({ description: "URI for this instance." })),
 	id: Type.Optional(Type.String({ description: "Platform-specific ID." })),
 	capabilities: PlaybackCapabilitiesSchema,
+	restrictions: Type.Optional(PlaybackRestrictionsSchema),
 	added: Type.Optional(Type.String({ description: "ISO 8601 date when added or last verified." })),
 });
 export type PlaybackTarget = Static<typeof PlaybackTargetSchema>;
@@ -132,6 +145,13 @@ export const LyricLineSchema = Type.Object({
 });
 export type LyricLine = Static<typeof LyricLineSchema>;
 
+export const WordEventSchema = Type.Object({
+	t: Type.Number({ description: "Start time in milliseconds." }),
+	text: Type.String({ description: "Single word text." }),
+	end: Type.Optional(Type.Number({ description: "End time in ms." })),
+});
+export type WordEvent = Static<typeof WordEventSchema>;
+
 export const ChordEventSchema = Type.Object({
 	t: Type.Number({ description: "Start time in milliseconds." }),
 	chord: Type.String({
@@ -161,6 +181,7 @@ export const PulseMapSchema = Type.Object({
 	metadata: Type.Optional(MapMetadataSchema),
 	playback: Type.Optional(Type.Array(PlaybackTargetSchema)),
 	lyrics: Type.Optional(Type.Array(LyricLineSchema)),
+	words: Type.Optional(Type.Array(WordEventSchema)),
 	chords: Type.Optional(Type.Array(ChordEventSchema)),
 	beats: Type.Optional(Type.Array(BeatEventSchema)),
 	sections: Type.Optional(Type.Array(SectionSchema)),
