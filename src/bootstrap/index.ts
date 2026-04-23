@@ -14,6 +14,7 @@ import { beatAlignMidi } from "./stages/beat-align-midi";
 import { cleanChords } from "./stages/clean-chords";
 import { cleanLyrics } from "./stages/clean-lyrics";
 import { crossValidateBassChords } from "./stages/cross-validate";
+import { detectBeats } from "./stages/detect-beats";
 import { detectChords } from "./stages/detect-chords";
 import { extractAudio } from "./stages/extract-audio";
 import { fingerprint as computeFingerprint } from "./stages/fingerprint";
@@ -105,7 +106,7 @@ export async function bootstrap(source: string, options: BootstrapOptions = {}):
 		// === Phase 3: Parallel analysis ===
 		log.info("Running parallel analysis stages...");
 
-		const [lyricsResult, analysis, lvChords, bassMidi, vocalMidi, drumMidi, otherMidi] =
+		const [lyricsResult, analysis, lvChords, beatResult, bassMidi, vocalMidi, drumMidi, otherMidi] =
 			await Promise.all([
 				// Lyrics chain: fetch → clean → word-align
 				(async () => {
@@ -225,6 +226,26 @@ export async function bootstrap(source: string, options: BootstrapOptions = {}):
 					}
 				})(),
 
+				// Beat & downbeat detection (beat_this)
+				(async () => {
+					log.stage("beats");
+					try {
+						const result = await detectBeats(audio.path);
+						if (result) {
+							log.stageOk(
+								"beats",
+								`${result.beatCount} beats, ${result.downbeatCount} downbeats, ${result.tempo} BPM (beat_this)`,
+							);
+						} else {
+							log.stageFail("beats", "no beats detected");
+						}
+						return result;
+					} catch (err) {
+						log.stageFail("beats", err instanceof Error ? err.message : String(err));
+						return undefined;
+					}
+				})(),
+
 				// Bass MIDI
 				(async (): Promise<TranscriptionResult | undefined> => {
 					if (!stems?.bass) {
@@ -301,14 +322,19 @@ export async function bootstrap(source: string, options: BootstrapOptions = {}):
 		// === Phase 4: Post-processing ===
 		log.info("Running post-processing...");
 
+		// Use beat_this beats, fall back to Essentia
+		const finalBeats = beatResult?.beats ?? analysis?.beats;
+		const beatSource = beatResult ? "beat_this" : "essentia";
+		const finalTempo = beatResult?.tempo ?? analysis?.tempo;
+
 		// Use lv-chordia chords (rich vocabulary) with Essentia as fallback
 		const rawChords = lvChords ?? analysis?.chords;
 		const chordSource = lvChords ? "lv-chordia" : "essentia";
 		let finalChords = rawChords;
-		if (rawChords && analysis?.beats?.length) {
+		if (rawChords && finalBeats?.length) {
 			log.stage("clean-chords");
-			const key = analysis.key ? `${analysis.key} ${analysis.scale || ""}`.trim() : undefined;
-			finalChords = cleanChords(rawChords, { beats: analysis.beats, key });
+			const key = analysis?.key ? `${analysis.key} ${analysis.scale || ""}`.trim() : undefined;
+			finalChords = cleanChords(rawChords, { beats: finalBeats, key });
 			log.stageOk(
 				"clean-chords",
 				`${rawChords.length} → ${finalChords.length} chords (${chordSource})`,
@@ -321,11 +347,11 @@ export async function bootstrap(source: string, options: BootstrapOptions = {}):
 		);
 		const alignedMidiRefs: MidiReference[] = [];
 
-		if (midiResults.length > 0 && analysis?.beats?.length) {
+		if (midiResults.length > 0 && finalBeats?.length) {
 			for (const midi of midiResults) {
 				log.stage(`beat-align-${midi.label}`);
 				try {
-					const aligned = await beatAlignMidi(midi.filePath, analysis.beats, workDir, midi.label);
+					const aligned = await beatAlignMidi(midi.filePath, finalBeats, workDir, midi.label);
 					alignedMidiRefs.push({
 						sha256: aligned.sha256,
 						duration_ms: aligned.durationMs || durationMs,
@@ -426,7 +452,7 @@ export async function bootstrap(source: string, options: BootstrapOptions = {}):
 			fingerprint: fp,
 		};
 
-		if (title || artist || album || analysis?.key || analysis?.tempo) {
+		if (title || artist || album || analysis?.key || finalTempo) {
 			map.metadata = {};
 			if (title) map.metadata.title = title;
 			if (artist) map.metadata.artist = artist;
@@ -434,8 +460,13 @@ export async function bootstrap(source: string, options: BootstrapOptions = {}):
 			if (analysis?.key) {
 				map.metadata.key = `${analysis.key} ${analysis.scale || ""}`.trim();
 			}
-			if (analysis?.tempo) map.metadata.tempo = analysis.tempo;
-			if (analysis?.time_signature) map.metadata.time_signature = analysis.time_signature;
+			if (finalTempo) map.metadata.tempo = finalTempo;
+			if (finalBeats?.length) {
+				const firstTimeSig = finalBeats.find((b) => b.time_sig)?.time_sig;
+				if (firstTimeSig) map.metadata.time_signature = firstTimeSig;
+			} else if (analysis?.time_signature) {
+				map.metadata.time_signature = analysis.time_signature;
+			}
 		}
 
 		if (audio.sourceUrl) {
@@ -464,9 +495,9 @@ export async function bootstrap(source: string, options: BootstrapOptions = {}):
 			provenance.chords = { tool: `${chordSource}+cleanup`, date: today };
 		}
 
-		if (analysis?.beats?.length) {
-			map.beats = analysis.beats;
-			provenance.beats = { tool: "essentia", date: today };
+		if (finalBeats?.length) {
+			map.beats = finalBeats;
+			provenance.beats = { tool: beatSource, date: today };
 		}
 
 		if (analysis?.sections?.length) {

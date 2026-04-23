@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PulseMap Inspector</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #1a1a2e; color: #e0e0e0; overflow: hidden; height: 100vh; display: flex; flex-direction: column; }
+
+#top-bar { display: flex; gap: 12px; padding: 8px 12px; background: #16213e; align-items: center; flex-shrink: 0; }
+#top-bar button, #top-bar label { font-size: 13px; cursor: pointer; }
+#top-bar button { background: #0f3460; color: #e0e0e0; border: 1px solid #1a4f8a; border-radius: 4px; padding: 4px 10px; }
+#top-bar button:hover { background: #1a5fa8; }
+#top-bar .file-input { font-size: 12px; }
+#top-bar select { font-size: 13px; background: #0f3460; color: #e0e0e0; border: 1px solid #1a4f8a; border-radius: 4px; padding: 4px 8px; max-width: 280px; }
+#song-info { font-size: 13px; color: #8892b0; flex: 1; text-align: center; }
+#time-display { font-size: 14px; font-family: 'SF Mono', 'Fira Code', monospace; color: #64ffda; min-width: 120px; text-align: right; }
+
+#player-row { display: flex; background: #0d1b2a; flex-shrink: 0; }
+#player-container { width: 320px; height: 180px; flex-shrink: 0; background: #000; }
+#lane-controls { flex: 1; padding: 8px 12px; display: flex; flex-wrap: wrap; gap: 4px; align-content: flex-start; }
+.lane-toggle { display: flex; align-items: center; gap: 4px; padding: 3px 8px; border-radius: 3px; cursor: pointer; font-size: 12px; user-select: none; }
+.lane-toggle input { display: none; }
+.lane-toggle.active { opacity: 1; }
+.lane-toggle.inactive { opacity: 0.4; }
+
+#timeline-container { flex: 1; overflow: hidden; position: relative; }
+#timeline-canvas { width: 100%; height: 100%; display: block; }
+#playhead { position: absolute; top: 0; bottom: 0; width: 2px; background: #ff6b6b; pointer-events: none; z-index: 10; left: 25%; }
+#playhead::after { content: ''; position: absolute; top: 0; left: -4px; width: 10px; height: 10px; background: #ff6b6b; clip-path: polygon(50% 100%, 0 0, 100% 0); }
+
+#seek-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; cursor: pointer; z-index: 5; }
+
+.lane-beats { color: #64ffda; }
+.lane-chords { color: #ffd93d; }
+.lane-lyrics { color: #c4b5fd; }
+.lane-words { color: #a78bfa; }
+.lane-drums { color: #ff6b6b; }
+.lane-bass { color: #4ecdc4; }
+.lane-vocals { color: #ff9ff3; }
+.lane-other { color: #a29bfe; }
+.lane-sections { color: #6c5ce7; }
+</style>
+</head>
+<body>
+
+<div id="top-bar">
+  <select id="map-picker"><option value="">— select map —</option></select>
+  <input type="file" accept=".json" id="map-file" class="file-input">
+  <button id="btn-play">▶ Play</button>
+  <button id="btn-pause">⏸ Pause</button>
+  <span id="song-info">Load a map JSON file</span>
+  <span id="time-display">0:00.0 / 0:00</span>
+</div>
+
+<div id="player-row">
+  <div id="player-container"></div>
+  <div id="lane-controls"></div>
+</div>
+
+<div id="timeline-container">
+  <canvas id="timeline-canvas"></canvas>
+  <div id="playhead"></div>
+  <div id="seek-overlay"></div>
+</div>
+
+<script>
+const LANE_DEFS = [
+  { id: 'beats', label: 'Beats', color: '#64ffda', defaultOn: true },
+  { id: 'chords', label: 'Chords', color: '#ffd93d', defaultOn: true },
+  { id: 'lyrics', label: 'Lyrics', color: '#c4b5fd', defaultOn: true },
+  { id: 'words', label: 'Words', color: '#a78bfa', defaultOn: false },
+  { id: 'sections', label: 'Sections', color: '#6c5ce7', defaultOn: true },
+  { id: 'drums', label: 'Drums', color: '#ff6b6b', defaultOn: true },
+  { id: 'bass', label: 'Bass MIDI', color: '#4ecdc4', defaultOn: false },
+  { id: 'vocals', label: 'Vocal MIDI', color: '#ff9ff3', defaultOn: false },
+  { id: 'other', label: 'Other MIDI', color: '#a29bfe', defaultOn: false },
+];
+
+let map = null;
+let midiData = {};
+let player = null;
+let isPlaying = false;
+let currentTimeMs = 0;
+let animFrame = null;
+let laneVisibility = {};
+const PLAYHEAD_RATIO = 0.25;
+const PX_PER_MS = 0.15;
+
+// --- Map Picker (auto-populated from server) ---
+async function populateMapPicker() {
+  try {
+    const resp = await fetch('/api/maps');
+    if (!resp.ok) return;
+    const maps = await resp.json();
+    const picker = document.getElementById('map-picker');
+    for (const m of maps) {
+      const opt = document.createElement('option');
+      opt.value = m.path;
+      opt.textContent = `${m.title} — ${m.artist}`;
+      picker.appendChild(opt);
+    }
+  } catch { /* server may not support /api/maps */ }
+}
+
+document.getElementById('map-picker').addEventListener('change', async (e) => {
+  const path = e.target.value;
+  if (!path) return;
+  try {
+    const resp = await fetch(`/${path}`);
+    if (!resp.ok) return;
+    const text = await resp.text();
+    await loadMap(JSON.parse(text));
+  } catch (err) {
+    console.error('Failed to load map:', err);
+  }
+});
+
+populateMapPicker();
+
+// --- YouTube Player ---
+let ytReady = false;
+const tag = document.createElement('script');
+tag.src = 'https://www.youtube.com/iframe_api';
+document.head.appendChild(tag);
+
+window.onYouTubeIframeAPIReady = () => { ytReady = true; };
+
+function loadYouTubeVideo(videoId) {
+  if (player) player.destroy();
+  player = new YT.Player('player-container', {
+    width: 320, height: 180, videoId,
+    playerVars: { controls: 1, modestbranding: 1, rel: 0 },
+    events: {
+      onStateChange: (e) => {
+        isPlaying = e.data === YT.PlayerState.PLAYING;
+        if (isPlaying) requestAnimFrame();
+      }
+    }
+  });
+}
+
+// --- Map Loading ---
+async function loadMap(data) {
+  map = data;
+  midiData = {};
+  currentTimeMs = 0;
+  isPlaying = false;
+
+  const title = map.metadata?.title || '?';
+  const artist = map.metadata?.artist || '?';
+  const key = map.metadata?.key || '?';
+  const tempo = map.metadata?.tempo || '?';
+  document.getElementById('song-info').textContent =
+    `${title} — ${artist} | ${key} | ${tempo} BPM | ${(map.duration_ms/1000).toFixed(0)}s`;
+
+  // Load YouTube
+  const yt = map.playback?.find(p => p.platform === 'youtube');
+  if (yt?.id) {
+    if (ytReady) loadYouTubeVideo(yt.id);
+    else setTimeout(() => loadYouTubeVideo(yt.id), 1000);
+  }
+
+  // Load MIDI files
+  for (const ref of (map.midi || [])) {
+    const label = ref.tracks?.[0]?.label;
+    if (!label) continue;
+    try {
+      const resp = await fetch(`/maps/midi/${ref.sha256}.mid`);
+      if (resp.ok) {
+        const buf = await resp.arrayBuffer();
+        midiData[label] = parseMidiBasic(new Uint8Array(buf));
+      }
+    } catch { /* MIDI files may not be serveable */ }
+  }
+
+  buildLaneControls();
+  updateTimeDisplay();
+  draw();
+}
+
+document.getElementById('map-file').addEventListener('change', async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const text = await file.text();
+  await loadMap(JSON.parse(text));
+});
+
+// Minimal MIDI parser — extracts note events with absolute time in seconds
+function parseMidiBasic(bytes) {
+  const notes = [];
+  let pos = 0;
+  const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
+
+  function readU16() { const v = view.getUint16(pos); pos += 2; return v; }
+  function readU32() { const v = view.getUint32(pos); pos += 4; return v; }
+  function readVarLen() {
+    let val = 0;
+    for (let i = 0; i < 4; i++) {
+      const b = bytes[pos++];
+      val = (val << 7) | (b & 0x7f);
+      if (!(b & 0x80)) break;
+    }
+    return val;
+  }
+
+  // Header
+  if (String.fromCharCode(...bytes.slice(0, 4)) !== 'MThd') return [];
+  pos = 4;
+  readU32(); // header length
+  const format = readU16();
+  const numTracks = readU16();
+  const ticksPerBeat = readU16();
+
+  let usPerBeat = 500000; // 120 BPM default
+
+  for (let t = 0; t < numTracks; t++) {
+    if (String.fromCharCode(...bytes.slice(pos, pos + 4)) !== 'MTrk') break;
+    pos += 4;
+    const trackLen = readU32();
+    const trackEnd = pos + trackLen;
+    let tick = 0;
+    let timeSec = 0;
+    let lastStatus = 0;
+    const activeNotes = {};
+
+    while (pos < trackEnd) {
+      const delta = readVarLen();
+      timeSec += (delta / ticksPerBeat) * (usPerBeat / 1_000_000);
+      tick += delta;
+
+      let status = bytes[pos];
+      if (status < 0x80) {
+        status = lastStatus; // running status
+      } else {
+        pos++;
+        lastStatus = status;
+      }
+
+      const type = status & 0xf0;
+      const ch = status & 0x0f;
+
+      if (type === 0x90) { // note on
+        const note = bytes[pos++];
+        const vel = bytes[pos++];
+        if (vel > 0) {
+          activeNotes[note] = { start: timeSec, velocity: vel };
+        } else if (activeNotes[note]) {
+          notes.push({ pitch: note, start: activeNotes[note].start, end: timeSec, velocity: activeNotes[note].velocity });
+          delete activeNotes[note];
+        }
+      } else if (type === 0x80) { // note off
+        const note = bytes[pos++];
+        pos++; // velocity
+        if (activeNotes[note]) {
+          notes.push({ pitch: note, start: activeNotes[note].start, end: timeSec, velocity: activeNotes[note].velocity });
+          delete activeNotes[note];
+        }
+      } else if (type === 0xb0 || type === 0xe0) { pos += 2; }
+      else if (type === 0xc0 || type === 0xd0) { pos += 1; }
+      else if (status === 0xff) { // meta
+        const metaType = bytes[pos++];
+        const len = readVarLen();
+        if (metaType === 0x51 && len === 3) { // tempo
+          usPerBeat = (bytes[pos] << 16) | (bytes[pos+1] << 8) | bytes[pos+2];
+        }
+        pos += len;
+      } else if (status === 0xf0 || status === 0xf7) { // sysex
+        const len = readVarLen();
+        pos += len;
+      } else { pos++; }
+    }
+    pos = trackEnd;
+  }
+  return notes;
+}
+
+// --- Lane Controls ---
+function buildLaneControls() {
+  const container = document.getElementById('lane-controls');
+  container.innerHTML = '';
+  for (const lane of LANE_DEFS) {
+    const hasData = laneHasData(lane.id);
+    if (!hasData) continue;
+    laneVisibility[lane.id] = lane.defaultOn;
+    const label = document.createElement('label');
+    label.className = `lane-toggle ${lane.defaultOn ? 'active' : 'inactive'}`;
+    label.style.borderLeft = `3px solid ${lane.color}`;
+    label.innerHTML = `<input type="checkbox" ${lane.defaultOn ? 'checked' : ''}> ${lane.label}`;
+    label.querySelector('input').addEventListener('change', (e) => {
+      laneVisibility[lane.id] = e.target.checked;
+      label.className = `lane-toggle ${e.target.checked ? 'active' : 'inactive'}`;
+      draw();
+    });
+    container.appendChild(label);
+  }
+}
+
+function laneHasData(id) {
+  if (!map) return false;
+  switch (id) {
+    case 'beats': return map.beats?.length > 0;
+    case 'chords': return map.chords?.length > 0;
+    case 'lyrics': return map.lyrics?.length > 0;
+    case 'words': return map.words?.length > 0;
+    case 'sections': return map.sections?.length > 0;
+    case 'drums': case 'bass': case 'vocals': case 'other':
+      return map.midi?.some(r => r.tracks?.[0]?.label === id);
+    default: return false;
+  }
+}
+
+// --- Controls ---
+document.getElementById('btn-play').addEventListener('click', () => {
+  if (player?.playVideo) { player.playVideo(); }
+});
+document.getElementById('btn-pause').addEventListener('click', () => {
+  if (player?.pauseVideo) { player.pauseVideo(); }
+});
+
+document.getElementById('seek-overlay').addEventListener('click', (e) => {
+  if (!map || !player?.seekTo) return;
+  const rect = e.target.getBoundingClientRect();
+  const clickX = e.clientX - rect.left;
+  const canvasWidth = rect.width;
+  const playheadX = canvasWidth * PLAYHEAD_RATIO;
+  const offsetMs = ((clickX - playheadX) / PX_PER_MS) + currentTimeMs;
+  const seekMs = Math.max(0, Math.min(map.duration_ms, offsetMs));
+  player.seekTo(seekMs / 1000, true);
+  currentTimeMs = seekMs;
+  draw();
+});
+
+// --- Animation ---
+function requestAnimFrame() {
+  if (animFrame) return;
+  animFrame = requestAnimationFrame(tick);
+}
+
+function tick() {
+  animFrame = null;
+  if (player?.getCurrentTime && isPlaying) {
+    currentTimeMs = player.getCurrentTime() * 1000;
+    updateTimeDisplay();
+    draw();
+    requestAnimationFrame(tick);
+  }
+}
+
+function updateTimeDisplay() {
+  if (!map) return;
+  const cur = currentTimeMs / 1000;
+  const total = map.duration_ms / 1000;
+  const fmt = (s) => {
+    const m = Math.floor(s / 60);
+    const sec = (s % 60).toFixed(1);
+    return `${m}:${sec.padStart(4, '0')}`;
+  };
+  document.getElementById('time-display').textContent = `${fmt(cur)} / ${fmt(total)}`;
+}
+
+// --- Drawing ---
+function draw() {
+  const canvas = document.getElementById('timeline-canvas');
+  const container = document.getElementById('timeline-container');
+  const dpr = window.devicePixelRatio || 1;
+  canvas.width = container.clientWidth * dpr;
+  canvas.height = container.clientHeight * dpr;
+  canvas.style.width = container.clientWidth + 'px';
+  canvas.style.height = container.clientHeight + 'px';
+
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+  const W = container.clientWidth;
+  const H = container.clientHeight;
+
+  ctx.fillStyle = '#1a1a2e';
+  ctx.fillRect(0, 0, W, H);
+
+  if (!map) return;
+
+  const playheadX = W * PLAYHEAD_RATIO;
+  const visibleStartMs = currentTimeMs - (playheadX / PX_PER_MS);
+  const visibleEndMs = currentTimeMs + ((W - playheadX) / PX_PER_MS);
+
+  function msToX(ms) {
+    return playheadX + (ms - currentTimeMs) * PX_PER_MS;
+  }
+
+  // Compute visible lanes
+  const visibleLanes = LANE_DEFS.filter(l => laneVisibility[l.id] && laneHasData(l.id));
+  if (visibleLanes.length === 0) return;
+
+  const laneHeight = Math.min(80, (H - 4) / visibleLanes.length);
+  const laneGap = 2;
+
+  visibleLanes.forEach((lane, i) => {
+    const y = i * (laneHeight + laneGap);
+    const laneY = y;
+    const laneH = laneHeight;
+
+    // Lane background
+    ctx.fillStyle = '#0d1b2a';
+    ctx.fillRect(0, laneY, W, laneH);
+
+    // Lane label
+    ctx.fillStyle = lane.color + '80';
+    ctx.font = '10px -apple-system, sans-serif';
+    ctx.fillText(lane.label, 4, laneY + 12);
+
+    // Draw lane content
+    switch (lane.id) {
+      case 'beats': drawBeats(ctx, msToX, laneY, laneH, visibleStartMs, visibleEndMs, lane.color); break;
+      case 'chords': drawChords(ctx, msToX, laneY, laneH, visibleStartMs, visibleEndMs, lane.color); break;
+      case 'lyrics': drawLyrics(ctx, msToX, laneY, laneH, visibleStartMs, visibleEndMs, lane.color); break;
+      case 'words': drawWords(ctx, msToX, laneY, laneH, visibleStartMs, visibleEndMs, lane.color); break;
+      case 'sections': drawSections(ctx, msToX, laneY, laneH, visibleStartMs, visibleEndMs, lane.color); break;
+      case 'drums': drawMidiLane(ctx, msToX, laneY, laneH, visibleStartMs, visibleEndMs, lane.color, 'drums'); break;
+      case 'bass': drawMidiLane(ctx, msToX, laneY, laneH, visibleStartMs, visibleEndMs, lane.color, 'bass'); break;
+      case 'vocals': drawMidiLane(ctx, msToX, laneY, laneH, visibleStartMs, visibleEndMs, lane.color, 'vocals'); break;
+      case 'other': drawMidiLane(ctx, msToX, laneY, laneH, visibleStartMs, visibleEndMs, lane.color, 'other'); break;
+    }
+  });
+}
+
+function drawBeats(ctx, msToX, y, h, startMs, endMs, color) {
+  if (!map.beats) return;
+  for (const beat of map.beats) {
+    if (beat.t < startMs - 100 || beat.t > endMs + 100) continue;
+    const x = msToX(beat.t);
+    ctx.strokeStyle = beat.downbeat ? color : color + '40';
+    ctx.lineWidth = beat.downbeat ? 2 : 1;
+    ctx.beginPath();
+    ctx.moveTo(x, y + (beat.downbeat ? 0 : h * 0.3));
+    ctx.lineTo(x, y + h);
+    ctx.stroke();
+    if (beat.downbeat) {
+      ctx.fillStyle = color;
+      ctx.beginPath();
+      ctx.arc(x, y + 6, 3, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+}
+
+function drawChords(ctx, msToX, y, h, startMs, endMs, color) {
+  if (!map.chords) return;
+  for (const chord of map.chords) {
+    const end = chord.end || chord.t + 1000;
+    if (end < startMs || chord.t > endMs) continue;
+    const x1 = msToX(chord.t);
+    const x2 = msToX(end);
+    ctx.fillStyle = color + '25';
+    ctx.fillRect(x1, y + 2, x2 - x1, h - 4);
+    ctx.strokeStyle = color + '60';
+    ctx.strokeRect(x1, y + 2, x2 - x1, h - 4);
+    ctx.fillStyle = color;
+    ctx.font = 'bold 12px -apple-system, sans-serif';
+    const textX = Math.max(x1 + 3, 0);
+    ctx.fillText(chord.chord, textX, y + h / 2 + 4);
+  }
+}
+
+function drawLyrics(ctx, msToX, y, h, startMs, endMs, color) {
+  if (!map.lyrics) return;
+  for (const line of map.lyrics) {
+    const end = line.end || line.t + 2000;
+    if (end < startMs || line.t > endMs) continue;
+    const x1 = msToX(line.t);
+    const x2 = msToX(end);
+    ctx.fillStyle = color + '20';
+    ctx.fillRect(x1, y + 2, x2 - x1, h - 4);
+    ctx.fillStyle = color;
+    ctx.font = '11px -apple-system, sans-serif';
+    const textX = Math.max(x1 + 3, 0);
+    ctx.fillText(line.text, textX, y + h / 2 + 4, x2 - x1 - 6);
+  }
+}
+
+function drawWords(ctx, msToX, y, h, startMs, endMs, color) {
+  if (!map.words) return;
+  for (const word of map.words) {
+    const end = word.end || word.t + 200;
+    if (end < startMs || word.t > endMs) continue;
+    const x1 = msToX(word.t);
+    const x2 = msToX(end);
+    ctx.fillStyle = color + '30';
+    ctx.fillRect(x1, y + 4, x2 - x1, h - 8);
+    ctx.strokeStyle = color + '50';
+    ctx.lineWidth = 1;
+    ctx.strokeRect(x1, y + 4, x2 - x1, h - 8);
+    if (x2 - x1 > 20) {
+      ctx.fillStyle = color;
+      ctx.font = '10px -apple-system, sans-serif';
+      ctx.fillText(word.text, x1 + 2, y + h / 2 + 3, x2 - x1 - 4);
+    }
+  }
+}
+
+function drawSections(ctx, msToX, y, h, startMs, endMs, color) {
+  if (!map.sections) return;
+  const colors = ['#6c5ce740', '#e17055a0', '#00b89440', '#fd79a840', '#636e7240', '#a29bfe40'];
+  map.sections.forEach((section, i) => {
+    if (section.end < startMs || section.t > endMs) return;
+    const x1 = msToX(section.t);
+    const x2 = msToX(section.end);
+    ctx.fillStyle = colors[i % colors.length];
+    ctx.fillRect(x1, y, x2 - x1, h);
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(x1, y);
+    ctx.lineTo(x1, y + h);
+    ctx.stroke();
+    ctx.fillStyle = color;
+    ctx.font = 'bold 11px -apple-system, sans-serif';
+    const label = section.label || section.type;
+    ctx.fillText(label, Math.max(x1 + 4, 0), y + h / 2 + 4);
+  });
+}
+
+function drawMidiLane(ctx, msToX, y, h, startMs, endMs, color, stemLabel) {
+  const notes = midiData[stemLabel];
+  if (!notes || notes.length === 0) {
+    ctx.fillStyle = color + '40';
+    ctx.font = '9px monospace';
+    ctx.fillText(`(${stemLabel} MIDI — serve files to view)`, 4, y + h/2 + 3);
+    return;
+  }
+
+  if (stemLabel === 'drums') {
+    // Drums: show kick/snare/hihat as colored dots at different heights
+    const GM_KICK = 36, GM_SNARE = 38, GM_HIHAT = 42;
+    for (const note of notes) {
+      const tMs = note.start * 1000;
+      if (tMs < startMs - 100 || tMs > endMs + 100) continue;
+      const x = msToX(tMs);
+      let noteY, noteColor, label;
+      if (note.pitch === GM_KICK) { noteY = y + h * 0.75; noteColor = '#ff6b6b'; label = 'K'; }
+      else if (note.pitch === GM_SNARE) { noteY = y + h * 0.45; noteColor = '#feca57'; label = 'S'; }
+      else if (note.pitch === GM_HIHAT) { noteY = y + h * 0.2; noteColor = '#48dbfb'; label = 'H'; }
+      else continue;
+      const r = 3 + (note.velocity / 127) * 3;
+      ctx.fillStyle = noteColor;
+      ctx.beginPath();
+      ctx.arc(x, noteY, r, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    // Legend
+    ctx.font = '8px monospace';
+    ctx.fillStyle = '#48dbfb'; ctx.fillText('H', 30, y + h * 0.2 + 3);
+    ctx.fillStyle = '#feca57'; ctx.fillText('S', 30, y + h * 0.45 + 3);
+    ctx.fillStyle = '#ff6b6b'; ctx.fillText('K', 30, y + h * 0.75 + 3);
+  } else {
+    // Pitched: piano roll style
+    let minPitch = 127, maxPitch = 0;
+    for (const note of notes) {
+      if (note.pitch < minPitch) minPitch = note.pitch;
+      if (note.pitch > maxPitch) maxPitch = note.pitch;
+    }
+    const pitchRange = Math.max(maxPitch - minPitch, 12);
+    const margin = 4;
+
+    for (const note of notes) {
+      const startX = msToX(note.start * 1000);
+      const endX = msToX(note.end * 1000);
+      if (endX < 0 || startX > ctx.canvas.width) continue;
+      const pitchNorm = (note.pitch - minPitch) / pitchRange;
+      const noteY = y + h - margin - pitchNorm * (h - margin * 2);
+      const noteH = Math.max(2, (h - margin * 2) / pitchRange);
+      const alpha = 0.3 + (note.velocity / 127) * 0.7;
+      ctx.fillStyle = color + Math.round(alpha * 255).toString(16).padStart(2, '0');
+      ctx.fillRect(startX, noteY - noteH/2, Math.max(endX - startX, 2), noteH);
+    }
+  }
+}
+
+// --- Resize ---
+window.addEventListener('resize', () => draw());
+
+// Initial draw
+draw();
+</script>
+</body>
+</html>
