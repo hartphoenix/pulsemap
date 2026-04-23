@@ -417,6 +417,9 @@ export async function bootstrap(source: string, options: BootstrapOptions = {}):
 			const target = parsePlaybackTarget(audio.sourceUrl);
 			if (target) {
 				target.added = today;
+				if (audio.playableInEmbed === false) {
+					target.restrictions = { mobile_embed: false };
+				}
 				map.playback = [target];
 			}
 		}

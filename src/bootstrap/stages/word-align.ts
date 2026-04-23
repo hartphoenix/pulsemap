@@ -25,7 +25,13 @@ export async function alignWords(
 	}
 
 	try {
-		const words = JSON.parse(stdout) as WordEvent[];
+		const raw = JSON.parse(stdout) as WordEvent[];
+		const words = raw
+			.filter((w) => w.text.trim().length > 0)
+			.map((w) => ({
+				...w,
+				end: w.end != null && w.end > w.t ? w.end : w.t + 50,
+			}));
 		return words.length > 0 ? words : undefined;
 	} catch {
 		console.warn(`Failed to parse alignment output: ${stdout.slice(0, 200)}`);
