@@ -22,18 +22,10 @@ export async function resolvePython(): Promise<string> {
 
 	const venvPython = join(projectRoot(), ".venv", "bin", "python");
 	try {
-		const stat = await Bun.file(venvPython).exists();
-		if (stat) {
-			const proc = Bun.spawn([venvPython, "-c", "import essentia; import demucs"], {
-				stdout: "ignore",
-				stderr: "ignore",
-			});
-			await proc.exited;
-			if (proc.exitCode === 0) {
-				resolvedPython = venvPython;
-				console.error(`  Using .venv Python: ${venvPython}`);
-				return venvPython;
-			}
+		if (await Bun.file(venvPython).exists()) {
+			resolvedPython = venvPython;
+			console.error(`  Using .venv Python: ${venvPython}`);
+			return venvPython;
 		}
 	} catch {
 		// .venv not available
@@ -41,14 +33,14 @@ export async function resolvePython(): Promise<string> {
 
 	for (const candidate of ["python3.11", "python3.12", "python3.13", "python3", "python3.14"]) {
 		try {
-			const proc = Bun.spawn([candidate, "-c", "import essentia"], {
+			const proc = Bun.spawn([candidate, "--version"], {
 				stdout: "ignore",
 				stderr: "ignore",
 			});
 			await proc.exited;
 			if (proc.exitCode === 0) {
 				resolvedPython = candidate;
-				console.error(`  Auto-detected Python with essentia: ${candidate}`);
+				console.error(`  Using system Python: ${candidate}`);
 				return candidate;
 			}
 		} catch {
@@ -57,7 +49,7 @@ export async function resolvePython(): Promise<string> {
 	}
 
 	resolvedPython = "python3";
-	console.error("  No Python with essentia found, falling back to python3");
+	console.error("  No Python found, falling back to python3");
 	return "python3";
 }
 
