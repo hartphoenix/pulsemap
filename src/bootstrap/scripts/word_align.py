@@ -114,23 +114,34 @@ def main():
 
 
 def validate_lrclib(lrclib_lines, stt_result):
-    """Compare LRCLIB line timestamps against STT segment timestamps.
+    """Compare LRCLIB line timestamps against STT word cluster timestamps.
+
+    Clusters STT words by gaps >1s to approximate line-level grouping,
+    then compares cluster starts against LRCLIB line starts.
 
     Returns (validated: bool, median_offset_ms: float|None).
     """
-    stt_segments = []
+    # Build word-level clusters from STT (gap > 1s = new cluster)
+    stt_words = []
     for seg in stt_result.segments:
-        text = seg.text.strip()
-        if text:
-            stt_segments.append({
-                "t": round(seg.start * 1000),
-                "text": text,
-            })
+        for word in seg.words:
+            text = word.word.strip()
+            if text:
+                stt_words.append(round(word.start * 1000))
 
-    if not stt_segments:
+    if len(stt_words) < 3:
         return False, None
 
-    # Filter non-lyric LRCLIB lines (stage directions)
+    stt_words.sort()
+    cluster_starts = [stt_words[0]]
+    for i in range(1, len(stt_words)):
+        if stt_words[i] - stt_words[i - 1] > 1000:
+            cluster_starts.append(stt_words[i])
+
+    if not cluster_starts:
+        return False, None
+
+    # Filter non-lyric LRCLIB lines
     lyric_lines = [
         l for l in lrclib_lines
         if l.get("text", "").strip()
@@ -140,17 +151,17 @@ def validate_lrclib(lrclib_lines, stt_result):
     if not lyric_lines:
         return False, None
 
-    # For each LRCLIB line, find the nearest STT segment by timestamp
+    # For each LRCLIB line, find the nearest STT cluster start
     offsets = []
     for ll in lyric_lines:
         ll_t = ll["t"]
-        best_offset = None
         best_dist = float("inf")
-        for ss in stt_segments:
-            dist = abs(ss["t"] - ll_t)
+        best_offset = None
+        for cs in cluster_starts:
+            dist = abs(cs - ll_t)
             if dist < best_dist:
                 best_dist = dist
-                best_offset = ll_t - ss["t"]
+                best_offset = ll_t - cs
         if best_offset is not None and best_dist < 60000:
             offsets.append(best_offset)
 
