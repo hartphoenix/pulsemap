@@ -38,6 +38,8 @@ def main():
     genius = lyricsgenius.Genius(token)
     genius.verbose = False
     genius.remove_section_headers = False
+    genius.timeout = 30
+    genius.retries = 2
 
     song = genius.search_song(title, artist)
     if not song or not song.lyrics:
