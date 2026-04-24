@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
-"""Word-level alignment with LRCLIB mismatch detection. JSON to stdout.
+"""Word-level transcription with vocabulary priming and LRCLIB validation. JSON to stdout.
 
 Strategy:
-1. Free-transcribe the vocal stem (no text bias) to get STT words with timestamps.
-2. If LRCLIB lyrics are provided, compare STT segment timing against LRCLIB line
-   timing to detect recording mismatch.
-3. If LRCLIB validates: run forced alignment (best text quality + audio timing).
-4. If LRCLIB mismatches or is absent: output free transcription words.
+1. Run unprompted transcription to get baseline STT word clusters.
+2. If LRCLIB lyrics are provided, validate LRCLIB timestamps against
+   STT word cluster timing to detect recording mismatch.
+3. Run prompted transcription (initial_prompt=lyrics text) for the final
+   output. The model decides all timing freely but uses the lyrics as a
+   vocabulary/language prior for better text accuracy.
 """
 
 import json
@@ -31,80 +32,57 @@ def main():
         print("Loading Whisper base model on cpu...", file=sys.stderr)
         model = stable_whisper.load_model("base", device="cpu")
 
-        # Phase 1: Free transcription
-        print("Running free transcription...", file=sys.stderr)
-        stt_result = model.transcribe(vocal_path, language="en")
+        # Load LRCLIB lyrics if provided
+        lrclib_lines = None
+        lyrics_text = None
+        if lyrics_json_path:
+            try:
+                with open(lyrics_json_path) as f:
+                    lrclib_lines = json.load(f)
+                lyrics_text = "\n".join(line["text"] for line in lrclib_lines)
+                if not lyrics_text.strip():
+                    lyrics_text = None
+            except Exception:
+                lrclib_lines = None
 
-        stt_words = []
-        for segment in stt_result.segments:
+        # Phase 1: Unprompted transcription (for LRCLIB validation)
+        lrclib_validated = False
+        lrclib_offset_ms = None
+
+        if lrclib_lines and len(lrclib_lines) > 0:
+            print("Running baseline transcription for LRCLIB validation...", file=sys.stderr)
+            baseline = model.transcribe(vocal_path, language="en")
+
+            lrclib_validated, lrclib_offset_ms = validate_lrclib(
+                lrclib_lines, baseline
+            )
+            status = "validated" if lrclib_validated else "MISMATCH"
+            offset_str = f"{lrclib_offset_ms/1000:+.1f}s" if lrclib_offset_ms is not None else "?"
+            print(f"LRCLIB {status} (median offset: {offset_str})", file=sys.stderr)
+
+        # Phase 2: Prompted transcription (final output)
+        prompt = lyrics_text if lyrics_text else None
+        mode = "prompted" if prompt else "unprompted"
+        print(f"Running {mode} transcription...", file=sys.stderr)
+        result = model.transcribe(vocal_path, language="en", initial_prompt=prompt)
+
+        words = []
+        for segment in result.segments:
             for word in segment.words:
                 text = word.word.strip()
                 if text:
-                    stt_words.append({
+                    words.append({
                         "t": round(word.start * 1000),
                         "text": text,
                         "end": round(word.end * 1000),
                     })
 
-        # Phase 2: LRCLIB validation (if lyrics provided)
-        lrclib_lines = None
-        if lyrics_json_path:
-            try:
-                with open(lyrics_json_path) as f:
-                    lrclib_lines = json.load(f)
-            except Exception:
-                lrclib_lines = None
-
-        lrclib_validated = False
-        lrclib_offset_ms = None
-
-        if lrclib_lines and len(lrclib_lines) > 0 and len(stt_words) > 0:
-            lrclib_validated, lrclib_offset_ms = validate_lrclib(
-                lrclib_lines, stt_result
-            )
-            status = "validated" if lrclib_validated else "MISMATCH"
-            offset_str = f"{lrclib_offset_ms/1000:+.1f}s" if lrclib_offset_ms is not None else "?"
-            print(
-                f"LRCLIB {status} (median offset: {offset_str})",
-                file=sys.stderr,
-            )
-
-        # Phase 3: Choose output source
-        if lrclib_validated and lrclib_lines:
-            text = "\n".join(line["text"] for line in lrclib_lines)
-            if text.strip():
-                print("Running forced alignment with LRCLIB text...", file=sys.stderr)
-                aligned_result = model.align(vocal_path, text, language="en")
-                aligned_words = []
-                for segment in aligned_result.segments:
-                    for word in segment.words:
-                        text_clean = word.word.strip()
-                        if text_clean:
-                            aligned_words.append({
-                                "t": round(word.start * 1000),
-                                "text": text_clean,
-                                "end": round(word.end * 1000),
-                            })
-                output = {
-                    "words": aligned_words,
-                    "lrclib_validated": True,
-                    "lrclib_offset_ms": lrclib_offset_ms,
-                    "source": "forced_alignment",
-                }
-            else:
-                output = {
-                    "words": stt_words,
-                    "lrclib_validated": False,
-                    "lrclib_offset_ms": lrclib_offset_ms,
-                    "source": "free_transcription",
-                }
-        else:
-            output = {
-                "words": stt_words,
-                "lrclib_validated": lrclib_validated,
-                "lrclib_offset_ms": lrclib_offset_ms,
-                "source": "free_transcription",
-            }
+        output = {
+            "words": words,
+            "lrclib_validated": lrclib_validated,
+            "lrclib_offset_ms": lrclib_offset_ms,
+            "source": "prompted_transcription" if prompt else "free_transcription",
+        }
 
         print(json.dumps(output))
 
@@ -121,7 +99,6 @@ def validate_lrclib(lrclib_lines, stt_result):
 
     Returns (validated: bool, median_offset_ms: float|None).
     """
-    # Build word-level clusters from STT (gap > 1s = new cluster)
     stt_words = []
     for seg in stt_result.segments:
         for word in seg.words:
@@ -141,7 +118,6 @@ def validate_lrclib(lrclib_lines, stt_result):
     if not cluster_starts:
         return False, None
 
-    # Filter non-lyric LRCLIB lines
     lyric_lines = [
         l for l in lrclib_lines
         if l.get("text", "").strip()
@@ -151,7 +127,6 @@ def validate_lrclib(lrclib_lines, stt_result):
     if not lyric_lines:
         return False, None
 
-    # For each LRCLIB line, find the nearest STT cluster start
     offsets = []
     for ll in lyric_lines:
         ll_t = ll["t"]
