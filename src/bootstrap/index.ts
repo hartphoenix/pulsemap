@@ -532,7 +532,7 @@ export async function bootstrap(source: string, options: BootstrapOptions = {}):
 
 		if (lyricsResult.words?.length) {
 			map.words = lyricsResult.words;
-			const wordTool = lyricsResult.lrclibValidated ? "stable-ts+prompted" : "stable-ts+transcribe";
+			const wordTool = lyricsResult.lrclibValidated ? "stable-ts+lrclib" : "stable-ts";
 			provenance.words = { tool: wordTool, date: today };
 		}
 
