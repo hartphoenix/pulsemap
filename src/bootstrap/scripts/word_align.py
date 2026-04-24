@@ -4,8 +4,7 @@
 Strategy:
 1. Free-transcribe for LRCLIB validation (detect recording mismatch).
 2. If LRCLIB validates: run forced alignment, then fix last-word-per-line
-   displacement (where forced alignment pushes the final word late because
-   LRCLIB end timestamps = next line start, not actual vocal end).
+   displacement using LRCLIB line structure to define word groups.
 3. If LRCLIB mismatches: output raw STT words.
 """
 
@@ -61,7 +60,7 @@ def main():
             print(f"LRCLIB {status} (median offset: {offset_str})", file=sys.stderr)
 
         # Phase 3: Forced alignment + last-word fix, or raw STT
-        if lrclib_validated and lyrics_text:
+        if lrclib_validated and lyrics_text and lrclib_lines:
             print("Running forced alignment...", file=sys.stderr)
             aligned_result = model.align(vocal_path, lyrics_text, language="en")
 
@@ -76,7 +75,7 @@ def main():
                             "end": round(word.end * 1000),
                         })
 
-            fixed_count = fix_last_word_displacement(words)
+            fixed_count = fix_last_word_displacement(words, lrclib_lines)
             print(f"Last-word fix: {fixed_count} words adjusted", file=sys.stderr)
             source = "forced_alignment"
         else:
@@ -105,65 +104,67 @@ def main():
         sys.exit(1)
 
 
-def fix_last_word_displacement(words):
-    """Fix last-word-per-line timing displacement from forced alignment.
+def fix_last_word_displacement(words, lrclib_lines):
+    """Fix last-word-per-line displacement using LRCLIB line structure.
 
-    Groups words into clusters (gap >1s). For each cluster with 3+ words,
-    checks if the last word's onset gap is abnormally large compared to the
-    cluster's typical inter-word spacing. If so, pulls the last word back
-    to just after the second-to-last word.
+    Walks through forced-alignment words, grouping them by LRCLIB line
+    word counts. For each group's last word, checks if its onset gap is
+    abnormally large vs the group's typical spacing. If so, pulls it back.
     """
-    if len(words) < 3:
+    if not words or not lrclib_lines:
         return 0
 
-    # Build clusters
-    clusters = [[0]]  # indices into words
-    for i in range(1, len(words)):
-        gap = words[i]["t"] - words[i - 1].get("end", words[i - 1]["t"])
-        if gap > 1000:
-            clusters.append([i])
-        else:
-            clusters[-1].append(i)
+    # Build line word counts from LRCLIB
+    line_word_counts = []
+    for line in lrclib_lines:
+        text = line.get("text", "").strip()
+        if text:
+            line_word_counts.append(len(text.split()))
 
+    # Walk forced-alignment words, assigning to lines by count
+    pos = 0
     fixed = 0
-    for cluster_indices in clusters:
-        if len(cluster_indices) < 3:
+
+    for line_count in line_word_counts:
+        if pos + line_count > len(words):
+            break
+        if line_count < 3:
+            pos += line_count
             continue
 
-        # Compute inter-word gaps within this cluster (excluding last)
+        group = words[pos:pos + line_count]
+
+        # Compute inter-word gaps within group (excluding last)
         gaps = []
-        for j in range(len(cluster_indices) - 2):
-            idx_a = cluster_indices[j]
-            idx_b = cluster_indices[j + 1]
-            gap = words[idx_b]["t"] - words[idx_a].get("end", words[idx_a]["t"])
-            gaps.append(gap)
+        for i in range(len(group) - 2):
+            gap = group[i + 1]["t"] - group[i].get("end", group[i]["t"])
+            if gap >= 0:
+                gaps.append(gap)
 
         if not gaps:
+            pos += line_count
             continue
 
         median_gap = sorted(gaps)[len(gaps) // 2]
 
         # Check last word
-        last_idx = cluster_indices[-1]
-        prev_idx = cluster_indices[-2]
-        last_gap = words[last_idx]["t"] - words[prev_idx].get("end", words[prev_idx]["t"])
+        last = group[-1]
+        prev = group[-2]
+        last_gap = last["t"] - prev.get("end", prev["t"])
 
-        # If last word gap is >3x the median gap and >500ms, it's displaced
         if last_gap > max(median_gap * 3, 500):
-            # Compute typical word duration in this cluster
-            durs = []
-            for ci in cluster_indices[:-1]:
-                dur = words[ci].get("end", words[ci]["t"]) - words[ci]["t"]
-                if dur > 0:
-                    durs.append(dur)
+            # Compute typical word duration
+            durs = [g.get("end", g["t"]) - g["t"] for g in group[:-1] if g.get("end", g["t"]) - g["t"] > 0]
             typical_dur = sorted(durs)[len(durs) // 2] if durs else 300
 
-            new_start = words[prev_idx].get("end", words[prev_idx]["t"]) + min(median_gap, 200)
+            new_start = prev.get("end", prev["t"]) + min(median_gap, 200)
             new_end = new_start + typical_dur
 
-            words[last_idx]["t"] = round(new_start)
-            words[last_idx]["end"] = round(new_end)
+            last["t"] = round(new_start)
+            last["end"] = round(new_end)
             fixed += 1
+
+        pos += line_count
 
     return fixed
 
