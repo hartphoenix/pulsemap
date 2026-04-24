@@ -161,10 +161,9 @@ export function alignGeniusSections(
 	beats: BeatEvent[] | undefined,
 	durationMs: number,
 ): Section[] {
-	const sections: Section[] = [];
 	let searchFrom = 0;
+	let pendingInstrumentals = 0;
 
-	// First pass: match lyric sections, mark instrumental sections
 	interface PendingSection {
 		header: string;
 		startMs: number | undefined;
@@ -181,10 +180,30 @@ export function alignGeniusSections(
 				matchedLyricIndex: undefined,
 				instrumental: true,
 			});
+			pendingInstrumentals++;
 			continue;
 		}
 
-		const match = findBestMatch(gs.lines, lyrics, searchFrom);
+		let effectiveSearchFrom = searchFrom;
+
+		// If instrumental sections precede this lyric section, find the word
+		// gap and start searching from the LRCLIB line after it. This prevents
+		// matching the next identical line (e.g. "Let it be, let it be") when
+		// there's a long instrumental break between them.
+		if (pendingInstrumentals > 0 && words?.length) {
+			const prevMs = searchFrom > 0 ? lyrics[searchFrom - 1].t : 0;
+			const gap = findWordGap(words, prevMs, durationMs);
+			if (gap) {
+				for (let j = searchFrom; j < lyrics.length; j++) {
+					if (lyrics[j].t >= gap.end) {
+						effectiveSearchFrom = j;
+						break;
+					}
+				}
+			}
+		}
+
+		const match = findBestMatch(gs.lines, lyrics, effectiveSearchFrom);
 		if (match) {
 			pending.push({
 				header: gs.header,
@@ -201,9 +220,10 @@ export function alignGeniusSections(
 				instrumental: false,
 			});
 		}
+		pendingInstrumentals = 0;
 	}
 
-	// Second pass: resolve instrumental sections using word gaps
+	// Resolve instrumental sections using word gaps
 	for (let i = 0; i < pending.length; i++) {
 		const p = pending[i];
 		if (!p.instrumental || p.startMs !== undefined) continue;
@@ -240,7 +260,8 @@ export function alignGeniusSections(
 		}
 	}
 
-	// Build final sections from resolved pending entries
+	// Build sections from resolved pending entries
+	const raw: Section[] = [];
 	for (let i = 0; i < pending.length; i++) {
 		const p = pending[i];
 		if (p.startMs === undefined) continue;
@@ -248,12 +269,25 @@ export function alignGeniusSections(
 		const nextResolved = pending.slice(i + 1).find((n) => n.startMs !== undefined);
 		const endMs = nextResolved?.startMs ?? durationMs;
 
-		sections.push({
+		raw.push({
 			t: snapToDownbeat(p.startMs, beats),
 			type: parseSectionType(p.header),
 			label: p.header,
 			end: snapToDownbeat(endMs, beats),
 		});
+	}
+
+	// Fold sections shorter than 2 bars into the following section
+	const minDurationMs = minTwoBars(beats);
+	const sections: Section[] = [];
+	for (let i = 0; i < raw.length; i++) {
+		const s = raw[i];
+		const duration = s.end - s.t;
+		if (duration < minDurationMs && i + 1 < raw.length) {
+			raw[i + 1].t = s.t;
+			continue;
+		}
+		sections.push(s);
 	}
 
 	return sections;
@@ -277,6 +311,15 @@ function findNextTimestamp(
 		if (pending[i].startMs !== undefined) return pending[i].startMs;
 	}
 	return undefined;
+}
+
+function minTwoBars(beats: BeatEvent[] | undefined): number {
+	if (!beats?.length) return 4000;
+
+	const beatsPerBar = beats[0].time_sig ? Number.parseInt(beats[0].time_sig.split("/")[0]) || 4 : 4;
+	const bpm = beats[0].bpm ?? 120;
+	const beatMs = 60000 / bpm;
+	return beatMs * beatsPerBar * 2;
 }
 
 function snapToDownbeat(timeMs: number, beats: BeatEvent[] | undefined): number {
