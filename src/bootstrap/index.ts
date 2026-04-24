@@ -168,23 +168,36 @@ export async function bootstrap(source: string, options: BootstrapOptions = {}):
 					}
 
 					let words: WordEvent[] | undefined;
-					if (stems?.vocals && cleanedLyrics && cleanedLyrics.length > 0) {
+					let lrclibValidated = true;
+					if (stems?.vocals) {
 						log.stage("word-align");
 						try {
-							words = await alignWords(stems.vocals, cleanedLyrics, workDir);
-							if (words) {
-								log.stageOk("word-align", `${words.length} words`);
+							const result = await alignWords(
+								stems.vocals,
+								cleanedLyrics?.length ? cleanedLyrics : undefined,
+								workDir,
+							);
+							if (result) {
+								words = result.words;
+								lrclibValidated = result.lrclibValidated;
+								const parts = [`${words.length} words`, result.source.replace("_", " ")];
+								if (!result.lrclibValidated && cleanedLyrics?.length) {
+									parts.push(
+										`LRCLIB mismatch (${result.lrclibOffsetMs != null ? `${(result.lrclibOffsetMs / 1000).toFixed(1)}s offset` : "unknown offset"})`,
+									);
+								}
+								log.stageOk("word-align", parts.join(", "));
 							} else {
 								log.stageFail("word-align", "no words returned");
 							}
 						} catch (err) {
 							log.stageFail("word-align", err instanceof Error ? err.message : String(err));
 						}
-					} else if (!stems?.vocals) {
+					} else {
 						log.stageSkip("word-align", "no vocal stem");
 					}
 
-					return { lyrics: cleanedLyrics, words };
+					return { lyrics: cleanedLyrics, words, lrclibValidated };
 				})(),
 
 				// Analysis (unchanged)
@@ -519,7 +532,8 @@ export async function bootstrap(source: string, options: BootstrapOptions = {}):
 
 		if (lyricsResult.words?.length) {
 			map.words = lyricsResult.words;
-			provenance.words = { tool: "stable-ts", date: today };
+			const wordTool = lyricsResult.lrclibValidated ? "stable-ts+forced" : "stable-ts+transcribe";
+			provenance.words = { tool: wordTool, date: today };
 		}
 
 		if (finalChords?.length) {
