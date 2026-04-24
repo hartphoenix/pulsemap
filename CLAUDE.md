@@ -65,6 +65,8 @@ python -c "import whisper; whisper.load_model('base')"
 
 - **Workflow:** Feature branches → PR → squash merge to main.
   Never commit directly to main.
+- **PRs and merges require explicit instruction.** Do not create
+  PRs or merge without the user explicitly asking.
 - **Commits:** Meaningful messages, commit working states frequently.
 - **PRs:** One logical change per PR. Keep them small and focused.
 - **Tests:** Add tests when behavior matters. Use `bun:test`.
@@ -124,7 +126,7 @@ Silicon). Pipeline stages:
 4. **Parallel analysis:**
    - Lyrics lookup (LRCLIB / YouTube VTT) → text cleanup →
      word-level alignment (stable-ts on vocal stem)
-   - Audio analysis (essentia → chords, beats, sections, key, tempo)
+   - Audio analysis (essentia → chords, beats, key, tempo)
    - Per-stem MIDI transcription: drums (librosa), bass
      (basic-pitch), vocals (torchcrepe), other (basic-pitch)
 5. **Post-processing:**
@@ -238,6 +240,9 @@ reference document.
   major/minor or gets the key entirely wrong (e.g., Revolution
   detected as F# major when chords clearly indicate Bb major). Key
   is metadata only, not display-critical.
-- **Section labels are generic:** Essentia outputs "Section 1",
-  "Section 2" etc. with no verse/chorus/bridge labeling. Genius
-  lyrics section headers are the planned solution (not yet built).
+- **No automated section labeling.** Attempted Genius API integration
+  for section headers but data quality issues (LRCLIB timestamp
+  mismatches, word alignment artifacts, line-splitting differences
+  between sources) make automated alignment unreliable. The `sections`
+  field exists in the schema for manual/future use but is not
+  populated by the pipeline.
