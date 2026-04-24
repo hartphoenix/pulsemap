@@ -1,17 +1,19 @@
 #!/usr/bin/env python3
-"""Word-level transcription with LRCLIB validation and text correction. JSON to stdout.
+"""Word-level alignment: forced alignment anchored by free transcription timing.
 
 Strategy:
-1. Free-transcribe the vocal stem to get STT words with accurate timing.
-2. If LRCLIB lyrics are provided, validate timestamps against STT word
-   clusters to detect recording mismatch.
-3. If LRCLIB validates: replace STT word text with LRCLIB text (better
-   spelling/punctuation) while keeping STT timing.
-4. If LRCLIB mismatches or absent: output raw STT words.
+1. Free-transcribe the vocal stem for timing anchors + LRCLIB validation.
+2. Run forced alignment with LRCLIB text for full word coverage.
+3. Merge: snap forced-alignment words to nearby STT timing where available,
+   cap duration anomalies elsewhere.
+4. If LRCLIB mismatches: output raw STT words.
 """
 
 import json
 import sys
+
+
+MAX_WORD_DUR_MS = 2000
 
 
 def main():
@@ -34,21 +36,23 @@ def main():
 
         # Load LRCLIB lyrics
         lrclib_lines = None
+        lyrics_text = None
         if lyrics_json_path:
             try:
                 with open(lyrics_json_path) as f:
                     lrclib_lines = json.load(f)
-                if not lrclib_lines:
-                    lrclib_lines = None
+                lyrics_text = "\n".join(line["text"] for line in lrclib_lines)
+                if not lyrics_text.strip():
+                    lyrics_text = None
             except Exception:
                 lrclib_lines = None
 
-        # Phase 1: Free transcription
+        # Phase 1: Free transcription (timing anchors + validation)
         print("Running free transcription...", file=sys.stderr)
-        result = model.transcribe(vocal_path, language="en")
+        stt_result = model.transcribe(vocal_path, language="en")
 
         stt_words = []
-        for segment in result.segments:
+        for segment in stt_result.segments:
             for word in segment.words:
                 text = word.word.strip()
                 if text:
@@ -64,23 +68,37 @@ def main():
 
         if lrclib_lines and len(stt_words) > 0:
             lrclib_validated, lrclib_offset_ms = validate_lrclib(
-                lrclib_lines, result
+                lrclib_lines, stt_result
             )
             status = "validated" if lrclib_validated else "MISMATCH"
             offset_str = f"{lrclib_offset_ms/1000:+.1f}s" if lrclib_offset_ms is not None else "?"
             print(f"LRCLIB {status} (median offset: {offset_str})", file=sys.stderr)
 
-        # Phase 3: Text correction or raw output
-        if lrclib_validated and lrclib_lines:
-            corrected = correct_text(stt_words, lrclib_lines)
-            matched = sum(1 for w in corrected if w.get("_corrected"))
-            total = len(corrected)
+        # Phase 3: Forced alignment + merge, or raw STT
+        if lrclib_validated and lyrics_text:
+            print("Running forced alignment with LRCLIB text...", file=sys.stderr)
+            aligned_result = model.align(vocal_path, lyrics_text, language="en")
+
+            forced_words = []
+            for segment in aligned_result.segments:
+                for word in segment.words:
+                    text = word.word.strip()
+                    if text:
+                        forced_words.append({
+                            "t": round(word.start * 1000),
+                            "text": text,
+                            "end": round(word.end * 1000),
+                        })
+
+            merged = merge_with_anchors(forced_words, stt_words)
+            anchored = sum(1 for w in merged if w.get("_anchored"))
+            capped = sum(1 for w in merged if w.get("_capped"))
             print(
-                f"Text correction: {matched}/{total} words matched to LRCLIB",
+                f"Merge: {len(merged)} words, {anchored} anchored to STT, {capped} duration-capped",
                 file=sys.stderr,
             )
-            words = [{"t": w["t"], "text": w["text"], "end": w["end"]} for w in corrected]
-            source = "hybrid"
+            words = [{"t": w["t"], "text": w["text"], "end": w["end"]} for w in merged]
+            source = "anchored_alignment"
         else:
             words = stt_words
             source = "free_transcription"
@@ -98,99 +116,61 @@ def main():
         sys.exit(1)
 
 
-def correct_text(stt_words, lrclib_lines):
-    """Replace STT word text with LRCLIB text, keeping STT timing.
+def merge_with_anchors(forced_words, stt_words):
+    """Snap forced-alignment timing to nearby STT words, cap long durations.
 
-    Groups STT words into clusters (gap >1s), matches each cluster to
-    the nearest LRCLIB line, then distributes LRCLIB words across the
-    cluster's timestamps.
+    For each forced-alignment word, find the nearest STT word with matching
+    text (normalized). If within 3s, adopt the STT timing. Otherwise keep
+    forced-alignment timing but cap duration.
     """
-    if not stt_words or not lrclib_lines:
-        return stt_words
+    if not forced_words:
+        return forced_words
 
-    # Filter to actual lyric lines
-    lyric_lines = [
-        l for l in lrclib_lines
-        if l.get("text", "").strip()
-        and not (l["text"].strip().startswith("(") and l["text"].strip().endswith(")"))
-    ]
-    if not lyric_lines:
-        return stt_words
-
-    # Build clusters from STT words
-    clusters = []
-    current = [stt_words[0]]
-    for i in range(1, len(stt_words)):
-        gap = stt_words[i]["t"] - (stt_words[i - 1].get("end", stt_words[i - 1]["t"]))
-        if gap > 1000:
-            clusters.append(current)
-            current = [stt_words[i]]
-        else:
-            current.append(stt_words[i])
-    clusters.append(current)
-
-    # Match each cluster to nearest LRCLIB line
-    used_lines = set()
     result = []
+    used_stt = set()
 
-    for cluster in clusters:
-        cluster_start = cluster[0]["t"]
-        cluster_end = cluster[-1].get("end", cluster[-1]["t"])
+    for fw in forced_words:
+        fw_norm = fw["text"].lower().strip(".,!?;:'\"")
 
-        # Find best matching LRCLIB line (nearest by start time, not yet used)
-        best_line = None
+        best_stt = None
         best_dist = float("inf")
         best_idx = -1
-        for i, ll in enumerate(lyric_lines):
-            if i in used_lines:
+
+        for i, sw in enumerate(stt_words):
+            if i in used_stt:
                 continue
-            dist = abs(ll["t"] - cluster_start)
-            if dist < best_dist:
+            sw_norm = sw["text"].lower().strip(".,!?;:'\"")
+            if sw_norm != fw_norm:
+                continue
+            dist = abs(sw["t"] - fw["t"])
+            if dist < best_dist and dist < 3000:
                 best_dist = dist
-                best_line = ll
+                best_stt = sw
                 best_idx = i
 
-        # Only match if reasonably close (within 5s)
-        if best_line and best_dist < 5000:
-            used_lines.add(best_idx)
-            lrclib_words = best_line["text"].split()
-
-            if len(lrclib_words) == len(cluster):
-                # Perfect word count match: 1:1 replacement
-                for stt_w, lrc_text in zip(cluster, lrclib_words):
-                    result.append({
-                        "t": stt_w["t"],
-                        "text": lrc_text,
-                        "end": stt_w["end"],
-                        "_corrected": True,
-                    })
-            elif len(lrclib_words) <= len(cluster):
-                # LRCLIB has fewer words: assign to first N STT timestamps
-                for j, lrc_text in enumerate(lrclib_words):
-                    result.append({
-                        "t": cluster[j]["t"],
-                        "text": lrc_text,
-                        "end": cluster[j]["end"] if j < len(lrclib_words) - 1 else cluster[-1]["end"],
-                        "_corrected": True,
-                    })
-            else:
-                # LRCLIB has more words: interpolate timestamps
-                duration = cluster_end - cluster_start
-                for j, lrc_text in enumerate(lrclib_words):
-                    frac = j / max(len(lrclib_words) - 1, 1)
-                    t = round(cluster_start + frac * duration * 0.9)
-                    end_frac = (j + 1) / max(len(lrclib_words), 1)
-                    end = round(cluster_start + end_frac * duration)
-                    result.append({
-                        "t": t,
-                        "text": lrc_text,
-                        "end": end,
-                        "_corrected": True,
-                    })
+        if best_stt is not None:
+            used_stt.add(best_idx)
+            result.append({
+                "t": best_stt["t"],
+                "text": fw["text"],
+                "end": best_stt["end"],
+                "_anchored": True,
+                "_capped": False,
+            })
         else:
-            # No match: keep STT words as-is
-            for w in cluster:
-                result.append({**w, "_corrected": False})
+            dur = fw["end"] - fw["t"]
+            end = fw["end"]
+            capped = False
+            if dur > MAX_WORD_DUR_MS:
+                end = fw["t"] + MAX_WORD_DUR_MS
+                capped = True
+            result.append({
+                "t": fw["t"],
+                "text": fw["text"],
+                "end": end,
+                "_anchored": False,
+                "_capped": capped,
+            })
 
     return result
 
