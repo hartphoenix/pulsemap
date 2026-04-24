@@ -65,6 +65,39 @@ export function scriptsDir(): string {
 	return join(dirname(import.meta.dir), "bootstrap", "scripts");
 }
 
+const NOISE_PATTERNS = [
+	/scikit-learn version .* is not supported/,
+	/Torch version .* has not been tested with coremltools/,
+	/WARNING:root:tflite-runtime is not installed/,
+	/WARNING:root:onnxruntime is not installed/,
+	/WARNING:root:Tensorflow is not installed/,
+	/The 'encoding' parameter is not fully supported by TorchCodec/,
+	/The 'bits_per_sample' parameter is not directly supported by TorchCodec/,
+	/Error submitting a packet to the muxer: Broken pipe/,
+	/Error muxing a packet/,
+	/Task finished with error code: -32/,
+	/Terminating thread with return code -32/,
+	/Error writing trailer: Broken pipe/,
+	/Error closing file: Broken pipe/,
+	/Last message repeated \d+ times/,
+	/\[aost#\d+:\d+\/pcm_s16le @/,
+	/\[out#\d+\/s16le @/,
+	/\[in#\d+\/wav @/,
+	/Error during demuxing/,
+	/OMP: Warning #179/,
+];
+
+function filterKnownWarnings(stderr: string): string {
+	return stderr
+		.split("\n")
+		.filter((line) => {
+			const trimmed = line.trim();
+			if (!trimmed) return false;
+			return !NOISE_PATTERNS.some((p) => p.test(trimmed));
+		})
+		.join("\n");
+}
+
 export interface PythonResult {
 	stdout: string;
 	stderr: string;
@@ -84,5 +117,6 @@ export async function runPythonScript(scriptName: string, args: string[]): Promi
 	const stderr = await new Response(proc.stderr).text();
 	await proc.exited;
 
-	return { stdout, stderr, exitCode: proc.exitCode ?? 1 };
+	const filteredStderr = filterKnownWarnings(stderr);
+	return { stdout, stderr: filteredStderr, exitCode: proc.exitCode ?? 1 };
 }

@@ -157,3 +157,87 @@ Input JSON format:
 ```json
 [{ "title": "...", "artist": "...", "url": "https://youtube.com/watch?v=..." }]
 ```
+
+`songs-100.json` is the default catalog: 100 popular songs for adult
+instrument learners (guitar, piano, ukulele, bass), spanning 1950s–
+2020s across rock, pop, folk, R&B, indie, country, and soul. Generated
+2026-04-23 via web research cross-referencing "beginner guitar songs",
+"easy piano songs for adults", etc. YouTube URLs point to official
+channels where possible but **have not been individually verified** —
+videos may be taken down or replaced. Spot-check before bulk runs.
+
+### Map Inspector (QA tool)
+
+Standalone HTML timeline viewer for proofreading maps. Scrolling
+DAW-style display with a playhead and toggleable data lanes.
+
+```bash
+bun run inspect    # serves at http://localhost:3333
+```
+
+Lanes: beats (downbeats emphasized), chords (blocks with names),
+lyrics (line blocks), words (per-word blocks), sections (colored
+regions), drums (kick/snare/hihat dots), bass/vocals/other (piano
+roll). Dropdown auto-populates from maps/ directory. Click timeline
+to seek.
+
+Known limitations:
+- MIDI lanes only render when served via `bun run inspect` (file://
+  protocol can't fetch MIDI files cross-origin)
+- No keyboard shortcuts for play/pause/seek
+- No zoom or scale control on the timeline
+- No audio waveform display
+- The inline MIDI parser is minimal and may not handle all edge
+  cases (complex running status, sysex messages)
+
+### Design decisions
+
+**`lyrics` and `words` as independent arrays.** Line-level lyrics
+(from LRCLIB/YouTube) and per-word timestamps (from forced alignment)
+are stored as separate top-level arrays, not nested. They come from
+different sources at different confidence levels. A map can have one,
+both, or neither. Podcasts or speech might only have `words`. A
+quick LRCLIB-only map might only have `lyrics`. Players choose which
+to consume. When cross-referencing between them (e.g., gap detection),
+matching normalizes for punctuation, case, and minor spelling
+variations.
+
+**No MIDI quantization.** MIDI note onsets stay exactly where the
+transcription tool detected them. The beat-alignment stage only
+writes the correct tempo header so players/DAWs know where beats
+fall. The notes are ground truth — quantizing would destroy
+feel/groove and is a lossy transformation inappropriate for a
+reference document.
+
+**Tool selection rationale:**
+- **lv-chordia** for chords (not Essentia): Essentia only outputs
+  basic triads (C, Am, Dm). lv-chordia detects ~170 chord types
+  including 7ths, sus, slash chords. Essentia retained as fallback.
+- **beat_this** for beats (not Essentia): Essentia assigns downbeats
+  as "every 4th beat from index 0" with no musical awareness and
+  outputs a single BPM. beat_this produces musically-aware downbeats,
+  handles tempo changes, and enables time signature inference.
+- **torchcrepe** for vocal MIDI (not basic-pitch): Continuous pitch
+  tracking captures vibrato and pitch bends. basic-pitch is for
+  polyphonic note detection (used on bass and other stems).
+- **librosa** for drum MIDI (not ADTLib/madmom): ADTLib and madmom
+  couldn't install (Cython/build tooling issues). librosa onset
+  detection + frequency-band classification on isolated drum stem.
+
+### Known limitations
+
+- **Apple Silicon MPS + float64:** Whisper/stable-ts alignment
+  falls back to CPU because Apple's MPS GPU doesn't support float64
+  operations. Alignment takes ~5-7s per song on CPU (acceptable).
+- **Bass-chord concordance is low (13-42%):** The cross-validation
+  between bass MIDI pitch classes and chord roots produces mostly
+  noise. Likely caused by basic-pitch quality on bass frequencies
+  rather than wrong chords. The stage logs results but doesn't
+  modify chord data.
+- **Essentia key detection unreliable:** Sometimes confuses relative
+  major/minor or gets the key entirely wrong (e.g., Revolution
+  detected as F# major when chords clearly indicate Bb major). Key
+  is metadata only, not display-critical.
+- **Section labels are generic:** Essentia outputs "Section 1",
+  "Section 2" etc. with no verse/chorus/bridge labeling. Genius
+  lyrics section headers are the planned solution (not yet built).

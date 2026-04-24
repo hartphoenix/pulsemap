@@ -23,6 +23,9 @@ Thumbs.db
 # Generated intermediate files (stems, temp audio)
 maps/tmp/
 
+# Batch pipeline output (generated per-run, not source of truth)
+batch-results.json
+
 # Database
 *.db
 *.db-journal
