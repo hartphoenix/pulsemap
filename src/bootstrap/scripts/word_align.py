@@ -1,19 +1,16 @@
 #!/usr/bin/env python3
-"""Word-level alignment: forced alignment anchored by free transcription timing.
+"""Word-level forced alignment with LRCLIB validation and last-word fix.
 
 Strategy:
-1. Free-transcribe the vocal stem for timing anchors + LRCLIB validation.
-2. Run forced alignment with LRCLIB text for full word coverage.
-3. Merge: snap forced-alignment words to nearby STT timing where available,
-   cap duration anomalies elsewhere.
-4. If LRCLIB mismatches: output raw STT words.
+1. Free-transcribe for LRCLIB validation (detect recording mismatch).
+2. If LRCLIB validates: run forced alignment, then fix last-word-per-line
+   displacement (where forced alignment pushes the final word late because
+   LRCLIB end timestamps = next line start, not actual vocal end).
+3. If LRCLIB mismatches: output raw STT words.
 """
 
 import json
 import sys
-
-
-MAX_WORD_DUR_MS = 2000
 
 
 def main():
@@ -47,26 +44,15 @@ def main():
             except Exception:
                 lrclib_lines = None
 
-        # Phase 1: Free transcription (timing anchors + validation)
-        print("Running free transcription...", file=sys.stderr)
+        # Phase 1: Free transcription (for LRCLIB validation only)
+        print("Running free transcription for validation...", file=sys.stderr)
         stt_result = model.transcribe(vocal_path, language="en")
-
-        stt_words = []
-        for segment in stt_result.segments:
-            for word in segment.words:
-                text = word.word.strip()
-                if text:
-                    stt_words.append({
-                        "t": round(word.start * 1000),
-                        "text": text,
-                        "end": round(word.end * 1000),
-                    })
 
         # Phase 2: LRCLIB validation
         lrclib_validated = False
         lrclib_offset_ms = None
 
-        if lrclib_lines and len(stt_words) > 0:
+        if lrclib_lines and lyrics_text:
             lrclib_validated, lrclib_offset_ms = validate_lrclib(
                 lrclib_lines, stt_result
             )
@@ -74,33 +60,36 @@ def main():
             offset_str = f"{lrclib_offset_ms/1000:+.1f}s" if lrclib_offset_ms is not None else "?"
             print(f"LRCLIB {status} (median offset: {offset_str})", file=sys.stderr)
 
-        # Phase 3: Forced alignment + merge, or raw STT
+        # Phase 3: Forced alignment + last-word fix, or raw STT
         if lrclib_validated and lyrics_text:
-            print("Running forced alignment with LRCLIB text...", file=sys.stderr)
+            print("Running forced alignment...", file=sys.stderr)
             aligned_result = model.align(vocal_path, lyrics_text, language="en")
 
-            forced_words = []
+            words = []
             for segment in aligned_result.segments:
                 for word in segment.words:
                     text = word.word.strip()
                     if text:
-                        forced_words.append({
+                        words.append({
                             "t": round(word.start * 1000),
                             "text": text,
                             "end": round(word.end * 1000),
                         })
 
-            merged = merge_with_anchors(forced_words, stt_words)
-            anchored = sum(1 for w in merged if w.get("_anchored"))
-            capped = sum(1 for w in merged if w.get("_capped"))
-            print(
-                f"Merge: {len(merged)} words, {anchored} anchored to STT, {capped} duration-capped",
-                file=sys.stderr,
-            )
-            words = [{"t": w["t"], "text": w["text"], "end": w["end"]} for w in merged]
-            source = "anchored_alignment"
+            fixed_count = fix_last_word_displacement(words)
+            print(f"Last-word fix: {fixed_count} words adjusted", file=sys.stderr)
+            source = "forced_alignment"
         else:
-            words = stt_words
+            words = []
+            for segment in stt_result.segments:
+                for word in segment.words:
+                    text = word.word.strip()
+                    if text:
+                        words.append({
+                            "t": round(word.start * 1000),
+                            "text": text,
+                            "end": round(word.end * 1000),
+                        })
             source = "free_transcription"
 
         output = {
@@ -116,63 +105,67 @@ def main():
         sys.exit(1)
 
 
-def merge_with_anchors(forced_words, stt_words):
-    """Snap forced-alignment timing to nearby STT words, cap long durations.
+def fix_last_word_displacement(words):
+    """Fix last-word-per-line timing displacement from forced alignment.
 
-    For each forced-alignment word, find the nearest STT word with matching
-    text (normalized). If within 3s, adopt the STT timing. Otherwise keep
-    forced-alignment timing but cap duration.
+    Groups words into clusters (gap >1s). For each cluster with 3+ words,
+    checks if the last word's onset gap is abnormally large compared to the
+    cluster's typical inter-word spacing. If so, pulls the last word back
+    to just after the second-to-last word.
     """
-    if not forced_words:
-        return forced_words
+    if len(words) < 3:
+        return 0
 
-    result = []
-    used_stt = set()
-
-    for fw in forced_words:
-        fw_norm = fw["text"].lower().strip(".,!?;:'\"")
-
-        best_stt = None
-        best_dist = float("inf")
-        best_idx = -1
-
-        for i, sw in enumerate(stt_words):
-            if i in used_stt:
-                continue
-            sw_norm = sw["text"].lower().strip(".,!?;:'\"")
-            if sw_norm != fw_norm:
-                continue
-            dist = abs(sw["t"] - fw["t"])
-            if dist < best_dist and dist < 3000:
-                best_dist = dist
-                best_stt = sw
-                best_idx = i
-
-        if best_stt is not None:
-            used_stt.add(best_idx)
-            result.append({
-                "t": best_stt["t"],
-                "text": fw["text"],
-                "end": best_stt["end"],
-                "_anchored": True,
-                "_capped": False,
-            })
+    # Build clusters
+    clusters = [[0]]  # indices into words
+    for i in range(1, len(words)):
+        gap = words[i]["t"] - words[i - 1].get("end", words[i - 1]["t"])
+        if gap > 1000:
+            clusters.append([i])
         else:
-            dur = fw["end"] - fw["t"]
-            end = fw["end"]
-            capped = False
-            if dur > MAX_WORD_DUR_MS:
-                end = fw["t"] + MAX_WORD_DUR_MS
-                capped = True
-            result.append({
-                "t": fw["t"],
-                "text": fw["text"],
-                "end": end,
-                "_anchored": False,
-                "_capped": capped,
-            })
+            clusters[-1].append(i)
 
-    return result
+    fixed = 0
+    for cluster_indices in clusters:
+        if len(cluster_indices) < 3:
+            continue
+
+        # Compute inter-word gaps within this cluster (excluding last)
+        gaps = []
+        for j in range(len(cluster_indices) - 2):
+            idx_a = cluster_indices[j]
+            idx_b = cluster_indices[j + 1]
+            gap = words[idx_b]["t"] - words[idx_a].get("end", words[idx_a]["t"])
+            gaps.append(gap)
+
+        if not gaps:
+            continue
+
+        median_gap = sorted(gaps)[len(gaps) // 2]
+
+        # Check last word
+        last_idx = cluster_indices[-1]
+        prev_idx = cluster_indices[-2]
+        last_gap = words[last_idx]["t"] - words[prev_idx].get("end", words[prev_idx]["t"])
+
+        # If last word gap is >3x the median gap and >500ms, it's displaced
+        if last_gap > max(median_gap * 3, 500):
+            # Compute typical word duration in this cluster
+            durs = []
+            for ci in cluster_indices[:-1]:
+                dur = words[ci].get("end", words[ci]["t"]) - words[ci]["t"]
+                if dur > 0:
+                    durs.append(dur)
+            typical_dur = sorted(durs)[len(durs) // 2] if durs else 300
+
+            new_start = words[prev_idx].get("end", words[prev_idx]["t"]) + min(median_gap, 200)
+            new_end = new_start + typical_dur
+
+            words[last_idx]["t"] = round(new_start)
+            words[last_idx]["end"] = round(new_end)
+            fixed += 1
+
+    return fixed
 
 
 def validate_lrclib(lrclib_lines, stt_result):
