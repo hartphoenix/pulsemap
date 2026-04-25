@@ -183,9 +183,9 @@ def run_whisperx(vocal_path, lrclib_lines, lyrics_text, correct_text=False):
 
         source = "whisperx"
         if correct_text and lrclib_validated and lrclib_lines:
-            corrected_count = correct_words_from_lrclib(words, lrclib_lines)
-            print(f"Text correction: {corrected_count}/{len(words)} words corrected", file=sys.stderr)
-            source = "whisperx+lrclib"
+            corrected_count = correct_words_with_llm(words, lrclib_lines)
+            print(f"LLM correction: {corrected_count}/{len(words)} words corrected", file=sys.stderr)
+            source = "whisperx+llm"
 
         sys.stderr.flush()
         output = {
@@ -202,23 +202,18 @@ def run_whisperx(vocal_path, lrclib_lines, lyrics_text, correct_text=False):
         sys.exit(1)
 
 
-def correct_words_from_lrclib(words, lrclib_lines):
-    """Replace WhisperX word text with LRCLIB text where timing matches.
+def correct_words_with_llm(words, lrclib_lines, model="gemma3:1b", ollama_url="http://localhost:11434"):
+    """Correct WhisperX word text using a local LLM via Ollama.
 
-    Groups WhisperX words into clusters (gap >1s), matches each cluster
-    to the nearest LRCLIB line by timestamp, then walks through words
-    sequentially replacing text. Preserves WhisperX timing entirely.
-    Returns count of corrected words.
+    Sends sliding windows of WhisperX words + LRCLIB reference text to the
+    model. The model fixes transcription errors without changing word count.
+    Returns total count of corrected words.
     """
+    import urllib.request
+
     if not words or not lrclib_lines:
         return 0
 
-    import re
-
-    def normalize(text):
-        return re.sub(r"[^\w\s]", "", text.lower()).strip()
-
-    # Filter to actual lyric lines
     lyric_lines = [
         l for l in lrclib_lines
         if l.get("text", "").strip()
@@ -227,105 +222,84 @@ def correct_words_from_lrclib(words, lrclib_lines):
     if not lyric_lines:
         return 0
 
-    # Build clusters from WhisperX words (gap > 1s = new cluster)
-    clusters = []
-    current = [0]
-    for i in range(1, len(words)):
-        gap = words[i]["t"] - words[i - 1].get("end", words[i - 1]["t"])
-        if gap > 1000:
-            clusters.append(current)
-            current = [i]
-        else:
-            current.append(i)
-    clusters.append(current)
+    # Build reference text (all lyrics as a flat word sequence)
+    all_ref_words = []
+    for ll in lyric_lines:
+        all_ref_words.extend(ll["text"].split())
 
-    # Match each cluster to nearest LRCLIB line
-    used_lines = set()
+    # Process in sliding windows of ~40-60 words
+    window_size = 50
+    step = 40
     corrected = 0
+    pos = 0
 
-    for cluster_indices in clusters:
-        cluster_start = words[cluster_indices[0]]["t"]
+    while pos < len(words):
+        end = min(pos + window_size, len(words))
+        chunk = words[pos:end]
 
-        # Find nearest unmatched LRCLIB line within 5s
-        best_line_idx = None
-        best_dist = float("inf")
-        for li, ll in enumerate(lyric_lines):
-            if li in used_lines:
-                continue
-            dist = abs(ll["t"] - cluster_start)
-            if dist < best_dist:
-                best_dist = dist
-                best_line_idx = li
+        # Find the corresponding reference window
+        ref_start = max(0, pos - 10)
+        ref_end = min(len(all_ref_words), pos + window_size + 10)
+        ref_chunk = all_ref_words[ref_start:ref_end]
 
-        if best_line_idx is None or best_dist > 5000:
+        if not ref_chunk:
+            pos += step
             continue
 
-        used_lines.add(best_line_idx)
-        lrclib_words = lyric_lines[best_line_idx]["text"].split()
+        whisperx_texts = [w["text"] for w in chunk]
+        ref_text = " ".join(ref_chunk)
 
-        if len(lrclib_words) == len(cluster_indices):
-            # Perfect word count: 1:1 replacement
-            for ci, lw in zip(cluster_indices, lrclib_words):
-                words[ci]["text"] = lw
-                corrected += 1
-        elif len(lrclib_words) < len(cluster_indices):
-            # LRCLIB has fewer words — sequential match with fuzzy alignment
-            li = 0
-            for ci in cluster_indices:
-                if li >= len(lrclib_words):
-                    break
-                wx_norm = normalize(words[ci]["text"])
-                lr_norm = normalize(lrclib_words[li])
-                # Match if first chars agree or very similar
-                if wx_norm and lr_norm and (
-                    wx_norm[0] == lr_norm[0] or
-                    _levenshtein_ratio(wx_norm, lr_norm) > 0.5
-                ):
-                    words[ci]["text"] = lrclib_words[li]
+        corrected_texts = _call_ollama(ref_text, whisperx_texts, model, ollama_url)
+
+        if corrected_texts and len(corrected_texts) == len(chunk):
+            for i, new_text in enumerate(corrected_texts):
+                if new_text != chunk[i]["text"]:
+                    chunk[i]["text"] = new_text
                     corrected += 1
-                    li += 1
         else:
-            # LRCLIB has more words — assign to available slots
-            ci_idx = 0
-            for lw in lrclib_words:
-                if ci_idx >= len(cluster_indices):
-                    break
-                ci = cluster_indices[ci_idx]
-                wx_norm = normalize(words[ci]["text"])
-                lr_norm = normalize(lw)
-                if wx_norm and lr_norm and (
-                    wx_norm[0] == lr_norm[0] or
-                    _levenshtein_ratio(wx_norm, lr_norm) > 0.5
-                ):
-                    words[ci]["text"] = lw
-                    corrected += 1
-                    ci_idx += 1
-                else:
-                    ci_idx += 1
+            print(f"  LLM window {pos}-{end}: rejected (count mismatch or error)", file=sys.stderr)
+
+        pos += step
 
     return corrected
 
 
-def _levenshtein_ratio(a, b):
-    """Quick Levenshtein similarity ratio (0-1)."""
-    if not a or not b:
-        return 0
-    max_len = max(len(a), len(b))
-    if max_len == 0:
-        return 1
-    # Simple distance computation
-    n, m = len(a), len(b)
-    if n > m:
-        a, b = b, a
-        n, m = m, n
-    prev = list(range(n + 1))
-    for j in range(1, m + 1):
-        curr = [j] + [0] * n
-        for i in range(1, n + 1):
-            cost = 0 if a[i - 1] == b[j - 1] else 1
-            curr[i] = min(curr[i - 1] + 1, prev[i] + 1, prev[i - 1] + cost)
-        prev = curr
-    return 1 - (prev[n] / max_len)
+def _call_ollama(ref_text, whisperx_texts, model, ollama_url):
+    """Call Ollama API to correct a window of words."""
+    import urllib.request
+
+    prompt = (
+        f"Reference: {ref_text}\n\n"
+        f"{json.dumps(whisperx_texts)}"
+    )
+
+    payload = json.dumps({
+        "model": model,
+        "system": "Fix errors in the array using the reference. Return a JSON array with the same number of items. Change only wrong words.",
+        "prompt": prompt,
+        "stream": False,
+        "options": {"temperature": 0},
+    }).encode()
+
+    try:
+        req = urllib.request.Request(
+            f"{ollama_url}/api/generate",
+            data=payload,
+            headers={"Content-Type": "application/json"},
+        )
+        with urllib.request.urlopen(req, timeout=30) as resp:
+            result = json.loads(resp.read())
+            response_text = result.get("response", "").strip()
+
+            # Extract JSON array from response
+            start = response_text.find("[")
+            end = response_text.rfind("]")
+            if start >= 0 and end > start:
+                return json.loads(response_text[start:end + 1])
+            return None
+    except Exception as e:
+        print(f"  Ollama error: {e}", file=sys.stderr)
+        return None
 
 
 def extract_words(result):
