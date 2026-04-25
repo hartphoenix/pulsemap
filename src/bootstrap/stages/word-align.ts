@@ -2,7 +2,7 @@ import { join } from "node:path";
 import type { LyricLine, WordEvent } from "../../../schema/map";
 import { runPythonScript } from "../python";
 
-export type WordAlignMethod = "a" | "b" | "c" | "d";
+export type WordAlignMethod = "a" | "b" | "c" | "d" | "e";
 
 export interface WordAlignResult {
 	words: WordEvent[];

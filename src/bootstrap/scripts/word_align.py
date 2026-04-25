@@ -23,8 +23,8 @@ def main():
     vocal_path = sys.argv[2]
     lyrics_json_path = sys.argv[3] if len(sys.argv) > 3 else None
 
-    if method not in ("a", "b", "c", "d"):
-        print(f"Unknown method: {method}. Use a, b, c, or d.", file=sys.stderr)
+    if method not in ("a", "b", "c", "d", "e"):
+        print(f"Unknown method: {method}. Use a, b, c, d, or e.", file=sys.stderr)
         sys.exit(1)
 
     # Load LRCLIB lyrics
@@ -40,7 +40,9 @@ def main():
         except Exception:
             lrclib_lines = None
 
-    if method in ("c", "d"):
+    if method == "e":
+        run_whisperx_align(vocal_path, lrclib_lines)
+    elif method in ("c", "d"):
         run_whisperx(vocal_path, lrclib_lines, lyrics_text, correct_text=(method == "d"))
     else:
         run_stable_ts(method, vocal_path, lrclib_lines, lyrics_text)
@@ -103,6 +105,85 @@ def run_stable_ts(method, vocal_path, lrclib_lines, lyrics_text):
 
     except Exception as e:
         print(f"Word alignment failed: {e}", file=sys.stderr)
+        sys.exit(1)
+
+
+def run_whisperx_align(vocal_path, lrclib_lines):
+    """Method E: wav2vec2 forced alignment of LRCLIB text on vocal stem."""
+    import logging
+    import whisperx.log_utils as _log_utils
+
+    def _setup_stderr(level="warning", log_file=None):
+        logger = logging.getLogger("whisperx")
+        logger.handlers.clear()
+        handler = logging.StreamHandler(sys.stderr)
+        handler.setLevel(logging.WARNING)
+        logger.addHandler(handler)
+        logger.setLevel(logging.WARNING)
+        logger.propagate = False
+    _log_utils.setup_logging = _setup_stderr
+    _setup_stderr()
+
+    try:
+        import whisperx
+        import torch
+    except ImportError as e:
+        print(f"Missing dependency: {e}", file=sys.stderr)
+        sys.exit(1)
+
+    if not lrclib_lines:
+        print("No LRCLIB lyrics for method E", file=sys.stderr)
+        sys.exit(1)
+
+    try:
+        # Build segments from LRCLIB lines
+        segments = []
+        for line in lrclib_lines:
+            text = line.get("text", "").strip()
+            if not text:
+                continue
+            segments.append({
+                "text": text,
+                "start": line["t"] / 1000,
+                "end": line.get("end", line["t"] + 3000) / 1000,
+            })
+
+        print("Loading wav2vec2 alignment model...", file=sys.stderr)
+        device = "cpu"
+        align_model, metadata = whisperx.load_align_model(language_code="en", device=device)
+
+        print(f"Aligning {len(segments)} LRCLIB lines with wav2vec2...", file=sys.stderr)
+        audio = whisperx.load_audio(vocal_path)
+        aligned = whisperx.align(
+            segments, align_model, metadata, audio, device,
+            return_char_alignments=False,
+        )
+
+        words = []
+        for seg in aligned.get("segments", []):
+            for w in seg.get("words", []):
+                if "start" in w and "word" in w:
+                    text = w["word"].strip()
+                    if text:
+                        words.append({
+                            "t": round(w["start"] * 1000),
+                            "text": text,
+                            "end": round(w.get("end", w["start"] + 0.3) * 1000),
+                        })
+
+        print(f"wav2vec2 aligned {len(words)} words", file=sys.stderr)
+        sys.stderr.flush()
+        output = {
+            "words": words,
+            "lrclib_validated": True,
+            "lrclib_offset_ms": 0,
+            "source": "whisperx_align",
+        }
+        sys.stdout.write(json.dumps(output))
+        sys.stdout.flush()
+
+    except Exception as e:
+        print(f"wav2vec2 alignment failed: {e}", file=sys.stderr)
         sys.exit(1)
 
 
