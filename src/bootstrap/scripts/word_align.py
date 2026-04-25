@@ -265,17 +265,21 @@ def correct_words_with_llm(words, lrclib_lines, model="gemma3:1b", ollama_url="h
 
 
 def _call_ollama(ref_text, whisperx_texts, model, ollama_url):
-    """Call Ollama API to correct a window of words."""
+    """Call Ollama API to correct a window of words using numbered list format."""
     import urllib.request
 
+    # Build numbered list
+    numbered = "\n".join(f"{i+1}. {w}" for i, w in enumerate(whisperx_texts))
+    count = len(whisperx_texts)
+
     prompt = (
-        f"Reference: {ref_text}\n\n"
-        f"{json.dumps(whisperx_texts)}"
+        f"Reference words:\n{ref_text}\n\n"
+        f"Numbered list ({count} items):\n{numbered}"
     )
 
     payload = json.dumps({
         "model": model,
-        "system": "Fix errors in the array using the reference. Return a JSON array with the same number of items. Change only wrong words.",
+        "system": f"Fix errors in the numbered list using the reference words. Output exactly {count} numbered lines. Keep every position. Change only wrong words.",
         "prompt": prompt,
         "stream": False,
         "options": {"temperature": 0},
@@ -287,19 +291,33 @@ def _call_ollama(ref_text, whisperx_texts, model, ollama_url):
             data=payload,
             headers={"Content-Type": "application/json"},
         )
-        with urllib.request.urlopen(req, timeout=30) as resp:
+        with urllib.request.urlopen(req, timeout=60) as resp:
             result = json.loads(resp.read())
             response_text = result.get("response", "").strip()
-
-            # Extract JSON array from response
-            start = response_text.find("[")
-            end = response_text.rfind("]")
-            if start >= 0 and end > start:
-                return json.loads(response_text[start:end + 1])
-            return None
+            return _parse_numbered_list(response_text, count)
     except Exception as e:
         print(f"  Ollama error: {e}", file=sys.stderr)
         return None
+
+
+def _parse_numbered_list(text, expected_count):
+    """Parse a numbered list response back into a word list."""
+    import re
+    lines = text.strip().split("\n")
+    words = []
+    for line in lines:
+        line = line.strip()
+        if not line:
+            continue
+        # Match "1. word" or "1: word" or just "1 word"
+        m = re.match(r"^\d+[\.\:\)\s]+\s*(.*)", line)
+        if m:
+            word = m.group(1).strip()
+            if word:
+                words.append(word)
+    if len(words) == expected_count:
+        return words
+    return None
 
 
 def extract_words(result):
