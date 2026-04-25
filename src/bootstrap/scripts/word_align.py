@@ -83,8 +83,6 @@ def run_stable_ts(method, vocal_path, lrclib_lines, lyrics_text):
                     min_word_dur=0.05,
                     nonspeech_error=0.25,
                 )
-                print("Running refine pass...", file=sys.stderr)
-                aligned_result = aligned_result.refine(vocal_path, precision=0.02)
 
             words = extract_words(aligned_result)
             fixed_count = fix_last_word_displacement(words, lrclib_lines)
@@ -108,6 +106,12 @@ def run_stable_ts(method, vocal_path, lrclib_lines, lyrics_text):
 
 
 def run_whisperx(vocal_path, lrclib_lines, lyrics_text):
+    # Force all Python logging to stderr so stdout stays clean for JSON
+    import logging
+    for handler in logging.root.handlers[:]:
+        logging.root.removeHandler(handler)
+    logging.basicConfig(stream=sys.stderr, level=logging.WARNING)
+
     try:
         import whisperx
         import torch
@@ -160,13 +164,15 @@ def run_whisperx(vocal_path, lrclib_lines, lyrics_text):
                         })
 
         print(f"WhisperX produced {len(words)} words", file=sys.stderr)
+        sys.stderr.flush()
         output = {
             "words": words,
             "lrclib_validated": lrclib_validated,
             "lrclib_offset_ms": lrclib_offset_ms,
             "source": "whisperx",
         }
-        print(json.dumps(output))
+        sys.stdout.write(json.dumps(output))
+        sys.stdout.flush()
 
     except Exception as e:
         print(f"WhisperX alignment failed: {e}", file=sys.stderr)
