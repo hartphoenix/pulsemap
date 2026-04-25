@@ -30,11 +30,15 @@ import { type StemPaths, separateAudio } from "./stages/separate";
 import { type TranscriptionResult, transcribeStem } from "./stages/transcribe";
 import { alignWords } from "./stages/word-align";
 
+import type { WordAlignMethod } from "./stages/word-align";
+
 export interface BootstrapOptions {
 	id?: string;
 	output?: string;
+	outputDir?: string;
 	acoustIdKey?: string;
 	skipSeparation?: boolean;
+	wordAlignMethod?: WordAlignMethod;
 }
 
 const SCHEMA_VERSION = "0.1.0";
@@ -176,6 +180,7 @@ export async function bootstrap(source: string, options: BootstrapOptions = {}):
 								stems.vocals,
 								cleanedLyrics?.length ? cleanedLyrics : undefined,
 								workDir,
+								options.wordAlignMethod,
 							);
 							if (result) {
 								words = result.words;
@@ -573,7 +578,7 @@ export async function bootstrap(source: string, options: BootstrapOptions = {}):
 		if (map.sections) mapFields.push(`sections(${map.sections.length})`);
 		if (map.midi) mapFields.push(`midi(${map.midi.length})`);
 
-		const outputPath = options.output || join("maps", `${recordingId}.json`);
+		const outputPath = options.output || join(options.outputDir || "maps", `${recordingId}.json`);
 		await mkdir(dirname(outputPath), { recursive: true });
 		await Bun.write(outputPath, `${JSON.stringify(map, null, 2)}\n`);
 		log.info(`Map written to ${outputPath}`);

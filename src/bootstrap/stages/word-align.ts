@@ -2,26 +2,29 @@ import { join } from "node:path";
 import type { LyricLine, WordEvent } from "../../../schema/map";
 import { runPythonScript } from "../python";
 
+export type WordAlignMethod = "a" | "b" | "c";
+
 export interface WordAlignResult {
 	words: WordEvent[];
 	lrclibValidated: boolean;
 	lrclibOffsetMs: number | null;
-	source: "forced_alignment" | "free_transcription";
+	source: string;
 }
 
 interface RawOutput {
 	words: WordEvent[];
 	lrclib_validated: boolean;
 	lrclib_offset_ms: number | null;
-	source: "forced_alignment" | "free_transcription";
+	source: string;
 }
 
 export async function alignWords(
 	vocalStemPath: string,
 	lyrics: LyricLine[] | undefined,
 	workDir: string,
+	method: WordAlignMethod = "a",
 ): Promise<WordAlignResult | undefined> {
-	const args = [vocalStemPath];
+	const args = [method, vocalStemPath];
 
 	if (lyrics?.length) {
 		const lyricsPath = join(workDir, "lyrics-for-align.json");
