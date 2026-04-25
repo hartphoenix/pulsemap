@@ -106,11 +106,26 @@ def run_stable_ts(method, vocal_path, lrclib_lines, lyrics_text):
 
 
 def run_whisperx(vocal_path, lrclib_lines, lyrics_text):
-    # Force all Python logging to stderr so stdout stays clean for JSON
+    # whisperx's log_utils.setup_logging() adds a StreamHandler(sys.stdout).
+    # Patch it to use stderr before importing whisperx.
     import logging
-    for handler in logging.root.handlers[:]:
-        logging.root.removeHandler(handler)
-    logging.basicConfig(stream=sys.stderr, level=logging.WARNING)
+    import whisperx.log_utils as _log_utils
+
+    _orig_setup = _log_utils.setup_logging
+    def _setup_stderr(level="warning", log_file=None):
+        logger = logging.getLogger("whisperx")
+        logger.handlers.clear()
+        handler = logging.StreamHandler(sys.stderr)
+        handler.setLevel(logging.WARNING)
+        handler.setFormatter(logging.Formatter(
+            "%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+            datefmt="%Y-%m-%d %H:%M:%S",
+        ))
+        logger.addHandler(handler)
+        logger.setLevel(logging.WARNING)
+        logger.propagate = False
+    _log_utils.setup_logging = _setup_stderr
+    _setup_stderr()
 
     try:
         import whisperx
