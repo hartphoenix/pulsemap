@@ -23,8 +23,8 @@ def main():
     vocal_path = sys.argv[2]
     lyrics_json_path = sys.argv[3] if len(sys.argv) > 3 else None
 
-    if method not in ("a", "b", "c", "d", "e"):
-        print(f"Unknown method: {method}. Use a, b, c, d, or e.", file=sys.stderr)
+    if method not in ("a", "b", "c", "d", "e", "f"):
+        print(f"Unknown method: {method}. Use a-f.", file=sys.stderr)
         sys.exit(1)
 
     # Load LRCLIB lyrics
@@ -40,7 +40,9 @@ def main():
         except Exception:
             lrclib_lines = None
 
-    if method == "e":
+    if method == "f":
+        run_whisperx_hybrid(vocal_path, lrclib_lines)
+    elif method == "e":
         run_whisperx_align(vocal_path, lrclib_lines)
     elif method in ("c", "d"):
         run_whisperx(vocal_path, lrclib_lines, lyrics_text, correct_text=(method == "d"))
@@ -105,6 +107,138 @@ def run_stable_ts(method, vocal_path, lrclib_lines, lyrics_text):
 
     except Exception as e:
         print(f"Word alignment failed: {e}", file=sys.stderr)
+        sys.exit(1)
+
+
+def run_whisperx_hybrid(vocal_path, lrclib_lines):
+    """Method F: WhisperX transcription for timing + wav2vec2 alignment of LRCLIB text.
+
+    1. Transcribe with WhisperX to discover where vocals are (C's approach)
+    2. Match WhisperX segments to LRCLIB lines by order
+    3. Build new segments with LRCLIB text + WhisperX-discovered timestamps
+    4. Re-align with wav2vec2 using the corrected segments
+    """
+    import logging
+    import whisperx.log_utils as _log_utils
+
+    def _setup_stderr(level="warning", log_file=None):
+        logger = logging.getLogger("whisperx")
+        logger.handlers.clear()
+        handler = logging.StreamHandler(sys.stderr)
+        handler.setLevel(logging.WARNING)
+        logger.addHandler(handler)
+        logger.setLevel(logging.WARNING)
+        logger.propagate = False
+    _log_utils.setup_logging = _setup_stderr
+    _setup_stderr()
+
+    try:
+        import whisperx
+        import torch
+    except ImportError as e:
+        print(f"Missing dependency: {e}", file=sys.stderr)
+        sys.exit(1)
+
+    if not lrclib_lines:
+        print("No LRCLIB lyrics for method F", file=sys.stderr)
+        sys.exit(1)
+
+    try:
+        device = "cpu"
+        compute_type = "int8"
+
+        # Step 1: Transcribe to discover timing
+        print("Loading WhisperX model for transcription...", file=sys.stderr)
+        model = whisperx.load_model("base", device, compute_type=compute_type, language="en")
+
+        print("Transcribing to discover vocal timing...", file=sys.stderr)
+        audio = whisperx.load_audio(vocal_path)
+        stt_result = model.transcribe(audio, batch_size=8, language="en")
+        stt_segments = stt_result.get("segments", [])
+        print(f"Found {len(stt_segments)} segments from transcription", file=sys.stderr)
+
+        # Step 2: Match STT segments to LRCLIB lines by order
+        lyric_lines = [
+            l for l in lrclib_lines
+            if l.get("text", "").strip()
+        ]
+
+        # Build new segments: LRCLIB text + STT timing
+        merged_segments = []
+        li = 0
+        for seg in stt_segments:
+            if li >= len(lyric_lines):
+                break
+            # Each STT segment may cover one or more LRCLIB lines
+            seg_start = seg["start"]
+            seg_end = seg["end"]
+            seg_word_count = len(seg.get("text", "").split())
+
+            # Consume LRCLIB lines that fit in this segment's duration
+            consumed_text = []
+            consumed_words = 0
+            while li < len(lyric_lines) and consumed_words < seg_word_count + 3:
+                consumed_text.append(lyric_lines[li]["text"].strip())
+                consumed_words += len(lyric_lines[li]["text"].split())
+                li += 1
+                if consumed_words >= seg_word_count - 2:
+                    break
+
+            if consumed_text:
+                merged_segments.append({
+                    "text": " ".join(consumed_text),
+                    "start": seg_start,
+                    "end": seg_end,
+                })
+
+        # Add remaining LRCLIB lines if any, using last segment's end as start
+        if li < len(lyric_lines) and merged_segments:
+            remaining = " ".join(l["text"].strip() for l in lyric_lines[li:] if l.get("text","").strip())
+            if remaining:
+                last_end = merged_segments[-1]["end"]
+                merged_segments.append({
+                    "text": remaining,
+                    "start": last_end,
+                    "end": last_end + 30,
+                })
+
+        print(f"Built {len(merged_segments)} merged segments", file=sys.stderr)
+
+        # Step 3: Align merged segments with wav2vec2
+        print("Loading wav2vec2 alignment model...", file=sys.stderr)
+        align_model, metadata = whisperx.load_align_model(language_code="en", device=device)
+
+        print("Aligning LRCLIB text at WhisperX-discovered positions...", file=sys.stderr)
+        aligned = whisperx.align(
+            merged_segments, align_model, metadata, audio, device,
+            return_char_alignments=False,
+        )
+
+        words = []
+        for seg in aligned.get("segments", []):
+            for w in seg.get("words", []):
+                if "start" in w and "word" in w:
+                    text = w["word"].strip()
+                    if text:
+                        words.append({
+                            "t": round(w["start"] * 1000),
+                            "text": text,
+                            "end": round(w.get("end", w["start"] + 0.3) * 1000),
+                        })
+
+        print(f"Hybrid produced {len(words)} words", file=sys.stderr)
+        sys.stderr.flush()
+        output = {
+            "words": words,
+            "lrclib_validated": True,
+            "lrclib_offset_ms": 0,
+            "source": "whisperx_hybrid",
+        }
+        sys.stdout.write(json.dumps(output))
+        sys.stdout.flush()
+
+    except Exception as e:
+        print(f"Hybrid alignment failed: {e}", file=sys.stderr)
         sys.exit(1)
 
 
