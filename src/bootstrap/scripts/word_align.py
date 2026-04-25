@@ -3,8 +3,9 @@
 
 Methods:
   a - Baseline: forced alignment (base model, no VAD) + last-word fix
-  b - Enhanced: forced alignment (base model, VAD + refine + min_word_dur) + last-word fix
-  c - WhisperX: wav2vec2 phoneme-level CTC alignment (no Whisper timestamps)
+  b - Enhanced: forced alignment (base model, VAD + min_word_dur) + last-word fix
+  c - WhisperX: wav2vec2 phoneme-level CTC alignment
+  d - WhisperX + LRCLIB text correction: C's timing with LRCLIB text where matched
 
 Usage: word_align.py <method> <vocal_stem_path> [lyrics_json_path]
 """
@@ -22,8 +23,8 @@ def main():
     vocal_path = sys.argv[2]
     lyrics_json_path = sys.argv[3] if len(sys.argv) > 3 else None
 
-    if method not in ("a", "b", "c"):
-        print(f"Unknown method: {method}. Use a, b, or c.", file=sys.stderr)
+    if method not in ("a", "b", "c", "d"):
+        print(f"Unknown method: {method}. Use a, b, c, or d.", file=sys.stderr)
         sys.exit(1)
 
     # Load LRCLIB lyrics
@@ -39,8 +40,8 @@ def main():
         except Exception:
             lrclib_lines = None
 
-    if method == "c":
-        run_whisperx(vocal_path, lrclib_lines, lyrics_text)
+    if method in ("c", "d"):
+        run_whisperx(vocal_path, lrclib_lines, lyrics_text, correct_text=(method == "d"))
     else:
         run_stable_ts(method, vocal_path, lrclib_lines, lyrics_text)
 
@@ -105,7 +106,7 @@ def run_stable_ts(method, vocal_path, lrclib_lines, lyrics_text):
         sys.exit(1)
 
 
-def run_whisperx(vocal_path, lrclib_lines, lyrics_text):
+def run_whisperx(vocal_path, lrclib_lines, lyrics_text, correct_text=False):
     # whisperx's log_utils.setup_logging() adds a StreamHandler(sys.stdout).
     # Patch it to use stderr before importing whisperx.
     import logging
@@ -179,12 +180,19 @@ def run_whisperx(vocal_path, lrclib_lines, lyrics_text):
                         })
 
         print(f"WhisperX produced {len(words)} words", file=sys.stderr)
+
+        source = "whisperx"
+        if correct_text and lrclib_validated and lrclib_lines:
+            corrected_count = correct_words_from_lrclib(words, lrclib_lines)
+            print(f"Text correction: {corrected_count}/{len(words)} words corrected", file=sys.stderr)
+            source = "whisperx+lrclib"
+
         sys.stderr.flush()
         output = {
             "words": words,
             "lrclib_validated": lrclib_validated,
             "lrclib_offset_ms": lrclib_offset_ms,
-            "source": "whisperx",
+            "source": source,
         }
         sys.stdout.write(json.dumps(output))
         sys.stdout.flush()
@@ -192,6 +200,132 @@ def run_whisperx(vocal_path, lrclib_lines, lyrics_text):
     except Exception as e:
         print(f"WhisperX alignment failed: {e}", file=sys.stderr)
         sys.exit(1)
+
+
+def correct_words_from_lrclib(words, lrclib_lines):
+    """Replace WhisperX word text with LRCLIB text where timing matches.
+
+    Groups WhisperX words into clusters (gap >1s), matches each cluster
+    to the nearest LRCLIB line by timestamp, then walks through words
+    sequentially replacing text. Preserves WhisperX timing entirely.
+    Returns count of corrected words.
+    """
+    if not words or not lrclib_lines:
+        return 0
+
+    import re
+
+    def normalize(text):
+        return re.sub(r"[^\w\s]", "", text.lower()).strip()
+
+    # Filter to actual lyric lines
+    lyric_lines = [
+        l for l in lrclib_lines
+        if l.get("text", "").strip()
+        and not (l["text"].strip().startswith("(") and l["text"].strip().endswith(")"))
+    ]
+    if not lyric_lines:
+        return 0
+
+    # Build clusters from WhisperX words (gap > 1s = new cluster)
+    clusters = []
+    current = [0]
+    for i in range(1, len(words)):
+        gap = words[i]["t"] - words[i - 1].get("end", words[i - 1]["t"])
+        if gap > 1000:
+            clusters.append(current)
+            current = [i]
+        else:
+            current.append(i)
+    clusters.append(current)
+
+    # Match each cluster to nearest LRCLIB line
+    used_lines = set()
+    corrected = 0
+
+    for cluster_indices in clusters:
+        cluster_start = words[cluster_indices[0]]["t"]
+
+        # Find nearest unmatched LRCLIB line within 5s
+        best_line_idx = None
+        best_dist = float("inf")
+        for li, ll in enumerate(lyric_lines):
+            if li in used_lines:
+                continue
+            dist = abs(ll["t"] - cluster_start)
+            if dist < best_dist:
+                best_dist = dist
+                best_line_idx = li
+
+        if best_line_idx is None or best_dist > 5000:
+            continue
+
+        used_lines.add(best_line_idx)
+        lrclib_words = lyric_lines[best_line_idx]["text"].split()
+
+        if len(lrclib_words) == len(cluster_indices):
+            # Perfect word count: 1:1 replacement
+            for ci, lw in zip(cluster_indices, lrclib_words):
+                words[ci]["text"] = lw
+                corrected += 1
+        elif len(lrclib_words) < len(cluster_indices):
+            # LRCLIB has fewer words — sequential match with fuzzy alignment
+            li = 0
+            for ci in cluster_indices:
+                if li >= len(lrclib_words):
+                    break
+                wx_norm = normalize(words[ci]["text"])
+                lr_norm = normalize(lrclib_words[li])
+                # Match if first chars agree or very similar
+                if wx_norm and lr_norm and (
+                    wx_norm[0] == lr_norm[0] or
+                    _levenshtein_ratio(wx_norm, lr_norm) > 0.5
+                ):
+                    words[ci]["text"] = lrclib_words[li]
+                    corrected += 1
+                    li += 1
+        else:
+            # LRCLIB has more words — assign to available slots
+            ci_idx = 0
+            for lw in lrclib_words:
+                if ci_idx >= len(cluster_indices):
+                    break
+                ci = cluster_indices[ci_idx]
+                wx_norm = normalize(words[ci]["text"])
+                lr_norm = normalize(lw)
+                if wx_norm and lr_norm and (
+                    wx_norm[0] == lr_norm[0] or
+                    _levenshtein_ratio(wx_norm, lr_norm) > 0.5
+                ):
+                    words[ci]["text"] = lw
+                    corrected += 1
+                    ci_idx += 1
+                else:
+                    ci_idx += 1
+
+    return corrected
+
+
+def _levenshtein_ratio(a, b):
+    """Quick Levenshtein similarity ratio (0-1)."""
+    if not a or not b:
+        return 0
+    max_len = max(len(a), len(b))
+    if max_len == 0:
+        return 1
+    # Simple distance computation
+    n, m = len(a), len(b)
+    if n > m:
+        a, b = b, a
+        n, m = m, n
+    prev = list(range(n + 1))
+    for j in range(1, m + 1):
+        curr = [j] + [0] * n
+        for i in range(1, n + 1):
+            cost = 0 if a[i - 1] == b[j - 1] else 1
+            curr[i] = min(curr[i - 1] + 1, prev[i] + 1, prev[i - 1] + cost)
+        prev = curr
+    return 1 - (prev[n] / max_len)
 
 
 def extract_words(result):
