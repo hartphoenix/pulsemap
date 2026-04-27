@@ -84,7 +84,10 @@ Maps are JSON files describing the structure of a recording:
   `chords`, `beats`, `sections`, `midi`, `analysis`
 - `lyrics` and `words` are independent peer arrays (Model C). `lyrics`
   has line-level text from lyric databases. `words` has per-word
-  timestamps from forced alignment. A map can have one, both, or neither.
+  timestamps from WhisperX transcription. A map can have one, both,
+  or neither. Note: LRCLIB `end` timestamps on lyric lines are
+  unreliable — they're always "next line start," not when the vocal
+  actually ends. The `words` array is the authoritative timing source.
 - Source-agnostic: same map works across YouTube, Spotify, local files
 - Musical data is transposable at render time (chords as standard names,
   MIDI as pitch numbers)
