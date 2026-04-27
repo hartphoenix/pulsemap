@@ -33,6 +33,7 @@ import { alignWords } from "./stages/word-align";
 export interface BootstrapOptions {
 	id?: string;
 	output?: string;
+	outputDir?: string;
 	acoustIdKey?: string;
 	skipSeparation?: boolean;
 }
@@ -532,7 +533,7 @@ export async function bootstrap(source: string, options: BootstrapOptions = {}):
 
 		if (lyricsResult.words?.length) {
 			map.words = lyricsResult.words;
-			const wordTool = lyricsResult.lrclibValidated ? "stable-ts+lrclib" : "stable-ts";
+			const wordTool = lyricsResult.lrclibValidated ? "whisperx+lrclib" : "whisperx";
 			provenance.words = { tool: wordTool, date: today };
 		}
 
@@ -573,7 +574,7 @@ export async function bootstrap(source: string, options: BootstrapOptions = {}):
 		if (map.sections) mapFields.push(`sections(${map.sections.length})`);
 		if (map.midi) mapFields.push(`midi(${map.midi.length})`);
 
-		const outputPath = options.output || join("maps", `${recordingId}.json`);
+		const outputPath = options.output || join(options.outputDir || "maps", `${recordingId}.json`);
 		await mkdir(dirname(outputPath), { recursive: true });
 		await Bun.write(outputPath, `${JSON.stringify(map, null, 2)}\n`);
 		log.info(`Map written to ${outputPath}`);

@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Word-level forced alignment with LRCLIB validation and last-word fix.
+"""Word-level alignment using WhisperX transcription + wav2vec2 phoneme alignment.
 
-Strategy:
-1. Free-transcribe for LRCLIB validation (detect recording mismatch).
-2. If LRCLIB validates: run forced alignment, then fix last-word-per-line
-   displacement using LRCLIB line structure to define word groups.
-3. If LRCLIB mismatches: output raw STT words.
+Transcribes the vocal stem with WhisperX (base model), aligns at phoneme
+level with wav2vec2, and optionally validates LRCLIB line timestamps
+against the discovered word clusters.
+
+Usage: word_align.py <vocal_stem_path> [lyrics_json_path]
 """
 
 import json
@@ -20,163 +20,110 @@ def main():
     vocal_path = sys.argv[1]
     lyrics_json_path = sys.argv[2] if len(sys.argv) > 2 else None
 
+    lrclib_lines = None
+    if lyrics_json_path:
+        try:
+            with open(lyrics_json_path) as f:
+                lrclib_lines = json.load(f)
+            if not lrclib_lines:
+                lrclib_lines = None
+        except Exception:
+            lrclib_lines = None
+
+    # whisperx's log_utils.setup_logging() adds a StreamHandler(sys.stdout).
+    # Patch it to use stderr before importing whisperx.
+    import logging
+    import whisperx.log_utils as _log_utils
+
+    def _setup_stderr(level="warning", log_file=None):
+        logger = logging.getLogger("whisperx")
+        logger.handlers.clear()
+        handler = logging.StreamHandler(sys.stderr)
+        handler.setLevel(logging.WARNING)
+        handler.setFormatter(logging.Formatter(
+            "%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+            datefmt="%Y-%m-%d %H:%M:%S",
+        ))
+        logger.addHandler(handler)
+        logger.setLevel(logging.WARNING)
+        logger.propagate = False
+    _log_utils.setup_logging = _setup_stderr
+    _setup_stderr()
+
     try:
-        import stable_whisper
+        import whisperx
     except ImportError as e:
         print(f"Missing dependency: {e}", file=sys.stderr)
+        print("Install with: pip install whisperx", file=sys.stderr)
         sys.exit(1)
 
     try:
-        print("Loading Whisper base model on cpu...", file=sys.stderr)
-        model = stable_whisper.load_model("base", device="cpu")
+        device = "cpu"
+        compute_type = "int8"
 
-        # Load LRCLIB lyrics
-        lrclib_lines = None
-        lyrics_text = None
-        if lyrics_json_path:
-            try:
-                with open(lyrics_json_path) as f:
-                    lrclib_lines = json.load(f)
-                lyrics_text = "\n".join(line["text"] for line in lrclib_lines)
-                if not lyrics_text.strip():
-                    lyrics_text = None
-            except Exception:
-                lrclib_lines = None
+        print("Loading WhisperX base model...", file=sys.stderr)
+        model = whisperx.load_model("base", device, compute_type=compute_type, language="en")
 
-        # Phase 1: Free transcription (for LRCLIB validation only)
-        print("Running free transcription for validation...", file=sys.stderr)
-        stt_result = model.transcribe(vocal_path, language="en")
+        print("Transcribing with WhisperX...", file=sys.stderr)
+        audio = whisperx.load_audio(vocal_path)
+        result = model.transcribe(audio, batch_size=8, language="en")
 
-        # Phase 2: LRCLIB validation
+        print("Loading wav2vec2 alignment model...", file=sys.stderr)
+        align_model, metadata = whisperx.load_align_model(language_code="en", device=device)
+
+        print("Running phoneme-level alignment...", file=sys.stderr)
+        aligned = whisperx.align(
+            result["segments"], align_model, metadata, audio, device,
+            return_char_alignments=False,
+        )
+
+        # LRCLIB validation
         lrclib_validated = False
         lrclib_offset_ms = None
-
-        if lrclib_lines and lyrics_text:
+        if lrclib_lines:
             lrclib_validated, lrclib_offset_ms = validate_lrclib(
-                lrclib_lines, stt_result
+                lrclib_lines, aligned.get("segments", [])
             )
             status = "validated" if lrclib_validated else "MISMATCH"
             offset_str = f"{lrclib_offset_ms/1000:+.1f}s" if lrclib_offset_ms is not None else "?"
             print(f"LRCLIB {status} (median offset: {offset_str})", file=sys.stderr)
 
-        # Phase 3: Forced alignment + last-word fix, or raw STT
-        if lrclib_validated and lyrics_text and lrclib_lines:
-            print("Running forced alignment...", file=sys.stderr)
-            aligned_result = model.align(vocal_path, lyrics_text, language="en")
-
-            words = []
-            for segment in aligned_result.segments:
-                for word in segment.words:
-                    text = word.word.strip()
+        words = []
+        for seg in aligned.get("segments", []):
+            for w in seg.get("words", []):
+                if "start" in w and "word" in w:
+                    text = w["word"].strip()
                     if text:
                         words.append({
-                            "t": round(word.start * 1000),
+                            "t": round(w["start"] * 1000),
                             "text": text,
-                            "end": round(word.end * 1000),
+                            "end": round(w.get("end", w["start"] + 0.3) * 1000),
                         })
 
-            fixed_count = fix_last_word_displacement(words, lrclib_lines)
-            print(f"Last-word fix: {fixed_count} words adjusted", file=sys.stderr)
-            source = "forced_alignment"
-        else:
-            words = []
-            for segment in stt_result.segments:
-                for word in segment.words:
-                    text = word.word.strip()
-                    if text:
-                        words.append({
-                            "t": round(word.start * 1000),
-                            "text": text,
-                            "end": round(word.end * 1000),
-                        })
-            source = "free_transcription"
+        print(f"WhisperX produced {len(words)} words", file=sys.stderr)
+        sys.stderr.flush()
 
         output = {
             "words": words,
             "lrclib_validated": lrclib_validated,
             "lrclib_offset_ms": lrclib_offset_ms,
-            "source": source,
+            "source": "whisperx",
         }
-        print(json.dumps(output))
+        sys.stdout.write(json.dumps(output))
+        sys.stdout.flush()
 
     except Exception as e:
-        print(f"Word alignment failed: {e}", file=sys.stderr)
+        print(f"WhisperX alignment failed: {e}", file=sys.stderr)
         sys.exit(1)
 
 
-def fix_last_word_displacement(words, lrclib_lines):
-    """Fix last-word-per-line displacement using LRCLIB line structure.
-
-    Walks through forced-alignment words, grouping them by LRCLIB line
-    word counts. For each group's last word, checks if its onset gap is
-    abnormally large vs the group's typical spacing. If so, pulls it back.
-    """
-    if not words or not lrclib_lines:
-        return 0
-
-    # Build line word counts from LRCLIB
-    line_word_counts = []
-    for line in lrclib_lines:
-        text = line.get("text", "").strip()
-        if text:
-            line_word_counts.append(len(text.split()))
-
-    # Walk forced-alignment words, assigning to lines by count
-    pos = 0
-    fixed = 0
-
-    for line_count in line_word_counts:
-        if pos + line_count > len(words):
-            break
-        if line_count < 3:
-            pos += line_count
-            continue
-
-        group = words[pos:pos + line_count]
-
-        # Compute inter-word gaps within group (excluding last)
-        gaps = []
-        for i in range(len(group) - 2):
-            gap = group[i + 1]["t"] - group[i].get("end", group[i]["t"])
-            if gap >= 0:
-                gaps.append(gap)
-
-        if not gaps:
-            pos += line_count
-            continue
-
-        median_gap = sorted(gaps)[len(gaps) // 2]
-
-        # Check last word
-        last = group[-1]
-        prev = group[-2]
-        last_gap = last["t"] - prev.get("end", prev["t"])
-
-        if last_gap > max(median_gap * 3, 500):
-            # Compute typical word duration
-            durs = [g.get("end", g["t"]) - g["t"] for g in group[:-1] if g.get("end", g["t"]) - g["t"] > 0]
-            typical_dur = sorted(durs)[len(durs) // 2] if durs else 300
-
-            new_start = prev.get("end", prev["t"]) + min(median_gap, 200)
-            new_end = new_start + typical_dur
-
-            last["t"] = round(new_start)
-            last["end"] = round(new_end)
-            fixed += 1
-
-        pos += line_count
-
-    return fixed
-
-
-def validate_lrclib(lrclib_lines, stt_result):
-    """Compare LRCLIB line timestamps against STT word cluster timestamps."""
+def validate_lrclib(lrclib_lines, segments):
+    """Validate LRCLIB line timestamps against WhisperX word clusters."""
     stt_words = []
-    for seg in stt_result.segments:
-        for word in seg.words:
-            text = word.word.strip()
-            if text:
-                stt_words.append(round(word.start * 1000))
+    for seg in segments:
+        for w in seg.get("words", []):
+            if "start" in w:
+                stt_words.append(round(w["start"] * 1000))
 
     if len(stt_words) < 3:
         return False, None

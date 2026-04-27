@@ -110,7 +110,7 @@ Options:
 		console.log(`${label} START ${song.title} by ${song.artist}`);
 
 		try {
-			const map = await bootstrap(song.url, {});
+			const map = await bootstrap(song.url, { outputDir });
 
 			const duration_s = Math.round((performance.now() - songStart) / 1000);
 			const fields: string[] = [];

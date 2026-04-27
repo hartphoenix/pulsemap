@@ -15,7 +15,7 @@ sdk/index.ts         # SDK entry point (re-exports)
 src/
   bootstrap/         # Map generation pipeline (audio → map JSON)
     stages/          # Pipeline stage wrappers (TypeScript)
-    scripts/         # Python analysis scripts (Demucs, stable-ts, etc.)
+    scripts/         # Python analysis scripts (Demucs, WhisperX, etc.)
     batch.ts         # Batch pipeline runner
   db/                # SQLite map database utilities (stub)
 maps/                # Generated map JSON files (committed for distribution)
@@ -51,14 +51,14 @@ analysis. A `.venv/` virtual environment at the project root contains
 all Python dependencies. The pipeline auto-detects it, or set
 `PULSEMAP_PYTHON=.venv/bin/python` explicitly.
 
-Required Python packages: `demucs`, `stable-ts`, `basic-pitch[onnx]`,
+Required Python packages: `demucs`, `whisperx`, `basic-pitch[onnx]`,
 `torchcrepe`, `librosa`, `essentia`, `numpy`, `torchcodec`.
 
 Pre-download models on first setup:
 ```bash
 source .venv/bin/activate
 python -c "from demucs.pretrained import get_model; get_model('htdemucs')"
-python -c "import whisper; whisper.load_model('base')"
+python -c "import whisperx; whisperx.load_model('base', 'cpu', compute_type='int8', language='en')"
 ```
 
 ### Conventions
@@ -125,7 +125,7 @@ Silicon). Pipeline stages:
    vocals, drums, bass, other)
 4. **Parallel analysis:**
    - Lyrics lookup (LRCLIB / YouTube VTT) → text cleanup →
-     word-level alignment (stable-ts on vocal stem)
+     word-level alignment (WhisperX on vocal stem)
    - Audio analysis (essentia → chords, beats, key, tempo)
    - Per-stem MIDI transcription: drums (librosa), bass
      (basic-pitch), vocals (torchcrepe), other (basic-pitch)
@@ -228,9 +228,14 @@ reference document.
 
 ### Known limitations
 
-- **Apple Silicon MPS + float64:** Whisper/stable-ts alignment
-  falls back to CPU because Apple's MPS GPU doesn't support float64
-  operations. Alignment takes ~5-7s per song on CPU (acceptable).
+- **Apple Silicon MPS + float64:** WhisperX alignment runs on CPU
+  (int8 compute type) because Apple's MPS GPU doesn't support float64
+  operations. Alignment takes ~5-10s per song on CPU (acceptable).
+- **WhisperX text accuracy on sung lyrics.** WhisperX transcribes
+  what it hears, not canonical lyrics. Sung words (slurred, melismatic,
+  ad-libbed) may differ from LRCLIB text. The `lyrics` array carries
+  canonical LRCLIB text; the `words` array carries WhisperX's
+  transcription with accurate timing.
 - **Bass-chord concordance is low (13-42%):** The cross-validation
   between bass MIDI pitch classes and chord roots produces mostly
   noise. Likely caused by basic-pitch quality on bass frequencies

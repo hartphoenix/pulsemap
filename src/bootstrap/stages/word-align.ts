@@ -6,14 +6,14 @@ export interface WordAlignResult {
 	words: WordEvent[];
 	lrclibValidated: boolean;
 	lrclibOffsetMs: number | null;
-	source: "forced_alignment" | "free_transcription";
+	source: string;
 }
 
 interface RawOutput {
 	words: WordEvent[];
 	lrclib_validated: boolean;
 	lrclib_offset_ms: number | null;
-	source: "forced_alignment" | "free_transcription";
+	source: string;
 }
 
 export async function alignWords(
