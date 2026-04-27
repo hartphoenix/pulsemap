@@ -2,8 +2,6 @@ import { join } from "node:path";
 import type { LyricLine, WordEvent } from "../../../schema/map";
 import { runPythonScript } from "../python";
 
-export type WordAlignMethod = "a" | "b" | "c" | "d" | "e" | "f";
-
 export interface WordAlignResult {
 	words: WordEvent[];
 	lrclibValidated: boolean;
@@ -22,9 +20,8 @@ export async function alignWords(
 	vocalStemPath: string,
 	lyrics: LyricLine[] | undefined,
 	workDir: string,
-	method: WordAlignMethod = "a",
 ): Promise<WordAlignResult | undefined> {
-	const args = [method, vocalStemPath];
+	const args = [vocalStemPath];
 
 	if (lyrics?.length) {
 		const lyricsPath = join(workDir, "lyrics-for-align.json");

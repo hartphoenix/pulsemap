@@ -30,15 +30,12 @@ import { type StemPaths, separateAudio } from "./stages/separate";
 import { type TranscriptionResult, transcribeStem } from "./stages/transcribe";
 import { alignWords } from "./stages/word-align";
 
-import type { WordAlignMethod } from "./stages/word-align";
-
 export interface BootstrapOptions {
 	id?: string;
 	output?: string;
 	outputDir?: string;
 	acoustIdKey?: string;
 	skipSeparation?: boolean;
-	wordAlignMethod?: WordAlignMethod;
 }
 
 const SCHEMA_VERSION = "0.1.0";
@@ -180,7 +177,6 @@ export async function bootstrap(source: string, options: BootstrapOptions = {}):
 								stems.vocals,
 								cleanedLyrics?.length ? cleanedLyrics : undefined,
 								workDir,
-								options.wordAlignMethod,
 							);
 							if (result) {
 								words = result.words;
@@ -537,7 +533,7 @@ export async function bootstrap(source: string, options: BootstrapOptions = {}):
 
 		if (lyricsResult.words?.length) {
 			map.words = lyricsResult.words;
-			const wordTool = lyricsResult.lrclibValidated ? "stable-ts+lrclib" : "stable-ts";
+			const wordTool = lyricsResult.lrclibValidated ? "whisperx+lrclib" : "whisperx";
 			provenance.words = { tool: wordTool, date: today };
 		}
 

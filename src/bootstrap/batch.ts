@@ -1,6 +1,5 @@
 import { mkdir } from "node:fs/promises";
 import { bootstrap } from "./index";
-import type { WordAlignMethod } from "./stages/word-align";
 
 interface SongEntry {
 	title: string;
@@ -33,7 +32,6 @@ Options:
   --output-dir <dir>     Output directory for maps (default: maps/)
   --log <path>           Path for batch results log (default: batch-results.json)
   --concurrency <n>      Max parallel pipelines (default: 1)
-  --method <a|b|c>       Word alignment method (default: a)
   --skip-existing        Skip songs that already have maps
   --start <n>            Start from song N (0-indexed, for resuming)
   --limit <n>            Process at most N songs
@@ -57,7 +55,6 @@ Options:
 	const outputDir = opts["output-dir"] || "maps";
 	const logPath = opts.log || "batch-results.json";
 	const concurrency = Number.parseInt(opts.concurrency || "1", 10);
-	const wordAlignMethod = (opts.method || "a") as WordAlignMethod;
 	const startIdx = Number.parseInt(opts.start || "0", 10);
 	const limit = opts.limit ? Number.parseInt(opts.limit, 10) : undefined;
 
@@ -76,9 +73,7 @@ Options:
 	console.log(
 		`\nBatch pipeline: ${slice.length} songs (of ${total} total, starting at ${startIdx})`,
 	);
-	console.log(
-		`Output: ${outputDir}  Log: ${logPath}  Concurrency: ${concurrency}  Method: ${wordAlignMethod}\n`,
-	);
+	console.log(`Output: ${outputDir}  Log: ${logPath}  Concurrency: ${concurrency}\n`);
 
 	await mkdir(outputDir, { recursive: true });
 
@@ -115,10 +110,7 @@ Options:
 		console.log(`${label} START ${song.title} by ${song.artist}`);
 
 		try {
-			const map = await bootstrap(song.url, {
-				wordAlignMethod,
-				outputDir,
-			});
+			const map = await bootstrap(song.url, { outputDir });
 
 			const duration_s = Math.round((performance.now() - songStart) / 1000);
 			const fields: string[] = [];

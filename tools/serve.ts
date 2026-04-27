@@ -31,35 +31,6 @@ async function buildMapIndex(): Promise<MapIndex[]> {
 	return maps.sort((a, b) => a.title.localeCompare(b.title));
 }
 
-async function buildAbSongIndex(): Promise<MapIndex[]> {
-	const songIds = new Map<string, MapIndex>();
-	const dirs = ["maps/ab-test/a", "maps/ab-test/b", "maps/ab-test/c"];
-	for (const dir of dirs) {
-		try {
-			const files = await readdir(dir);
-			for (const file of files.filter((f) => f.endsWith(".json"))) {
-				try {
-					const data = await Bun.file(join(dir, file)).json();
-					const id = data.id || file.replace(".json", "");
-					if (!songIds.has(id)) {
-						songIds.set(id, {
-							path: file,
-							title: data.metadata?.title || file,
-							artist: data.metadata?.artist || "Unknown",
-							id,
-						});
-					}
-				} catch {
-					/* skip */
-				}
-			}
-		} catch {
-			/* dir may not exist */
-		}
-	}
-	return [...songIds.values()].sort((a, b) => a.title.localeCompare(b.title));
-}
-
 const server = Bun.serve({
 	port: 3333,
 	async fetch(req) {
@@ -67,17 +38,9 @@ const server = Bun.serve({
 		let path = url.pathname;
 
 		if (path === "/") path = "/tools/map-inspector.html";
-		if (path === "/compare") path = "/tools/compare-inspector.html";
 
 		if (path === "/api/maps") {
 			const index = await buildMapIndex();
-			return new Response(JSON.stringify(index), {
-				headers: { "Content-Type": "application/json" },
-			});
-		}
-
-		if (path === "/api/ab-songs") {
-			const index = await buildAbSongIndex();
 			return new Response(JSON.stringify(index), {
 				headers: { "Content-Type": "application/json" },
 			});
@@ -105,6 +68,5 @@ const server = Bun.serve({
 	},
 });
 
-console.log(`Map Inspector:       http://localhost:${server.port}`);
-console.log(`AB Comparison:       http://localhost:${server.port}/compare`);
-console.log("Serving from project root. Maps auto-populate in dropdowns.");
+console.log(`Map Inspector: http://localhost:${server.port}`);
+console.log("Serving from project root. Maps auto-populate in the dropdown.");
