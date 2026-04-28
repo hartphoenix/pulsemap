@@ -1,4 +1,6 @@
 import { describe, expect, it } from "bun:test";
+import { readdirSync } from "node:fs";
+import { join } from "node:path";
 import type { PulseMap } from "../schema/map";
 import { assertValid, validate } from "../src/validate";
 
@@ -195,4 +197,54 @@ describe("assertValid", () => {
 	it("throws with details for invalid maps", () => {
 		expect(() => assertValid({})).toThrow("Invalid PulseMap");
 	});
+});
+
+describe("minLength constraints", () => {
+	it("rejects a word with empty text", () => {
+		const map = {
+			...MINIMAL_MAP,
+			words: [{ t: 0, text: "", end: 300 }],
+		};
+		expect(validate(map).valid).toBe(false);
+	});
+
+	it("rejects a lyric line with empty text", () => {
+		const map = {
+			...MINIMAL_MAP,
+			lyrics: [{ t: 0, text: "" }],
+		};
+		expect(validate(map).valid).toBe(false);
+	});
+
+	it("rejects a chord with empty chord string", () => {
+		const map = {
+			...MINIMAL_MAP,
+			chords: [{ t: 0, chord: "" }],
+		};
+		expect(validate(map).valid).toBe(false);
+	});
+
+	it("rejects a section with empty type string", () => {
+		const map = {
+			...MINIMAL_MAP,
+			sections: [{ t: 0, type: "", end: 10000 }],
+		};
+		expect(validate(map).valid).toBe(false);
+	});
+});
+
+describe("existing map files", () => {
+	const mapsDir = join(import.meta.dir, "../maps");
+	const files = readdirSync(mapsDir).filter((f) => f.endsWith(".json"));
+
+	for (const file of files) {
+		it(`${file} passes validation`, () => {
+			const raw = Bun.file(join(mapsDir, file)).text();
+			return raw.then((text) => {
+				const map = JSON.parse(text);
+				const result = validate(map);
+				expect(result.valid).toBe(true);
+			});
+		});
+	}
 });

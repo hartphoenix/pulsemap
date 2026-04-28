@@ -140,14 +140,14 @@ export type AnalysisProvenance = Static<typeof AnalysisProvenanceSchema>;
 
 export const LyricLineSchema = Type.Object({
 	t: Type.Number({ description: "Start time in milliseconds." }),
-	text: Type.String(),
+	text: Type.String({ minLength: 1 }),
 	end: Type.Optional(Type.Number({ description: "End time in ms." })),
 });
 export type LyricLine = Static<typeof LyricLineSchema>;
 
 export const WordEventSchema = Type.Object({
 	t: Type.Number({ description: "Start time in milliseconds." }),
-	text: Type.String({ description: "Single word text." }),
+	text: Type.String({ minLength: 1, description: "Single word text." }),
 	end: Type.Optional(Type.Number({ description: "End time in ms." })),
 });
 export type WordEvent = Static<typeof WordEventSchema>;
@@ -155,6 +155,7 @@ export type WordEvent = Static<typeof WordEventSchema>;
 export const ChordEventSchema = Type.Object({
 	t: Type.Number({ description: "Start time in milliseconds." }),
 	chord: Type.String({
+		minLength: 1,
 		description: 'Chord name using standard notation (e.g. "Cmaj7", "F#m", "Bb/D").',
 	}),
 	end: Type.Optional(Type.Number({ description: "End time in ms." })),
@@ -164,6 +165,7 @@ export type ChordEvent = Static<typeof ChordEventSchema>;
 export const SectionSchema = Type.Object({
 	t: Type.Number({ description: "Start time in milliseconds." }),
 	type: Type.String({
+		minLength: 1,
 		description: "Structural type (e.g. verse, chorus, solo).",
 	}),
 	label: Type.Optional(Type.String({ description: "Freeform label for display." })),
