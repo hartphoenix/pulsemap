@@ -165,6 +165,7 @@ export async function bootstrap(source: string, options: BootstrapOptions = {}):
 
 					let words: WordEvent[] | undefined;
 					let lrclibValidated = true;
+					let lrclibOffsetMs: number | null = null;
 					if (stems?.vocals) {
 						log.stage("word-align");
 						try {
@@ -176,6 +177,7 @@ export async function bootstrap(source: string, options: BootstrapOptions = {}):
 							if (result) {
 								words = result.words;
 								lrclibValidated = result.lrclibValidated;
+								lrclibOffsetMs = result.lrclibOffsetMs;
 								const parts = [`${words.length} words`, result.source.replace("_", " ")];
 								if (!result.lrclibValidated && cleanedLyrics?.length) {
 									parts.push(
@@ -193,7 +195,26 @@ export async function bootstrap(source: string, options: BootstrapOptions = {}):
 						log.stageSkip("word-align", "no vocal stem");
 					}
 
-					return { lyrics: cleanedLyrics, words, lrclibValidated };
+					// Apply LRCLIB intro offset correction when validation failed and offset exceeds 2s
+					let correctedLyrics = cleanedLyrics;
+					if (
+						!lrclibValidated &&
+						lrclibOffsetMs != null &&
+						Math.abs(lrclibOffsetMs) > 2000 &&
+						cleanedLyrics?.length
+					) {
+						const offsetToApply = lrclibOffsetMs;
+						correctedLyrics = cleanedLyrics.map((line) => ({
+							...line,
+							t: Math.max(0, line.t - offsetToApply),
+							...(line.end != null ? { end: Math.max(0, line.end - offsetToApply) } : {}),
+						}));
+						log.detail(
+							`lrclib-offset: shifted ${cleanedLyrics.length} lyrics by ${(-offsetToApply / 1000).toFixed(1)}s`,
+						);
+					}
+
+					return { lyrics: correctedLyrics, words, lrclibValidated };
 				})(),
 
 				// Analysis (unchanged)
