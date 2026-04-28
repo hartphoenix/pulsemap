@@ -6,8 +6,7 @@ import { GitHubAuth } from "./components/GitHubAuth";
 import { SubmitFlow } from "./components/SubmitFlow";
 import { Timeline } from "./components/Timeline";
 import { TransportBar } from "./components/TransportBar";
-import { ValidationPanel } from "./components/ValidationPanel";
-import { getStoredToken, storeToken, validateToken } from "./github/auth";
+import { getStoredToken, validateToken } from "./github/auth";
 import { type SnapSubdivision, useBeatSnap } from "./hooks/useBeatSnap";
 import { useKeyboardShortcuts } from "./hooks/useKeyboardShortcuts";
 import { useMap } from "./hooks/useMap";
@@ -57,7 +56,6 @@ function EditorContent({
 	onSeek,
 	onRateChange,
 	ghToken,
-	ghLogin,
 	onAuthChange,
 }: {
 	map: PulseMap;
@@ -70,7 +68,6 @@ function EditorContent({
 	onSeek: (ms: number) => void;
 	onRateChange: (rate: number) => void;
 	ghToken: string | null;
-	ghLogin: string | null;
 	onAuthChange: (token: string | null, login: string | null) => void;
 }) {
 	const { state, dispatch } = useEditor();
@@ -270,7 +267,6 @@ function EditorContent({
 			/>
 
 			<Timeline
-				map={workingMap}
 				position={position}
 				playing={playing}
 				onSeek={onSeek}
@@ -280,7 +276,6 @@ function EditorContent({
 				onSnapSubdivisionChange={setSnapSubdivision}
 				validationIssues={validationIssues}
 				validationColorsByLane={validationColorsByLane}
-				errorCount={errorCount}
 			/>
 
 			{showSubmitFlow && ghToken && (
@@ -317,7 +312,7 @@ export function App() {
 
 	// --- GitHub OAuth state ---
 	const [ghToken, setGhToken] = useState<string | null>(null);
-	const [ghLogin, setGhLogin] = useState<string | null>(null);
+	const [, setGhLogin] = useState<string | null>(null);
 	const tokenInitialized = useRef(false);
 	useEffect(() => {
 		if (tokenInitialized.current) return;
@@ -390,7 +385,6 @@ export function App() {
 					onSeek={seek}
 					onRateChange={setRate}
 					ghToken={ghToken}
-					ghLogin={ghLogin}
 					onAuthChange={handleAuthChange}
 				/>
 			</EditorProvider>

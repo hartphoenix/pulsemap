@@ -1,6 +1,6 @@
 import { Value } from "@sinclair/typebox/value";
-import { PulseMapSchema } from "pulsemap/schema";
 import type { PulseMap } from "pulsemap/schema";
+import { PulseMapSchema } from "pulsemap/schema";
 import { useEffect, useState } from "react";
 
 const BASE_URL = "https://raw.githubusercontent.com/hartphoenix/pulsemap/main/maps";

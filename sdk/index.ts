@@ -1,11 +1,17 @@
-export type { AdapterMatcher, AdapterRegistry, PlaybackAdapter, PlaybackState } from "./adapters";
+export type {
+	AdapterMatcher,
+	AdapterRegistry,
+	PlaybackAdapter,
+	PlaybackState,
+	ResolveResult,
+	YouTubeEmbedOptions,
+} from "./adapters";
 export {
 	createRegistry,
 	parseYouTubeVideoId,
 	YouTubeEmbedAdapter,
 	youTubeEmbedMatcher,
 } from "./adapters";
-export type { ResolveResult, YouTubeEmbedOptions } from "./adapters";
-export { parsePlaybackTarget } from "./playback";
-export { editorUrl, openEditor } from "./editor";
 export type { EditorTarget } from "./editor";
+export { editorUrl, openEditor } from "./editor";
+export { parsePlaybackTarget } from "./playback";

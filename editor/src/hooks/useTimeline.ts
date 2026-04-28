@@ -75,7 +75,7 @@ export function useTimeline({
 		const maxScrollMs = Math.max(0, (el.scrollWidth - el.clientWidth) / pxPerMs);
 		const targetScroll = position - viewportWidthMs * FOLLOW_OFFSET_FRACTION;
 		setScrollMs(Math.max(0, Math.min(targetScroll, maxScrollMs)));
-	}, [following, playing, position, pxPerMs, durationMs]);
+	}, [following, playing, position, pxPerMs]);
 
 	// Sync container scroll position from scrollMs
 	useEffect(() => {

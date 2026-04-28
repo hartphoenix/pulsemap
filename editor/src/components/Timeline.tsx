@@ -9,16 +9,15 @@ import type { EditableLane } from "../state/types";
 import type { ValidationIssue } from "../validation/types";
 import { EditPanel } from "./EditPanel";
 import { LaneToggles } from "./LaneToggles";
-import { Playhead } from "./Playhead";
-import { ValidationPanel } from "./ValidationPanel";
 import { BeatLane } from "./lanes/BeatLane";
 import { ChordLane } from "./lanes/ChordLane";
 import { LyricLane } from "./lanes/LyricLane";
 import { SectionLane } from "./lanes/SectionLane";
 import { WordLane } from "./lanes/WordLane";
+import { Playhead } from "./Playhead";
+import { ValidationPanel } from "./ValidationPanel";
 
 interface TimelineProps {
-	map: PulseMap;
 	position: number;
 	playing: boolean;
 	onSeek: (ms: number) => void;
@@ -28,7 +27,6 @@ interface TimelineProps {
 	onSnapSubdivisionChange: (subdivision: SnapSubdivision) => void;
 	validationIssues: ValidationIssue[];
 	validationColorsByLane: Map<EditableLane, Map<number, string>>;
-	errorCount: number;
 }
 
 function hasLaneData(map: PulseMap, lane: LaneName): boolean {
@@ -47,7 +45,6 @@ function hasLaneData(map: PulseMap, lane: LaneName): boolean {
 }
 
 export function Timeline({
-	map,
 	position,
 	playing,
 	onSeek,
@@ -57,7 +54,6 @@ export function Timeline({
 	onSnapSubdivisionChange,
 	validationIssues,
 	validationColorsByLane,
-	errorCount,
 }: TimelineProps) {
 	const { state, dispatch } = useEditor();
 	const workingMap = state.working;
@@ -138,7 +134,7 @@ export function Timeline({
 				dispatch(deselectAction());
 			}
 		},
-		[pxPerMs, scrollMs, workingMap.duration_ms, onSeek, disableFollow, dispatch],
+		[pxPerMs, workingMap.duration_ms, onSeek, disableFollow, dispatch],
 	);
 
 	const totalWidthPx = workingMap.duration_ms * pxPerMs;
@@ -265,6 +261,8 @@ export function Timeline({
 												viewportWidthPx={contentViewportWidth}
 											/>
 										);
+									default:
+										return null;
 								}
 							})}
 						</div>

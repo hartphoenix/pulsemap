@@ -136,7 +136,7 @@ export function cleanYouTubeTitle(title: string, artist?: string): string {
 	}
 
 	cleaned = cleaned.replace(
-		/\s*[\(\[](?:Official|Remaster|HD|4K|Lyric|Audio|Music|Video|Mono|Stereo|Live|feat\.|ft\.)[\w\s\/,.'()\-]*[\)\]]/gi,
+		/\s*[([](?:Official|Remaster|HD|4K|Lyric|Audio|Music|Video|Mono|Stereo|Live|feat\.|ft\.)[\w\s/,.'()-]*[)\]]/gi,
 		"",
 	);
 	cleaned = cleaned.replace(/\s+\d{4}\s*$/g, "");

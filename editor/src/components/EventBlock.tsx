@@ -67,7 +67,7 @@ export function EventBlock({
 	const blockRef = useRef<HTMLDivElement>(null);
 
 	const handleDragMove = useCallback(
-		(deltaMs: number, currentMs: number, mode: DragMode) => {
+		(deltaMs: number, _currentMs: number, mode: DragMode) => {
 			if (mode === "move") {
 				setDragOffset({ dx: deltaMs * pxPerMs, mode });
 			} else if (mode === "resize-start") {

@@ -1,6 +1,6 @@
 import type { PulseMap } from "pulsemap/schema";
 import type { PlaybackState } from "pulsemap/sdk/adapters/types";
-import { YouTubeEmbedAdapter, parseYouTubeVideoId } from "pulsemap/sdk/adapters/youtube";
+import { parseYouTubeVideoId, YouTubeEmbedAdapter } from "pulsemap/sdk/adapters/youtube";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 const CONTAINER_ID = "pulsemap-yt-player";

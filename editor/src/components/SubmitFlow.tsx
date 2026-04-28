@@ -79,9 +79,7 @@ export function SubmitFlow({
 	}, [token, map, selectedHistory, playbackAvailable]);
 
 	return (
-		// biome-ignore lint/a11y/useKeyWithClickEvents: overlay dismiss is supplementary — close button handles keyboard
 		<div style={styles.overlay} onClick={onClose}>
-			{/* biome-ignore lint/a11y/useKeyWithClickEvents: stopPropagation prevents overlay dismiss when clicking modal */}
 			<div style={styles.modal} onClick={(e) => e.stopPropagation()}>
 				<div style={styles.header}>
 					<h2 style={styles.title}>Submit Correction</h2>
