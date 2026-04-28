@@ -1,9 +1,13 @@
 import { useState, useCallback, useRef, useEffect, type CSSProperties } from "react";
 import type { PulseMap } from "pulsemap/schema";
 import { useTimeline } from "../hooks/useTimeline";
+import { useBeatSnap, type SnapSubdivision } from "../hooks/useBeatSnap";
+import { useEditor } from "../state/context";
+import { deselectAction } from "../state/actions";
 import { COLORS, LANE_ORDER, type LaneName } from "../constants";
 import { Playhead } from "./Playhead";
 import { LaneToggles } from "./LaneToggles";
+import { EditPanel } from "./EditPanel";
 import { BeatLane } from "./lanes/BeatLane";
 import { ChordLane } from "./lanes/ChordLane";
 import { LyricLane } from "./lanes/LyricLane";
@@ -33,6 +37,9 @@ function hasLaneData(map: PulseMap, lane: LaneName): boolean {
 }
 
 export function Timeline({ map, position, playing, onSeek }: TimelineProps) {
+  const { state, dispatch } = useEditor();
+  const workingMap = state.working;
+
   const [visibility, setVisibility] = useState<Record<LaneName, boolean>>({
     sections: true,
     lyrics: true,
@@ -40,6 +47,9 @@ export function Timeline({ map, position, playing, onSeek }: TimelineProps) {
     chords: true,
     beats: true,
   });
+
+  const [snapEnabled, setSnapEnabled] = useState(true);
+  const [snapSubdivision, setSnapSubdivision] = useState<SnapSubdivision>("beat");
 
   const [viewportWidth, setViewportWidth] = useState(800);
   const measureRef = useRef<HTMLDivElement | null>(null);
@@ -55,10 +65,22 @@ export function Timeline({ map, position, playing, onSeek }: TimelineProps) {
     zoomIn,
     zoomOut,
   } = useTimeline({
-    durationMs: map.duration_ms,
+    durationMs: workingMap.duration_ms,
     position,
     playing,
   });
+
+  const { snapToNearestBeat } = useBeatSnap({
+    beats: workingMap.beats,
+    enabled: snapEnabled,
+    subdivision: snapSubdivision,
+  });
+
+  // Identity snap function when snap is disabled
+  const snapFn = useCallback(
+    (ms: number) => (snapEnabled ? snapToNearestBeat(ms) : ms),
+    [snapEnabled, snapToNearestBeat],
+  );
 
   // Measure viewport width
   useEffect(() => {
@@ -93,125 +115,179 @@ export function Timeline({ map, position, playing, onSeek }: TimelineProps) {
       const x = e.clientX - rect.left + e.currentTarget.scrollLeft - 72; // subtract label width
       if (x < 0) return;
       const ms = x / pxPerMs + scrollMs;
-      if (ms >= 0 && ms <= map.duration_ms) {
+      if (ms >= 0 && ms <= workingMap.duration_ms) {
         onSeek(ms);
         disableFollow();
+        // Deselect when clicking empty timeline area
+        dispatch(deselectAction());
       }
     },
-    [pxPerMs, scrollMs, map.duration_ms, onSeek, disableFollow],
+    [pxPerMs, scrollMs, workingMap.duration_ms, onSeek, disableFollow, dispatch],
   );
 
-  const totalWidthPx = map.duration_ms * pxPerMs;
+  const totalWidthPx = workingMap.duration_ms * pxPerMs;
   const playheadX = msToX(position);
 
   // Content area viewport width (total minus label column)
   const contentViewportWidth = Math.max(viewportWidth - 72, 100);
 
   return (
-    <div style={styles.wrapper}>
-      <div style={styles.toolbar}>
-        <LaneToggles
-          map={map}
-          visibility={visibility}
-          onToggle={toggleLane}
-        />
-        <div style={styles.toolbarRight}>
-          <button type="button" onClick={zoomOut} style={styles.zoomButton}>
-            -
-          </button>
-          <span style={styles.zoomLabel}>
-            {(pxPerMs * 1000).toFixed(0)} px/s
-          </span>
-          <button type="button" onClick={zoomIn} style={styles.zoomButton}>
-            +
-          </button>
-          {!following && playing && (
+    <div style={styles.outerWrapper}>
+      <div style={styles.wrapper}>
+        <div style={styles.toolbar}>
+          <LaneToggles
+            map={workingMap}
+            visibility={visibility}
+            onToggle={toggleLane}
+          />
+          <div style={styles.toolbarRight}>
+            {/* Snap controls */}
             <button
               type="button"
-              onClick={enableFollow}
-              style={styles.followButton}
+              onClick={() => setSnapEnabled((s) => !s)}
+              style={{
+                ...styles.snapButton,
+                ...(snapEnabled ? styles.snapButtonActive : {}),
+              }}
+              title={`Beat snap: ${snapEnabled ? "ON" : "OFF"} (hold Alt to temporarily disable)`}
             >
-              Follow
+              Snap
             </button>
-          )}
+            {snapEnabled && (
+              <select
+                value={snapSubdivision}
+                onChange={(e) => setSnapSubdivision(e.target.value as SnapSubdivision)}
+                style={styles.subdivisionSelect}
+              >
+                <option value="beat">Beat</option>
+                <option value="half">1/2</option>
+                <option value="quarter">1/4</option>
+              </select>
+            )}
+
+            <div style={styles.separator} />
+
+            <button type="button" onClick={zoomOut} style={styles.zoomButton}>
+              -
+            </button>
+            <span style={styles.zoomLabel}>
+              {(pxPerMs * 1000).toFixed(0)} px/s
+            </span>
+            <button type="button" onClick={zoomIn} style={styles.zoomButton}>
+              +
+            </button>
+            {!following && playing && (
+              <button
+                type="button"
+                onClick={enableFollow}
+                style={styles.followButton}
+              >
+                Follow
+              </button>
+            )}
+          </div>
+        </div>
+
+        <div style={styles.timelineRow}>
+          <div
+            ref={setRefs}
+            style={styles.scrollContainer}
+            onClick={handleClick}
+          >
+            <div style={{ ...styles.innerTrack, width: totalWidthPx + 72 }}>
+              <Playhead positionX={playheadX} />
+
+              {LANE_ORDER.map((lane) => {
+                if (!hasLaneData(workingMap, lane) || !visibility[lane]) return null;
+                switch (lane) {
+                  case "sections":
+                    return (
+                      <SectionLane
+                        key={lane}
+                        sections={workingMap.sections!}
+                        scrollMs={scrollMs}
+                        pxPerMs={pxPerMs}
+                        viewportWidthPx={contentViewportWidth}
+                        snapFn={snapFn}
+                        snapEnabled={snapEnabled}
+                        durationMs={workingMap.duration_ms}
+                      />
+                    );
+                  case "lyrics":
+                    return (
+                      <LyricLane
+                        key={lane}
+                        lyrics={workingMap.lyrics!}
+                        scrollMs={scrollMs}
+                        pxPerMs={pxPerMs}
+                        viewportWidthPx={contentViewportWidth}
+                        snapFn={snapFn}
+                        snapEnabled={snapEnabled}
+                      />
+                    );
+                  case "words":
+                    return (
+                      <WordLane
+                        key={lane}
+                        words={workingMap.words!}
+                        scrollMs={scrollMs}
+                        pxPerMs={pxPerMs}
+                        viewportWidthPx={contentViewportWidth}
+                        snapFn={snapFn}
+                        snapEnabled={snapEnabled}
+                      />
+                    );
+                  case "chords":
+                    return (
+                      <ChordLane
+                        key={lane}
+                        chords={workingMap.chords!}
+                        scrollMs={scrollMs}
+                        pxPerMs={pxPerMs}
+                        viewportWidthPx={contentViewportWidth}
+                        snapFn={snapFn}
+                        snapEnabled={snapEnabled}
+                      />
+                    );
+                  case "beats":
+                    return (
+                      <BeatLane
+                        key={lane}
+                        beats={workingMap.beats!}
+                        scrollMs={scrollMs}
+                        pxPerMs={pxPerMs}
+                        viewportWidthPx={contentViewportWidth}
+                      />
+                    );
+                }
+              })}
+            </div>
+          </div>
+
+          <EditPanel />
         </div>
       </div>
 
-      <div
-        ref={setRefs}
-        style={styles.scrollContainer}
-        onClick={handleClick}
-      >
-        <div style={{ ...styles.innerTrack, width: totalWidthPx + 72 }}>
-          <Playhead positionX={playheadX} />
-
-          {LANE_ORDER.map((lane) => {
-            if (!hasLaneData(map, lane) || !visibility[lane]) return null;
-            switch (lane) {
-              case "sections":
-                return (
-                  <SectionLane
-                    key={lane}
-                    sections={map.sections!}
-                    scrollMs={scrollMs}
-                    pxPerMs={pxPerMs}
-                    viewportWidthPx={contentViewportWidth}
-                  />
-                );
-              case "lyrics":
-                return (
-                  <LyricLane
-                    key={lane}
-                    lyrics={map.lyrics!}
-                    scrollMs={scrollMs}
-                    pxPerMs={pxPerMs}
-                    viewportWidthPx={contentViewportWidth}
-                  />
-                );
-              case "words":
-                return (
-                  <WordLane
-                    key={lane}
-                    words={map.words!}
-                    scrollMs={scrollMs}
-                    pxPerMs={pxPerMs}
-                    viewportWidthPx={contentViewportWidth}
-                  />
-                );
-              case "chords":
-                return (
-                  <ChordLane
-                    key={lane}
-                    chords={map.chords!}
-                    scrollMs={scrollMs}
-                    pxPerMs={pxPerMs}
-                    viewportWidthPx={contentViewportWidth}
-                  />
-                );
-              case "beats":
-                return (
-                  <BeatLane
-                    key={lane}
-                    beats={map.beats!}
-                    scrollMs={scrollMs}
-                    pxPerMs={pxPerMs}
-                    viewportWidthPx={contentViewportWidth}
-                  />
-                );
-            }
-          })}
+      {state.dirty && (
+        <div style={styles.dirtyIndicator}>
+          Unsaved changes ({state.history.length} edit{state.history.length !== 1 ? "s" : ""})
         </div>
-      </div>
+      )}
     </div>
   );
 }
 
 const styles: Record<string, CSSProperties> = {
+  outerWrapper: {
+    display: "flex",
+    flexDirection: "column",
+    gap: 4,
+    marginTop: 16,
+  },
   wrapper: {
     display: "flex",
     flexDirection: "column",
     gap: 8,
-    marginTop: 16,
   },
   toolbar: {
     display: "flex",
@@ -224,6 +300,34 @@ const styles: Record<string, CSSProperties> = {
     display: "flex",
     alignItems: "center",
     gap: 6,
+  },
+  snapButton: {
+    padding: "4px 10px",
+    background: "#2a2a4a",
+    border: "1px solid #444",
+    borderRadius: 4,
+    color: "#888",
+    fontSize: 12,
+    cursor: "pointer",
+  },
+  snapButtonActive: {
+    background: "#1a3a4a",
+    borderColor: COLORS.beats,
+    color: COLORS.beats,
+  },
+  subdivisionSelect: {
+    padding: "3px 6px",
+    background: "#2a2a4a",
+    border: "1px solid #444",
+    borderRadius: 4,
+    color: "#ccc",
+    fontSize: 12,
+  },
+  separator: {
+    width: 1,
+    height: 20,
+    background: "#333",
+    margin: "0 4px",
   },
   zoomButton: {
     width: 28,
@@ -256,7 +360,13 @@ const styles: Record<string, CSSProperties> = {
     cursor: "pointer",
     marginLeft: 4,
   },
+  timelineRow: {
+    display: "flex",
+    flexDirection: "row",
+    gap: 0,
+  },
   scrollContainer: {
+    flex: 1,
     overflowX: "auto",
     overflowY: "hidden",
     background: COLORS.background,
@@ -267,5 +377,13 @@ const styles: Record<string, CSSProperties> = {
   innerTrack: {
     position: "relative",
     minHeight: 40,
+  },
+  dirtyIndicator: {
+    fontSize: 12,
+    color: "#ffcc00",
+    padding: "4px 8px",
+    background: "#2a2a00",
+    borderRadius: 3,
+    alignSelf: "flex-start",
   },
 };

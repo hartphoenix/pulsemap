@@ -1,14 +1,23 @@
-import { useMemo } from "react";
+import { useMemo, useCallback } from "react";
 import type { ChordEvent } from "pulsemap/schema";
 import { COLORS, LANE_HEIGHTS } from "../../constants";
 import { Lane } from "../Lane";
+import { EventBlock } from "../EventBlock";
 import { findVisibleRange } from "./visibility";
+import { useEditor } from "../../state/context";
+import {
+  selectAction,
+  moveAction,
+  resizeAction,
+} from "../../state/actions";
 
 interface ChordLaneProps {
   chords: ChordEvent[];
   scrollMs: number;
   pxPerMs: number;
   viewportWidthPx: number;
+  snapFn: (ms: number) => number;
+  snapEnabled: boolean;
 }
 
 export function ChordLane({
@@ -16,9 +25,12 @@ export function ChordLane({
   scrollMs,
   pxPerMs,
   viewportWidthPx,
+  snapFn,
+  snapEnabled,
 }: ChordLaneProps) {
   const viewportEndMs = scrollMs + viewportWidthPx / pxPerMs;
   const height = LANE_HEIGHTS.chords;
+  const { state, dispatch } = useEditor();
 
   const visibleChords = useMemo(() => {
     const [start, end] = findVisibleRange(chords, scrollMs, viewportEndMs);
@@ -26,33 +38,60 @@ export function ChordLane({
       const idx = start + i;
       const endMs =
         chord.end ?? (idx + 1 < chords.length ? chords[idx + 1].t : undefined);
-      return { ...chord, endMs };
+      return { ...chord, endMs, globalIdx: idx };
     });
   }, [chords, scrollMs, viewportEndMs]);
 
+  const handleSelect = useCallback(
+    (idx: number) => dispatch(selectAction("chords", idx)),
+    [dispatch],
+  );
+
+  const handleMove = useCallback(
+    (idx: number, beforeT: number, newT: number) => {
+      dispatch(moveAction("chords", idx, beforeT, newT));
+    },
+    [dispatch],
+  );
+
+  const handleResizeEnd = useCallback(
+    (idx: number, beforeEnd: number | undefined, newEnd: number) => {
+      dispatch(resizeAction("chords", idx, beforeEnd, newEnd));
+    },
+    [dispatch],
+  );
+
   return (
     <Lane label="Chords" height={height}>
-      {visibleChords.map((chord, i) => {
+      {visibleChords.map((chord) => {
         const x = (chord.t - scrollMs) * pxPerMs;
         const w = chord.endMs
           ? (chord.endMs - chord.t) * pxPerMs
-          : 60; // fallback width
+          : 60;
+        const selected =
+          state.selection?.lane === "chords" &&
+          state.selection?.index === chord.globalIdx;
+
         return (
-          <div
-            key={`${chord.t}-${i}`}
-            style={{
-              position: "absolute",
-              left: x,
-              top: 2,
-              width: Math.max(w, 20),
-              height: height - 4,
-              background: COLORS.chords,
-              borderRadius: 3,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              overflow: "hidden",
-            }}
+          <EventBlock
+            key={`chord-${chord.globalIdx}`}
+            x={x}
+            width={Math.max(w, 20)}
+            height={height}
+            selected={selected}
+            color={COLORS.chords}
+            startMs={chord.t}
+            endMs={chord.end}
+            pxPerMs={pxPerMs}
+            snapFn={snapFn}
+            snapEnabled={snapEnabled}
+            onClick={() => handleSelect(chord.globalIdx)}
+            onMove={(newT) => handleMove(chord.globalIdx, chord.t, newT)}
+            onResizeEnd={
+              chord.end != null
+                ? (newEnd) => handleResizeEnd(chord.globalIdx, chord.end, newEnd)
+                : undefined
+            }
           >
             <span
               style={{
@@ -60,12 +99,11 @@ export function ChordLane({
                 fontWeight: 700,
                 color: "#1a1a2e",
                 whiteSpace: "nowrap",
-                padding: "0 4px",
               }}
             >
               {chord.chord}
             </span>
-          </div>
+          </EventBlock>
         );
       })}
     </Lane>

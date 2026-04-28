@@ -1,14 +1,23 @@
-import { useMemo } from "react";
+import { useMemo, useCallback } from "react";
 import type { WordEvent } from "pulsemap/schema";
 import { COLORS, LANE_HEIGHTS } from "../../constants";
 import { Lane } from "../Lane";
+import { EventBlock } from "../EventBlock";
 import { findVisibleRange } from "./visibility";
+import { useEditor } from "../../state/context";
+import {
+  selectAction,
+  moveAction,
+  resizeAction,
+} from "../../state/actions";
 
 interface WordLaneProps {
   words: WordEvent[];
   scrollMs: number;
   pxPerMs: number;
   viewportWidthPx: number;
+  snapFn: (ms: number) => number;
+  snapEnabled: boolean;
 }
 
 export function WordLane({
@@ -16,9 +25,12 @@ export function WordLane({
   scrollMs,
   pxPerMs,
   viewportWidthPx,
+  snapFn,
+  snapEnabled,
 }: WordLaneProps) {
   const viewportEndMs = scrollMs + viewportWidthPx / pxPerMs;
   const height = LANE_HEIGHTS.words;
+  const { state, dispatch } = useEditor();
 
   const visibleWords = useMemo(() => {
     const [start, end] = findVisibleRange(words, scrollMs, viewportEndMs);
@@ -27,34 +39,60 @@ export function WordLane({
       const endMs =
         word.end ??
         (idx + 1 < words.length ? words[idx + 1].t : undefined);
-      return { ...word, endMs };
+      return { ...word, endMs, globalIdx: idx };
     });
   }, [words, scrollMs, viewportEndMs]);
 
+  const handleSelect = useCallback(
+    (idx: number) => dispatch(selectAction("words", idx)),
+    [dispatch],
+  );
+
+  const handleMove = useCallback(
+    (idx: number, beforeT: number, newT: number) => {
+      dispatch(moveAction("words", idx, beforeT, newT));
+    },
+    [dispatch],
+  );
+
+  const handleResizeEnd = useCallback(
+    (idx: number, beforeEnd: number | undefined, newEnd: number) => {
+      dispatch(resizeAction("words", idx, beforeEnd, newEnd));
+    },
+    [dispatch],
+  );
+
   return (
     <Lane label="Words" height={height}>
-      {visibleWords.map((word, i) => {
+      {visibleWords.map((word) => {
         const x = (word.t - scrollMs) * pxPerMs;
         const w = word.endMs
           ? (word.endMs - word.t) * pxPerMs
           : 40;
+        const selected =
+          state.selection?.lane === "words" &&
+          state.selection?.index === word.globalIdx;
+
         return (
-          <div
-            key={`${word.t}-${i}`}
-            style={{
-              position: "absolute",
-              left: x,
-              top: 2,
-              width: Math.max(w, 16),
-              height: height - 4,
-              background: `${COLORS.words}33`,
-              border: `1px solid ${COLORS.words}55`,
-              borderRadius: 2,
-              display: "flex",
-              alignItems: "center",
-              overflow: "hidden",
-              padding: "0 2px",
-            }}
+          <EventBlock
+            key={`word-${word.globalIdx}`}
+            x={x}
+            width={Math.max(w, 16)}
+            height={height}
+            selected={selected}
+            color={COLORS.words}
+            startMs={word.t}
+            endMs={word.end}
+            pxPerMs={pxPerMs}
+            snapFn={snapFn}
+            snapEnabled={snapEnabled}
+            onClick={() => handleSelect(word.globalIdx)}
+            onMove={(newT) => handleMove(word.globalIdx, word.t, newT)}
+            onResizeEnd={
+              word.end != null
+                ? (newEnd) => handleResizeEnd(word.globalIdx, word.end, newEnd)
+                : undefined
+            }
           >
             <span
               style={{
@@ -67,7 +105,7 @@ export function WordLane({
             >
               {word.text}
             </span>
-          </div>
+          </EventBlock>
         );
       })}
     </Lane>
