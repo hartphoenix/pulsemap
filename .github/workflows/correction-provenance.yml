@@ -1,0 +1,107 @@
+name: Add correction provenance
+
+on:
+  pull_request:
+    types: [closed]
+    paths:
+      - 'maps/*.json'
+
+permissions:
+  contents: write
+
+jobs:
+  add-provenance:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract correction metadata
+        id: metadata
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const body = context.payload.pull_request.body || '';
+            const match = body.match(/<!-- pulsemap-correction\n([\s\S]*?)\n-->/);
+            if (!match) {
+              core.setOutput('skip', 'true');
+              console.log('No pulsemap-correction block found — skipping');
+              return;
+            }
+            try {
+              const meta = JSON.parse(match[1]);
+              core.setOutput('skip', 'false');
+              core.setOutput('metadata', match[1]);
+              core.setOutput('fields', JSON.stringify(meta.fields || {}));
+            } catch (e) {
+              core.setOutput('skip', 'true');
+              console.log('Failed to parse correction metadata:', e.message);
+            }
+
+      - name: Update map corrections
+        if: steps.metadata.outputs.skip != 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+
+            const pr = context.payload.pull_request;
+            const fields = JSON.parse('${{ steps.metadata.outputs.fields }}');
+            const mergeDate = pr.merged_at.split('T')[0];
+            const user = pr.user.login;
+            const prNumber = pr.number;
+
+            // Find which map files were changed
+            const { data: files } = await github.rest.pulls.listFiles({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: prNumber,
+            });
+
+            const mapFiles = files
+              .filter(f =>
+                f.filename.startsWith('maps/') &&
+                f.filename.endsWith('.json') &&
+                !f.filename.includes('/midi/')
+              )
+              .map(f => f.filename);
+
+            if (mapFiles.length === 0) {
+              console.log('No map JSON files modified');
+              return;
+            }
+
+            let updated = false;
+            for (const mapFile of mapFiles) {
+              const content = fs.readFileSync(mapFile, 'utf8');
+              const map = JSON.parse(content);
+
+              if (!map.corrections) map.corrections = [];
+
+              for (const [field, edits] of Object.entries(fields)) {
+                map.corrections.push({
+                  field,
+                  user,
+                  pr: prNumber,
+                  date: mergeDate,
+                  edits: edits,
+                });
+              }
+
+              fs.writeFileSync(mapFile, JSON.stringify(map, null, 2) + '\n');
+              updated = true;
+              console.log(`Updated ${mapFile} with ${Object.keys(fields).length} correction entries`);
+            }
+
+            if (!updated) return;
+
+            // Commit and push
+            const { execSync } = require('child_process');
+            execSync('git config user.name "github-actions[bot]"');
+            execSync('git config user.email "41898282+github-actions[bot]@users.noreply.github.com"');
+            execSync(`git add ${mapFiles.join(' ')}`);
+            execSync('git commit -m "chore: add correction provenance [skip ci]"');
+            execSync('git push');
