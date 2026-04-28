@@ -1,0 +1,62 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'maps/**'
+      - 'editor/**'
+
+  workflow_dispatch:
+
+permissions:
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build site directory
+        run: |
+          mkdir -p _site/maps/midi
+          cp maps/*.json _site/maps/ 2>/dev/null || true
+          cp maps/midi/*.mid _site/maps/midi/ 2>/dev/null || true
+          touch _site/.nojekyll
+
+          # Generate manifest of all maps
+          node -e "
+            const fs = require('fs');
+            const maps = fs.readdirSync('maps')
+              .filter(f => f.endsWith('.json'))
+              .map(f => {
+                const data = JSON.parse(fs.readFileSync('maps/' + f));
+                return {
+                  id: data.id,
+                  title: data.metadata?.title,
+                  artist: data.metadata?.artist,
+                  duration_ms: data.duration_ms,
+                  file: f,
+                };
+              });
+            fs.writeFileSync('_site/maps/manifest.json', JSON.stringify(maps, null, 2));
+            console.log('Generated manifest with ' + maps.length + ' maps');
+          "
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - id: deployment
+        uses: actions/deploy-pages@v4
