@@ -1,3 +1,4 @@
+import { Timeline } from "./components/Timeline";
 import { TransportBar } from "./components/TransportBar";
 import { useMap } from "./hooks/useMap";
 import { usePlayback } from "./hooks/usePlayback";
@@ -80,6 +81,13 @@ export function App() {
 				onPause={pause}
 				onSeek={seek}
 				onRateChange={setRate}
+			/>
+
+			<Timeline
+				map={map}
+				position={position}
+				playing={playing}
+				onSeek={seek}
 			/>
 
 			<div style={styles.debugInfo}>
