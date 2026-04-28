@@ -1,6 +1,7 @@
 import { useMap } from "./hooks/useMap";
 import { usePlayback } from "./hooks/usePlayback";
 import { TransportBar } from "./components/TransportBar";
+import { Timeline } from "./components/Timeline";
 import { parseEditorParams } from "./types";
 
 function getMapId(): string | null {
@@ -92,6 +93,13 @@ export function App() {
         onPause={pause}
         onSeek={seek}
         onRateChange={setRate}
+      />
+
+      <Timeline
+        map={map}
+        position={position}
+        playing={playing}
+        onSeek={seek}
       />
 
       <div style={styles.debugInfo}>
