@@ -32,7 +32,7 @@ jobs:
           bun-version: latest
 
       - name: Install root dependencies
-        run: bun install
+        run: bun install --frozen-lockfile
 
       - name: Build editor
         working-directory: editor
