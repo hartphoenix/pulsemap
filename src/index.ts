@@ -14,6 +14,7 @@ export type {
 	ChordEvent,
 	SectionType,
 	Section,
+	CorrectionEntry,
 } from "../schema/map";
 
 export {
@@ -32,6 +33,7 @@ export {
 	ChordEventSchema,
 	SectionSchema,
 	SECTION_TYPES,
+	CorrectionEntrySchema,
 } from "../schema/map";
 
 export { validate, assertValid } from "./validate";

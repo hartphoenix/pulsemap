@@ -173,6 +173,15 @@ export const SectionSchema = Type.Object({
 });
 export type Section = Static<typeof SectionSchema>;
 
+export const CorrectionEntrySchema = Type.Object({
+	field: Type.String({ description: "Which map field was corrected." }),
+	user: Type.String({ description: "GitHub username of the contributor." }),
+	pr: Type.Number({ description: "PR number in the pulsemap repo." }),
+	date: Type.String({ description: "ISO 8601 date when the correction was merged." }),
+	edits: Type.Number({ description: "Number of individual changes to this field." }),
+});
+export type CorrectionEntry = Static<typeof CorrectionEntrySchema>;
+
 export const PulseMapSchema = Type.Object({
 	version: Type.String({ description: "Schema version (semver)." }),
 	id: Type.String({ description: "MusicBrainz recording ID." }),
@@ -189,5 +198,6 @@ export const PulseMapSchema = Type.Object({
 	sections: Type.Optional(Type.Array(SectionSchema)),
 	midi: Type.Optional(Type.Array(MidiReferenceSchema)),
 	analysis: Type.Optional(Type.Record(Type.String(), AnalysisProvenanceSchema)),
+	corrections: Type.Optional(Type.Array(CorrectionEntrySchema)),
 });
 export type PulseMap = Static<typeof PulseMapSchema>;
