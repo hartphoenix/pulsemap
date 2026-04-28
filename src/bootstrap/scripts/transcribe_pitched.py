@@ -47,6 +47,7 @@ def main():
             onset_threshold=onset_threshold,
             frame_threshold=frame_threshold,
             minimum_note_length=minimum_note_length,
+            multiple_pitch_bends=True,
         )
 
         midi_data.write(output_path)

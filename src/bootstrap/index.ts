@@ -548,7 +548,11 @@ export async function bootstrap(source: string, options: BootstrapOptions = {}):
 				const label = ref.tracks?.[0]?.label;
 				if (label) {
 					const tool =
-						label === "vocals" ? "torchcrepe" : label === "drums" ? "librosa" : "basic-pitch";
+						label === "vocals"
+							? "torchcrepe+expressive"
+							: label === "drums"
+								? "librosa"
+								: "basic-pitch";
 					provenance[`midi-${label}`] = { tool, date: today };
 				}
 			}
