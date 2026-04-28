@@ -1,19 +1,16 @@
-import { useCallback, useEffect, useRef } from "react";
+import type { PulseMap } from "pulsemap/schema";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Timeline } from "./components/Timeline";
 import { TransportBar } from "./components/TransportBar";
+import { getStoredToken, handleCallback, storeToken, validateToken } from "./github/auth";
+import { useBeatSnap } from "./hooks/useBeatSnap";
+import { useKeyboardShortcuts } from "./hooks/useKeyboardShortcuts";
 import { useMap } from "./hooks/useMap";
 import { usePlayback } from "./hooks/usePlayback";
-import { parseEditorParams } from "./types";
-import { EditorProvider, useEditor } from "./state/context";
-import { useKeyboardShortcuts } from "./hooks/useKeyboardShortcuts";
-import { useBeatSnap } from "./hooks/useBeatSnap";
-import type { PulseMap } from "pulsemap/schema";
 import { hashMap } from "./persistence/hash";
-import {
-	saveEditorState,
-	loadEditorState,
-	clearEditorState,
-} from "./persistence/storage";
+import { clearEditorState, loadEditorState, saveEditorState } from "./persistence/storage";
+import { EditorProvider, useEditor } from "./state/context";
+import { parseEditorParams } from "./types";
 
 function getMapId(): string | null {
 	const path = window.location.pathname;
@@ -33,6 +30,9 @@ function EditorContent({
 	onPause,
 	onSeek,
 	onRateChange,
+	ghToken,
+	ghLogin,
+	onAuthChange,
 }: {
 	map: PulseMap;
 	playing: boolean;
@@ -43,6 +43,9 @@ function EditorContent({
 	onPause: () => void;
 	onSeek: (ms: number) => void;
 	onRateChange: (rate: number) => void;
+	ghToken: string | null;
+	ghLogin: string | null;
+	onAuthChange: (token: string | null, login: string | null) => void;
 }) {
 	const { state, dispatch } = useEditor();
 	const workingMap = state.working;
@@ -172,6 +175,10 @@ function EditorContent({
 				position={position}
 				playing={playing}
 				onSeek={onSeek}
+				ghToken={ghToken}
+				ghLogin={ghLogin}
+				onAuthChange={onAuthChange}
+				playbackAvailable={playbackAvailable}
 			/>
 
 			<div style={styles.debugInfo}>
@@ -196,6 +203,63 @@ export function App() {
 	const { map, loading, error } = useMap(mapId);
 	const { containerId, play, pause, seek, setRate, playbackAvailable, playing, position } =
 		usePlayback(map);
+
+	// --- GitHub OAuth state ---
+	const [ghToken, setGhToken] = useState<string | null>(null);
+	const [ghLogin, setGhLogin] = useState<string | null>(null);
+	const callbackHandled = useRef(false);
+
+	// Handle OAuth callback: ?code=... in the URL
+	useEffect(() => {
+		if (callbackHandled.current) return;
+		const urlParams = new URLSearchParams(window.location.search);
+		const code = urlParams.get("code");
+		if (!code) return;
+
+		callbackHandled.current = true;
+
+		handleCallback(code)
+			.then((token) => {
+				storeToken(token);
+				setGhToken(token);
+				return validateToken(token);
+			})
+			.then((user) => {
+				if (user) setGhLogin(user.login);
+				// Clean the URL — remove code param
+				const clean = new URL(window.location.href);
+				clean.searchParams.delete("code");
+				window.history.replaceState({}, "", clean.toString());
+			})
+			.catch((err) => {
+				console.error("OAuth callback failed:", err);
+				// Clean the URL anyway
+				const clean = new URL(window.location.href);
+				clean.searchParams.delete("code");
+				window.history.replaceState({}, "", clean.toString());
+			});
+	}, []);
+
+	// Initialize from stored token (no callback)
+	const tokenInitialized = useRef(false);
+	useEffect(() => {
+		if (tokenInitialized.current) return;
+		tokenInitialized.current = true;
+		const token = getStoredToken();
+		if (token) {
+			validateToken(token).then((user) => {
+				if (user) {
+					setGhToken(token);
+					setGhLogin(user.login);
+				}
+			});
+		}
+	}, []);
+
+	const handleAuthChange = useCallback((token: string | null, login: string | null) => {
+		setGhToken(token);
+		setGhLogin(login);
+	}, []);
 
 	// Seek to ?t= param on first load
 	if (params.t != null && map && playbackAvailable && position === 0) {
@@ -248,6 +312,9 @@ export function App() {
 					onPause={pause}
 					onSeek={seek}
 					onRateChange={setRate}
+					ghToken={ghToken}
+					ghLogin={ghLogin}
+					onAuthChange={handleAuthChange}
 				/>
 			</EditorProvider>
 		</div>
