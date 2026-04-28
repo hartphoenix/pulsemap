@@ -22,6 +22,7 @@ import {
 	lookupLyrics,
 	searchLyrics,
 } from "./stages/lyrics";
+import { reconcileWords } from "./stages/reconcile-words";
 import { type StemPaths, separateAudio, separateVocals } from "./stages/separate";
 import { type TranscriptionResult, transcribeStem } from "./stages/transcribe";
 import { alignWords } from "./stages/word-align";
@@ -257,7 +258,24 @@ export async function bootstrap(source: string, options: BootstrapOptions = {}):
 					);
 				}
 
-				return { lyrics: correctedLyrics, words, lrclibValidated };
+				// Word reconciliation: correct WhisperX text against LRCLIB canonical lyrics
+				let wordsReconciled = false;
+				if (words?.length && correctedLyrics?.length) {
+					try {
+						const reconciled = await reconcileWords(words, correctedLyrics, { title, artist });
+						if (reconciled.correctionCount > 0) {
+							words = reconciled.words;
+							wordsReconciled = true;
+							log.stageOk("reconcile-words", `${reconciled.correctionCount} corrections applied`);
+						} else {
+							log.stageOk("reconcile-words", "no corrections needed");
+						}
+					} catch (err) {
+						log.stageFail("reconcile-words", err instanceof Error ? err.message : String(err));
+					}
+				}
+
+				return { lyrics: correctedLyrics, words, lrclibValidated, wordsReconciled };
 			})(),
 
 			// Analysis (unchanged)
@@ -627,6 +645,13 @@ export async function bootstrap(source: string, options: BootstrapOptions = {}):
 			map.words = lyricsResult.words;
 			const wordTool = lyricsResult.lrclibValidated ? "whisperx+lrclib" : "whisperx";
 			provenance.words = { tool: wordTool, date: today };
+			if (lyricsResult.wordsReconciled) {
+				provenance["words-reconciled"] = {
+					tool: "claude-haiku",
+					version: "claude-haiku-4-5",
+					date: today,
+				};
+			}
 		}
 
 		if (finalChords?.length) {
