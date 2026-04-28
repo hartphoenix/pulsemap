@@ -172,6 +172,19 @@ export function editorReducer(
         redoStack: [],
         selection: null,
         dirty: false,
+        originalHash: "",
+      };
+    }
+
+    case "load-saved": {
+      return {
+        ...state,
+        working: cloneMap(dispatch.working),
+        history: [...dispatch.history],
+        redoStack: [],
+        selection: null,
+        dirty: dispatch.history.length > 0,
+        originalHash: dispatch.originalHash,
       };
     }
 
@@ -308,5 +321,6 @@ export function createInitialState(map: PulseMap): EditorState {
     redoStack: [],
     selection: null,
     dirty: false,
+    originalHash: "",
   };
 }

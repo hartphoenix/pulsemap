@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { Timeline } from "./components/Timeline";
 import { TransportBar } from "./components/TransportBar";
 import { useMap } from "./hooks/useMap";
@@ -8,6 +8,12 @@ import { EditorProvider, useEditor } from "./state/context";
 import { useKeyboardShortcuts } from "./hooks/useKeyboardShortcuts";
 import { useBeatSnap } from "./hooks/useBeatSnap";
 import type { PulseMap } from "pulsemap/schema";
+import { hashMap } from "./persistence/hash";
+import {
+	saveEditorState,
+	loadEditorState,
+	clearEditorState,
+} from "./persistence/storage";
 
 function getMapId(): string | null {
 	const path = window.location.pathname;
@@ -38,8 +44,73 @@ function EditorContent({
 	onSeek: (ms: number) => void;
 	onRateChange: (rate: number) => void;
 }) {
-	const { state } = useEditor();
+	const { state, dispatch } = useEditor();
 	const workingMap = state.working;
+	const restoredRef = useRef(false);
+
+	// Compute and store original hash, then check for saved state
+	useEffect(() => {
+		if (restoredRef.current) return;
+		restoredRef.current = true;
+
+		hashMap(map).then((hash) => {
+			const saved = loadEditorState(map.id);
+			if (saved) {
+				if (saved.originalHash === hash) {
+					// Restore saved state
+					dispatch({
+						type: "load-saved",
+						working: saved.working,
+						history: saved.history,
+						originalHash: hash,
+					});
+				} else {
+					// Hash mismatch — upstream changed
+					const discard = window.confirm(
+						"The upstream map has been updated since your last edit. Discard local changes?",
+					);
+					if (discard) {
+						clearEditorState(map.id);
+					} else {
+						// Keep local changes even though upstream differs
+						dispatch({
+							type: "load-saved",
+							working: saved.working,
+							history: saved.history,
+							originalHash: hash,
+						});
+					}
+				}
+			}
+			// Store originalHash for auto-save even if no saved state
+			if (!saved) {
+				dispatch({
+					type: "load-saved",
+					working: map,
+					history: [],
+					originalHash: hash,
+				});
+			}
+		});
+	}, [map, dispatch]);
+
+	// Auto-save on every state change (debounced 500ms)
+	useEffect(() => {
+		if (!state.originalHash) return; // hash not yet computed
+		if (state.dirty) {
+			saveEditorState(map.id, state.working, state.history, state.originalHash);
+		}
+	}, [state.working, state.dirty, state.history, state.originalHash, map.id]);
+
+	// beforeunload warning when dirty
+	useEffect(() => {
+		if (!state.dirty) return;
+		const handler = (e: BeforeUnloadEvent) => {
+			e.preventDefault();
+		};
+		window.addEventListener("beforeunload", handler);
+		return () => window.removeEventListener("beforeunload", handler);
+	}, [state.dirty]);
 
 	const { snapToNearestBeat } = useBeatSnap({
 		beats: workingMap.beats,
@@ -56,16 +127,9 @@ function EditorContent({
 	}, [playing, onPlay, onPause]);
 
 	const handleSave = useCallback(() => {
-		if (!state.dirty) return;
-		try {
-			localStorage.setItem(
-				`pulsemap-edit-${workingMap.id}`,
-				JSON.stringify(workingMap),
-			);
-		} catch {
-			// localStorage might be full or unavailable
-		}
-	}, [state.dirty, workingMap]);
+		if (!state.dirty || !state.originalHash) return;
+		saveEditorState(map.id, state.working, state.history, state.originalHash);
+	}, [state.dirty, state.working, state.history, state.originalHash, map.id]);
 
 	useKeyboardShortcuts({
 		onPlayPause: handlePlayPause,

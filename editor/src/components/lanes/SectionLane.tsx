@@ -20,6 +20,8 @@ interface SectionLaneProps {
   snapFn: (ms: number) => number;
   snapEnabled: boolean;
   durationMs: number;
+  /** Per-index border color override for validation indicators */
+  validationColors?: Map<number, string>;
 }
 
 /** Rotate through a small palette so adjacent sections differ */
@@ -42,6 +44,7 @@ export function SectionLane({
   snapFn,
   snapEnabled,
   durationMs,
+  validationColors,
 }: SectionLaneProps) {
   const viewportEndMs = scrollMs + viewportWidthPx / pxPerMs;
   const height = LANE_HEIGHTS.sections;
@@ -209,6 +212,7 @@ export function SectionLane({
             pxPerMs={pxPerMs}
             snapFn={snapFn}
             snapEnabled={snapEnabled}
+            borderColor={validationColors?.get(section.globalIdx)}
             top={0}
             onClick={() => handleSelect(section.globalIdx)}
             onMove={(newT) => handleMove(section.globalIdx, section.t, newT)}

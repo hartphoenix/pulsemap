@@ -18,6 +18,8 @@ interface ChordLaneProps {
   viewportWidthPx: number;
   snapFn: (ms: number) => number;
   snapEnabled: boolean;
+  /** Per-index border color override for validation indicators */
+  validationColors?: Map<number, string>;
 }
 
 export function ChordLane({
@@ -27,6 +29,7 @@ export function ChordLane({
   viewportWidthPx,
   snapFn,
   snapEnabled,
+  validationColors,
 }: ChordLaneProps) {
   const viewportEndMs = scrollMs + viewportWidthPx / pxPerMs;
   const height = LANE_HEIGHTS.chords;
@@ -87,6 +90,7 @@ export function ChordLane({
             snapEnabled={snapEnabled}
             onClick={() => handleSelect(chord.globalIdx)}
             onMove={(newT) => handleMove(chord.globalIdx, chord.t, newT)}
+            borderColor={validationColors?.get(chord.globalIdx)}
             onResizeEnd={
               chord.end != null
                 ? (newEnd) => handleResizeEnd(chord.globalIdx, chord.end, newEnd)

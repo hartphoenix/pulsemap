@@ -18,6 +18,8 @@ interface LyricLaneProps {
   viewportWidthPx: number;
   snapFn: (ms: number) => number;
   snapEnabled: boolean;
+  /** Per-index border color override for validation indicators */
+  validationColors?: Map<number, string>;
 }
 
 export function LyricLane({
@@ -27,6 +29,7 @@ export function LyricLane({
   viewportWidthPx,
   snapFn,
   snapEnabled,
+  validationColors,
 }: LyricLaneProps) {
   const viewportEndMs = scrollMs + viewportWidthPx / pxPerMs;
   const height = LANE_HEIGHTS.lyrics;
@@ -88,6 +91,7 @@ export function LyricLane({
             snapEnabled={snapEnabled}
             onClick={() => handleSelect(line.globalIdx)}
             onMove={(newT) => handleMove(line.globalIdx, line.t, newT)}
+            borderColor={validationColors?.get(line.globalIdx)}
             onResizeEnd={
               line.end != null
                 ? (newEnd) => handleResizeEnd(line.globalIdx, line.end, newEnd)
