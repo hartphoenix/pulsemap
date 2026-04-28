@@ -4,7 +4,7 @@ const DECORATIVE_PATTERN =
 	/^[\s♪♫♬★☆♡♥✦✧✨🎵🎶🎤🎼🎹♪-♯\u{1F3B5}-\u{1F3BC}\-–—]+|[\s♪♫♬★☆♡♥✦✧✨🎵🎶🎤🎼🎹♪-♯\u{1F3B5}-\u{1F3BC}\-–—]+$/gu;
 
 const BRACKET_WRAPPER_PATTERN =
-	/^[♪♫🎵🎶\s]*[[\(]?\s*[♪♫🎵🎶]\s*[\]\)]?\s*|\s*[[\(]?\s*[♪♫🎵🎶]\s*[\]\)]?\s*[♪♫🎵🎶\s]*$/gu;
+	/^[♪♫🎵🎶\s]*[[(]?\s*[♪♫🎵🎶]\s*[\])]?\s*|\s*[[(]?\s*[♪♫🎵🎶]\s*[\])]?\s*[♪♫🎵🎶\s]*$/gu;
 
 export function cleanLyricText(text: string): string {
 	let cleaned = text;

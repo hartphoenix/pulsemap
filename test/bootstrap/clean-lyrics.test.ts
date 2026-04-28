@@ -1,5 +1,5 @@
 import { describe, expect, it } from "bun:test";
-import { cleanLyricText, cleanLyrics } from "../../src/bootstrap/stages/clean-lyrics";
+import { cleanLyrics, cleanLyricText } from "../../src/bootstrap/stages/clean-lyrics";
 
 describe("cleanLyricText", () => {
 	it("strips musical note characters from start and end", () => {

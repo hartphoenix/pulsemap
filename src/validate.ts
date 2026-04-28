@@ -1,6 +1,6 @@
 import { Value } from "@sinclair/typebox/value";
-import { PulseMapSchema } from "../schema/map";
 import type { PulseMap } from "../schema/map";
+import { PulseMapSchema } from "../schema/map";
 
 export interface ValidationResult {
 	valid: boolean;

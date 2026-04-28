@@ -1,7 +1,7 @@
 import { type CSSProperties, useCallback, useEffect, useState } from "react";
 import {
-	type DeviceCodeResponse,
 	clearToken,
+	type DeviceCodeResponse,
 	getStoredToken,
 	pollForToken,
 	requestDeviceCode,
