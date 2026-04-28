@@ -1,14 +1,23 @@
-import { useMemo } from "react";
+import { useMemo, useCallback } from "react";
 import type { LyricLine } from "pulsemap/schema";
 import { COLORS, LANE_HEIGHTS } from "../../constants";
 import { Lane } from "../Lane";
+import { EventBlock } from "../EventBlock";
 import { findVisibleRange } from "./visibility";
+import { useEditor } from "../../state/context";
+import {
+  selectAction,
+  moveAction,
+  resizeAction,
+} from "../../state/actions";
 
 interface LyricLaneProps {
   lyrics: LyricLine[];
   scrollMs: number;
   pxPerMs: number;
   viewportWidthPx: number;
+  snapFn: (ms: number) => number;
+  snapEnabled: boolean;
 }
 
 export function LyricLane({
@@ -16,9 +25,12 @@ export function LyricLane({
   scrollMs,
   pxPerMs,
   viewportWidthPx,
+  snapFn,
+  snapEnabled,
 }: LyricLaneProps) {
   const viewportEndMs = scrollMs + viewportWidthPx / pxPerMs;
   const height = LANE_HEIGHTS.lyrics;
+  const { state, dispatch } = useEditor();
 
   const visibleLyrics = useMemo(() => {
     const [start, end] = findVisibleRange(lyrics, scrollMs, viewportEndMs);
@@ -27,34 +39,60 @@ export function LyricLane({
       const endMs =
         line.end ??
         (idx + 1 < lyrics.length ? lyrics[idx + 1].t : undefined);
-      return { ...line, endMs };
+      return { ...line, endMs, globalIdx: idx };
     });
   }, [lyrics, scrollMs, viewportEndMs]);
 
+  const handleSelect = useCallback(
+    (idx: number) => dispatch(selectAction("lyrics", idx)),
+    [dispatch],
+  );
+
+  const handleMove = useCallback(
+    (idx: number, beforeT: number, newT: number) => {
+      dispatch(moveAction("lyrics", idx, beforeT, newT));
+    },
+    [dispatch],
+  );
+
+  const handleResizeEnd = useCallback(
+    (idx: number, beforeEnd: number | undefined, newEnd: number) => {
+      dispatch(resizeAction("lyrics", idx, beforeEnd, newEnd));
+    },
+    [dispatch],
+  );
+
   return (
     <Lane label="Lyrics" height={height}>
-      {visibleLyrics.map((line, i) => {
+      {visibleLyrics.map((line) => {
         const x = (line.t - scrollMs) * pxPerMs;
         const w = line.endMs
           ? (line.endMs - line.t) * pxPerMs
           : 120;
+        const selected =
+          state.selection?.lane === "lyrics" &&
+          state.selection?.index === line.globalIdx;
+
         return (
-          <div
-            key={`${line.t}-${i}`}
-            style={{
-              position: "absolute",
-              left: x,
-              top: 2,
-              width: Math.max(w, 30),
-              height: height - 4,
-              background: `${COLORS.lyrics}33`,
-              border: `1px solid ${COLORS.lyrics}66`,
-              borderRadius: 3,
-              display: "flex",
-              alignItems: "center",
-              overflow: "hidden",
-              padding: "0 4px",
-            }}
+          <EventBlock
+            key={`lyric-${line.globalIdx}`}
+            x={x}
+            width={Math.max(w, 30)}
+            height={height}
+            selected={selected}
+            color={COLORS.lyrics}
+            startMs={line.t}
+            endMs={line.end}
+            pxPerMs={pxPerMs}
+            snapFn={snapFn}
+            snapEnabled={snapEnabled}
+            onClick={() => handleSelect(line.globalIdx)}
+            onMove={(newT) => handleMove(line.globalIdx, line.t, newT)}
+            onResizeEnd={
+              line.end != null
+                ? (newEnd) => handleResizeEnd(line.globalIdx, line.end, newEnd)
+                : undefined
+            }
           >
             <span
               style={{
@@ -67,7 +105,7 @@ export function LyricLane({
             >
               {line.text}
             </span>
-          </div>
+          </EventBlock>
         );
       })}
     </Lane>
