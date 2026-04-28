@@ -233,6 +233,42 @@ describe("minLength constraints", () => {
 	});
 });
 
+describe("corrections field", () => {
+	it("accepts a map with a valid corrections array", () => {
+		const map = {
+			...MINIMAL_MAP,
+			corrections: [
+				{
+					field: "chords",
+					user: "hartphoenix",
+					pr: 42,
+					date: "2026-04-28",
+					edits: 3,
+				},
+			],
+		};
+		expect(validate(map).valid).toBe(true);
+	});
+
+	it("accepts a map without corrections (optional field)", () => {
+		const result = validate(MINIMAL_MAP);
+		expect(result.valid).toBe(true);
+	});
+
+	it("rejects a correction entry with missing required fields", () => {
+		const map = {
+			...MINIMAL_MAP,
+			corrections: [
+				{
+					field: "chords",
+					// missing user, pr, date, edits
+				},
+			],
+		};
+		expect(validate(map).valid).toBe(false);
+	});
+});
+
 describe("existing map files", () => {
 	const mapsDir = join(import.meta.dir, "../maps");
 	const files = readdirSync(mapsDir).filter((f) => f.endsWith(".json"));
