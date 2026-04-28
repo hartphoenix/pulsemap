@@ -3,7 +3,7 @@
 Open-source protocol for mapping time-based media and layering
 synchronized experiences on top. This repo contains the protocol
 specification (map schema), bootstrap script (map generation pipeline),
-and map database utilities.
+map database utilities, and the Map Editor web app.
 
 ### Repo structure
 
@@ -11,17 +11,27 @@ and map database utilities.
 schema/              # TypeScript type definitions for map format
 sdk/
   adapters/          # PlaybackAdapter interface + reference implementations
-sdk/index.ts         # SDK entry point (re-exports)
+  editor/            # Editor integration (openEditor, editorUrl, EditorTarget)
+  playback.ts        # parsePlaybackTarget (URL → PlaybackTarget)
+  index.ts           # SDK entry point (re-exports)
 src/
   bootstrap/         # Map generation pipeline (audio → map JSON)
     stages/          # Pipeline stage wrappers (TypeScript)
     scripts/         # Python analysis scripts (Demucs, WhisperX, etc.)
     batch.ts         # Batch pipeline runner
   db/                # SQLite map database utilities (stub)
+editor/              # Standalone Map Editor (Vite + React)
+  src/
+    state/           # EditorState, reducer, context (undo/redo)
+    github/          # OAuth device flow, PR submission, diff generation
+    persistence/     # localStorage save/restore, SHA-256 hashing
+    validation/      # Real-time semantic validation
+    components/      # Timeline, lanes, EditPanel, SubmitFlow
+    hooks/           # useTimeline, useDrag, useBeatSnap, usePlayback
 maps/                # Generated map JSON files (committed for distribution)
   midi/              # Per-stem MIDI files (SHA-256 named, committed)
 .claude/             # Claude Code configuration
-.github/             # CI workflows, dependabot
+.github/             # CI workflows (lint/test, correction provenance, Pages deploy)
 ```
 
 ### Tech stack
@@ -35,13 +45,21 @@ maps/                # Generated map JSON files (committed for distribution)
 ### Commands
 
 ```bash
-bun install          # Install dependencies
+bun install          # Install dependencies (root)
 bun test             # Run tests
 bun run lint         # Lint (check only)
 bun run lint:fix     # Lint and auto-fix
 bun run typecheck    # TypeScript type checking
 bun run bootstrap    # Generate a map from a source (single song)
 bun run batch        # Run pipeline on a batch of songs from JSON
+bun run inspect      # Map inspector QA tool (localhost:3333)
+```
+
+Editor (separate app):
+```bash
+cd editor && bun install && bun run dev    # Dev server (localhost:5173)
+cd editor && bun run build                 # Production build
+cd editor && bun run typecheck             # Editor type checking
 ```
 
 ### Python environment
@@ -52,13 +70,20 @@ all Python dependencies. The pipeline auto-detects it, or set
 `PULSEMAP_PYTHON=.venv/bin/python` explicitly.
 
 Required Python packages: `demucs`, `whisperx`, `basic-pitch[onnx]`,
-`torchcrepe`, `librosa`, `essentia`, `numpy`, `torchcodec`.
+`torchcrepe`, `librosa`, `essentia`, `numpy`, `torchcodec`, `scipy`,
+`soundfile`, `audio-separator`.
 
 Pre-download models on first setup:
 ```bash
 source .venv/bin/activate
 python -c "from demucs.pretrained import get_model; get_model('htdemucs')"
 python -c "import whisperx; whisperx.load_model('base', 'cpu', compute_type='int8', language='en')"
+```
+
+The MelBand RoFormer karaoke model for vocal separation auto-downloads
+on first use (~1GB). To pre-download:
+```bash
+python -c "from audio_separator.separator import Separator; s = Separator(); s.load_model('mel_band_roformer_karaoke_aufr33_viperx_sdr_10.1956.ckpt')"
 ```
 
 ### Conventions
@@ -81,18 +106,25 @@ python -c "import whisperx; whisperx.load_model('base', 'cpu', compute_type='int
 Maps are JSON files describing the structure of a recording:
 - Required: `version`, `id` (MusicBrainz recording ID), `duration_ms`
 - Optional: `fingerprint`, `metadata`, `playback`, `lyrics`, `words`,
-  `chords`, `beats`, `sections`, `midi`, `analysis`
+  `chords`, `beats`, `sections`, `midi`, `analysis`, `corrections`
 - `lyrics` and `words` are independent peer arrays (Model C). `lyrics`
   has line-level text from lyric databases. `words` has per-word
-  timestamps from WhisperX transcription. A map can have one, both,
-  or neither. Note: LRCLIB `end` timestamps on lyric lines are
+  timestamps from WhisperX transcription, reconciled against LRCLIB
+  canonical text via Claude Haiku. A map can have one, both, or
+  neither. Note: LRCLIB `end` timestamps on lyric lines are
   unreliable — they're always "next line start," not when the vocal
   actually ends. The `words` array is the authoritative timing source.
+- Text fields (`words[].text`, `lyrics[].text`, `chords[].chord`,
+  `sections[].type`) enforce `minLength: 1` — empty strings are
+  rejected by the schema.
+- `corrections` tracks human edit provenance: who, which PR, which
+  fields, how many edits. Written by a GitHub Action on PR merge,
+  not by the editor directly.
 - Source-agnostic: same map works across YouTube, Spotify, local files
 - Musical data is transposable at render time (chords as standard names,
   MIDI as pitch numbers)
 - MIDI is referenced by SHA-256 content hash, not embedded. Per-stem
-  MIDI (drums, bass, vocals, other) stored in `maps/midi/`.
+  MIDI (drums, bass, vocals, other, backing) stored in `maps/midi/`.
 - Provenance for analyzed fields tracked in top-level `analysis` field
 - `playback` lists known platforms with structured capability objects.
   `restrictions` (e.g., `mobile_embed: false`) flags platform limits.
@@ -113,31 +145,48 @@ implementations.
   `getPosition()` for polling
 - **Capabilities:** Each adapter exposes a `capabilities` object
   matching `PlaybackCapabilities` from the schema
+- **Editor module:** `sdk/editor/` exports `openEditor()` and
+  `editorUrl()` for any player to direct users to the Map Editor.
+  `parsePlaybackTarget()` in `sdk/playback.ts` resolves URLs to
+  platform + capabilities.
 
 Players can use SDK adapters directly, extend them, or build their
 own adapter contract. Community-contributed adapters accepted via PR.
 
 ### Bootstrap pipeline
 
-Generates maps from audio/video sources (~47s per song on Apple
+Generates maps from audio/video sources (~147s per song on Apple
 Silicon). Pipeline stages:
 
 1. **Extract audio** (yt-dlp for URLs, direct for local files)
 2. **Fingerprint** (fpcalc / Chromaprint → MusicBrainz ID)
 3. **Source separation** (Demucs htdemucs, MPS GPU → 4 stems:
    vocals, drums, bass, other)
-4. **Parallel analysis:**
+4. **Polyphony detection + lead isolation** (Phase 2.5):
+   - Two-gate cascade: stereo mid/side ratio → Essentia
+     MultiPitchKlapuri on loudest 15s window
+   - If polyphonic: MelBand RoFormer karaoke model isolates
+     lead vocals from backing vocals via `audio-separator`
+   - Lead → torchcrepe, backing → basic-pitch
+5. **Parallel analysis:**
    - Lyrics lookup (LRCLIB / YouTube VTT) → text cleanup →
-     word-level alignment (WhisperX on vocal stem)
+     LRCLIB offset correction (shift timestamps when >2s offset
+     detected) → word-level alignment (WhisperX on vocal stem) →
+     word reconciliation (Claude Haiku corrects WhisperX text
+     against LRCLIB canonical lyrics)
    - Audio analysis (essentia → chords, beats, key, tempo)
    - Per-stem MIDI transcription: drums (librosa), bass
-     (basic-pitch), vocals (torchcrepe), other (basic-pitch)
-5. **Post-processing:**
+     (basic-pitch + pitch bends), vocals (torchcrepe + expressive:
+     pitch bends, RMS velocity, pitch-derivative segmentation),
+     other (basic-pitch + pitch bends), backing (basic-pitch,
+     when polyphony detected)
+6. **Post-processing:**
    - Chord cleanup (filter sub-16th-note artifacts, merge dupes)
    - Beat-align MIDI (write correct tempo header)
    - Bass-chord cross-validation (informational logging)
    - Lyric gap detection (flag missing repeated sections)
-6. **Assembly** (validate schema, write map JSON + MIDI files)
+   - Empty text filter (remove words/lyrics/chords with empty text)
+7. **Assembly** (validate schema, write map JSON + MIDI files)
 
 ### Batch pipeline
 
@@ -171,29 +220,51 @@ instrument learners (guitar, piano, ukulele, bass), spanning 1950s–
 channels where possible but **have not been individually verified** —
 videos may be taken down or replaced. Spot-check before bulk runs.
 
-### Map Inspector (QA tool)
+### Map Editor
 
-Standalone HTML timeline viewer for proofreading maps. Scrolling
-DAW-style display with a playhead and toggleable data lanes.
+Standalone Vite + React web app in `editor/` for correcting map
+data. DAW-style timeline with editable lanes, YouTube playback,
+and GitHub PR submission.
+
+- **URL pattern:** `/{mapId}?t=...&lane=...&index=...`
+- **Map loading:** GitHub raw content (authenticated via stored
+  OAuth token for 5000 req/hr, unauthenticated fallback 60/hr)
+- **Playback:** YouTubeEmbedAdapter from the SDK. Degrades
+  gracefully without audio — non-timing edits always work.
+- **Timeline:** Horizontal scrolling lanes (sections, lyrics,
+  words, chords, beats read-only). Zoom, follow mode, virtualized
+  rendering via binary search.
+- **Editing:** Click to select, drag to move/resize, double-click
+  for inline text edit. Beat snapping (beat/half/quarter
+  subdivision, Alt to bypass). Undo/redo (Cmd-Z/Shift-Z).
+  Section split/merge. Arrow key nudge.
+- **State:** `EditorState` with `original`/`working` PulseMap,
+  `EditAction[]` history, undo/redo stacks. Array sort-by-`t`
+  invariant after every mutation.
+- **Persistence:** localStorage auto-save (500ms debounce), keyed
+  by map ID + original hash. `beforeunload` warning when dirty.
+  JSON export for backup.
+- **Validation:** Real-time semantic checks (timestamps in range,
+  non-overlapping sections, non-empty text, end > start, chord
+  format warning). Red/amber borders on invalid events.
+  Submission blocked on errors.
+- **GitHub submission:** Device flow OAuth (no server-side token
+  exchange). Forks repo, creates branch, commits corrected map,
+  opens PR with structured diff from EditAction history. PR body
+  includes machine-readable `<!-- pulsemap-correction -->` block
+  parsed by the corrections provenance GitHub Action.
+- **SDK integration:** Any player calls `openEditor()` from
+  `sdk/editor/` to send users here. Pulseguide has context-menu
+  integration on chords, words, sections, lyrics.
+
+### Map Inspector (legacy QA tool)
+
+Standalone HTML timeline viewer. Being superseded by the Map Editor
+for all QA and correction workflows.
 
 ```bash
 bun run inspect    # serves at http://localhost:3333
 ```
-
-Lanes: beats (downbeats emphasized), chords (blocks with names),
-lyrics (line blocks), words (per-word blocks), sections (colored
-regions), drums (kick/snare/hihat dots), bass/vocals/other (piano
-roll). Dropdown auto-populates from maps/ directory. Click timeline
-to seek.
-
-Known limitations:
-- MIDI lanes only render when served via `bun run inspect` (file://
-  protocol can't fetch MIDI files cross-origin)
-- No keyboard shortcuts for play/pause/seek
-- No zoom or scale control on the timeline
-- No audio waveform display
-- The inline MIDI parser is minimal and may not handle all edge
-  cases (complex running status, sysex messages)
 
 ### Design decisions
 
@@ -223,11 +294,21 @@ reference document.
   outputs a single BPM. beat_this produces musically-aware downbeats,
   handles tempo changes, and enables time signature inference.
 - **torchcrepe** for vocal MIDI (not basic-pitch): Continuous pitch
-  tracking captures vibrato and pitch bends. basic-pitch is for
-  polyphonic note detection (used on bass and other stems).
+  tracking captures vibrato and pitch bends. Expressive mode adds
+  per-frame pitch bend messages, RMS-based velocity, and
+  pitch-derivative note segmentation. basic-pitch is for polyphonic
+  note detection (used on bass, other, and backing vocal stems —
+  with `multiple_pitch_bends=True` for per-note pitch bends).
 - **librosa** for drum MIDI (not ADTLib/madmom): ADTLib and madmom
   couldn't install (Cython/build tooling issues). librosa onset
   detection + frequency-band classification on isolated drum stem.
+- **MelBand RoFormer** for lead/backing vocal separation: Best
+  published quality (SDR 11.1 dB lead) via python-audio-separator.
+  Only runs when the polyphony detection gate fires.
+- **Claude Haiku** for word reconciliation: Corrects WhisperX
+  transcription errors against LRCLIB canonical lyrics. Sparse
+  corrections (~$0.004/song). Gracefully skips if `claude` CLI
+  unavailable.
 
 ### Known limitations
 
@@ -235,10 +316,14 @@ reference document.
   (int8 compute type) because Apple's MPS GPU doesn't support float64
   operations. Alignment takes ~5-10s per song on CPU (acceptable).
 - **WhisperX text accuracy on sung lyrics.** WhisperX transcribes
-  what it hears, not canonical lyrics. Sung words (slurred, melismatic,
-  ad-libbed) may differ from LRCLIB text. The `lyrics` array carries
-  canonical LRCLIB text; the `words` array carries WhisperX's
-  transcription with accurate timing.
+  what it hears, not canonical lyrics. Word reconciliation via Claude
+  Haiku corrects most errors, but ad-libs and vocal flourishes may
+  retain WhisperX's interpretation. The `lyrics` array carries
+  canonical LRCLIB text; the `words` array carries reconciled text
+  with WhisperX timing.
+- **LRCLIB validation non-determinism.** WhisperX temperature
+  sampling causes inconsistent mismatch detection across runs.
+  The offset correction (>2s threshold) mitigates the worst cases.
 - **Bass-chord concordance is low (13-42%):** The cross-validation
   between bass MIDI pitch classes and chord roots produces mostly
   noise. Likely caused by basic-pitch quality on bass frequencies
@@ -248,9 +333,10 @@ reference document.
   major/minor or gets the key entirely wrong (e.g., Revolution
   detected as F# major when chords clearly indicate Bb major). Key
   is metadata only, not display-critical.
-- **No automated section labeling.** Attempted Genius API integration
-  for section headers but data quality issues (LRCLIB timestamp
-  mismatches, word alignment artifacts, line-splitting differences
-  between sources) make automated alignment unreliable. The `sections`
-  field exists in the schema for manual/future use but is not
-  populated by the pipeline.
+- **No automated section labeling.** The `sections` field exists
+  in the schema for manual entry via the editor but is not populated
+  by the pipeline.
+- **Polyphony gate false positives:** Heavy reverb/delay on solo
+  vocals can trigger the mid/side ratio gate. The Klapuri second
+  gate catches some of these but may detect overtones as multiple
+  pitches.
