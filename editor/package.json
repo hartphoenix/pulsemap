@@ -1,0 +1,23 @@
+{
+  "name": "pulsemap-editor",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "@sinclair/typebox": "^0.34.33"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.4.1",
+    "vite": "^6.3.4",
+    "typescript": "^5.8.3",
+    "@types/react": "^19.1.2",
+    "@types/react-dom": "^19.1.3"
+  }
+}
