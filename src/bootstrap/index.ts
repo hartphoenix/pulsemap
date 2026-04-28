@@ -11,6 +11,7 @@ import { cleanLyrics } from "./stages/clean-lyrics";
 import { crossValidateBassChords } from "./stages/cross-validate";
 import { detectBeats } from "./stages/detect-beats";
 import { detectChords } from "./stages/detect-chords";
+import { detectPolyphony } from "./stages/detect-polyphony";
 import { extractAudio } from "./stages/extract-audio";
 import { fingerprint as computeFingerprint } from "./stages/fingerprint";
 import { crossValidateMidiChords, inferChordsMidi } from "./stages/infer-chords-midi";
@@ -21,7 +22,7 @@ import {
 	lookupLyrics,
 	searchLyrics,
 } from "./stages/lyrics";
-import { type StemPaths, separateAudio } from "./stages/separate";
+import { type StemPaths, separateAudio, separateVocals } from "./stages/separate";
 import { type TranscriptionResult, transcribeStem } from "./stages/transcribe";
 import { alignWords } from "./stages/word-align";
 
@@ -100,254 +101,318 @@ export async function bootstrap(source: string, options: BootstrapOptions = {}):
 			}
 		}
 
+		// === Phase 2.5: Vocal polyphony detection + lead isolation ===
+		if (stems?.vocals) {
+			log.stage("polyphony-detect");
+			try {
+				const polyphonyResult = await detectPolyphony(stems.vocals);
+				if (polyphonyResult) {
+					log.stageOk(
+						"polyphony-detect",
+						`${polyphonyResult.method}: ${polyphonyResult.polyphonic ? "polyphonic" : "solo"}`,
+					);
+					if (polyphonyResult.polyphonic) {
+						log.stage("vocal-separate");
+						try {
+							const vocalSep = await separateVocals(stems.vocals, workDir);
+							if (vocalSep) {
+								stems.lead_vocals = vocalSep.leadVocals;
+								stems.backing_vocals = vocalSep.backingVocals;
+								log.stageOk("vocal-separate", "lead + backing isolated");
+							} else {
+								log.stageFail("vocal-separate", "no output");
+							}
+						} catch (err) {
+							log.stageFail("vocal-separate", err instanceof Error ? err.message : String(err));
+						}
+					}
+				} else {
+					log.stageFail("polyphony-detect", "no result");
+				}
+			} catch (err) {
+				log.stageFail("polyphony-detect", err instanceof Error ? err.message : String(err));
+			}
+		}
+
 		// === Phase 3: Parallel analysis ===
 		log.info("Running parallel analysis stages...");
 
-		const [lyricsResult, analysis, lvChords, beatResult, bassMidi, vocalMidi, drumMidi, otherMidi] =
-			await Promise.all([
-				// Lyrics chain: fetch → clean → word-align
-				(async () => {
-					log.stage("lyrics");
-					let rawLyrics: Awaited<ReturnType<typeof lookupLyrics>> | undefined;
+		const [
+			lyricsResult,
+			analysis,
+			lvChords,
+			beatResult,
+			bassMidi,
+			vocalMidi,
+			drumMidi,
+			otherMidi,
+			backingMidi,
+		] = await Promise.all([
+			// Lyrics chain: fetch → clean → word-align
+			(async () => {
+				log.stage("lyrics");
+				let rawLyrics: Awaited<ReturnType<typeof lookupLyrics>> | undefined;
+				try {
+					if (audio.sourceUrl?.includes("youtube.com") || audio.sourceUrl?.includes("youtu.be")) {
+						const ytLyrics = await extractYouTubeLyrics(audio.sourceUrl, workDir);
+						if (ytLyrics) {
+							log.stageOk("lyrics", `${ytLyrics.length} lines (youtube subtitles)`);
+							rawLyrics = ytLyrics;
+						}
+					}
+
+					if (!rawLyrics && mbArtist && mbTitle) {
+						const result = await lookupLyrics(mbArtist, mbTitle);
+						if (result) {
+							log.stageOk("lyrics", `${result.length} synced lines (lrclib)`);
+							rawLyrics = result;
+						}
+					}
+
+					if (!rawLyrics && audio.artist && audio.title) {
+						const cleanedTitle = cleanYouTubeTitle(audio.title, audio.artist);
+						const cleanedArtist = audio.artist
+							.replace(/\s*(?:Official|VEVO|- Topic)\s*$/i, "")
+							.trim();
+						if (cleanedTitle !== mbTitle || cleanedArtist !== mbArtist) {
+							const result = await lookupLyrics(cleanedArtist, cleanedTitle);
+							if (result) {
+								log.stageOk("lyrics", `${result.length} synced lines (lrclib, cleaned query)`);
+								rawLyrics = result;
+							}
+						}
+					}
+
+					if (!rawLyrics) {
+						const searchQuery = `${artist} ${title}`;
+						const result = await searchLyrics(searchQuery);
+						if (result) {
+							log.stageOk("lyrics", `${result.length} synced lines (lrclib search)`);
+							rawLyrics = result;
+						}
+					}
+
+					if (!rawLyrics) {
+						log.stageOk("lyrics", "no synced lyrics found");
+					}
+				} catch (err) {
+					log.stageFail("lyrics", err instanceof Error ? err.message : String(err));
+				}
+
+				const cleanedLyrics = rawLyrics ? cleanLyrics(rawLyrics) : undefined;
+				if (cleanedLyrics && rawLyrics && cleanedLyrics.length < rawLyrics.length) {
+					log.detail(
+						`clean-lyrics: ${rawLyrics.length} → ${cleanedLyrics.length} lines (${rawLyrics.length - cleanedLyrics.length} decorative lines removed)`,
+					);
+				}
+
+				let words: WordEvent[] | undefined;
+				let lrclibValidated = true;
+				let lrclibOffsetMs: number | null = null;
+				if (stems?.vocals) {
+					log.stage("word-align");
 					try {
-						if (audio.sourceUrl?.includes("youtube.com") || audio.sourceUrl?.includes("youtu.be")) {
-							const ytLyrics = await extractYouTubeLyrics(audio.sourceUrl, workDir);
-							if (ytLyrics) {
-								log.stageOk("lyrics", `${ytLyrics.length} lines (youtube subtitles)`);
-								rawLyrics = ytLyrics;
+						const result = await alignWords(
+							stems.vocals,
+							cleanedLyrics?.length ? cleanedLyrics : undefined,
+							workDir,
+						);
+						if (result) {
+							words = result.words;
+							lrclibValidated = result.lrclibValidated;
+							lrclibOffsetMs = result.lrclibOffsetMs;
+							const parts = [`${words.length} words`, result.source.replace("_", " ")];
+							if (!result.lrclibValidated && cleanedLyrics?.length) {
+								parts.push(
+									`LRCLIB mismatch (${result.lrclibOffsetMs != null ? `${(result.lrclibOffsetMs / 1000).toFixed(1)}s offset` : "unknown offset"})`,
+								);
 							}
-						}
-
-						if (!rawLyrics && mbArtist && mbTitle) {
-							const result = await lookupLyrics(mbArtist, mbTitle);
-							if (result) {
-								log.stageOk("lyrics", `${result.length} synced lines (lrclib)`);
-								rawLyrics = result;
-							}
-						}
-
-						if (!rawLyrics && audio.artist && audio.title) {
-							const cleanedTitle = cleanYouTubeTitle(audio.title, audio.artist);
-							const cleanedArtist = audio.artist
-								.replace(/\s*(?:Official|VEVO|- Topic)\s*$/i, "")
-								.trim();
-							if (cleanedTitle !== mbTitle || cleanedArtist !== mbArtist) {
-								const result = await lookupLyrics(cleanedArtist, cleanedTitle);
-								if (result) {
-									log.stageOk("lyrics", `${result.length} synced lines (lrclib, cleaned query)`);
-									rawLyrics = result;
-								}
-							}
-						}
-
-						if (!rawLyrics) {
-							const searchQuery = `${artist} ${title}`;
-							const result = await searchLyrics(searchQuery);
-							if (result) {
-								log.stageOk("lyrics", `${result.length} synced lines (lrclib search)`);
-								rawLyrics = result;
-							}
-						}
-
-						if (!rawLyrics) {
-							log.stageOk("lyrics", "no synced lyrics found");
+							log.stageOk("word-align", parts.join(", "));
+						} else {
+							log.stageFail("word-align", "no words returned");
 						}
 					} catch (err) {
-						log.stageFail("lyrics", err instanceof Error ? err.message : String(err));
+						log.stageFail("word-align", err instanceof Error ? err.message : String(err));
 					}
+				} else {
+					log.stageSkip("word-align", "no vocal stem");
+				}
 
-					const cleanedLyrics = rawLyrics ? cleanLyrics(rawLyrics) : undefined;
-					if (cleanedLyrics && rawLyrics && cleanedLyrics.length < rawLyrics.length) {
-						log.detail(
-							`clean-lyrics: ${rawLyrics.length} → ${cleanedLyrics.length} lines (${rawLyrics.length - cleanedLyrics.length} decorative lines removed)`,
-						);
-					}
+				// Apply LRCLIB intro offset correction when validation failed and offset exceeds 2s
+				let correctedLyrics = cleanedLyrics;
+				if (
+					!lrclibValidated &&
+					lrclibOffsetMs != null &&
+					Math.abs(lrclibOffsetMs) > 2000 &&
+					cleanedLyrics?.length
+				) {
+					const offsetToApply = lrclibOffsetMs;
+					correctedLyrics = cleanedLyrics.map((line) => ({
+						...line,
+						t: Math.max(0, line.t - offsetToApply),
+						...(line.end != null ? { end: Math.max(0, line.end - offsetToApply) } : {}),
+					}));
+					log.detail(
+						`lrclib-offset: shifted ${cleanedLyrics.length} lyrics by ${(-offsetToApply / 1000).toFixed(1)}s`,
+					);
+				}
 
-					let words: WordEvent[] | undefined;
-					let lrclibValidated = true;
-					let lrclibOffsetMs: number | null = null;
-					if (stems?.vocals) {
-						log.stage("word-align");
-						try {
-							const result = await alignWords(
-								stems.vocals,
-								cleanedLyrics?.length ? cleanedLyrics : undefined,
-								workDir,
-							);
-							if (result) {
-								words = result.words;
-								lrclibValidated = result.lrclibValidated;
-								lrclibOffsetMs = result.lrclibOffsetMs;
-								const parts = [`${words.length} words`, result.source.replace("_", " ")];
-								if (!result.lrclibValidated && cleanedLyrics?.length) {
-									parts.push(
-										`LRCLIB mismatch (${result.lrclibOffsetMs != null ? `${(result.lrclibOffsetMs / 1000).toFixed(1)}s offset` : "unknown offset"})`,
-									);
-								}
-								log.stageOk("word-align", parts.join(", "));
-							} else {
-								log.stageFail("word-align", "no words returned");
-							}
-						} catch (err) {
-							log.stageFail("word-align", err instanceof Error ? err.message : String(err));
-						}
+				return { lyrics: correctedLyrics, words, lrclibValidated };
+			})(),
+
+			// Analysis (unchanged)
+			(async () => {
+				log.stage("analysis");
+				try {
+					const result = await analyzeAudio(audio.path);
+					if (result) {
+						const parts: string[] = [];
+						if (result.tempo) parts.push(`${result.tempo} BPM`);
+						if (result.key) parts.push(`${result.key} ${result.scale || ""}`.trim());
+						if (result.beats) parts.push(`${result.beats.length} beats`);
+						if (result.chords) parts.push(`${result.chords.length} chords`);
+						log.stageOk("analysis", parts.join(", ") || "no data returned");
 					} else {
-						log.stageSkip("word-align", "no vocal stem");
+						log.stageFail("analysis", "no output");
 					}
+					return result;
+				} catch (err) {
+					log.stageFail("analysis", err instanceof Error ? err.message : String(err));
+					return undefined;
+				}
+			})(),
 
-					// Apply LRCLIB intro offset correction when validation failed and offset exceeds 2s
-					let correctedLyrics = cleanedLyrics;
-					if (
-						!lrclibValidated &&
-						lrclibOffsetMs != null &&
-						Math.abs(lrclibOffsetMs) > 2000 &&
-						cleanedLyrics?.length
-					) {
-						const offsetToApply = lrclibOffsetMs;
-						correctedLyrics = cleanedLyrics.map((line) => ({
-							...line,
-							t: Math.max(0, line.t - offsetToApply),
-							...(line.end != null ? { end: Math.max(0, line.end - offsetToApply) } : {}),
-						}));
-						log.detail(
-							`lrclib-offset: shifted ${cleanedLyrics.length} lyrics by ${(-offsetToApply / 1000).toFixed(1)}s`,
+			// Chord detection (lv-chordia — large vocabulary)
+			(async () => {
+				log.stage("chords");
+				try {
+					const result = await detectChords(audio.path);
+					if (result) {
+						log.stageOk("chords", `${result.length} chords (lv-chordia)`);
+					} else {
+						log.stageFail("chords", "no chords detected");
+					}
+					return result;
+				} catch (err) {
+					log.stageFail("chords", err instanceof Error ? err.message : String(err));
+					return undefined;
+				}
+			})(),
+
+			// Beat & downbeat detection (beat_this)
+			(async () => {
+				log.stage("beats");
+				try {
+					const result = await detectBeats(audio.path);
+					if (result) {
+						log.stageOk(
+							"beats",
+							`${result.beatCount} beats, ${result.downbeatCount} downbeats, ${result.tempo} BPM (beat_this)`,
 						);
+					} else {
+						log.stageFail("beats", "no beats detected");
 					}
+					return result;
+				} catch (err) {
+					log.stageFail("beats", err instanceof Error ? err.message : String(err));
+					return undefined;
+				}
+			})(),
 
-					return { lyrics: correctedLyrics, words, lrclibValidated };
-				})(),
+			// Bass MIDI
+			(async (): Promise<TranscriptionResult | undefined> => {
+				if (!stems?.bass) {
+					log.stageSkip("transcribe-bass", "no bass stem");
+					return undefined;
+				}
+				log.stage("transcribe-bass");
+				try {
+					const result = await transcribeStem(stems.bass, "bass", workDir, durationMs);
+					if (result) log.stageOk("transcribe-bass", `${result.noteCount} notes`);
+					else log.stageFail("transcribe-bass", "no notes detected");
+					return result;
+				} catch (err) {
+					log.stageFail("transcribe-bass", err instanceof Error ? err.message : String(err));
+					return undefined;
+				}
+			})(),
 
-				// Analysis (unchanged)
-				(async () => {
-					log.stage("analysis");
-					try {
-						const result = await analyzeAudio(audio.path);
-						if (result) {
-							const parts: string[] = [];
-							if (result.tempo) parts.push(`${result.tempo} BPM`);
-							if (result.key) parts.push(`${result.key} ${result.scale || ""}`.trim());
-							if (result.beats) parts.push(`${result.beats.length} beats`);
-							if (result.chords) parts.push(`${result.chords.length} chords`);
-							log.stageOk("analysis", parts.join(", ") || "no data returned");
-						} else {
-							log.stageFail("analysis", "no output");
-						}
-						return result;
-					} catch (err) {
-						log.stageFail("analysis", err instanceof Error ? err.message : String(err));
-						return undefined;
+			// Vocal MIDI (use lead vocals when available, fall back to full vocal stem)
+			(async (): Promise<TranscriptionResult | undefined> => {
+				const vocalSource = stems?.lead_vocals || stems?.vocals;
+				if (!vocalSource) {
+					log.stageSkip("transcribe-vocals", "no vocal stem");
+					return undefined;
+				}
+				log.stage("transcribe-vocals");
+				try {
+					const result = await transcribeStem(vocalSource, "vocals", workDir, durationMs);
+					if (result) {
+						const suffix = stems?.lead_vocals ? " (lead isolated)" : "";
+						log.stageOk("transcribe-vocals", `${result.noteCount} notes${suffix}`);
+					} else {
+						log.stageFail("transcribe-vocals", "no notes detected");
 					}
-				})(),
+					return result;
+				} catch (err) {
+					log.stageFail("transcribe-vocals", err instanceof Error ? err.message : String(err));
+					return undefined;
+				}
+			})(),
 
-				// Chord detection (lv-chordia — large vocabulary)
-				(async () => {
-					log.stage("chords");
-					try {
-						const result = await detectChords(audio.path);
-						if (result) {
-							log.stageOk("chords", `${result.length} chords (lv-chordia)`);
-						} else {
-							log.stageFail("chords", "no chords detected");
-						}
-						return result;
-					} catch (err) {
-						log.stageFail("chords", err instanceof Error ? err.message : String(err));
-						return undefined;
-					}
-				})(),
+			// Drum MIDI
+			(async (): Promise<TranscriptionResult | undefined> => {
+				if (!stems?.drums) {
+					log.stageSkip("transcribe-drums", "no drum stem");
+					return undefined;
+				}
+				log.stage("transcribe-drums");
+				try {
+					const result = await transcribeStem(stems.drums, "drums", workDir, durationMs);
+					if (result) log.stageOk("transcribe-drums", `${result.noteCount} notes`);
+					else log.stageFail("transcribe-drums", "no notes detected");
+					return result;
+				} catch (err) {
+					log.stageFail("transcribe-drums", err instanceof Error ? err.message : String(err));
+					return undefined;
+				}
+			})(),
 
-				// Beat & downbeat detection (beat_this)
-				(async () => {
-					log.stage("beats");
-					try {
-						const result = await detectBeats(audio.path);
-						if (result) {
-							log.stageOk(
-								"beats",
-								`${result.beatCount} beats, ${result.downbeatCount} downbeats, ${result.tempo} BPM (beat_this)`,
-							);
-						} else {
-							log.stageFail("beats", "no beats detected");
-						}
-						return result;
-					} catch (err) {
-						log.stageFail("beats", err instanceof Error ? err.message : String(err));
-						return undefined;
-					}
-				})(),
+			// Other MIDI (lower confidence)
+			(async (): Promise<TranscriptionResult | undefined> => {
+				if (!stems?.other) {
+					log.stageSkip("transcribe-other", "no other stem");
+					return undefined;
+				}
+				log.stage("transcribe-other");
+				try {
+					const result = await transcribeStem(stems.other, "other", workDir, durationMs);
+					if (result) log.stageOk("transcribe-other", `${result.noteCount} notes`);
+					else log.stageFail("transcribe-other", "no notes detected");
+					return result;
+				} catch (err) {
+					log.stageFail("transcribe-other", err instanceof Error ? err.message : String(err));
+					return undefined;
+				}
+			})(),
 
-				// Bass MIDI
-				(async (): Promise<TranscriptionResult | undefined> => {
-					if (!stems?.bass) {
-						log.stageSkip("transcribe-bass", "no bass stem");
-						return undefined;
-					}
-					log.stage("transcribe-bass");
-					try {
-						const result = await transcribeStem(stems.bass, "bass", workDir, durationMs);
-						if (result) log.stageOk("transcribe-bass", `${result.noteCount} notes`);
-						else log.stageFail("transcribe-bass", "no notes detected");
-						return result;
-					} catch (err) {
-						log.stageFail("transcribe-bass", err instanceof Error ? err.message : String(err));
-						return undefined;
-					}
-				})(),
-
-				// Vocal MIDI
-				(async (): Promise<TranscriptionResult | undefined> => {
-					if (!stems?.vocals) {
-						log.stageSkip("transcribe-vocals", "no vocal stem");
-						return undefined;
-					}
-					log.stage("transcribe-vocals");
-					try {
-						const result = await transcribeStem(stems.vocals, "vocals", workDir, durationMs);
-						if (result) log.stageOk("transcribe-vocals", `${result.noteCount} notes`);
-						else log.stageFail("transcribe-vocals", "no notes detected");
-						return result;
-					} catch (err) {
-						log.stageFail("transcribe-vocals", err instanceof Error ? err.message : String(err));
-						return undefined;
-					}
-				})(),
-
-				// Drum MIDI
-				(async (): Promise<TranscriptionResult | undefined> => {
-					if (!stems?.drums) {
-						log.stageSkip("transcribe-drums", "no drum stem");
-						return undefined;
-					}
-					log.stage("transcribe-drums");
-					try {
-						const result = await transcribeStem(stems.drums, "drums", workDir, durationMs);
-						if (result) log.stageOk("transcribe-drums", `${result.noteCount} notes`);
-						else log.stageFail("transcribe-drums", "no notes detected");
-						return result;
-					} catch (err) {
-						log.stageFail("transcribe-drums", err instanceof Error ? err.message : String(err));
-						return undefined;
-					}
-				})(),
-
-				// Other MIDI (lower confidence)
-				(async (): Promise<TranscriptionResult | undefined> => {
-					if (!stems?.other) {
-						log.stageSkip("transcribe-other", "no other stem");
-						return undefined;
-					}
-					log.stage("transcribe-other");
-					try {
-						const result = await transcribeStem(stems.other, "other", workDir, durationMs);
-						if (result) log.stageOk("transcribe-other", `${result.noteCount} notes`);
-						else log.stageFail("transcribe-other", "no notes detected");
-						return result;
-					} catch (err) {
-						log.stageFail("transcribe-other", err instanceof Error ? err.message : String(err));
-						return undefined;
-					}
-				})(),
-			]);
+			// Backing vocal MIDI (only when polyphony detected and lead isolated)
+			(async (): Promise<TranscriptionResult | undefined> => {
+				if (!stems?.backing_vocals) {
+					return undefined;
+				}
+				log.stage("transcribe-backing");
+				try {
+					const result = await transcribeStem(stems.backing_vocals, "backing", workDir, durationMs);
+					if (result) log.stageOk("transcribe-backing", `${result.noteCount} notes`);
+					else log.stageFail("transcribe-backing", "no notes detected");
+					return result;
+				} catch (err) {
+					log.stageFail("transcribe-backing", err instanceof Error ? err.message : String(err));
+					return undefined;
+				}
+			})(),
+		]);
 
 		// === Phase 4: Post-processing ===
 		log.info("Running post-processing...");
@@ -372,9 +437,13 @@ export async function bootstrap(source: string, options: BootstrapOptions = {}):
 		}
 
 		// Beat-align MIDI files
-		const midiResults: TranscriptionResult[] = [bassMidi, vocalMidi, drumMidi, otherMidi].filter(
-			(r): r is TranscriptionResult => r != null,
-		);
+		const midiResults: TranscriptionResult[] = [
+			bassMidi,
+			vocalMidi,
+			drumMidi,
+			otherMidi,
+			backingMidi,
+		].filter((r): r is TranscriptionResult => r != null);
 		const alignedMidiRefs: MidiReference[] = [];
 
 		if (midiResults.length > 0 && finalBeats?.length) {
@@ -505,6 +574,13 @@ export async function bootstrap(source: string, options: BootstrapOptions = {}):
 
 		if (stems) {
 			provenance.separation = { tool: "demucs", version: "htdemucs", date: today };
+			if (stems.lead_vocals) {
+				provenance["vocal-separation"] = {
+					tool: "melband-roformer",
+					version: "karaoke_aufr33_viperx_sdr_10.1956",
+					date: today,
+				};
+			}
 		}
 
 		const map: PulseMap = {
