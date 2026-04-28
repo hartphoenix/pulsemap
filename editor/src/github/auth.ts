@@ -1,39 +1,93 @@
 /**
- * GitHub OAuth flow: redirect, token exchange, and token storage.
+ * GitHub OAuth device flow: no server-side token exchange needed.
  *
- * CLIENT_ID and TOKEN_EXCHANGE_URL are placeholders — set them via
- * environment config or replace before deploying.
+ * Flow:
+ * 1. POST /login/device/code → get device_code, user_code, verification_uri
+ * 2. Show user the code and link
+ * 3. Poll /login/oauth/access_token until user authorizes
  */
 
-const CLIENT_ID = ""; // placeholder — set via environment or config
-const TOKEN_EXCHANGE_URL = ""; // placeholder — serverless function URL
+const CLIENT_ID = "Ov23li12vkglROrSw2N1";
 
 const TOKEN_KEY = "pulsemap-gh-token";
 
-/** Redirect the user to GitHub's OAuth authorize page. */
-export function initiateOAuth(): void {
-	const redirectUri = `${window.location.origin}/callback`;
-	const url = `https://github.com/login/oauth/authorize?client_id=${encodeURIComponent(CLIENT_ID)}&scope=public_repo&redirect_uri=${encodeURIComponent(redirectUri)}`;
-	window.location.href = url;
+export interface DeviceCodeResponse {
+	device_code: string;
+	user_code: string;
+	verification_uri: string;
+	expires_in: number;
+	interval: number;
 }
 
-/** Exchange an OAuth code for an access token via the token exchange endpoint. */
-export async function handleCallback(code: string): Promise<string> {
-	const res = await fetch(TOKEN_EXCHANGE_URL, {
+/** Request a device code from GitHub. */
+export async function requestDeviceCode(): Promise<DeviceCodeResponse> {
+	const res = await fetch("https://github.com/login/device/code", {
 		method: "POST",
-		headers: { "Content-Type": "application/json" },
-		body: JSON.stringify({ code }),
+		headers: {
+			Accept: "application/json",
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify({
+			client_id: CLIENT_ID,
+			scope: "public_repo",
+		}),
 	});
 
 	if (!res.ok) {
-		throw new Error(`Token exchange failed: ${res.status} ${res.statusText}`);
+		throw new Error(`Device code request failed: ${res.status}`);
 	}
 
-	const data = (await res.json()) as { access_token?: string };
-	if (!data.access_token) {
-		throw new Error("Token exchange response missing access_token");
+	return (await res.json()) as DeviceCodeResponse;
+}
+
+/**
+ * Poll for the access token after user enters the device code.
+ * Resolves with the token when authorized, rejects on expiry or denial.
+ */
+export async function pollForToken(deviceCode: string, interval: number): Promise<string> {
+	const pollInterval = Math.max(interval, 5) * 1000;
+
+	while (true) {
+		await new Promise((r) => setTimeout(r, pollInterval));
+
+		const res = await fetch("https://github.com/login/oauth/access_token", {
+			method: "POST",
+			headers: {
+				Accept: "application/json",
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				client_id: CLIENT_ID,
+				device_code: deviceCode,
+				grant_type: "urn:ietf:params:oauth:grant-type:device_code",
+			}),
+		});
+
+		if (!res.ok) continue;
+
+		const data = (await res.json()) as {
+			access_token?: string;
+			error?: string;
+		};
+
+		if (data.access_token) {
+			return data.access_token;
+		}
+
+		if (data.error === "authorization_pending") continue;
+		if (data.error === "slow_down") {
+			await new Promise((r) => setTimeout(r, 5000));
+			continue;
+		}
+		if (data.error === "expired_token") {
+			throw new Error("Device code expired. Please try again.");
+		}
+		if (data.error === "access_denied") {
+			throw new Error("Authorization denied by user.");
+		}
+
+		throw new Error(`Unexpected error: ${data.error}`);
 	}
-	return data.access_token;
 }
 
 /** Read stored token from localStorage. */
