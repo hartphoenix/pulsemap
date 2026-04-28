@@ -72,8 +72,9 @@ export function useTimeline({
 		const el = containerRef.current;
 		if (!el) return;
 		const viewportWidthMs = el.clientWidth / pxPerMs;
+		const maxScrollMs = Math.max(0, (el.scrollWidth - el.clientWidth) / pxPerMs);
 		const targetScroll = position - viewportWidthMs * FOLLOW_OFFSET_FRACTION;
-		setScrollMs(Math.max(0, Math.min(targetScroll, durationMs)));
+		setScrollMs(Math.max(0, Math.min(targetScroll, maxScrollMs)));
 	}, [following, playing, position, pxPerMs, durationMs]);
 
 	// Sync container scroll position from scrollMs
@@ -116,8 +117,9 @@ export function useTimeline({
 				const newPxPerMs = clampZoom(pxPerMs * factor);
 
 				const newScrollMs = cursorMs - cursorX / newPxPerMs;
+				const maxScrollMs = Math.max(0, durationMs - (el.clientWidth - 72) / newPxPerMs);
 				setPxPerMs(newPxPerMs);
-				setScrollMs(Math.max(0, Math.min(newScrollMs, durationMs)));
+				setScrollMs(Math.max(0, Math.min(newScrollMs, maxScrollMs)));
 				setFollowing(false);
 				return;
 			}
@@ -134,8 +136,9 @@ export function useTimeline({
 			// Horizontal scroll component (trackpad swipe or shift+scroll)
 			if (e.deltaX !== 0) {
 				e.preventDefault();
+				const maxScrollMs = Math.max(0, (el.scrollWidth - el.clientWidth) / pxPerMs);
 				const deltaMs = e.deltaX / pxPerMs;
-				setScrollMs((prev) => Math.max(0, Math.min(prev + deltaMs, durationMs)));
+				setScrollMs((prev) => Math.max(0, Math.min(prev + deltaMs, maxScrollMs)));
 				setFollowing(false);
 			}
 			// Let deltaY pass through for native vertical page scroll

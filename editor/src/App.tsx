@@ -215,6 +215,25 @@ function EditorContent({
 				</div>
 				<div style={styles.headerRight}>
 					<DirtyIndicator dirty={state.dirty} editCount={state.history.length} />
+					{state.dirty && (
+						<button
+							type="button"
+							style={styles.discardButton}
+							onClick={() => {
+								if (window.confirm("Discard all changes? This cannot be undone.")) {
+									clearEditorState(map.id);
+									dispatch({
+										type: "load-saved",
+										working: map,
+										history: [],
+										originalHash: state.originalHash,
+									});
+								}
+							}}
+						>
+							Discard Changes
+						</button>
+					)}
 					{state.dirty && <ExportButton map={workingMap} />}
 					{!canSubmit && (
 						<span style={styles.submitGate}>
@@ -456,6 +475,15 @@ const styles: Record<string, React.CSSProperties> = {
 		fontSize: 11,
 		color: "#ff4444",
 		fontWeight: 600,
+	},
+	discardButton: {
+		padding: "4px 10px",
+		background: "#3a1a1a",
+		border: "1px solid #6a3a3a",
+		borderRadius: 4,
+		color: "#ff8888",
+		fontSize: 12,
+		cursor: "pointer",
 	},
 	submitButton: {
 		padding: "4px 10px",
