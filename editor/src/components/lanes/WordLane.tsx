@@ -18,6 +18,8 @@ interface WordLaneProps {
   viewportWidthPx: number;
   snapFn: (ms: number) => number;
   snapEnabled: boolean;
+  /** Per-index border color override for validation indicators */
+  validationColors?: Map<number, string>;
 }
 
 export function WordLane({
@@ -27,6 +29,7 @@ export function WordLane({
   viewportWidthPx,
   snapFn,
   snapEnabled,
+  validationColors,
 }: WordLaneProps) {
   const viewportEndMs = scrollMs + viewportWidthPx / pxPerMs;
   const height = LANE_HEIGHTS.words;
@@ -88,6 +91,7 @@ export function WordLane({
             snapEnabled={snapEnabled}
             onClick={() => handleSelect(word.globalIdx)}
             onMove={(newT) => handleMove(word.globalIdx, word.t, newT)}
+            borderColor={validationColors?.get(word.globalIdx)}
             onResizeEnd={
               word.end != null
                 ? (newEnd) => handleResizeEnd(word.globalIdx, word.end, newEnd)

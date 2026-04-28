@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef, useEffect, type CSSProperties } from "react";
+import { useState, useCallback, useRef, useEffect, useMemo, type CSSProperties } from "react";
 import type { PulseMap } from "pulsemap/schema";
 import { useTimeline } from "../hooks/useTimeline";
 import { useBeatSnap, type SnapSubdivision } from "../hooks/useBeatSnap";
@@ -13,6 +13,12 @@ import { ChordLane } from "./lanes/ChordLane";
 import { LyricLane } from "./lanes/LyricLane";
 import { WordLane } from "./lanes/WordLane";
 import { SectionLane } from "./lanes/SectionLane";
+import { DirtyIndicator } from "./DirtyIndicator";
+import { ExportButton } from "./ExportButton";
+import { ValidationPanel } from "./ValidationPanel";
+import { validateMap } from "../validation/validate";
+import type { ValidationIssue } from "../validation/types";
+import type { EditableLane } from "../state/types";
 
 interface TimelineProps {
   map: PulseMap;
@@ -82,6 +88,38 @@ export function Timeline({ map, position, playing, onSeek }: TimelineProps) {
     [snapEnabled, snapToNearestBeat],
   );
 
+  // -- Validation --
+  const validationIssues: ValidationIssue[] = useMemo(
+    () => validateMap(workingMap),
+    [workingMap],
+  );
+
+  const errorCount = useMemo(
+    () => validationIssues.filter((i) => i.severity === "error").length,
+    [validationIssues],
+  );
+
+  const canSubmit = errorCount === 0;
+
+  /** Build per-lane Maps of index -> border color for validation */
+  const validationColorsByLane = useMemo(() => {
+    const map = new Map<EditableLane, Map<number, string>>();
+    for (const issue of validationIssues) {
+      if (issue.lane == null || issue.index == null) continue;
+      if (!map.has(issue.lane)) map.set(issue.lane, new Map());
+      const laneMap = map.get(issue.lane)!;
+      // error trumps warning
+      const existing = laneMap.get(issue.index);
+      if (!existing || (existing !== "#ff4444" && issue.severity === "error")) {
+        laneMap.set(
+          issue.index,
+          issue.severity === "error" ? "#ff4444" : "#ffaa00",
+        );
+      }
+    }
+    return map;
+  }, [validationIssues]);
+
   // Measure viewport width
   useEffect(() => {
     const el = measureRef.current;
@@ -135,11 +173,20 @@ export function Timeline({ map, position, playing, onSeek }: TimelineProps) {
     <div style={styles.outerWrapper}>
       <div style={styles.wrapper}>
         <div style={styles.toolbar}>
-          <LaneToggles
-            map={workingMap}
-            visibility={visibility}
-            onToggle={toggleLane}
-          />
+          <div style={styles.toolbarLeft}>
+            <LaneToggles
+              map={workingMap}
+              visibility={visibility}
+              onToggle={toggleLane}
+            />
+            <DirtyIndicator dirty={state.dirty} editCount={state.history.length} />
+            {state.dirty && <ExportButton map={workingMap} />}
+            {!canSubmit && (
+              <span style={styles.submitGate}>
+                {errorCount} error{errorCount !== 1 ? "s" : ""} — fix before submitting
+              </span>
+            )}
+          </div>
           <div style={styles.toolbarRight}>
             {/* Snap controls */}
             <button
@@ -211,6 +258,7 @@ export function Timeline({ map, position, playing, onSeek }: TimelineProps) {
                         snapFn={snapFn}
                         snapEnabled={snapEnabled}
                         durationMs={workingMap.duration_ms}
+                        validationColors={validationColorsByLane.get("sections")}
                       />
                     );
                   case "lyrics":
@@ -223,6 +271,7 @@ export function Timeline({ map, position, playing, onSeek }: TimelineProps) {
                         viewportWidthPx={contentViewportWidth}
                         snapFn={snapFn}
                         snapEnabled={snapEnabled}
+                        validationColors={validationColorsByLane.get("lyrics")}
                       />
                     );
                   case "words":
@@ -235,6 +284,7 @@ export function Timeline({ map, position, playing, onSeek }: TimelineProps) {
                         viewportWidthPx={contentViewportWidth}
                         snapFn={snapFn}
                         snapEnabled={snapEnabled}
+                        validationColors={validationColorsByLane.get("words")}
                       />
                     );
                   case "chords":
@@ -247,6 +297,7 @@ export function Timeline({ map, position, playing, onSeek }: TimelineProps) {
                         viewportWidthPx={contentViewportWidth}
                         snapFn={snapFn}
                         snapEnabled={snapEnabled}
+                        validationColors={validationColorsByLane.get("chords")}
                       />
                     );
                   case "beats":
@@ -268,10 +319,8 @@ export function Timeline({ map, position, playing, onSeek }: TimelineProps) {
         </div>
       </div>
 
-      {state.dirty && (
-        <div style={styles.dirtyIndicator}>
-          Unsaved changes ({state.history.length} edit{state.history.length !== 1 ? "s" : ""})
-        </div>
+      {validationIssues.length > 0 && (
+        <ValidationPanel issues={validationIssues} dispatch={dispatch} />
       )}
     </div>
   );
@@ -296,10 +345,21 @@ const styles: Record<string, CSSProperties> = {
     flexWrap: "wrap",
     gap: 8,
   },
+  toolbarLeft: {
+    display: "flex",
+    alignItems: "center",
+    gap: 8,
+    flexWrap: "wrap",
+  },
   toolbarRight: {
     display: "flex",
     alignItems: "center",
     gap: 6,
+  },
+  submitGate: {
+    fontSize: 11,
+    color: "#ff4444",
+    fontWeight: 600,
   },
   snapButton: {
     padding: "4px 10px",
@@ -377,13 +437,5 @@ const styles: Record<string, CSSProperties> = {
   innerTrack: {
     position: "relative",
     minHeight: 40,
-  },
-  dirtyIndicator: {
-    fontSize: 12,
-    color: "#ffcc00",
-    padding: "4px 8px",
-    background: "#2a2a00",
-    borderRadius: 3,
-    alignSelf: "flex-start",
   },
 };

@@ -36,6 +36,8 @@ interface EventBlockProps {
   onDoubleClick?: () => void;
   /** Top offset within the lane */
   top?: number;
+  /** Override border color (for validation indicators) */
+  borderColor?: string;
 }
 
 const RESIZE_HANDLE_WIDTH = 6;
@@ -58,6 +60,7 @@ export function EventBlock({
   onResizeEnd,
   onDoubleClick,
   top = 2,
+  borderColor: borderColorOverride,
 }: EventBlockProps) {
   const [dragOffset, setDragOffset] = useState<{ dx: number; mode: DragMode } | null>(null);
   const blockRef = useRef<HTMLDivElement>(null);
@@ -145,7 +148,7 @@ export function EventBlock({
     }
   }
 
-  const borderColor = selected ? "#fff" : `${color}66`;
+  const borderColor = borderColorOverride ?? (selected ? "#fff" : `${color}66`);
 
   const style: CSSProperties = {
     position: "absolute",

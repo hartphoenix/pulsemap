@@ -58,7 +58,8 @@ export type EditorDispatchAction =
   | { type: "redo" }
   | { type: "select"; selection: Selection }
   | { type: "deselect" }
-  | { type: "load"; map: PulseMap };
+  | { type: "load"; map: PulseMap }
+  | { type: "load-saved"; working: PulseMap; history: EditAction[]; originalHash: string };
 
 export interface EditorState {
   original: PulseMap;
@@ -67,4 +68,5 @@ export interface EditorState {
   redoStack: EditAction[];
   selection: Selection | null;
   dirty: boolean;
+  originalHash: string;
 }
