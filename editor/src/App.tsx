@@ -2,7 +2,7 @@ import type { PulseMap } from "pulsemap/schema";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Timeline } from "./components/Timeline";
 import { TransportBar } from "./components/TransportBar";
-import { getStoredToken, handleCallback, storeToken, validateToken } from "./github/auth";
+import { getStoredToken, storeToken, validateToken } from "./github/auth";
 import { useBeatSnap } from "./hooks/useBeatSnap";
 import { useKeyboardShortcuts } from "./hooks/useKeyboardShortcuts";
 import { useMap } from "./hooks/useMap";
@@ -207,40 +207,7 @@ export function App() {
 	// --- GitHub OAuth state ---
 	const [ghToken, setGhToken] = useState<string | null>(null);
 	const [ghLogin, setGhLogin] = useState<string | null>(null);
-	const callbackHandled = useRef(false);
-
-	// Handle OAuth callback: ?code=... in the URL
-	useEffect(() => {
-		if (callbackHandled.current) return;
-		const urlParams = new URLSearchParams(window.location.search);
-		const code = urlParams.get("code");
-		if (!code) return;
-
-		callbackHandled.current = true;
-
-		handleCallback(code)
-			.then((token) => {
-				storeToken(token);
-				setGhToken(token);
-				return validateToken(token);
-			})
-			.then((user) => {
-				if (user) setGhLogin(user.login);
-				// Clean the URL — remove code param
-				const clean = new URL(window.location.href);
-				clean.searchParams.delete("code");
-				window.history.replaceState({}, "", clean.toString());
-			})
-			.catch((err) => {
-				console.error("OAuth callback failed:", err);
-				// Clean the URL anyway
-				const clean = new URL(window.location.href);
-				clean.searchParams.delete("code");
-				window.history.replaceState({}, "", clean.toString());
-			});
-	}, []);
-
-	// Initialize from stored token (no callback)
+	// Initialize from stored token
 	const tokenInitialized = useRef(false);
 	useEffect(() => {
 		if (tokenInitialized.current) return;
