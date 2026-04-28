@@ -15,6 +15,8 @@ import { WordLane } from "./lanes/WordLane";
 import { SectionLane } from "./lanes/SectionLane";
 import { DirtyIndicator } from "./DirtyIndicator";
 import { ExportButton } from "./ExportButton";
+import { GitHubAuth } from "./GitHubAuth";
+import { SubmitFlow } from "./SubmitFlow";
 import { ValidationPanel } from "./ValidationPanel";
 import { validateMap } from "../validation/validate";
 import type { ValidationIssue } from "../validation/types";
@@ -25,6 +27,10 @@ interface TimelineProps {
   position: number;
   playing: boolean;
   onSeek: (ms: number) => void;
+  ghToken: string | null;
+  ghLogin: string | null;
+  onAuthChange: (token: string | null, login: string | null) => void;
+  playbackAvailable: boolean;
 }
 
 function hasLaneData(map: PulseMap, lane: LaneName): boolean {
@@ -42,9 +48,20 @@ function hasLaneData(map: PulseMap, lane: LaneName): boolean {
   }
 }
 
-export function Timeline({ map, position, playing, onSeek }: TimelineProps) {
+export function Timeline({
+  map,
+  position,
+  playing,
+  onSeek,
+  ghToken,
+  ghLogin,
+  onAuthChange,
+  playbackAvailable,
+}: TimelineProps) {
   const { state, dispatch } = useEditor();
   const workingMap = state.working;
+
+  const [showSubmitFlow, setShowSubmitFlow] = useState(false);
 
   const [visibility, setVisibility] = useState<Record<LaneName, boolean>>({
     sections: true,
@@ -186,6 +203,21 @@ export function Timeline({ map, position, playing, onSeek }: TimelineProps) {
                 {errorCount} error{errorCount !== 1 ? "s" : ""} — fix before submitting
               </span>
             )}
+            <div style={styles.separator} />
+            <GitHubAuth onAuthChange={onAuthChange} />
+            {state.dirty && ghToken && (
+              <button
+                type="button"
+                onClick={() => setShowSubmitFlow(true)}
+                disabled={!canSubmit}
+                style={{
+                  ...styles.submitButton,
+                  ...(!canSubmit ? styles.submitButtonDisabled : {}),
+                }}
+              >
+                Submit Correction
+              </button>
+            )}
           </div>
           <div style={styles.toolbarRight}>
             {/* Snap controls */}
@@ -322,6 +354,17 @@ export function Timeline({ map, position, playing, onSeek }: TimelineProps) {
       {validationIssues.length > 0 && (
         <ValidationPanel issues={validationIssues} dispatch={dispatch} />
       )}
+
+      {showSubmitFlow && ghToken && (
+        <SubmitFlow
+          map={workingMap}
+          history={state.history}
+          token={ghToken}
+          playbackAvailable={playbackAvailable}
+          errorCount={errorCount}
+          onClose={() => setShowSubmitFlow(false)}
+        />
+      )}
     </div>
   );
 }
@@ -437,5 +480,19 @@ const styles: Record<string, CSSProperties> = {
   innerTrack: {
     position: "relative",
     minHeight: 40,
+  },
+  submitButton: {
+    padding: "4px 10px",
+    background: "#238636",
+    border: "1px solid #2ea043",
+    borderRadius: 4,
+    color: "#fff",
+    fontSize: 12,
+    fontWeight: 600,
+    cursor: "pointer",
+  },
+  submitButtonDisabled: {
+    opacity: 0.5,
+    cursor: "not-allowed",
   },
 };
