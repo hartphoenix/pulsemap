@@ -25,6 +25,7 @@ import {
 import { reconcileWords } from "./stages/reconcile-words";
 import { type StemPaths, separateAudio, separateVocals } from "./stages/separate";
 import { type TranscriptionResult, transcribeStem } from "./stages/transcribe";
+import { detectLyricOffset } from "./stages/lyric-offset";
 import { alignWords } from "./stages/word-align";
 
 export interface BootstrapOptions {
@@ -33,6 +34,7 @@ export interface BootstrapOptions {
 	outputDir?: string;
 	acoustIdKey?: string;
 	skipSeparation?: boolean;
+	light?: boolean;
 }
 
 const SCHEMA_VERSION = "0.1.0";
@@ -41,6 +43,9 @@ export async function bootstrap(source: string, options: BootstrapOptions = {}):
 	const log = new PipelineLogger();
 	const workDir = join(process.env.TMPDIR || "/tmp", `pulsemap-${Date.now()}`);
 	await mkdir(workDir, { recursive: true });
+
+	const isLight = options.light ?? false;
+	if (isLight) log.info("Light mode: skipping MIDI, polyphony split, word reconciliation");
 
 	try {
 		// === Phase 1: Sequential setup ===
@@ -103,7 +108,7 @@ export async function bootstrap(source: string, options: BootstrapOptions = {}):
 		}
 
 		// === Phase 2.5: Vocal polyphony detection + lead isolation ===
-		if (stems?.vocals) {
+		if (stems?.vocals && !isLight) {
 			log.stage("polyphony-detect");
 			try {
 				const polyphonyResult = await detectPolyphony(stems.vocals);
@@ -239,28 +244,25 @@ export async function bootstrap(source: string, options: BootstrapOptions = {}):
 					log.stageSkip("word-align", "no vocal stem");
 				}
 
-				// Apply LRCLIB intro offset correction when validation failed and offset exceeds 2s
+				// Sliding-window lyric offset correction via text similarity
 				let correctedLyrics = cleanedLyrics;
-				if (
-					!lrclibValidated &&
-					lrclibOffsetMs != null &&
-					Math.abs(lrclibOffsetMs) > 2000 &&
-					cleanedLyrics?.length
-				) {
-					const offsetToApply = lrclibOffsetMs;
-					correctedLyrics = cleanedLyrics.map((line) => ({
-						...line,
-						t: Math.max(0, line.t - offsetToApply),
-						...(line.end != null ? { end: Math.max(0, line.end - offsetToApply) } : {}),
-					}));
-					log.detail(
-						`lrclib-offset: shifted ${cleanedLyrics.length} lyrics by ${(-offsetToApply / 1000).toFixed(1)}s`,
-					);
+				if (words?.length && cleanedLyrics?.length) {
+					log.stage("lyric-offset");
+					const offsetResult = detectLyricOffset(cleanedLyrics, words);
+					if (offsetResult.accepted) {
+						correctedLyrics = offsetResult.lyrics;
+						log.stageOk(
+							"lyric-offset",
+							`shifted ${cleanedLyrics.length} lyrics by ${(offsetResult.offsetMs / 1000).toFixed(1)}s (similarity: ${(offsetResult.avgSimilarity * 100).toFixed(0)}%, was ${(offsetResult.zeroSimilarity * 100).toFixed(0)}%)`,
+						);
+					} else {
+						log.stageOk("lyric-offset", `no correction needed (similarity: ${(offsetResult.zeroSimilarity * 100).toFixed(0)}%)`);
+					}
 				}
 
 				// Word reconciliation: correct WhisperX text against LRCLIB canonical lyrics
 				let wordsReconciled = false;
-				if (words?.length && correctedLyrics?.length) {
+				if (!isLight && words?.length && correctedLyrics?.length) {
 					try {
 						const reconciled = await reconcileWords(words, correctedLyrics, { title, artist });
 						if (reconciled.correctionCount > 0) {
@@ -339,6 +341,7 @@ export async function bootstrap(source: string, options: BootstrapOptions = {}):
 
 			// Bass MIDI
 			(async (): Promise<TranscriptionResult | undefined> => {
+				if (isLight) return undefined;
 				if (!stems?.bass) {
 					log.stageSkip("transcribe-bass", "no bass stem");
 					return undefined;
@@ -357,6 +360,7 @@ export async function bootstrap(source: string, options: BootstrapOptions = {}):
 
 			// Vocal MIDI (use lead vocals when available, fall back to full vocal stem)
 			(async (): Promise<TranscriptionResult | undefined> => {
+				if (isLight) return undefined;
 				const vocalSource = stems?.lead_vocals || stems?.vocals;
 				if (!vocalSource) {
 					log.stageSkip("transcribe-vocals", "no vocal stem");
@@ -380,6 +384,7 @@ export async function bootstrap(source: string, options: BootstrapOptions = {}):
 
 			// Drum MIDI
 			(async (): Promise<TranscriptionResult | undefined> => {
+				if (isLight) return undefined;
 				if (!stems?.drums) {
 					log.stageSkip("transcribe-drums", "no drum stem");
 					return undefined;
@@ -398,6 +403,7 @@ export async function bootstrap(source: string, options: BootstrapOptions = {}):
 
 			// Other MIDI (lower confidence)
 			(async (): Promise<TranscriptionResult | undefined> => {
+				if (isLight) return undefined;
 				if (!stems?.other) {
 					log.stageSkip("transcribe-other", "no other stem");
 					return undefined;
@@ -416,6 +422,7 @@ export async function bootstrap(source: string, options: BootstrapOptions = {}):
 
 			// Backing vocal MIDI (only when polyphony detected and lead isolated)
 			(async (): Promise<TranscriptionResult | undefined> => {
+				if (isLight) return undefined;
 				if (!stems?.backing_vocals) {
 					return undefined;
 				}
@@ -589,6 +596,9 @@ export async function bootstrap(source: string, options: BootstrapOptions = {}):
 		const provenance: Record<string, AnalysisProvenance> = {};
 
 		provenance.fingerprint = { tool: "fpcalc", version: "1.6.0", date: today };
+		if (isLight) {
+			provenance.mode = { tool: "light", date: today };
+		}
 
 		if (stems) {
 			provenance.separation = { tool: "demucs", version: "htdemucs", date: today };
