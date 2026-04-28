@@ -13,9 +13,16 @@ import { EditorProvider, useEditor } from "./state/context";
 import { parseEditorParams } from "./types";
 
 function getMapId(): string | null {
-	const path = window.location.pathname;
-	// Strip leading slash, return null if empty
-	const id = path.replace(/^\/+/, "");
+	const base = import.meta.env.BASE_URL ?? "/";
+	const params = new URLSearchParams(window.location.search);
+	const route = params.get("route");
+	const path = route ?? window.location.pathname;
+	const id = path.startsWith(base) ? path.slice(base.length) : path.replace(/^\/+/, "");
+	if (route && id) {
+		params.delete("route");
+		const qs = params.toString();
+		window.history.replaceState(null, "", `${base}${id}${qs ? `?${qs}` : ""}`);
+	}
 	return id || null;
 }
 

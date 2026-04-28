@@ -26,12 +26,43 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Build editor
+        working-directory: editor
+        run: |
+          bun install --frozen-lockfile
+          bun run build
+
       - name: Build site directory
         run: |
-          mkdir -p _site/maps/midi
+          mkdir -p _site/maps/midi _site/editor
           cp maps/*.json _site/maps/ 2>/dev/null || true
           cp maps/midi/*.mid _site/maps/midi/ 2>/dev/null || true
+          cp -r editor/dist/* _site/editor/
           touch _site/.nojekyll
+
+          # SPA fallback: GitHub Pages serves 404.html at the site root
+          # for any unknown path. Redirect /pulsemap/editor/* deep links
+          # back to the editor's index.html preserving path and query.
+          cat > _site/404.html << 'FALLBACK'
+          <!DOCTYPE html>
+          <html>
+          <head><meta charset="utf-8">
+          <script>
+            var p = window.location.pathname;
+            if (p.startsWith('/pulsemap/editor/')) {
+              var s = window.location.search;
+              var sep = s ? s + '&' : '?';
+              window.location.replace('/pulsemap/editor/' + sep + 'route=' + encodeURIComponent(p));
+            }
+          </script>
+          </head>
+          <body></body>
+          </html>
+          FALLBACK
 
           # Generate manifest of all maps
           node -e "
