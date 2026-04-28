@@ -9,6 +9,7 @@ import {
   selectAction,
   moveAction,
   resizeAction,
+  resizeStartAction,
   insertAction,
 } from "../../state/actions";
 
@@ -46,18 +47,19 @@ export function SectionLane({
   durationMs,
   validationColors,
 }: SectionLaneProps) {
+  const viewportStartMs = Math.max(0, scrollMs - 72 / pxPerMs);
   const viewportEndMs = scrollMs + viewportWidthPx / pxPerMs;
   const height = LANE_HEIGHTS.sections;
   const { state, dispatch } = useEditor();
 
   const visibleSections = useMemo(() => {
-    const [start, end] = findVisibleRange(sections, scrollMs, viewportEndMs);
+    const [start, end] = findVisibleRange(sections, viewportStartMs, viewportEndMs);
     return sections.slice(start, end).map((s, i) => ({
       ...s,
       colorIdx: (start + i) % SECTION_PALETTE.length,
       globalIdx: start + i,
     }));
-  }, [sections, scrollMs, viewportEndMs]);
+  }, [sections, viewportStartMs, viewportEndMs]);
 
   const handleSelect = useCallback(
     (idx: number) => dispatch(selectAction("sections", idx)),
@@ -97,13 +99,12 @@ export function SectionLane({
 
   const handleResizeStart = useCallback(
     (idx: number, beforeT: number, newT: number) => {
-      // Clamp: don't overlap previous section
       const prev = idx > 0 ? sections[idx - 1] : null;
       let clampedT = newT;
       if (prev && clampedT < prev.end) clampedT = prev.end;
       clampedT = Math.max(0, clampedT);
       clampedT = Math.min(clampedT, sections[idx].end - 10);
-      dispatch(moveAction("sections", idx, beforeT, clampedT));
+      dispatch(resizeStartAction("sections", idx, beforeT, clampedT));
     },
     [dispatch, sections],
   );
@@ -156,10 +157,10 @@ export function SectionLane({
     <Lane label="Sections" height={height}>
       {/* Insert buttons for gaps */}
       {gaps.map((gap) => {
-        const gapX = (gap.startMs - scrollMs) * pxPerMs;
+        const gapX = gap.startMs * pxPerMs;
         const gapW = (gap.endMs - gap.startMs) * pxPerMs;
-        // Only show if gap is visible and wide enough
-        if (gapX + gapW < 0 || gapX > viewportWidthPx || gapW < 20) return null;
+        const scrollPx = scrollMs * pxPerMs;
+        if (gapX + gapW < scrollPx || gapX > scrollPx + viewportWidthPx || gapW < 20) return null;
         return (
           <div
             key={`gap-${gap.insertIdx}`}
@@ -192,7 +193,7 @@ export function SectionLane({
       })}
 
       {visibleSections.map((section) => {
-        const x = (section.t - scrollMs) * pxPerMs;
+        const x = section.t * pxPerMs;
         const w = (section.end - section.t) * pxPerMs;
         const color = SECTION_PALETTE[section.colorIdx];
         const selected =
@@ -203,7 +204,7 @@ export function SectionLane({
           <EventBlock
             key={`section-${section.globalIdx}`}
             x={x}
-            width={Math.max(w, 20)}
+            width={w}
             height={height}
             selected={selected}
             color={color}

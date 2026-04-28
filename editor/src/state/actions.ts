@@ -19,6 +19,25 @@ export function moveAction(
   };
 }
 
+/** Resize an event's start time (changes t, keeps end fixed) */
+export function resizeStartAction(
+  lane: EditableLane,
+  index: number,
+  beforeT: number,
+  afterT: number,
+): EditorDispatchAction {
+  return {
+    type: "apply",
+    action: {
+      type: "resize-start",
+      lane,
+      index,
+      before: { t: beforeT },
+      after: { t: afterT },
+    },
+  };
+}
+
 /** Resize an event's end time */
 export function resizeAction(
   lane: EditableLane,

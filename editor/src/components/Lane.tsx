@@ -26,6 +26,8 @@ const styles: Record<string, CSSProperties> = {
     borderBottom: "1px solid #1a1a2e",
   },
   label: {
+    position: "sticky",
+    left: 0,
     width: 72,
     minWidth: 72,
     display: "flex",
@@ -38,7 +40,7 @@ const styles: Record<string, CSSProperties> = {
     textTransform: "uppercase",
     letterSpacing: "0.05em",
     background: COLORS.background,
-    zIndex: 2,
+    zIndex: 11,
   },
   content: {
     position: "relative",

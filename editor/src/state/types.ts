@@ -24,6 +24,13 @@ export type EditAction =
       after: { end?: number };
     }
   | {
+      type: "resize-start";
+      lane: EditableLane;
+      index: number;
+      before: { t: number };
+      after: { t: number };
+    }
+  | {
       type: "edit-text";
       lane: EditableLane;
       index: number;

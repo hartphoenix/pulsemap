@@ -17,18 +17,19 @@ export function BeatLane({
   pxPerMs,
   viewportWidthPx,
 }: BeatLaneProps) {
+  const viewportStartMs = Math.max(0, scrollMs - 72 / pxPerMs);
   const viewportEndMs = scrollMs + viewportWidthPx / pxPerMs;
   const height = LANE_HEIGHTS.beats;
 
   const visibleBeats = useMemo(() => {
-    const [start, end] = findVisibleRange(beats, scrollMs, viewportEndMs);
+    const [start, end] = findVisibleRange(beats, viewportStartMs, viewportEndMs);
     return beats.slice(start, end);
-  }, [beats, scrollMs, viewportEndMs]);
+  }, [beats, viewportStartMs, viewportEndMs]);
 
   return (
     <Lane label="Beats" height={height}>
       {visibleBeats.map((beat, i) => {
-        const x = (beat.t - scrollMs) * pxPerMs;
+        const x = beat.t * pxPerMs;
         const lineHeight = beat.downbeat ? height : height * 0.7;
         const opacity = beat.downbeat ? 1 : 0.5;
         const width = beat.downbeat ? 2 : 1;

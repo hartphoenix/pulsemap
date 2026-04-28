@@ -9,6 +9,7 @@ import {
   selectAction,
   moveAction,
   resizeAction,
+  resizeStartAction,
 } from "../../state/actions";
 
 interface WordLaneProps {
@@ -31,12 +32,13 @@ export function WordLane({
   snapEnabled,
   validationColors,
 }: WordLaneProps) {
+  const viewportStartMs = Math.max(0, scrollMs - 72 / pxPerMs);
   const viewportEndMs = scrollMs + viewportWidthPx / pxPerMs;
   const height = LANE_HEIGHTS.words;
   const { state, dispatch } = useEditor();
 
   const visibleWords = useMemo(() => {
-    const [start, end] = findVisibleRange(words, scrollMs, viewportEndMs);
+    const [start, end] = findVisibleRange(words, viewportStartMs, viewportEndMs);
     return words.slice(start, end).map((word, i) => {
       const idx = start + i;
       const endMs =
@@ -44,7 +46,7 @@ export function WordLane({
         (idx + 1 < words.length ? words[idx + 1].t : undefined);
       return { ...word, endMs, globalIdx: idx };
     });
-  }, [words, scrollMs, viewportEndMs]);
+  }, [words, viewportStartMs, viewportEndMs]);
 
   const handleSelect = useCallback(
     (idx: number) => dispatch(selectAction("words", idx)),
@@ -54,6 +56,13 @@ export function WordLane({
   const handleMove = useCallback(
     (idx: number, beforeT: number, newT: number) => {
       dispatch(moveAction("words", idx, beforeT, newT));
+    },
+    [dispatch],
+  );
+
+  const handleResizeStart = useCallback(
+    (idx: number, beforeT: number, newT: number) => {
+      dispatch(resizeStartAction("words", idx, beforeT, Math.max(0, newT)));
     },
     [dispatch],
   );
@@ -68,7 +77,7 @@ export function WordLane({
   return (
     <Lane label="Words" height={height}>
       {visibleWords.map((word) => {
-        const x = (word.t - scrollMs) * pxPerMs;
+        const x = word.t * pxPerMs;
         const w = word.endMs
           ? (word.endMs - word.t) * pxPerMs
           : 40;
@@ -80,7 +89,7 @@ export function WordLane({
           <EventBlock
             key={`word-${word.globalIdx}`}
             x={x}
-            width={Math.max(w, 16)}
+            width={w}
             height={height}
             selected={selected}
             color={COLORS.words}
@@ -92,6 +101,7 @@ export function WordLane({
             onClick={() => handleSelect(word.globalIdx)}
             onMove={(newT) => handleMove(word.globalIdx, word.t, newT)}
             borderColor={validationColors?.get(word.globalIdx)}
+            onResizeStart={(newT) => handleResizeStart(word.globalIdx, word.t, newT)}
             onResizeEnd={
               word.end != null
                 ? (newEnd) => handleResizeEnd(word.globalIdx, word.end, newEnd)

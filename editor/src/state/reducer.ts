@@ -62,6 +62,11 @@ function applyForward(map: PulseMap, action: EditAction): void {
       }
       break;
     }
+    case "resize-start": {
+      const event = arr[action.index] as { t: number };
+      event.t = action.after.t;
+      break;
+    }
     case "edit-text": {
       const event = arr[action.index] as Record<string, unknown>;
       event[action.field] = action.after;
@@ -106,6 +111,12 @@ function applyBackward(map: PulseMap, action: EditAction): void {
       } else {
         delete event.end;
       }
+      break;
+    }
+    case "resize-start": {
+      const idx = findIndexByT(arr, action.after.t, action.index);
+      const event = arr[idx] as { t: number };
+      event.t = action.before.t;
       break;
     }
     case "edit-text": {
@@ -205,6 +216,7 @@ export function editorReducer(
       let targetT: number;
       switch (action.type) {
         case "move":
+        case "resize-start":
           targetT = action.after.t;
           break;
         case "delete":
@@ -258,7 +270,7 @@ export function editorReducer(
         // Undo insert: deselect
         return { ...newState, selection: null };
       }
-      if (action.type === "move") {
+      if (action.type === "move" || action.type === "resize-start") {
         const idx = findIndexByT(arr, action.before.t, action.index);
         return { ...newState, selection: { lane: action.lane, index: idx } };
       }
@@ -287,7 +299,7 @@ export function editorReducer(
       if (action.type === "delete") {
         return { ...newState, selection: null };
       }
-      if (action.type === "move") {
+      if (action.type === "move" || action.type === "resize-start") {
         const idx = findIndexByT(arr, action.after.t, action.index);
         return { ...newState, selection: { lane: action.lane, index: idx } };
       }

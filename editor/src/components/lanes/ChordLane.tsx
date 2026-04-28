@@ -9,6 +9,7 @@ import {
   selectAction,
   moveAction,
   resizeAction,
+  resizeStartAction,
 } from "../../state/actions";
 
 interface ChordLaneProps {
@@ -31,19 +32,20 @@ export function ChordLane({
   snapEnabled,
   validationColors,
 }: ChordLaneProps) {
+  const viewportStartMs = Math.max(0, scrollMs - 72 / pxPerMs);
   const viewportEndMs = scrollMs + viewportWidthPx / pxPerMs;
   const height = LANE_HEIGHTS.chords;
   const { state, dispatch } = useEditor();
 
   const visibleChords = useMemo(() => {
-    const [start, end] = findVisibleRange(chords, scrollMs, viewportEndMs);
+    const [start, end] = findVisibleRange(chords, viewportStartMs, viewportEndMs);
     return chords.slice(start, end).map((chord, i) => {
       const idx = start + i;
       const endMs =
         chord.end ?? (idx + 1 < chords.length ? chords[idx + 1].t : undefined);
       return { ...chord, endMs, globalIdx: idx };
     });
-  }, [chords, scrollMs, viewportEndMs]);
+  }, [chords, viewportStartMs, viewportEndMs]);
 
   const handleSelect = useCallback(
     (idx: number) => dispatch(selectAction("chords", idx)),
@@ -53,6 +55,13 @@ export function ChordLane({
   const handleMove = useCallback(
     (idx: number, beforeT: number, newT: number) => {
       dispatch(moveAction("chords", idx, beforeT, newT));
+    },
+    [dispatch],
+  );
+
+  const handleResizeStart = useCallback(
+    (idx: number, beforeT: number, newT: number) => {
+      dispatch(resizeStartAction("chords", idx, beforeT, Math.max(0, newT)));
     },
     [dispatch],
   );
@@ -67,7 +76,7 @@ export function ChordLane({
   return (
     <Lane label="Chords" height={height}>
       {visibleChords.map((chord) => {
-        const x = (chord.t - scrollMs) * pxPerMs;
+        const x = chord.t * pxPerMs;
         const w = chord.endMs
           ? (chord.endMs - chord.t) * pxPerMs
           : 60;
@@ -79,7 +88,7 @@ export function ChordLane({
           <EventBlock
             key={`chord-${chord.globalIdx}`}
             x={x}
-            width={Math.max(w, 20)}
+            width={w}
             height={height}
             selected={selected}
             color={COLORS.chords}
@@ -91,6 +100,7 @@ export function ChordLane({
             onClick={() => handleSelect(chord.globalIdx)}
             onMove={(newT) => handleMove(chord.globalIdx, chord.t, newT)}
             borderColor={validationColors?.get(chord.globalIdx)}
+            onResizeStart={(newT) => handleResizeStart(chord.globalIdx, chord.t, newT)}
             onResizeEnd={
               chord.end != null
                 ? (newEnd) => handleResizeEnd(chord.globalIdx, chord.end, newEnd)

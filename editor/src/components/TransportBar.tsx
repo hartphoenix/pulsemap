@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 interface TransportBarProps {
 	playing: boolean;
 	position: number;
@@ -31,13 +33,15 @@ export function TransportBar({
 	onSeek,
 	onRateChange,
 }: TransportBarProps) {
+	const [videoVisible, setVideoVisible] = useState(true);
+
 	return (
 		<div style={styles.wrapper}>
 			{!playbackAvailable && (
 				<div style={styles.warning}>No playback available — timing changes are unverified.</div>
 			)}
 
-			<div style={styles.playerContainer}>
+			<div style={videoVisible ? styles.playerContainer : styles.playerContainerHidden}>
 				<div id={containerId} style={styles.player} />
 			</div>
 
@@ -50,6 +54,16 @@ export function TransportBar({
 				>
 					{playing ? "Pause" : "Play"}
 				</button>
+
+				{playbackAvailable && (
+					<button
+						type="button"
+						onClick={() => setVideoVisible((v) => !v)}
+						style={styles.toggleButton}
+					>
+						{videoVisible ? "Hide Video" : "Show Video"}
+					</button>
+				)}
 
 				<span style={styles.time}>{formatTime(position)}</span>
 
@@ -100,6 +114,13 @@ const styles: Record<string, React.CSSProperties> = {
 		width: "100%",
 		maxWidth: "640px",
 	},
+	playerContainerHidden: {
+		position: "fixed",
+		left: -9999,
+		top: -9999,
+		width: 640,
+		height: 360,
+	},
 	player: {
 		width: "100%",
 		aspectRatio: "16 / 9",
@@ -118,6 +139,15 @@ const styles: Record<string, React.CSSProperties> = {
 		cursor: "pointer",
 		fontSize: "14px",
 		minWidth: "70px",
+	},
+	toggleButton: {
+		padding: "4px 10px",
+		background: "#2a2a4a",
+		border: "1px solid #444",
+		borderRadius: "4px",
+		color: "#aaa",
+		cursor: "pointer",
+		fontSize: "12px",
 	},
 	time: {
 		fontFamily: "monospace",

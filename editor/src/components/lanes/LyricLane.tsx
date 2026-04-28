@@ -9,6 +9,7 @@ import {
   selectAction,
   moveAction,
   resizeAction,
+  resizeStartAction,
 } from "../../state/actions";
 
 interface LyricLaneProps {
@@ -31,12 +32,13 @@ export function LyricLane({
   snapEnabled,
   validationColors,
 }: LyricLaneProps) {
+  const viewportStartMs = Math.max(0, scrollMs - 72 / pxPerMs);
   const viewportEndMs = scrollMs + viewportWidthPx / pxPerMs;
   const height = LANE_HEIGHTS.lyrics;
   const { state, dispatch } = useEditor();
 
   const visibleLyrics = useMemo(() => {
-    const [start, end] = findVisibleRange(lyrics, scrollMs, viewportEndMs);
+    const [start, end] = findVisibleRange(lyrics, viewportStartMs, viewportEndMs);
     return lyrics.slice(start, end).map((line, i) => {
       const idx = start + i;
       const endMs =
@@ -44,7 +46,7 @@ export function LyricLane({
         (idx + 1 < lyrics.length ? lyrics[idx + 1].t : undefined);
       return { ...line, endMs, globalIdx: idx };
     });
-  }, [lyrics, scrollMs, viewportEndMs]);
+  }, [lyrics, viewportStartMs, viewportEndMs]);
 
   const handleSelect = useCallback(
     (idx: number) => dispatch(selectAction("lyrics", idx)),
@@ -54,6 +56,13 @@ export function LyricLane({
   const handleMove = useCallback(
     (idx: number, beforeT: number, newT: number) => {
       dispatch(moveAction("lyrics", idx, beforeT, newT));
+    },
+    [dispatch],
+  );
+
+  const handleResizeStart = useCallback(
+    (idx: number, beforeT: number, newT: number) => {
+      dispatch(resizeStartAction("lyrics", idx, beforeT, Math.max(0, newT)));
     },
     [dispatch],
   );
@@ -68,7 +77,7 @@ export function LyricLane({
   return (
     <Lane label="Lyrics" height={height}>
       {visibleLyrics.map((line) => {
-        const x = (line.t - scrollMs) * pxPerMs;
+        const x = line.t * pxPerMs;
         const w = line.endMs
           ? (line.endMs - line.t) * pxPerMs
           : 120;
@@ -80,7 +89,7 @@ export function LyricLane({
           <EventBlock
             key={`lyric-${line.globalIdx}`}
             x={x}
-            width={Math.max(w, 30)}
+            width={w}
             height={height}
             selected={selected}
             color={COLORS.lyrics}
@@ -92,6 +101,7 @@ export function LyricLane({
             onClick={() => handleSelect(line.globalIdx)}
             onMove={(newT) => handleMove(line.globalIdx, line.t, newT)}
             borderColor={validationColors?.get(line.globalIdx)}
+            onResizeStart={(newT) => handleResizeStart(line.globalIdx, line.t, newT)}
             onResizeEnd={
               line.end != null
                 ? (newEnd) => handleResizeEnd(line.globalIdx, line.end, newEnd)
