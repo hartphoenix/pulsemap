@@ -561,6 +561,29 @@ export async function bootstrap(source: string, options: BootstrapOptions = {}):
 
 		map.analysis = provenance;
 
+		// Filter out empty/whitespace-only text entries before validation.
+		if (map.words) {
+			const before = map.words.length;
+			map.words = map.words.filter((w) => w.text.trim().length > 0);
+			const removed = before - map.words.length;
+			if (removed > 0) log.info(`Filtered ${removed} empty words`);
+			if (map.words.length === 0) map.words = undefined;
+		}
+		if (map.lyrics) {
+			const before = map.lyrics.length;
+			map.lyrics = map.lyrics.filter((l) => l.text.trim().length > 0);
+			const removed = before - map.lyrics.length;
+			if (removed > 0) log.info(`Filtered ${removed} empty lyrics`);
+			if (map.lyrics.length === 0) map.lyrics = undefined;
+		}
+		if (map.chords) {
+			const before = map.chords.length;
+			map.chords = map.chords.filter((c) => c.chord.trim().length > 0);
+			const removed = before - map.chords.length;
+			if (removed > 0) log.info(`Filtered ${removed} empty chords`);
+			if (map.chords.length === 0) map.chords = undefined;
+		}
+
 		assertValid(map);
 
 		const mapFields: string[] = [];
