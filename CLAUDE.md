@@ -155,8 +155,8 @@ own adapter contract. Community-contributed adapters accepted via PR.
 
 ### Bootstrap pipeline
 
-Generates maps from audio/video sources (~147s per song on Apple
-Silicon). Pipeline stages:
+Generates maps from audio/video sources (~147s per song full,
+~65s light mode on Apple Silicon). Pipeline stages:
 
 1. **Extract audio** (yt-dlp for URLs, direct for local files)
 2. **Fingerprint** (fpcalc / Chromaprint → MusicBrainz ID)
@@ -170,8 +170,10 @@ Silicon). Pipeline stages:
    - Lead → torchcrepe, backing → basic-pitch
 5. **Parallel analysis:**
    - Lyrics lookup (LRCLIB / YouTube VTT) → text cleanup →
-     LRCLIB offset correction (shift timestamps when >2s offset
-     detected) → word-level alignment (WhisperX on vocal stem) →
+     word-level alignment (WhisperX on vocal stem) →
+     lyric offset correction (sliding-window Jaccard text similarity
+     between LRCLIB lines and WhisperX clusters — detects and
+     corrects YouTube intro offset) →
      word reconciliation (Claude Haiku corrects WhisperX text
      against LRCLIB canonical lyrics)
    - Audio analysis (essentia → chords, beats, key, tempo)
@@ -202,6 +204,7 @@ Options:
 - `--limit N` — process at most N songs
 - `--log path` — results log path (default: `batch-results.json`)
 - `--concurrency N` — parallel pipelines (default: 1, GPU-bound)
+- `--light` — light mode (see below)
 
 The results log (`batch-results.json`) records every song's status,
 timing, error messages, and populated fields. Written after each
@@ -219,6 +222,41 @@ instrument learners (guitar, piano, ukulele, bass), spanning 1950s–
 "easy piano songs for adults", etc. YouTube URLs point to official
 channels where possible but **have not been individually verified** —
 videos may be taken down or replaced. Spot-check before bulk runs.
+
+### Light mode
+
+`--light` produces demo-ready maps (~65s/song) with lyrics,
+per-word timestamps, chords, and beats — skipping MIDI
+transcription, polyphony/vocal splitting, and Claude Haiku word
+reconciliation. Demucs still runs (vocal stem needed for WhisperX).
+
+```bash
+bun run bootstrap <source> --light           # Single song
+bun run batch songs.json --light --limit 10  # Batch
+```
+
+Skipped stages: polyphony detection, MelBand RoFormer lead/backing
+split, all 5 MIDI transcriptions, MIDI beat alignment,
+cross-validation, Haiku word reconciliation. Light-mode maps have
+`analysis.mode.tool === "light"` in provenance.
+
+### Lyric offset correction
+
+YouTube versions often have intro silence or different intros that
+shift all LRCLIB lyrics relative to the audio. The `lyric-offset`
+stage detects and corrects this using sliding-window Jaccard text
+similarity between LRCLIB line text and WhisperX word clusters.
+
+For each candidate offset (-120s to +120s, 500ms steps), it shifts
+LRCLIB lines and scores how well they text-match the nearest
+WhisperX cluster. Correction is applied when: the offset exceeds
+2s, avg similarity at the best offset is ≥25%, and improvement
+over offset=0 is ≥15 percentage points.
+
+Runs in both full and light mode. Does not handle cases where the
+YouTube version has fundamentally different content than LRCLIB
+(e.g., different edits, missing intros) — those need manual
+correction in the editor.
 
 ### Map Editor
 

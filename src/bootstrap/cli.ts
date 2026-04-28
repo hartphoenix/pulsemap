@@ -13,6 +13,7 @@ Options:
   --output <path>        Output file path (default: maps/<id>.json)
   --acoustid-key <key>   AcoustID API key (or set ACOUSTID_API_KEY env var)
   --skip-separation      Skip Demucs source separation
+  --light                Light mode: lyrics + words + chords + beats (no MIDI, polyphony split, or Haiku)
   --help                 Show this help message`);
 		process.exit(args.includes("--help") ? 0 : 1);
 	}
@@ -24,6 +25,8 @@ Options:
 	for (let i = 1; i < args.length; i++) {
 		if (args[i] === "--skip-separation") {
 			flags.add("skip-separation");
+		} else if (args[i] === "--light") {
+			flags.add("light");
 		} else if (args[i].startsWith("--") && args[i + 1]) {
 			opts[args[i].slice(2)] = args[i + 1];
 			i++;
@@ -36,6 +39,7 @@ Options:
 			output: opts.output,
 			acoustIdKey: opts["acoustid-key"],
 			skipSeparation: flags.has("skip-separation"),
+			light: flags.has("light"),
 		});
 	} catch (err) {
 		console.error(err instanceof Error ? err.message : err);

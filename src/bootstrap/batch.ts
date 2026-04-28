@@ -35,6 +35,7 @@ Options:
   --skip-existing        Skip songs that already have maps
   --start <n>            Start from song N (0-indexed, for resuming)
   --limit <n>            Process at most N songs
+  --light                Light mode: lyrics + words + chords + beats (no MIDI, polyphony split, or Haiku)
   --help                 Show this help message`);
 		process.exit(args.includes("--help") ? 0 : 1);
 	}
@@ -46,6 +47,8 @@ Options:
 	for (let i = 1; i < args.length; i++) {
 		if (args[i] === "--skip-existing") {
 			flags.add("skip-existing");
+		} else if (args[i] === "--light") {
+			flags.add("light");
 		} else if (args[i].startsWith("--") && args[i + 1]) {
 			opts[args[i].slice(2)] = args[i + 1];
 			i++;
@@ -110,7 +113,7 @@ Options:
 		console.log(`${label} START ${song.title} by ${song.artist}`);
 
 		try {
-			const map = await bootstrap(song.url, { outputDir });
+			const map = await bootstrap(song.url, { outputDir, light: flags.has("light") });
 
 			const duration_s = Math.round((performance.now() - songStart) / 1000);
 			const fields: string[] = [];
