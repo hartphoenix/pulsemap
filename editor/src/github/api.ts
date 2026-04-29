@@ -4,8 +4,7 @@
  * Flow: fork repo -> create branch -> commit map JSON -> open PR.
  */
 import type { PulseMap } from "pulsemap/schema";
-import type { EditAction } from "../state/types";
-import { generateDiffSummary } from "./diff";
+import { type DiffEntry, describeEntry, fieldCountsByLane, laneSummary } from "./diff";
 
 const UPSTREAM_OWNER = "hartphoenix";
 const UPSTREAM_REPO = "pulsemap";
@@ -15,7 +14,7 @@ interface SubmitCorrectionParams {
 	token: string;
 	mapId: string;
 	map: PulseMap;
-	history: EditAction[];
+	entries: DiffEntry[];
 	playbackAvailable: boolean;
 	source?: string;
 }
@@ -25,9 +24,7 @@ interface SubmitCorrectionResult {
 	prNumber: number;
 }
 
-/** Callback for progress reporting during submission. */
 export type ProgressCallback = (step: SubmitStep) => void;
-
 export type SubmitStep = "forking" | "branching" | "committing" | "opening-pr" | "done";
 
 async function ghFetch(path: string, token: string, options: RequestInit = {}): Promise<Response> {
@@ -56,24 +53,24 @@ async function ghJson<T>(path: string, token: string, options: RequestInit = {})
 function buildPrBody(params: {
 	map: PulseMap;
 	mapId: string;
-	history: EditAction[];
+	entries: DiffEntry[];
 	playbackAvailable: boolean;
 	source?: string;
 }): string {
-	const { map, mapId, history, playbackAvailable, source } = params;
+	const { map, mapId, entries, playbackAvailable, source } = params;
 	const meta = map.metadata;
 	const title = meta?.title ?? mapId;
 	const artist = meta?.artist ?? "Unknown";
-	const { summary, changes, fieldCounts } = generateDiffSummary(history);
 
-	const changeLines = changes.map((c) => `- ${c.description}`).join("\n");
+	const summary = laneSummary(entries);
+	const changeLines = entries.map((e) => `- ${describeEntry(e)}`).join("\n");
 
 	const playbackNote = !playbackAvailable
 		? "\n**Note:** Edited without audio playback available.\n"
 		: "";
 
 	const correctionMeta = JSON.stringify({
-		fields: fieldCounts,
+		fields: fieldCountsByLane(entries),
 		playback_available: playbackAvailable,
 	});
 
@@ -82,15 +79,15 @@ function buildPrBody(params: {
 		`**Map ID:** \`${mapId}\``,
 		`**Submitted via:** ${source || "PulseMap Editor"}`,
 		playbackNote,
-		`### Changes (${history.length} edit${history.length !== 1 ? "s" : ""})`,
-		`${summary}`,
+		`### Changes (${entries.length} ${entries.length === 1 ? "edit" : "edits"})`,
+		summary,
 		"",
 		changeLines,
 		"",
-		"<details><summary>Full edit history</summary>",
+		"<details><summary>Structural diff</summary>",
 		"",
 		"```json",
-		JSON.stringify(history, null, 2),
+		JSON.stringify(entries, null, 2),
 		"```",
 		"",
 		"</details>",
@@ -105,23 +102,19 @@ export async function submitCorrection(
 	params: SubmitCorrectionParams,
 	onProgress?: ProgressCallback,
 ): Promise<SubmitCorrectionResult> {
-	const { token, mapId, map, history, playbackAvailable, source } = params;
+	const { token, mapId, map, entries, playbackAvailable, source } = params;
 
-	// 1. Get authenticated user
 	const user = await ghJson<{ login: string }>("/user", token);
 	const username = user.login;
 
-	// 2. Fork (idempotent — returns existing fork if already forked)
 	onProgress?.("forking");
 	await ghJson<{ full_name: string }>(`/repos/${UPSTREAM_OWNER}/${UPSTREAM_REPO}/forks`, token, {
 		method: "POST",
 		body: JSON.stringify({}),
 	});
 
-	// Brief pause to let GitHub propagate the fork
 	await new Promise((r) => setTimeout(r, 2000));
 
-	// 3. Get main branch SHA from the fork
 	onProgress?.("branching");
 	const mainRef = await ghJson<{ object: { sha: string } }>(
 		`/repos/${username}/${UPSTREAM_REPO}/git/ref/heads/main`,
@@ -129,7 +122,6 @@ export async function submitCorrection(
 	);
 	const mainSha = mainRef.object.sha;
 
-	// 4. Create branch
 	const timestamp = Date.now();
 	const branchName = `correction/${mapId}-${timestamp}`;
 	await ghJson<{ ref: string }>(`/repos/${username}/${UPSTREAM_REPO}/git/refs`, token, {
@@ -140,7 +132,6 @@ export async function submitCorrection(
 		}),
 	});
 
-	// 5. Get existing file SHA (for the update)
 	onProgress?.("committing");
 	const filePath = `maps/${mapId}.json`;
 	let fileSha: string | undefined;
@@ -155,7 +146,6 @@ export async function submitCorrection(
 		// File doesn't exist yet — new map
 	}
 
-	// 6. Commit the map JSON
 	const content = btoa(unescape(encodeURIComponent(JSON.stringify(map, null, 2))));
 	await ghJson<{ commit: { sha: string } }>(
 		`/repos/${username}/${UPSTREAM_REPO}/contents/${filePath}`,
@@ -171,9 +161,8 @@ export async function submitCorrection(
 		},
 	);
 
-	// 7. Create PR against upstream
 	onProgress?.("opening-pr");
-	const prBody = buildPrBody({ map, mapId, history, playbackAvailable, source });
+	const prBody = buildPrBody({ map, mapId, entries, playbackAvailable, source });
 	const meta = map.metadata;
 	const prTitle = `fix(map): ${meta?.title ?? mapId} corrections`;
 

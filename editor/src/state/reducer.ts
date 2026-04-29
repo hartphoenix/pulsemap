@@ -1,12 +1,18 @@
 import type { PulseMap } from "pulsemap/schema";
 import type { EditAction, EditableLane, EditorDispatchAction, EditorState } from "./types";
 
+const UNDO_LIMIT = 100;
+
 /** Deep clone a PulseMap (JSON-safe) */
 function cloneMap(map: PulseMap): PulseMap {
 	return JSON.parse(JSON.stringify(map));
 }
 
-/** Get the mutable array for a lane from a PulseMap, creating it if absent */
+/** Stable JSON for equality checks. Stable enough — both maps are produced by us. */
+function stableEqual(a: PulseMap, b: PulseMap): boolean {
+	return JSON.stringify(a) === JSON.stringify(b);
+}
+
 function getLaneArray(map: PulseMap, lane: EditableLane): unknown[] {
 	if (!map[lane]) {
 		(map as Record<string, unknown>)[lane] = [];
@@ -14,132 +20,60 @@ function getLaneArray(map: PulseMap, lane: EditableLane): unknown[] {
 	return map[lane] as unknown[];
 }
 
-/** Sort an array of timed events by t */
 function sortByT(arr: unknown[]): void {
 	arr.sort((a, b) => (a as { t: number }).t - (b as { t: number }).t);
 }
 
-/**
- * Find the new index of an event after sorting, given its old `t` value
- * and the new `t` value (for moves) or unchanged `t` (for other actions).
- */
 function findIndexByT(arr: unknown[], t: number, startHint: number): number {
-	// Exact match first
 	for (let i = 0; i < arr.length; i++) {
 		if ((arr[i] as { t: number }).t === t) return i;
 	}
-	// Fallback: closest to hint
-	return Math.min(startHint, arr.length - 1);
+	return Math.min(Math.max(startHint, 0), arr.length - 1);
 }
 
-/** Apply the "after" side of an action to a working map */
-function applyForward(map: PulseMap, action: EditAction): void {
-	const arr = getLaneArray(map, action.lane);
+/** Mutate `working` in place to apply one edit action. */
+function applyEdit(working: PulseMap, action: EditAction): void {
+	const arr = getLaneArray(working, action.lane);
 
 	switch (action.type) {
 		case "move": {
-			const event = arr[action.index] as { t: number };
-			// Preserve duration if the event has an end
-			const asEnd = event as { t: number; end?: number };
-			if (asEnd.end != null) {
-				const duration = asEnd.end - asEnd.t;
-				asEnd.end = action.after.t + duration;
-			}
-			event.t = action.after.t;
-			break;
-		}
-		case "resize": {
-			const event = arr[action.index] as Record<string, unknown>;
-			if (action.after.end !== undefined) {
-				event.end = action.after.end;
-			} else {
-				delete event.end;
-			}
-			break;
-		}
-		case "resize-start": {
-			const event = arr[action.index] as { t: number };
-			event.t = action.after.t;
-			break;
-		}
-		case "edit-text": {
-			const event = arr[action.index] as Record<string, unknown>;
-			event[action.field] = action.after;
-			break;
-		}
-		case "edit-field": {
-			const event = arr[action.index] as Record<string, unknown>;
-			event[action.field] = action.after;
-			break;
-		}
-		case "insert": {
-			arr.splice(action.index, 0, JSON.parse(JSON.stringify(action.value)));
-			break;
-		}
-		case "delete": {
-			arr.splice(action.index, 1);
-			break;
-		}
-	}
-}
-
-/** Apply the "before" side of an action (undo) to a working map */
-function applyBackward(map: PulseMap, action: EditAction): void {
-	const arr = getLaneArray(map, action.lane);
-
-	switch (action.type) {
-		case "move": {
-			// We need to find the event at the "after" position and move it back
-			const idx = findIndexByT(arr, action.after.t, action.index);
-			const event = arr[idx] as { t: number; end?: number };
+			const event = arr[action.index] as { t: number; end?: number };
 			if (event.end != null) {
 				const duration = event.end - event.t;
-				event.end = action.before.t + duration;
+				event.end = action.after.t + duration;
 			}
-			event.t = action.before.t;
+			event.t = action.after.t;
 			break;
 		}
 		case "resize": {
 			const event = arr[action.index] as Record<string, unknown>;
-			if (action.before.end !== undefined) {
-				event.end = action.before.end;
-			} else {
-				delete event.end;
-			}
+			if (action.after.end !== undefined) event.end = action.after.end;
+			else delete event.end;
 			break;
 		}
 		case "resize-start": {
-			const idx = findIndexByT(arr, action.after.t, action.index);
-			const event = arr[idx] as { t: number };
-			event.t = action.before.t;
+			const event = arr[action.index] as { t: number };
+			event.t = action.after.t;
 			break;
 		}
-		case "edit-text": {
-			const event = arr[action.index] as Record<string, unknown>;
-			event[action.field] = action.before;
-			break;
-		}
+		case "edit-text":
 		case "edit-field": {
 			const event = arr[action.index] as Record<string, unknown>;
-			event[action.field] = action.before;
+			event[action.field] = action.after;
 			break;
 		}
-		case "insert": {
-			// Undo insert = delete
-			arr.splice(action.index, 1);
-			break;
-		}
-		case "delete": {
-			// Undo delete = insert
+		case "insert":
 			arr.splice(action.index, 0, JSON.parse(JSON.stringify(action.value)));
 			break;
-		}
+		case "delete":
+			arr.splice(action.index, 1);
+			break;
 	}
 }
 
 /**
- * After mutating the lane array, re-sort by t and update the selection
- * index to follow the event that was at `oldIndex` with `targetT`.
+ * After mutating an array, re-sort by t and update the selection index
+ * to follow the event that was at oldIndex with the given target t.
  */
 function resortAndTrackSelection(
 	state: EditorState,
@@ -149,58 +83,56 @@ function resortAndTrackSelection(
 ): EditorState {
 	const arr = getLaneArray(state.working, lane);
 	sortByT(arr);
-
-	// Update selection to track the moved event
 	if (state.selection?.lane === lane) {
 		const newIdx = findIndexByT(arr, targetT, oldIndex);
-		return {
-			...state,
-			selection: { lane, index: newIdx },
-		};
+		return { ...state, selection: { lane, index: newIdx } };
 	}
 	return state;
 }
 
 export function editorReducer(state: EditorState, dispatch: EditorDispatchAction): EditorState {
 	switch (dispatch.type) {
-		case "load": {
+		case "load":
 			return {
 				original: cloneMap(dispatch.map),
 				working: cloneMap(dispatch.map),
-				history: [],
+				undoStack: [],
 				redoStack: [],
 				selection: null,
 				dirty: false,
 				originalHash: "",
 			};
-		}
 
 		case "load-saved": {
+			const working = cloneMap(dispatch.working);
 			return {
 				...state,
-				working: cloneMap(dispatch.working),
-				history: [...dispatch.history],
+				working,
+				undoStack: [],
 				redoStack: [],
 				selection: null,
-				dirty: dispatch.history.length > 0,
+				dirty: !stableEqual(state.original, working),
 				originalHash: dispatch.originalHash,
 			};
 		}
 
 		case "apply": {
 			const { action } = dispatch;
+			const snapshot = cloneMap(state.working);
 			const working = cloneMap(state.working);
+			applyEdit(working, action);
+
+			const undoStack = [...state.undoStack, snapshot];
+			if (undoStack.length > UNDO_LIMIT) undoStack.shift();
+
 			const newState: EditorState = {
 				...state,
 				working,
-				history: [...state.history, action],
+				undoStack,
 				redoStack: [],
-				dirty: true,
+				dirty: !stableEqual(state.original, working),
 			};
 
-			applyForward(working, action);
-
-			// Determine target t for selection tracking
 			let targetT: number;
 			switch (action.type) {
 				case "move":
@@ -208,11 +140,7 @@ export function editorReducer(state: EditorState, dispatch: EditorDispatchAction
 					targetT = action.after.t;
 					break;
 				case "delete":
-					// Deselect on delete
-					return {
-						...newState,
-						selection: null,
-					};
+					return { ...newState, selection: null };
 				case "insert":
 					targetT = (action.value as { t: number }).t;
 					return resortAndTrackSelection(
@@ -230,83 +158,36 @@ export function editorReducer(state: EditorState, dispatch: EditorDispatchAction
 		}
 
 		case "undo": {
-			if (state.history.length === 0) return state;
-			const action = state.history[state.history.length - 1];
-			const working = cloneMap(state.working);
-
-			applyBackward(working, action);
-
-			const newState: EditorState = {
+			if (state.undoStack.length === 0) return state;
+			const previous = state.undoStack[state.undoStack.length - 1];
+			return {
 				...state,
-				working,
-				history: state.history.slice(0, -1),
-				redoStack: [...state.redoStack, action],
-				dirty: state.history.length > 1,
+				working: cloneMap(previous),
+				undoStack: state.undoStack.slice(0, -1),
+				redoStack: [...state.redoStack, cloneMap(state.working)],
+				selection: null,
+				dirty: !stableEqual(state.original, previous),
 			};
-
-			const arr = getLaneArray(working, action.lane);
-			sortByT(arr);
-
-			// Track selection
-			if (action.type === "delete") {
-				// Undo delete: reselect the restored event
-				const targetT = (action.value as { t: number }).t;
-				const idx = findIndexByT(arr, targetT, action.index);
-				return { ...newState, selection: { lane: action.lane, index: idx } };
-			}
-			if (action.type === "insert") {
-				// Undo insert: deselect
-				return { ...newState, selection: null };
-			}
-			if (action.type === "move" || action.type === "resize-start") {
-				const idx = findIndexByT(arr, action.before.t, action.index);
-				return { ...newState, selection: { lane: action.lane, index: idx } };
-			}
-
-			return newState;
 		}
 
 		case "redo": {
 			if (state.redoStack.length === 0) return state;
-			const action = state.redoStack[state.redoStack.length - 1];
-			const working = cloneMap(state.working);
-
-			applyForward(working, action);
-
-			const newState: EditorState = {
+			const next = state.redoStack[state.redoStack.length - 1];
+			return {
 				...state,
-				working,
-				history: [...state.history, action],
+				working: cloneMap(next),
+				undoStack: [...state.undoStack, cloneMap(state.working)],
 				redoStack: state.redoStack.slice(0, -1),
-				dirty: true,
+				selection: null,
+				dirty: !stableEqual(state.original, next),
 			};
-
-			const arr = getLaneArray(working, action.lane);
-			sortByT(arr);
-
-			if (action.type === "delete") {
-				return { ...newState, selection: null };
-			}
-			if (action.type === "move" || action.type === "resize-start") {
-				const idx = findIndexByT(arr, action.after.t, action.index);
-				return { ...newState, selection: { lane: action.lane, index: idx } };
-			}
-			if (action.type === "insert") {
-				const targetT = (action.value as { t: number }).t;
-				const idx = findIndexByT(arr, targetT, action.index);
-				return { ...newState, selection: { lane: action.lane, index: idx } };
-			}
-
-			return newState;
 		}
 
-		case "select": {
+		case "select":
 			return { ...state, selection: dispatch.selection };
-		}
 
-		case "deselect": {
+		case "deselect":
 			return { ...state, selection: null };
-		}
 
 		default:
 			return state;
@@ -317,7 +198,7 @@ export function createInitialState(map: PulseMap): EditorState {
 	return {
 		original: cloneMap(map),
 		working: cloneMap(map),
-		history: [],
+		undoStack: [],
 		redoStack: [],
 		selection: null,
 		dirty: false,

@@ -1,17 +1,15 @@
 import type { PulseMap } from "pulsemap/schema";
 import { type CSSProperties, useCallback, useMemo, useState } from "react";
-import type { SubmitStep } from "../github/api";
-import { submitCorrection } from "../github/api";
-import { generateDiffSummary } from "../github/diff";
-import type { EditAction } from "../state/types";
+import { type SubmitStep, submitCorrection } from "../github/api";
+import { applyDiffEntries, diffMaps } from "../github/diff";
 import { DiffReview } from "./DiffReview";
 import { ProgressIndicator } from "./ProgressIndicator";
 
 type FlowStep = "review" | "submitting" | "done" | "error";
 
 interface SubmitFlowProps {
-	map: PulseMap;
-	history: EditAction[];
+	original: PulseMap;
+	working: PulseMap;
 	token: string;
 	playbackAvailable: boolean;
 	errorCount: number;
@@ -19,8 +17,8 @@ interface SubmitFlowProps {
 }
 
 export function SubmitFlow({
-	map,
-	history,
+	original,
+	working,
 	token,
 	playbackAvailable,
 	errorCount,
@@ -31,10 +29,9 @@ export function SubmitFlow({
 	const [prUrl, setPrUrl] = useState<string | undefined>();
 	const [submitError, setSubmitError] = useState<string | undefined>();
 
-	// All changes checked by default
-	const diffResult = useMemo(() => generateDiffSummary(history), [history]);
+	const entries = useMemo(() => diffMaps(original, working), [original, working]);
 	const [checkedIndices, setCheckedIndices] = useState<Set<number>>(
-		() => new Set(diffResult.changes.map((_, i) => i)),
+		() => new Set(entries.map((_, i) => i)),
 	);
 
 	const handleToggle = useCallback((index: number) => {
@@ -46,25 +43,25 @@ export function SubmitFlow({
 		});
 	}, []);
 
-	// Filter history to only checked changes
-	const selectedHistory = useMemo(
-		() => history.filter((_, i) => checkedIndices.has(i)),
-		[history, checkedIndices],
+	const selectedEntries = useMemo(
+		() => entries.filter((_, i) => checkedIndices.has(i)),
+		[entries, checkedIndices],
 	);
 
-	const canSubmit = errorCount === 0 && selectedHistory.length > 0 && flowStep === "review";
+	const canSubmit = errorCount === 0 && selectedEntries.length > 0 && flowStep === "review";
 
 	const handleSubmit = useCallback(async () => {
 		setFlowStep("submitting");
 		setSubmitError(undefined);
 
 		try {
+			const submittedMap = applyDiffEntries(original, selectedEntries);
 			const result = await submitCorrection(
 				{
 					token,
-					mapId: map.id,
-					map,
-					history: selectedHistory,
+					mapId: original.id,
+					map: submittedMap,
+					entries: selectedEntries,
 					playbackAvailable,
 					source: "PulseMap Editor",
 				},
@@ -76,7 +73,7 @@ export function SubmitFlow({
 			setSubmitError(err instanceof Error ? err.message : "Submission failed");
 			setFlowStep("error");
 		}
-	}, [token, map, selectedHistory, playbackAvailable]);
+	}, [token, original, selectedEntries, playbackAvailable]);
 
 	return (
 		<div style={styles.overlay} onClick={onClose}>
@@ -92,7 +89,7 @@ export function SubmitFlow({
 					{(flowStep === "review" || flowStep === "error") && (
 						<>
 							<DiffReview
-								changes={diffResult.changes}
+								entries={entries}
 								checkedIndices={checkedIndices}
 								onToggle={handleToggle}
 								playbackAvailable={playbackAvailable}

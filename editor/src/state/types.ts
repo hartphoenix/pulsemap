@@ -8,6 +8,11 @@ export interface Selection {
 	index: number;
 }
 
+/**
+ * Dispatched edits. Not stored — the working map is the source of truth.
+ * The reducer applies each action directly to working and pushes a
+ * snapshot to undoStack for in-session undo.
+ */
 export type EditAction =
 	| {
 			type: "move";
@@ -66,13 +71,15 @@ export type EditorDispatchAction =
 	| { type: "select"; selection: Selection }
 	| { type: "deselect" }
 	| { type: "load"; map: PulseMap }
-	| { type: "load-saved"; working: PulseMap; history: EditAction[]; originalHash: string };
+	| { type: "load-saved"; working: PulseMap; originalHash: string };
 
 export interface EditorState {
 	original: PulseMap;
 	working: PulseMap;
-	history: EditAction[];
-	redoStack: EditAction[];
+	/** Snapshots of `working` taken before each apply, for in-session undo. */
+	undoStack: PulseMap[];
+	/** Snapshots popped by undo, available for redo. */
+	redoStack: PulseMap[];
 	selection: Selection | null;
 	dirty: boolean;
 	originalHash: string;

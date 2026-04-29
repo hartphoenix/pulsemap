@@ -273,9 +273,13 @@ and GitHub PR submission.
   for inline text edit. Beat snapping (beat/half/quarter
   subdivision, Alt to bypass). Undo/redo (Cmd-Z/Shift-Z).
   Section split/merge. Arrow key nudge.
-- **State:** `EditorState` with `original`/`working` PulseMap,
-  `EditAction[]` history, undo/redo stacks. Array sort-by-`t`
-  invariant after every mutation.
+- **State:** `EditorState` with `original`/`working` PulseMap. Edits
+  mutate `working` directly. In-session undo/redo uses snapshot
+  stacks of `working` (capped, in-memory only — not persisted).
+  Submission semantics are derived from a structural diff between
+  `original` and `working`, not from a recorded action sequence,
+  so net-zero edits produce zero diff entries by definition.
+  Array sort-by-`t` invariant after every mutation.
 - **Persistence:** localStorage auto-save (500ms debounce), keyed
   by map ID + original hash. `beforeunload` warning when dirty.
   JSON export for backup.

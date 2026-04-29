@@ -97,7 +97,6 @@ function EditorContent({
 					dispatch({
 						type: "load-saved",
 						working: saved.working,
-						history: saved.history,
 						originalHash: hash,
 					});
 				} else {
@@ -110,7 +109,6 @@ function EditorContent({
 						dispatch({
 							type: "load-saved",
 							working: saved.working,
-							history: saved.history,
 							originalHash: hash,
 						});
 					}
@@ -120,7 +118,6 @@ function EditorContent({
 				dispatch({
 					type: "load-saved",
 					working: map,
-					history: [],
 					originalHash: hash,
 				});
 			}
@@ -131,9 +128,9 @@ function EditorContent({
 	useEffect(() => {
 		if (!state.originalHash) return;
 		if (state.dirty) {
-			saveEditorState(map.id, state.working, state.history, state.originalHash);
+			saveEditorState(map.id, state.working, state.originalHash);
 		}
-	}, [state.working, state.dirty, state.history, state.originalHash, map.id]);
+	}, [state.working, state.dirty, state.originalHash, map.id]);
 
 	// beforeunload warning when dirty
 	useEffect(() => {
@@ -188,8 +185,8 @@ function EditorContent({
 
 	const handleSave = useCallback(() => {
 		if (!state.dirty || !state.originalHash) return;
-		saveEditorState(map.id, state.working, state.history, state.originalHash);
-	}, [state.dirty, state.working, state.history, state.originalHash, map.id]);
+		saveEditorState(map.id, state.working, state.originalHash);
+	}, [state.dirty, state.working, state.originalHash, map.id]);
 
 	useKeyboardShortcuts({
 		onPlayPause: handlePlayPause,
@@ -215,7 +212,7 @@ function EditorContent({
 					</div>
 				</div>
 				<div style={styles.headerRight}>
-					<DirtyIndicator dirty={state.dirty} editCount={state.history.length} />
+					<DirtyIndicator dirty={state.dirty} />
 					{state.dirty && (
 						<button
 							type="button"
@@ -226,7 +223,6 @@ function EditorContent({
 									dispatch({
 										type: "load-saved",
 										working: map,
-										history: [],
 										originalHash: state.originalHash,
 									});
 								}
@@ -286,8 +282,8 @@ function EditorContent({
 
 			{showSubmitFlow && ghToken && (
 				<SubmitFlow
-					map={workingMap}
-					history={state.history}
+					original={state.original}
+					working={workingMap}
 					token={ghToken}
 					playbackAvailable={playbackAvailable}
 					errorCount={errorCount}
@@ -302,7 +298,6 @@ function EditorContent({
 					{workingMap.words ? ` | ${workingMap.words.length} words` : ""}
 					{workingMap.chords ? ` | ${workingMap.chords.length} chords` : ""}
 					{workingMap.beats ? ` | ${workingMap.beats.length} beats` : ""}
-					{state.history.length > 0 ? ` | ${state.history.length} edits` : ""}
 				</code>
 			</div>
 		</>

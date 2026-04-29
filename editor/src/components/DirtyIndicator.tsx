@@ -2,16 +2,15 @@ import type { CSSProperties } from "react";
 
 interface DirtyIndicatorProps {
 	dirty: boolean;
-	editCount: number;
 }
 
-export function DirtyIndicator({ dirty, editCount }: DirtyIndicatorProps) {
+export function DirtyIndicator({ dirty }: DirtyIndicatorProps) {
 	if (!dirty) return null;
 
 	return (
 		<span style={styles.indicator}>
 			<span style={styles.dot} />
-			Unsaved ({editCount} edit{editCount !== 1 ? "s" : ""})
+			Unsaved
 		</span>
 	);
 }
