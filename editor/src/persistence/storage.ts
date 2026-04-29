@@ -2,16 +2,13 @@
  * localStorage persistence for editor state.
  *
  * Key format: `pulsemap-edit:${mapId}`
- * Payload: working map, edit history, save timestamp, and
- * a hash of the original (upstream) map so we can detect
- * upstream changes on reload.
+ * Payload: working map plus a hash of the original (upstream) map so
+ * we can detect upstream changes on reload.
  */
 import type { PulseMap } from "pulsemap/schema";
-import type { EditAction } from "../state/types";
 
 export interface SavedEditorState {
 	working: PulseMap;
-	history: EditAction[];
 	savedAt: number;
 	originalHash: string;
 }
@@ -25,12 +22,13 @@ export function loadEditorState(mapId: string): SavedEditorState | null {
 	try {
 		const raw = localStorage.getItem(storageKey(mapId));
 		if (!raw) return null;
-		const parsed = JSON.parse(raw) as SavedEditorState;
-		// Basic shape check
-		if (!parsed.working || !Array.isArray(parsed.history) || !parsed.originalHash) {
-			return null;
-		}
-		return parsed;
+		const parsed = JSON.parse(raw) as Partial<SavedEditorState>;
+		if (!parsed.working || !parsed.originalHash) return null;
+		return {
+			working: parsed.working,
+			savedAt: parsed.savedAt ?? 0,
+			originalHash: parsed.originalHash,
+		};
 	} catch {
 		return null;
 	}
@@ -45,23 +43,15 @@ export function clearEditorState(mapId: string): void {
 	}
 }
 
-// -- Debounced save -----------------------------------------------------------
-
 let saveTimer: ReturnType<typeof setTimeout> | null = null;
 
 /** Debounced (500ms) write of editor state to localStorage. */
-export function saveEditorState(
-	mapId: string,
-	working: PulseMap,
-	history: EditAction[],
-	originalHash: string,
-): void {
+export function saveEditorState(mapId: string, working: PulseMap, originalHash: string): void {
 	if (saveTimer) clearTimeout(saveTimer);
 	saveTimer = setTimeout(() => {
 		try {
 			const payload: SavedEditorState = {
 				working,
-				history,
 				savedAt: Date.now(),
 				originalHash,
 			};

@@ -1,8 +1,8 @@
 import { type CSSProperties, useCallback } from "react";
-import type { DiffChange } from "../github/diff";
+import { type DiffEntry, describeEntry, fieldCountsByLane } from "../github/diff";
 
 interface DiffReviewProps {
-	changes: DiffChange[];
+	entries: DiffEntry[];
 	checkedIndices: Set<number>;
 	onToggle: (index: number) => void;
 	playbackAvailable: boolean;
@@ -10,21 +10,16 @@ interface DiffReviewProps {
 }
 
 export function DiffReview({
-	changes,
+	entries,
 	checkedIndices,
 	onToggle,
 	playbackAvailable,
 	errorCount,
 }: DiffReviewProps) {
-	// Per-field summary
-	const fieldCounts: Record<string, number> = {};
-	for (const c of changes) {
-		if (checkedIndices.has(changes.indexOf(c))) {
-			fieldCounts[c.lane] = (fieldCounts[c.lane] || 0) + 1;
-		}
-	}
-	const fieldSummary = Object.entries(fieldCounts)
-		.map(([field, count]) => `${count} ${field}`)
+	const selectedEntries = entries.filter((_, i) => checkedIndices.has(i));
+	const counts = fieldCountsByLane(selectedEntries);
+	const fieldSummary = Object.entries(counts)
+		.map(([lane, n]) => `${n} ${lane}`)
 		.join(", ");
 
 	const handleToggle = useCallback((i: number) => () => onToggle(i), [onToggle]);
@@ -33,7 +28,7 @@ export function DiffReview({
 		<div style={styles.container}>
 			<div style={styles.header}>
 				<span style={styles.summary}>
-					{checkedIndices.size} of {changes.length} changes selected
+					{checkedIndices.size} of {entries.length} changes selected
 					{fieldSummary && ` (${fieldSummary})`}
 				</span>
 
@@ -51,20 +46,20 @@ export function DiffReview({
 			)}
 
 			<div style={styles.changeList}>
-				{changes.map((change, i) => (
-					<label key={`${change.lane}-${change.action.type}-${i}`} style={styles.changeRow}>
+				{entries.map((entry, i) => (
+					<label key={`${entry.lane}-${entry.kind}-${entry.index}-${i}`} style={styles.changeRow}>
 						<input
 							type="checkbox"
 							checked={checkedIndices.has(i)}
 							onChange={handleToggle(i)}
 							style={styles.checkbox}
 						/>
-						<span style={styles.changeText}>{change.description}</span>
+						<span style={styles.changeText}>{describeEntry(entry)}</span>
 					</label>
 				))}
 			</div>
 
-			{changes.length === 0 && <div style={styles.empty}>No changes to review.</div>}
+			{entries.length === 0 && <div style={styles.empty}>No changes to review.</div>}
 		</div>
 	);
 }
