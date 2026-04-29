@@ -42,7 +42,8 @@ function buildChunks(lyrics: LyricLine[], words: WordEvent[]): LineChunk[] {
 	for (let l = 0; l < lyrics.length; l++) {
 		const windowStart = boundaries[l];
 		const windowEnd = l + 1 < boundaries.length ? boundaries[l + 1] : Number.POSITIVE_INFINITY;
-		const nextLineStart = l + 1 < lyrics.length ? (lyrics[l].t + lyrics[l + 1].t) / 2 : Number.POSITIVE_INFINITY;
+		const nextLineStart =
+			l + 1 < lyrics.length ? (lyrics[l].t + lyrics[l + 1].t) / 2 : Number.POSITIVE_INFINITY;
 
 		const chunkWords: { index: number; text: string }[] = [];
 		for (const w of sorted) {
@@ -63,7 +64,10 @@ function formatChunkedPrompt(
 	chunks: LineChunk[],
 	metadata: { title?: string; artist?: string },
 ): string {
-	const lines: string[] = [`Song: ${metadata.title || "Unknown"} by ${metadata.artist || "Unknown"}`, ""];
+	const lines: string[] = [
+		`Song: ${metadata.title || "Unknown"} by ${metadata.artist || "Unknown"}`,
+		"",
+	];
 
 	for (let c = 0; c < chunks.length; c++) {
 		const chunk = chunks[c];

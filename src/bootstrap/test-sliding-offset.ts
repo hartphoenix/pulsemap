@@ -95,7 +95,9 @@ function findBestOffset(
 	const avgSim = lrclibLines.length > 0 ? bestScore / lrclibLines.length : 0;
 	const improvement = lrclibLines.length > 0 ? (bestScore - zeroScore) / lrclibLines.length : 0;
 	const accepted =
-		Math.abs(bestOffset) > 2000 && avgSim >= SIMILARITY_THRESHOLD && improvement >= IMPROVEMENT_THRESHOLD;
+		Math.abs(bestOffset) > 2000 &&
+		avgSim >= SIMILARITY_THRESHOLD &&
+		improvement >= IMPROVEMENT_THRESHOLD;
 
 	return { offsetMs: bestOffset, score: bestScore, zeroScore, accepted };
 }
