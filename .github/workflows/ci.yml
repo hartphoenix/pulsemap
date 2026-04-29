@@ -18,8 +18,11 @@ jobs:
 
       - run: bun install --frozen-lockfile
 
-      - name: Lint
-        run: bun run lint
+      # Lint is enforced locally via editor format-on-save and `bun run lint`.
+      # CI doesn't gate on it — the rules biome fires on this repo are
+      # almost entirely cosmetic (format, import order) and were producing
+      # admin-override PRs without catching real bugs. Typecheck + tests
+      # carry the load.
 
       - name: Typecheck
         run: bun run typecheck
