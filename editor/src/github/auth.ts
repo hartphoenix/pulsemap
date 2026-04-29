@@ -1,103 +1,105 @@
 /**
- * GitHub OAuth device flow: no server-side token exchange needed.
+ * GitHub OAuth web flow.
+ *
+ * GitHub's /login/oauth/access_token endpoint doesn't send CORS headers,
+ * so the code-for-token exchange goes through a small Netlify Function
+ * proxy. The browser only handles the redirect to GitHub and the return.
  *
  * Flow:
- * 1. POST /login/device/code → get device_code, user_code, verification_uri
- * 2. Show user the code and link
- * 3. Poll /login/oauth/access_token until user authorizes
+ * 1. beginOAuth() — generates a CSRF state, stashes it + the current URL
+ *    in sessionStorage, redirects to github.com/login/oauth/authorize.
+ * 2. GitHub redirects back to redirect_uri with ?code=&state=.
+ * 3. handleOAuthCallback() — runs at app boot, verifies state, calls the
+ *    proxy to exchange code for token, stores token, restores the
+ *    pre-auth URL, and strips the OAuth params.
  */
 
-const CLIENT_ID = "Ov23li12vkglROrSw2N1";
-
+const CLIENT_ID = "Ov23liuBjPclnX0rAr1s";
 const TOKEN_KEY = "pulsemap-gh-token";
+const STATE_KEY = "pulsemap-oauth-state";
+const RETURN_URL_KEY = "pulsemap-oauth-return-url";
+const REDIRECT_URI = "https://hartphoenix.github.io/pulsemap/editor/";
 
-export interface DeviceCodeResponse {
-	device_code: string;
-	user_code: string;
-	verification_uri: string;
-	expires_in: number;
-	interval: number;
+const PROXY_URL =
+	(import.meta.env?.VITE_OAUTH_PROXY_URL as string | undefined) ??
+	"https://pulsemap-editor.netlify.app";
+
+function randomState(): string {
+	const bytes = new Uint8Array(16);
+	crypto.getRandomValues(bytes);
+	return Array.from(bytes, (b) => b.toString(16).padStart(2, "0")).join("");
 }
 
-/** Request a device code from GitHub. */
-export async function requestDeviceCode(): Promise<DeviceCodeResponse> {
-	const res = await fetch("https://github.com/login/device/code", {
-		method: "POST",
-		headers: {
-			Accept: "application/json",
-			"Content-Type": "application/json",
-		},
-		body: JSON.stringify({
-			client_id: CLIENT_ID,
-			scope: "public_repo",
-		}),
-	});
+/** Redirect to GitHub to begin the OAuth web flow. */
+export function beginOAuth(): void {
+	const state = randomState();
+	sessionStorage.setItem(STATE_KEY, state);
+	sessionStorage.setItem(
+		RETURN_URL_KEY,
+		window.location.pathname + window.location.search + window.location.hash,
+	);
 
-	if (!res.ok) {
-		throw new Error(`Device code request failed: ${res.status}`);
-	}
-
-	return (await res.json()) as DeviceCodeResponse;
+	const authUrl = new URL("https://github.com/login/oauth/authorize");
+	authUrl.searchParams.set("client_id", CLIENT_ID);
+	authUrl.searchParams.set("scope", "public_repo");
+	authUrl.searchParams.set("state", state);
+	authUrl.searchParams.set("redirect_uri", REDIRECT_URI);
+	window.location.assign(authUrl.toString());
 }
 
 /**
- * Poll for the access token after user enters the device code.
- * Resolves with the token when authorized, rejects on expiry or denial.
+ * If the current URL is an OAuth callback (has ?code=&state=), verify
+ * the state, exchange the code for a token, persist it, and restore the
+ * pre-auth URL. Returns true if a callback was handled (whether or not
+ * it succeeded). Safe to call when there's no callback in the URL.
+ *
+ * Should run before React mounts so the URL is clean when the editor
+ * reads its deep-link params.
  */
-export async function pollForToken(deviceCode: string, interval: number): Promise<string> {
-	const pollInterval = Math.max(interval, 5) * 1000;
+export async function handleOAuthCallback(): Promise<boolean> {
+	const params = new URLSearchParams(window.location.search);
+	const code = params.get("code");
+	const state = params.get("state");
+	if (!code || !state) return false;
 
-	while (true) {
-		await new Promise((r) => setTimeout(r, pollInterval));
+	const expected = sessionStorage.getItem(STATE_KEY);
+	const returnUrl = sessionStorage.getItem(RETURN_URL_KEY);
+	sessionStorage.removeItem(STATE_KEY);
+	sessionStorage.removeItem(RETURN_URL_KEY);
 
-		const res = await fetch("https://github.com/login/oauth/access_token", {
-			method: "POST",
-			headers: {
-				Accept: "application/json",
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({
-				client_id: CLIENT_ID,
-				device_code: deviceCode,
-				grant_type: "urn:ietf:params:oauth:grant-type:device_code",
-			}),
-		});
+	const restore = () => {
+		const target = returnUrl ?? window.location.pathname + window.location.hash;
+		window.history.replaceState(null, "", target);
+	};
 
-		if (!res.ok) continue;
-
-		const data = (await res.json()) as {
-			access_token?: string;
-			error?: string;
-		};
-
-		if (data.access_token) {
-			return data.access_token;
-		}
-
-		if (data.error === "authorization_pending") continue;
-		if (data.error === "slow_down") {
-			await new Promise((r) => setTimeout(r, 5000));
-			continue;
-		}
-		if (data.error === "expired_token") {
-			throw new Error("Device code expired. Please try again.");
-		}
-		if (data.error === "access_denied") {
-			throw new Error("Authorization denied by user.");
-		}
-
-		throw new Error(`Unexpected error: ${data.error}`);
+	if (!expected || expected !== state) {
+		restore();
+		return true;
 	}
+
+	try {
+		const res = await fetch(`${PROXY_URL}/oauth/token`, {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({ code, redirect_uri: REDIRECT_URI }),
+		});
+		if (res.ok) {
+			const data = (await res.json()) as { access_token?: string };
+			if (data.access_token) {
+				localStorage.setItem(TOKEN_KEY, data.access_token);
+			}
+		}
+	} catch {
+		// network error — token not stored; user will see signed-out state
+	}
+
+	restore();
+	return true;
 }
 
 /** Read stored token from localStorage. */
 export function getStoredToken(): string | null {
 	return localStorage.getItem(TOKEN_KEY);
-}
-
-/** Persist a token to localStorage. */
-export function storeToken(token: string): void {
-	localStorage.setItem(TOKEN_KEY, token);
 }
 
 /** Remove the stored token. */

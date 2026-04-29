@@ -1,0 +1,9 @@
+[build]
+  command = ":"
+  publish = "netlify-empty"
+  functions = "netlify/functions"
+
+[[redirects]]
+  from = "/oauth/token"
+  to = "/.netlify/functions/oauth-token"
+  status = 200
