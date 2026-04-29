@@ -1,0 +1,5112 @@
+{
+  "version": "0.1.0",
+  "id": "0ef6d5e2-78e3-43e8-a32c-36e28fed4834",
+  "duration_ms": 278280,
+  "fingerprint": {
+    "chromaprint": "AQADtFkyJswUBccPPUeNozt0oDmO52hqKOK0FD2aPfiDXMe347oQXswEVXg7XGeQH45w5D3-Qj9C_riP68L_oMkeFQyO8mjiFrsW4kN-OO6hnMevYKSO8BxWHj_SKyjVgF4-HE-gkXbgHnU6_AkRrmi-ILv0YPRO5Fp2PMK5I_wcCpYjHdqHyyfy43txOyqavEJ-wU-QMCpvtMflNCKuWdiPdH6MRIus4KLO4fnQvEU97PvxD_mRPE5y4fpxJXiC7gr87OgZXNvx-EKePEHsHkeejClUrcdlhHnuoMeP_sGTJEcoqQ7k8sjRhBzqlMKPsLsaNMfD4NkcY5QShAGzPziudcaeLKGCWwH-ITwcX_jS48I7PCdeuFkSfBTEY9Kz4fSOV8HfFdUPJvqGCz-a_UCe40-E7sf5II-hR8nhPQjeXHim4TkuZVJw6UGnW_iP83COHzmhHb_wHnk5Buci48ycIKYDaofe40f4EN7zDA5PRPVwC-lRMsOPpzn-44gLcVJF5PiPJj-mVZLxB-WP5MmZIvVxo1fwJLjU4yfyyQ6SSknQSxXMjyhJEc8PXriP5KKRB6NIC9dqofzR1DieBA_OS3hF_PiDiETyHH0eeO-xR4RjKYSpBGt4HMmpbMieoo9F4s8QMoeWHfn04EcfHpSPFD116EyOTs4R5sAUPkbXLA6uF-WORs_xFucdhFZKiCccdTlR7UR-5Dy-4JH04HyOE60F8VGHt6ioF-ELPw_a6Mih02i2HBruKtgVKuhqB7l_1AaRLDfCrg74PWjUo-LRNE0Qyvh1aCuPZg8uvMmOpg56xH6KfkcpBx_TFLwLOww-Gf_RXHkI7VfwnahESRpchcXH4wuuGMZTHv4X5DIX4c7wztBr-Kj3DPlaoSeD9AuYT9AlKfiCB3eL8HmK6_Ci40R-qA9C7wcvXHmD4yd6xWgeIlYCbdm0w3kR2hV-pYh54z9U83iILNdh1_ATHZdUoooWRiNKEtSPfseZCaGhL_rQZiOih0XrXHiKNJJy6EE-ouFRLkXztChS19Ckj0EcRbSO_SrKU4Cr5sjD48qoQHpXHHoPar0UVBw94WDGFQ0z41XwP_jRxER_KG-EPFOK0Xzw5iHo--hxmbCFj-iPL-lw7JFqYdce_B2Sr0eYHF15_Fdwo0GPFzn08FBPIX9QdQ9cMceXcSiPHp7EbEIZJReR_Mh_1CaYxOGFGz9-3F9QRtnxzLh4kFoI5-gTI_koZAl3lDueEzyPBx7-jMiVFEmTRmRwBj_yopQNMUZn6oh9HMcR_tBO_EGuHFeYgXcYCfFZdMo36KuL-xB__LhQijlyAVdnBRc5IqYOnoKP_9CTofqDKYLOoAntwd-D6sEHcz2UFrGkPAnew33x7AF_9NThJsQW6eiC5MiP68G14z9-vI-M3VrQPFCkHD3q42kY3MYPfNoQU1mgHVYRuNI-9MKFZP-QkoSnd_iS43B-9DLuED_yhiGSxzlOHf3RHIeb40_QfTeaJ8W5IE8OXTx6lvAXaEdxXUjjqIWv45GOOngu4Tfq6Ahz_D0OH8qPo4F2PFaKU8GtI7Me9DfcLcd_5Hi6wD-c5XhYzMdE4vKhy8iDJwGTpB0Y6WgfhNkh9Tn2HpeD44f-F_sDL8qFH8fDEk-i4z3uxAtuRZCP0Dy8ZT_KMCv-48d7uMT7I8vkUNCSMWuCn4j0o-mPH81RHbl6aBKvIP1yNMdr_MZFpUOaQ44-xL_xRCSaE3105MJokoGWJMyF50gbp8W_4mEO_-iHByePOMnODHoL5hz8hkf4LXg2HcdZ5McR1TnijccPnS0RM8lwPkEz8niao8d7XEeeEPmN3sO54zfcLUTHHF8wLzSe7Ai9HOJP8E0O3cgYZsETsXB6uMpwZUEItUe-EN0YHs3x42Lm4EdDpXFQasMfBTq2x8S3iQ0unEQzHpc0NL0LVdLRaTma4yMa1kWt6chzIbGG6rjE8ehdCeeDZo_QGclP5FrkY_9w7fiD8onBhD1OxngG5kzQaLlwD80ZhEsD5Ucfo8mi40qC6dDyGvfxC_px5UfOPUF3oak04RVK6TkaLl2EXwifClq4H7mOR2qKNxEu9KHQnDl4WYhFHhcv9PiCpzHB-EHOTfiD0kIzTrhCDXl2_NDeMHgeePoRMgpxGx0cS4erVaie4D6eTA_4B6GNZCkV_HiYJcSnZE7QRPLRh8S_48gu6EuUb8j7odRxGXfhpNmFfjj-I8wWGswTaP1So3kU3NDzYD_CuEef46FOPDhyL9BloanCiNEQicRvVMmHm8dR60J-8OyOPsOnGNeJ18TxxoYpRTkuhBe-YIqaoe2EPApmZfheGXofZEcY_rjUo8-MHLeEfEuGS8vxMMRt5OSRpw-YfOgRU8nxfAnyUoPx43ii44TeD6pEVDnyZzheXLCTF7l68Hi2HH2Op8gvPKGHMn1EOKpU_MLFHCceJLqyI3-H3zDqFxdPlMkiNOcpvHgyDln64fiP5xbIdPARfkf-4jdK-RDdIIaL-viQbVFEvBEh5YyCK5-g52CP_Dhv2ELNkzhO0ZizLCviH9cDeW7QVNNRiRJ-40dFhYfVo52OEz9u5QivYzzRH6yVGE2bY3qCi7rQB002HxOYE4hLQh1BQghEACLGMGEMQIMYI4UQQBAkiABQCCEAAohAJSSghrHmgBFEEEEIIAQJoAwmAiEACABECWeAYEARAZBhBAiACAQRQAEUYYoABgAHQkAgFEHAEygANcYAAghT3AiDCCFiWEOEIUAYBRgTgjkAiADOA4IUYU4g4IBSgBigoGEEGCOAEEIiAgQwAECBFDBAOEcAQcAKBARCjDECLHCAAYEkYUoQABEpwhAtCEEEAgOEIoowBTEwCgkDBAECEGgQYYAxgIASSgBnhBCACSAYIApDSxACABmBlCOAQASMVUQYRhQSAggjBDQEMQGIAMYgRAwgQIAgEHGUGQEAUgAQRAgCiBkhAHAMAUAAAEQwAAwAygsHCFBAGOQQ8ggAcAUBhhkoDBAICIYQcwYYIYwARAgAABUQAWCAIMJYRawwSBBmAUBEEAegWJYCCghUBigGpEWSugSoMAAJBowDAAlCrAEOCOMoMoYJgwQwCBklFGPMEKKoEwAwZ4ABlhCHsMKKEq-QAEg4JSQ6ggGIABDEKIIRdQYAAxAhgAjBDBGCEIIAgYIILoRVRBhAiBDGACAqEgpAgwDbGgohgAECeAIEIoJwTZVCAFDIhECAIKcIQYARJYwwXDEgjABKOUMMAQYhgRQhABFGgDUSGGEIAMoYzhgAhkgCEBGAMMaINowYQoAxXBIDiAOcKIQNoAoApgBTSABDMTDEasGMJAAAR4QQhBAEqBCCMIgQMEYrogAVDkECgBKAAQMoUUgIoRArwCAiCEIKKkcEwEgJhhxAzhAngALMCUCEAAAAIIhgFAhlEXAECICIMUQBoZhkzADFiBVIASEYEEIkgqxWAgAEASBIGEIAVUgAAYAwACHkYBOMAEoAyoQYxBhRiBmHiACAiASgMI4QJYCQTCAAiAGgEAoEUUBBJZRR2CgAhCQAMcEMoQQAwREQRBgrmAEEKQE",
+    "algorithm": 2,
+    "duration": 278280
+  },
+  "metadata": {
+    "title": "Hallelujah",
+    "artist": "Leonard Cohen",
+    "album": "The Collection",
+    "key": "C major",
+    "tempo": 166.7,
+    "time_signature": "3/4"
+  },
+  "playback": [
+    {
+      "platform": "youtube",
+      "uri": "https://www.youtube.com/watch?v=ttEMYvpoR-k",
+      "id": "ttEMYvpoR-k",
+      "capabilities": {
+        "play": true,
+        "pause": true,
+        "seek": true,
+        "setPosition": true,
+        "getPosition": true,
+        "rate": [
+          0.25,
+          0.5,
+          0.75,
+          1,
+          1.25,
+          1.5,
+          1.75,
+          2
+        ],
+        "volume": true,
+        "mute": true
+      },
+      "added": "2026-04-29"
+    }
+  ],
+  "lyrics": [
+    {
+      "t": 4337,
+      "text": "Now I've heard there was a secret chord",
+      "end": 8375
+    },
+    {
+      "t": 9142,
+      "text": "That David played, and it pleased the Lord",
+      "end": 12579
+    },
+    {
+      "t": 13246,
+      "text": "But you dont really care for music, do you?",
+      "end": 18685
+    },
+    {
+      "t": 21821,
+      "text": "It goes like this, the fourth, the fifth",
+      "end": 26026
+    },
+    {
+      "t": 26259,
+      "text": "The minor falls, the major lifts",
+      "end": 30230
+    },
+    {
+      "t": 30563,
+      "text": "The baffled king composing Hallelujah",
+      "end": 36236
+    },
+    {
+      "t": 38138,
+      "text": "Hallelujah, Hallelujah",
+      "end": 58525
+    },
+    {
+      "t": 60360,
+      "text": "Your faith was strong but you needed proof",
+      "end": 64064
+    },
+    {
+      "t": 64664,
+      "text": "You saw her bathing on the roof",
+      "end": 68268
+    },
+    {
+      "t": 68768,
+      "text": "Her beauty and the moonlight overthrew ya",
+      "end": 74774
+    },
+    {
+      "t": 77143,
+      "text": "She tied you to a kitchen chair",
+      "end": 81181
+    },
+    {
+      "t": 81448,
+      "text": "She broke your throne, and she cut your hair",
+      "end": 85418
+    },
+    {
+      "t": 85718,
+      "text": "And from your lips she drew the Hallelujah",
+      "end": 91458
+    },
+    {
+      "t": 93393,
+      "text": "Hallelujah, Hallelujah",
+      "end": 113713
+    },
+    {
+      "t": 115482,
+      "text": "You say I took the name in vain",
+      "end": 119219
+    },
+    {
+      "t": 119586,
+      "text": "I don't even know the name",
+      "end": 123156
+    },
+    {
+      "t": 123823,
+      "text": "But if I did, well, really, what's it to ya?",
+      "end": 129462
+    },
+    {
+      "t": 132031,
+      "text": "There's a blaze of light in every word",
+      "end": 135835
+    },
+    {
+      "t": 136269,
+      "text": "It doesn't matter which you heard",
+      "end": 140173
+    },
+    {
+      "t": 140640,
+      "text": "The holy or the broken Hallelujah",
+      "end": 146179
+    },
+    {
+      "t": 147947,
+      "text": "Hallelujah, Hallelujah",
+      "end": 167667
+    },
+    {
+      "t": 169903,
+      "text": "I did my best, it wasn't much",
+      "end": 173473
+    },
+    {
+      "t": 174140,
+      "text": "I couldn't feel, so I tried to touch",
+      "end": 177677
+    },
+    {
+      "t": 178244,
+      "text": "I've told the truth, I didn't come to fool ya",
+      "end": 183183
+    },
+    {
+      "t": 186519,
+      "text": "And even though it all went wrong",
+      "end": 190523
+    },
+    {
+      "t": 190723,
+      "text": "I'll stand before the lord of song",
+      "end": 194627
+    },
+    {
+      "t": 194894,
+      "text": "With nothing on my tongue but hallelujah",
+      "end": 200867
+    },
+    {
+      "t": 202535,
+      "text": "Hallelujah, Hallelujah",
+      "end": 269335
+    }
+  ],
+  "words": [
+    {
+      "t": 4394,
+      "text": "Now",
+      "end": 4614
+    },
+    {
+      "t": 4734,
+      "text": "I've",
+      "end": 4915
+    },
+    {
+      "t": 4955,
+      "text": "heard",
+      "end": 5655
+    },
+    {
+      "t": 6016,
+      "text": "there",
+      "end": 6276
+    },
+    {
+      "t": 6316,
+      "text": "was",
+      "end": 6577
+    },
+    {
+      "t": 6737,
+      "text": "a",
+      "end": 6837
+    },
+    {
+      "t": 6997,
+      "text": "secret",
+      "end": 7397
+    },
+    {
+      "t": 7598,
+      "text": "chord",
+      "end": 8138
+    },
+    {
+      "t": 8999,
+      "text": "that",
+      "end": 9179
+    },
+    {
+      "t": 9300,
+      "text": "David",
+      "end": 9720
+    },
+    {
+      "t": 9840,
+      "text": "played,",
+      "end": 10441
+    },
+    {
+      "t": 10921,
+      "text": "and",
+      "end": 11062
+    },
+    {
+      "t": 11122,
+      "text": "it",
+      "end": 11182
+    },
+    {
+      "t": 11362,
+      "text": "pleased",
+      "end": 11923
+    },
+    {
+      "t": 11963,
+      "text": "the",
+      "end": 12043
+    },
+    {
+      "t": 12103,
+      "text": "Lord,",
+      "end": 12583
+    },
+    {
+      "t": 13284,
+      "text": "but",
+      "end": 13504
+    },
+    {
+      "t": 13604,
+      "text": "you",
+      "end": 13765
+    },
+    {
+      "t": 13785,
+      "text": "don't",
+      "end": 14105
+    },
+    {
+      "t": 14746,
+      "text": "really",
+      "end": 15286
+    },
+    {
+      "t": 15306,
+      "text": "care",
+      "end": 15386
+    },
+    {
+      "t": 16508,
+      "text": "for",
+      "end": 16768
+    },
+    {
+      "t": 16888,
+      "text": "music,",
+      "end": 17409
+    },
+    {
+      "t": 17869,
+      "text": "do",
+      "end": 18089
+    },
+    {
+      "t": 18149,
+      "text": "you?",
+      "end": 18290
+    },
+    {
+      "t": 22148,
+      "text": "It",
+      "end": 22228
+    },
+    {
+      "t": 22348,
+      "text": "goes",
+      "end": 22748
+    },
+    {
+      "t": 22828,
+      "text": "like",
+      "end": 23308
+    },
+    {
+      "t": 23409,
+      "text": "this,",
+      "end": 24009
+    },
+    {
+      "t": 24209,
+      "text": "the",
+      "end": 24429
+    },
+    {
+      "t": 24509,
+      "text": "fourth,",
+      "end": 24969
+    },
+    {
+      "t": 25289,
+      "text": "the",
+      "end": 25469
+    },
+    {
+      "t": 25589,
+      "text": "fifth,",
+      "end": 25929
+    },
+    {
+      "t": 26330,
+      "text": "the",
+      "end": 26510
+    },
+    {
+      "t": 26610,
+      "text": "minor,",
+      "end": 27410
+    },
+    {
+      "t": 27630,
+      "text": "fall,",
+      "end": 28370
+    },
+    {
+      "t": 28470,
+      "text": "the",
+      "end": 28630
+    },
+    {
+      "t": 28790,
+      "text": "major",
+      "end": 29651
+    },
+    {
+      "t": 29811,
+      "text": "lift,",
+      "end": 30151
+    },
+    {
+      "t": 30611,
+      "text": "the",
+      "end": 30771
+    },
+    {
+      "t": 30911,
+      "text": "battle",
+      "end": 31752
+    },
+    {
+      "t": 31972,
+      "text": "king",
+      "end": 32512
+    },
+    {
+      "t": 32692,
+      "text": "composing",
+      "end": 33952
+    },
+    {
+      "t": 34132,
+      "text": "Hallelujah!",
+      "end": 37213
+    },
+    {
+      "t": 38294,
+      "text": "Hallelujah!",
+      "end": 40735
+    },
+    {
+      "t": 42575,
+      "text": "Hallelujah!",
+      "end": 45036
+    },
+    {
+      "t": 46857,
+      "text": "Hallelujah!",
+      "end": 49238
+    },
+    {
+      "t": 51145,
+      "text": "Hallelujah!",
+      "end": 58192
+    },
+    {
+      "t": 60334,
+      "text": "Your",
+      "end": 60654
+    },
+    {
+      "t": 60794,
+      "text": "faith",
+      "end": 61435
+    },
+    {
+      "t": 61455,
+      "text": "was",
+      "end": 61635
+    },
+    {
+      "t": 61795,
+      "text": "strong",
+      "end": 62376
+    },
+    {
+      "t": 62496,
+      "text": "but",
+      "end": 62656
+    },
+    {
+      "t": 62696,
+      "text": "you",
+      "end": 62916
+    },
+    {
+      "t": 62976,
+      "text": "needed",
+      "end": 63377
+    },
+    {
+      "t": 63477,
+      "text": "proof",
+      "end": 63937
+    },
+    {
+      "t": 64658,
+      "text": "You",
+      "end": 64898
+    },
+    {
+      "t": 65018,
+      "text": "saw",
+      "end": 65358
+    },
+    {
+      "t": 65438,
+      "text": "her",
+      "end": 65879
+    },
+    {
+      "t": 65999,
+      "text": "bathing",
+      "end": 66900
+    },
+    {
+      "t": 67180,
+      "text": "on",
+      "end": 67400
+    },
+    {
+      "t": 67480,
+      "text": "the",
+      "end": 67560
+    },
+    {
+      "t": 67641,
+      "text": "roof",
+      "end": 68041
+    },
+    {
+      "t": 68842,
+      "text": "Her",
+      "end": 69082
+    },
+    {
+      "t": 69162,
+      "text": "beauty",
+      "end": 69903
+    },
+    {
+      "t": 70703,
+      "text": "and",
+      "end": 70904
+    },
+    {
+      "t": 70984,
+      "text": "her",
+      "end": 71104
+    },
+    {
+      "t": 71224,
+      "text": "moon",
+      "end": 71784
+    },
+    {
+      "t": 71885,
+      "text": "landed",
+      "end": 72665
+    },
+    {
+      "t": 72825,
+      "text": "over",
+      "end": 73186
+    },
+    {
+      "t": 73326,
+      "text": "through",
+      "end": 73766
+    },
+    {
+      "t": 73826,
+      "text": "you",
+      "end": 73987
+    },
+    {
+      "t": 77230,
+      "text": "She",
+      "end": 77510
+    },
+    {
+      "t": 77590,
+      "text": "tied",
+      "end": 78231
+    },
+    {
+      "t": 78271,
+      "text": "you",
+      "end": 78551
+    },
+    {
+      "t": 79091,
+      "text": "to",
+      "end": 79351
+    },
+    {
+      "t": 79511,
+      "text": "a",
+      "end": 79651
+    },
+    {
+      "t": 79711,
+      "text": "kitchen",
+      "end": 80532
+    },
+    {
+      "t": 80692,
+      "text": "chair",
+      "end": 81352
+    },
+    {
+      "t": 81472,
+      "text": "She",
+      "end": 81672
+    },
+    {
+      "t": 81752,
+      "text": "broke",
+      "end": 82093
+    },
+    {
+      "t": 82133,
+      "text": "your",
+      "end": 82673
+    },
+    {
+      "t": 82753,
+      "text": "throne",
+      "end": 83253
+    },
+    {
+      "t": 83313,
+      "text": "and",
+      "end": 83413
+    },
+    {
+      "t": 83533,
+      "text": "she",
+      "end": 83834
+    },
+    {
+      "t": 83954,
+      "text": "cut",
+      "end": 84174
+    },
+    {
+      "t": 84214,
+      "text": "your",
+      "end": 84914
+    },
+    {
+      "t": 85014,
+      "text": "hair",
+      "end": 85414
+    },
+    {
+      "t": 85815,
+      "text": "And",
+      "end": 85955
+    },
+    {
+      "t": 86055,
+      "text": "from",
+      "end": 86315
+    },
+    {
+      "t": 86355,
+      "text": "your",
+      "end": 86535
+    },
+    {
+      "t": 87015,
+      "text": "lips",
+      "end": 87295
+    },
+    {
+      "t": 87496,
+      "text": "she",
+      "end": 87936
+    },
+    {
+      "t": 88076,
+      "text": "drew",
+      "end": 88476
+    },
+    {
+      "t": 88536,
+      "text": "the",
+      "end": 89136
+    },
+    {
+      "t": 89257,
+      "text": "hallelujah",
+      "end": 91258
+    },
+    {
+      "t": 91298,
+      "text": "Hallelujah",
+      "end": 93839
+    },
+    {
+      "t": 93919,
+      "text": "Hallelujah",
+      "end": 95880
+    },
+    {
+      "t": 97721,
+      "text": "Hallelujah",
+      "end": 99942
+    },
+    {
+      "t": 115490,
+      "text": "You",
+      "end": 115770
+    },
+    {
+      "t": 115850,
+      "text": "say",
+      "end": 116151
+    },
+    {
+      "t": 116291,
+      "text": "I'd",
+      "end": 116871
+    },
+    {
+      "t": 116992,
+      "text": "put",
+      "end": 117252
+    },
+    {
+      "t": 117592,
+      "text": "the",
+      "end": 117752
+    },
+    {
+      "t": 117893,
+      "text": "name",
+      "end": 118193
+    },
+    {
+      "t": 118273,
+      "text": "in",
+      "end": 118373
+    },
+    {
+      "t": 118453,
+      "text": "vain,",
+      "end": 118854
+    },
+    {
+      "t": 120135,
+      "text": "I",
+      "end": 120215
+    },
+    {
+      "t": 120255,
+      "text": "don't",
+      "end": 121076
+    },
+    {
+      "t": 121216,
+      "text": "even",
+      "end": 121857
+    },
+    {
+      "t": 122037,
+      "text": "know",
+      "end": 122477
+    },
+    {
+      "t": 122518,
+      "text": "the",
+      "end": 122578
+    },
+    {
+      "t": 122718,
+      "text": "name.",
+      "end": 123098
+    },
+    {
+      "t": 123859,
+      "text": "But",
+      "end": 124139
+    },
+    {
+      "t": 124239,
+      "text": "if",
+      "end": 124340
+    },
+    {
+      "t": 124500,
+      "text": "I",
+      "end": 124600
+    },
+    {
+      "t": 124720,
+      "text": "did,",
+      "end": 125120
+    },
+    {
+      "t": 125801,
+      "text": "well",
+      "end": 126101
+    },
+    {
+      "t": 126161,
+      "text": "really,",
+      "end": 126722
+    },
+    {
+      "t": 127703,
+      "text": "what's",
+      "end": 128084
+    },
+    {
+      "t": 128204,
+      "text": "it",
+      "end": 128324
+    },
+    {
+      "t": 128444,
+      "text": "to",
+      "end": 128684
+    },
+    {
+      "t": 128784,
+      "text": "you?",
+      "end": 129005
+    },
+    {
+      "t": 131885,
+      "text": "There's",
+      "end": 132225
+    },
+    {
+      "t": 132305,
+      "text": "a",
+      "end": 132385
+    },
+    {
+      "t": 132505,
+      "text": "blaze",
+      "end": 133246
+    },
+    {
+      "t": 133366,
+      "text": "of",
+      "end": 133466
+    },
+    {
+      "t": 133646,
+      "text": "light",
+      "end": 134246
+    },
+    {
+      "t": 134467,
+      "text": "in",
+      "end": 134587
+    },
+    {
+      "t": 134747,
+      "text": "every",
+      "end": 135447
+    },
+    {
+      "t": 135567,
+      "text": "word",
+      "end": 136107
+    },
+    {
+      "t": 136568,
+      "text": "It",
+      "end": 136628
+    },
+    {
+      "t": 136748,
+      "text": "doesn't",
+      "end": 137268
+    },
+    {
+      "t": 137808,
+      "text": "matter",
+      "end": 138369
+    },
+    {
+      "t": 138849,
+      "text": "which",
+      "end": 139229
+    },
+    {
+      "t": 139249,
+      "text": "you",
+      "end": 139810
+    },
+    {
+      "t": 139970,
+      "text": "hurt",
+      "end": 140510
+    },
+    {
+      "t": 140630,
+      "text": "the",
+      "end": 140930
+    },
+    {
+      "t": 141010,
+      "text": "holy",
+      "end": 141571
+    },
+    {
+      "t": 142451,
+      "text": "or",
+      "end": 142611
+    },
+    {
+      "t": 142651,
+      "text": "the",
+      "end": 142891
+    },
+    {
+      "t": 142951,
+      "text": "broken",
+      "end": 143632
+    },
+    {
+      "t": 144132,
+      "text": "hallelujah",
+      "end": 148234
+    },
+    {
+      "t": 170103,
+      "text": "I",
+      "end": 170183
+    },
+    {
+      "t": 170283,
+      "text": "did",
+      "end": 170504
+    },
+    {
+      "t": 170564,
+      "text": "my",
+      "end": 170804
+    },
+    {
+      "t": 170984,
+      "text": "best.",
+      "end": 171404
+    },
+    {
+      "t": 172285,
+      "text": "It",
+      "end": 172365
+    },
+    {
+      "t": 172445,
+      "text": "wasn't",
+      "end": 172745
+    },
+    {
+      "t": 172825,
+      "text": "much.",
+      "end": 173145
+    },
+    {
+      "t": 174246,
+      "text": "I",
+      "end": 174306
+    },
+    {
+      "t": 174386,
+      "text": "couldn't",
+      "end": 174706
+    },
+    {
+      "t": 174786,
+      "text": "feel",
+      "end": 175147
+    },
+    {
+      "t": 176067,
+      "text": "so",
+      "end": 176368
+    },
+    {
+      "t": 176388,
+      "text": "I",
+      "end": 176408
+    },
+    {
+      "t": 176508,
+      "text": "tried",
+      "end": 176788
+    },
+    {
+      "t": 176868,
+      "text": "to",
+      "end": 176968
+    },
+    {
+      "t": 177048,
+      "text": "touch.",
+      "end": 177468
+    },
+    {
+      "t": 178329,
+      "text": "I've",
+      "end": 178429
+    },
+    {
+      "t": 178509,
+      "text": "told",
+      "end": 178749
+    },
+    {
+      "t": 178809,
+      "text": "the",
+      "end": 178909
+    },
+    {
+      "t": 178969,
+      "text": "truth.",
+      "end": 180490
+    },
+    {
+      "t": 180510,
+      "text": "I",
+      "end": 180530
+    },
+    {
+      "t": 180610,
+      "text": "didn't",
+      "end": 180911
+    },
+    {
+      "t": 181011,
+      "text": "come",
+      "end": 181351
+    },
+    {
+      "t": 182051,
+      "text": "to",
+      "end": 182172
+    },
+    {
+      "t": 182252,
+      "text": "fool",
+      "end": 182552
+    },
+    {
+      "t": 182572,
+      "text": "you.",
+      "end": 182712
+    },
+    {
+      "t": 186773,
+      "text": "And",
+      "end": 186953
+    },
+    {
+      "t": 187093,
+      "text": "even",
+      "end": 187794
+    },
+    {
+      "t": 187934,
+      "text": "though",
+      "end": 188875
+    },
+    {
+      "t": 188915,
+      "text": "it",
+      "end": 188995
+    },
+    {
+      "t": 189195,
+      "text": "all",
+      "end": 189695
+    },
+    {
+      "t": 189795,
+      "text": "went",
+      "end": 190056
+    },
+    {
+      "t": 190156,
+      "text": "wrong,",
+      "end": 190776
+    },
+    {
+      "t": 190956,
+      "text": "I'll",
+      "end": 191156
+    },
+    {
+      "t": 191316,
+      "text": "stand",
+      "end": 191897
+    },
+    {
+      "t": 191937,
+      "text": "before",
+      "end": 192818
+    },
+    {
+      "t": 192898,
+      "text": "the",
+      "end": 193178
+    },
+    {
+      "t": 193278,
+      "text": "Lord",
+      "end": 194038
+    },
+    {
+      "t": 194119,
+      "text": "of",
+      "end": 194239
+    },
+    {
+      "t": 194399,
+      "text": "some",
+      "end": 195019
+    },
+    {
+      "t": 195139,
+      "text": "with",
+      "end": 195399
+    },
+    {
+      "t": 195500,
+      "text": "nothing",
+      "end": 196460
+    },
+    {
+      "t": 196660,
+      "text": "on",
+      "end": 196800
+    },
+    {
+      "t": 196881,
+      "text": "my",
+      "end": 197141
+    },
+    {
+      "t": 197221,
+      "text": "come,",
+      "end": 197681
+    },
+    {
+      "t": 198221,
+      "text": "but",
+      "end": 198582
+    },
+    {
+      "t": 198642,
+      "text": "Hallelujah.",
+      "end": 201724
+    },
+    {
+      "t": 202765,
+      "text": "Hallelujah.",
+      "end": 205127
+    },
+    {
+      "t": 207008,
+      "text": "Hallelujah.",
+      "end": 209390
+    },
+    {
+      "t": 211251,
+      "text": "Hallelujah.",
+      "end": 213513
+    },
+    {
+      "t": 216031,
+      "text": "Hallelujah.",
+      "end": 219892
+    },
+    {
+      "t": 219932,
+      "text": "Hallelujah.",
+      "end": 221992
+    },
+    {
+      "t": 223693,
+      "text": "Hallelujah.",
+      "end": 226233
+    },
+    {
+      "t": 227934,
+      "text": "Hallelujah.",
+      "end": 230414
+    },
+    {
+      "t": 232175,
+      "text": "Hallelujah.",
+      "end": 235535
+    },
+    {
+      "t": 244837,
+      "text": "Hallelujah!",
+      "end": 247239
+    },
+    {
+      "t": 248920,
+      "text": "Hallelujah!",
+      "end": 252403
+    }
+  ],
+  "chords": [
+    {
+      "t": 600,
+      "chord": "C",
+      "end": 2860
+    },
+    {
+      "t": 2860,
+      "chord": "G",
+      "end": 5040
+    },
+    {
+      "t": 5040,
+      "chord": "C",
+      "end": 7240
+    },
+    {
+      "t": 7240,
+      "chord": "Am",
+      "end": 9380
+    },
+    {
+      "t": 9380,
+      "chord": "C",
+      "end": 11520
+    },
+    {
+      "t": 11520,
+      "chord": "Am",
+      "end": 13720
+    },
+    {
+      "t": 13720,
+      "chord": "F",
+      "end": 15880
+    },
+    {
+      "t": 15880,
+      "chord": "G",
+      "end": 18090
+    },
+    {
+      "t": 18090,
+      "chord": "C",
+      "end": 20200
+    },
+    {
+      "t": 20200,
+      "chord": "G",
+      "end": 22360
+    },
+    {
+      "t": 22360,
+      "chord": "C",
+      "end": 24520
+    },
+    {
+      "t": 24520,
+      "chord": "F",
+      "end": 25610
+    },
+    {
+      "t": 25610,
+      "chord": "G",
+      "end": 26660
+    },
+    {
+      "t": 26660,
+      "chord": "Am",
+      "end": 28820
+    },
+    {
+      "t": 28820,
+      "chord": "F",
+      "end": 30930
+    },
+    {
+      "t": 30930,
+      "chord": "G",
+      "end": 33090
+    },
+    {
+      "t": 33090,
+      "chord": "E7",
+      "end": 35200
+    },
+    {
+      "t": 35200,
+      "chord": "Am",
+      "end": 39380
+    },
+    {
+      "t": 39380,
+      "chord": "F",
+      "end": 43650
+    },
+    {
+      "t": 43650,
+      "chord": "Am",
+      "end": 47900
+    },
+    {
+      "t": 47900,
+      "chord": "F",
+      "end": 52180
+    },
+    {
+      "t": 52180,
+      "chord": "C",
+      "end": 54360
+    },
+    {
+      "t": 54360,
+      "chord": "G",
+      "end": 56450
+    },
+    {
+      "t": 56450,
+      "chord": "C",
+      "end": 58610
+    },
+    {
+      "t": 58610,
+      "chord": "G",
+      "end": 60790
+    },
+    {
+      "t": 60790,
+      "chord": "C",
+      "end": 62880
+    },
+    {
+      "t": 62880,
+      "chord": "Am",
+      "end": 64970
+    },
+    {
+      "t": 64970,
+      "chord": "C",
+      "end": 66990
+    },
+    {
+      "t": 66990,
+      "chord": "Am",
+      "end": 69150
+    },
+    {
+      "t": 69150,
+      "chord": "F",
+      "end": 71260
+    },
+    {
+      "t": 71260,
+      "chord": "G",
+      "end": 73400
+    },
+    {
+      "t": 73400,
+      "chord": "C",
+      "end": 75490
+    },
+    {
+      "t": 75490,
+      "chord": "G",
+      "end": 77580
+    },
+    {
+      "t": 77580,
+      "chord": "C",
+      "end": 79740
+    },
+    {
+      "t": 79740,
+      "chord": "F",
+      "end": 80810
+    },
+    {
+      "t": 80810,
+      "chord": "G",
+      "end": 81850
+    },
+    {
+      "t": 81850,
+      "chord": "Am",
+      "end": 83990
+    },
+    {
+      "t": 83990,
+      "chord": "F",
+      "end": 86120
+    },
+    {
+      "t": 86120,
+      "chord": "G",
+      "end": 88240
+    },
+    {
+      "t": 88240,
+      "chord": "E7",
+      "end": 90350
+    },
+    {
+      "t": 90350,
+      "chord": "Am",
+      "end": 94510
+    },
+    {
+      "t": 94510,
+      "chord": "F",
+      "end": 98800
+    },
+    {
+      "t": 98800,
+      "chord": "Am",
+      "end": 103050
+    },
+    {
+      "t": 103050,
+      "chord": "F",
+      "end": 107320
+    },
+    {
+      "t": 107320,
+      "chord": "C",
+      "end": 109480
+    },
+    {
+      "t": 109480,
+      "chord": "G",
+      "end": 111550
+    },
+    {
+      "t": 111550,
+      "chord": "C",
+      "end": 113750
+    },
+    {
+      "t": 113750,
+      "chord": "G",
+      "end": 115840
+    },
+    {
+      "t": 115840,
+      "chord": "C",
+      "end": 117960
+    },
+    {
+      "t": 117960,
+      "chord": "Am",
+      "end": 119980
+    },
+    {
+      "t": 119980,
+      "chord": "C",
+      "end": 122070
+    },
+    {
+      "t": 122070,
+      "chord": "Am",
+      "end": 124180
+    },
+    {
+      "t": 124180,
+      "chord": "F",
+      "end": 126340
+    },
+    {
+      "t": 126340,
+      "chord": "G",
+      "end": 128360
+    },
+    {
+      "t": 128360,
+      "chord": "C",
+      "end": 130430
+    },
+    {
+      "t": 130430,
+      "chord": "G",
+      "end": 132560
+    },
+    {
+      "t": 132560,
+      "chord": "C",
+      "end": 134680
+    },
+    {
+      "t": 134680,
+      "chord": "F",
+      "end": 135740
+    },
+    {
+      "t": 135740,
+      "chord": "G",
+      "end": 136810
+    },
+    {
+      "t": 136810,
+      "chord": "Am",
+      "end": 138900
+    },
+    {
+      "t": 138900,
+      "chord": "F",
+      "end": 140990
+    },
+    {
+      "t": 140990,
+      "chord": "G",
+      "end": 143080
+    },
+    {
+      "t": 143080,
+      "chord": "E",
+      "end": 145150
+    },
+    {
+      "t": 145150,
+      "chord": "Am",
+      "end": 149260
+    },
+    {
+      "t": 149260,
+      "chord": "F",
+      "end": 153480
+    },
+    {
+      "t": 153480,
+      "chord": "Am",
+      "end": 157640
+    },
+    {
+      "t": 157640,
+      "chord": "F",
+      "end": 161890
+    },
+    {
+      "t": 161890,
+      "chord": "C",
+      "end": 164000
+    },
+    {
+      "t": 164000,
+      "chord": "G",
+      "end": 166070
+    },
+    {
+      "t": 166070,
+      "chord": "C",
+      "end": 168230
+    },
+    {
+      "t": 168230,
+      "chord": "G",
+      "end": 170340
+    },
+    {
+      "t": 170340,
+      "chord": "C",
+      "end": 172450
+    },
+    {
+      "t": 172450,
+      "chord": "Am",
+      "end": 174410
+    },
+    {
+      "t": 174410,
+      "chord": "C",
+      "end": 176540
+    },
+    {
+      "t": 176540,
+      "chord": "Am",
+      "end": 178610
+    },
+    {
+      "t": 178610,
+      "chord": "F",
+      "end": 180740
+    },
+    {
+      "t": 180740,
+      "chord": "G",
+      "end": 182790
+    },
+    {
+      "t": 182790,
+      "chord": "C",
+      "end": 184850
+    },
+    {
+      "t": 184850,
+      "chord": "G",
+      "end": 186970
+    },
+    {
+      "t": 186970,
+      "chord": "C",
+      "end": 189060
+    },
+    {
+      "t": 189060,
+      "chord": "F",
+      "end": 190120
+    },
+    {
+      "t": 190120,
+      "chord": "G",
+      "end": 191170
+    },
+    {
+      "t": 191170,
+      "chord": "Am",
+      "end": 193350
+    },
+    {
+      "t": 193350,
+      "chord": "F",
+      "end": 195440
+    },
+    {
+      "t": 195440,
+      "chord": "G",
+      "end": 197600
+    },
+    {
+      "t": 197600,
+      "chord": "E7",
+      "end": 199690
+    },
+    {
+      "t": 199690,
+      "chord": "Am",
+      "end": 203800
+    },
+    {
+      "t": 203800,
+      "chord": "F",
+      "end": 208050
+    },
+    {
+      "t": 208050,
+      "chord": "Am",
+      "end": 212280
+    },
+    {
+      "t": 212280,
+      "chord": "F",
+      "end": 216550
+    },
+    {
+      "t": 216550,
+      "chord": "C",
+      "end": 218620
+    },
+    {
+      "t": 218620,
+      "chord": "G",
+      "end": 220640
+    },
+    {
+      "t": 220640,
+      "chord": "F",
+      "end": 224770
+    },
+    {
+      "t": 224770,
+      "chord": "Am",
+      "end": 228970
+    },
+    {
+      "t": 228970,
+      "chord": "F",
+      "end": 233220
+    },
+    {
+      "t": 233220,
+      "chord": "C",
+      "end": 235260
+    },
+    {
+      "t": 235260,
+      "chord": "G",
+      "end": 237330
+    },
+    {
+      "t": 237330,
+      "chord": "F",
+      "end": 241580
+    },
+    {
+      "t": 241580,
+      "chord": "Am",
+      "end": 245760
+    },
+    {
+      "t": 245760,
+      "chord": "F",
+      "end": 250030
+    },
+    {
+      "t": 250030,
+      "chord": "C",
+      "end": 252100
+    },
+    {
+      "t": 252100,
+      "chord": "G",
+      "end": 254170
+    },
+    {
+      "t": 254170,
+      "chord": "F",
+      "end": 258410
+    },
+    {
+      "t": 258410,
+      "chord": "Am",
+      "end": 262590
+    },
+    {
+      "t": 262590,
+      "chord": "F",
+      "end": 266980
+    },
+    {
+      "t": 266980,
+      "chord": "C",
+      "end": 269750
+    }
+  ],
+  "beats": [
+    {
+      "t": 700,
+      "downbeat": true,
+      "bpm": 162.2,
+      "time_sig": "3/4"
+    },
+    {
+      "t": 1080,
+      "downbeat": false,
+      "bpm": 166.7
+    },
+    {
+      "t": 1440,
+      "downbeat": false
+    },
+    {
+      "t": 1800,
+      "downbeat": true
+    },
+    {
+      "t": 2180,
+      "downbeat": false
+    },
+    {
+      "t": 2540,
+      "downbeat": false
+    },
+    {
+      "t": 2900,
+      "downbeat": true
+    },
+    {
+      "t": 3280,
+      "downbeat": false
+    },
+    {
+      "t": 3640,
+      "downbeat": false
+    },
+    {
+      "t": 4000,
+      "downbeat": true
+    },
+    {
+      "t": 4360,
+      "downbeat": false
+    },
+    {
+      "t": 4720,
+      "downbeat": false
+    },
+    {
+      "t": 5060,
+      "downbeat": true
+    },
+    {
+      "t": 5440,
+      "downbeat": false
+    },
+    {
+      "t": 5800,
+      "downbeat": false
+    },
+    {
+      "t": 6140,
+      "downbeat": true
+    },
+    {
+      "t": 6540,
+      "downbeat": false
+    },
+    {
+      "t": 6880,
+      "downbeat": false
+    },
+    {
+      "t": 7240,
+      "downbeat": true
+    },
+    {
+      "t": 7600,
+      "downbeat": false
+    },
+    {
+      "t": 7960,
+      "downbeat": false
+    },
+    {
+      "t": 8320,
+      "downbeat": true
+    },
+    {
+      "t": 8680,
+      "downbeat": false
+    },
+    {
+      "t": 9040,
+      "downbeat": false
+    },
+    {
+      "t": 9380,
+      "downbeat": true,
+      "time_sig": "6/4"
+    },
+    {
+      "t": 9760,
+      "downbeat": false
+    },
+    {
+      "t": 10120,
+      "downbeat": false
+    },
+    {
+      "t": 10480,
+      "downbeat": false
+    },
+    {
+      "t": 10860,
+      "downbeat": false
+    },
+    {
+      "t": 11200,
+      "downbeat": false
+    },
+    {
+      "t": 11560,
+      "downbeat": true
+    },
+    {
+      "t": 11940,
+      "downbeat": false
+    },
+    {
+      "t": 12300,
+      "downbeat": false
+    },
+    {
+      "t": 12640,
+      "downbeat": false,
+      "bpm": 162.2
+    },
+    {
+      "t": 13020,
+      "downbeat": false
+    },
+    {
+      "t": 13340,
+      "downbeat": false,
+      "bpm": 166.7
+    },
+    {
+      "t": 13720,
+      "downbeat": true,
+      "time_sig": "3/4"
+    },
+    {
+      "t": 14100,
+      "downbeat": false
+    },
+    {
+      "t": 14440,
+      "downbeat": false
+    },
+    {
+      "t": 14800,
+      "downbeat": true
+    },
+    {
+      "t": 15160,
+      "downbeat": false
+    },
+    {
+      "t": 15520,
+      "downbeat": false
+    },
+    {
+      "t": 15840,
+      "downbeat": true
+    },
+    {
+      "t": 16200,
+      "downbeat": false
+    },
+    {
+      "t": 16560,
+      "downbeat": false
+    },
+    {
+      "t": 16920,
+      "downbeat": true
+    },
+    {
+      "t": 17280,
+      "downbeat": false
+    },
+    {
+      "t": 17540,
+      "downbeat": false
+    },
+    {
+      "t": 18040,
+      "downbeat": true
+    },
+    {
+      "t": 18460,
+      "downbeat": false
+    },
+    {
+      "t": 18800,
+      "downbeat": false,
+      "bpm": 171.4
+    },
+    {
+      "t": 19180,
+      "downbeat": true,
+      "bpm": 162.2
+    },
+    {
+      "t": 19520,
+      "downbeat": false,
+      "bpm": 171.4
+    },
+    {
+      "t": 19880,
+      "downbeat": false
+    },
+    {
+      "t": 20220,
+      "downbeat": true,
+      "bpm": 166.7
+    },
+    {
+      "t": 20600,
+      "downbeat": false,
+      "bpm": 171.4
+    },
+    {
+      "t": 20940,
+      "downbeat": false,
+      "bpm": 166.7
+    },
+    {
+      "t": 21320,
+      "downbeat": true
+    },
+    {
+      "t": 21680,
+      "downbeat": false
+    },
+    {
+      "t": 22020,
+      "downbeat": false
+    },
+    {
+      "t": 22380,
+      "downbeat": true
+    },
+    {
+      "t": 22740,
+      "downbeat": false
+    },
+    {
+      "t": 23120,
+      "downbeat": false
+    },
+    {
+      "t": 23440,
+      "downbeat": true
+    },
+    {
+      "t": 23820,
+      "downbeat": false
+    },
+    {
+      "t": 24180,
+      "downbeat": false
+    },
+    {
+      "t": 24540,
+      "downbeat": true
+    },
+    {
+      "t": 24900,
+      "downbeat": false
+    },
+    {
+      "t": 25240,
+      "downbeat": false
+    },
+    {
+      "t": 25600,
+      "downbeat": true
+    },
+    {
+      "t": 25960,
+      "downbeat": false
+    },
+    {
+      "t": 26320,
+      "downbeat": false
+    },
+    {
+      "t": 26660,
+      "downbeat": true
+    },
+    {
+      "t": 27040,
+      "downbeat": false
+    },
+    {
+      "t": 27400,
+      "downbeat": false
+    },
+    {
+      "t": 27760,
+      "downbeat": true
+    },
+    {
+      "t": 28120,
+      "downbeat": false
+    },
+    {
+      "t": 28480,
+      "downbeat": false
+    },
+    {
+      "t": 28820,
+      "downbeat": true
+    },
+    {
+      "t": 29160,
+      "downbeat": false
+    },
+    {
+      "t": 29520,
+      "downbeat": false
+    },
+    {
+      "t": 29880,
+      "downbeat": true
+    },
+    {
+      "t": 30240,
+      "downbeat": false
+    },
+    {
+      "t": 30600,
+      "downbeat": false
+    },
+    {
+      "t": 30940,
+      "downbeat": true
+    },
+    {
+      "t": 31320,
+      "downbeat": false,
+      "bpm": 171.4
+    },
+    {
+      "t": 31660,
+      "downbeat": false
+    },
+    {
+      "t": 32040,
+      "downbeat": true
+    },
+    {
+      "t": 32380,
+      "downbeat": false,
+      "bpm": 166.7
+    },
+    {
+      "t": 32720,
+      "downbeat": false
+    },
+    {
+      "t": 33080,
+      "downbeat": true
+    },
+    {
+      "t": 33440,
+      "downbeat": false
+    },
+    {
+      "t": 33800,
+      "downbeat": false
+    },
+    {
+      "t": 34160,
+      "downbeat": true
+    },
+    {
+      "t": 34520,
+      "downbeat": false
+    },
+    {
+      "t": 34860,
+      "downbeat": false
+    },
+    {
+      "t": 35220,
+      "downbeat": true
+    },
+    {
+      "t": 35580,
+      "downbeat": false,
+      "bpm": 171.4
+    },
+    {
+      "t": 35920,
+      "downbeat": false
+    },
+    {
+      "t": 36260,
+      "downbeat": true
+    },
+    {
+      "t": 36620,
+      "downbeat": false
+    },
+    {
+      "t": 36940,
+      "downbeat": false,
+      "bpm": 176.5
+    },
+    {
+      "t": 37300,
+      "downbeat": true,
+      "bpm": 171.4
+    },
+    {
+      "t": 37640,
+      "downbeat": false
+    },
+    {
+      "t": 38000,
+      "downbeat": false
+    },
+    {
+      "t": 38320,
+      "downbeat": true,
+      "bpm": 166.7
+    },
+    {
+      "t": 38700,
+      "downbeat": false
+    },
+    {
+      "t": 39040,
+      "downbeat": false
+    },
+    {
+      "t": 39400,
+      "downbeat": true
+    },
+    {
+      "t": 39760,
+      "downbeat": false
+    },
+    {
+      "t": 40120,
+      "downbeat": false
+    },
+    {
+      "t": 40480,
+      "downbeat": true
+    },
+    {
+      "t": 40840,
+      "downbeat": false
+    },
+    {
+      "t": 41200,
+      "downbeat": false
+    },
+    {
+      "t": 41540,
+      "downbeat": true,
+      "time_sig": "6/4"
+    },
+    {
+      "t": 41900,
+      "downbeat": false
+    },
+    {
+      "t": 42260,
+      "downbeat": false
+    },
+    {
+      "t": 42600,
+      "downbeat": false
+    },
+    {
+      "t": 42980,
+      "downbeat": false
+    },
+    {
+      "t": 43320,
+      "downbeat": false
+    },
+    {
+      "t": 43680,
+      "downbeat": true,
+      "time_sig": "3/4"
+    },
+    {
+      "t": 44040,
+      "downbeat": false
+    },
+    {
+      "t": 44380,
+      "downbeat": false
+    },
+    {
+      "t": 44740,
+      "downbeat": true
+    },
+    {
+      "t": 45100,
+      "downbeat": false
+    },
+    {
+      "t": 45440,
+      "downbeat": false
+    },
+    {
+      "t": 45800,
+      "downbeat": true,
+      "time_sig": "6/4"
+    },
+    {
+      "t": 46160,
+      "downbeat": false
+    },
+    {
+      "t": 46520,
+      "downbeat": false
+    },
+    {
+      "t": 46860,
+      "downbeat": false
+    },
+    {
+      "t": 47240,
+      "downbeat": false
+    },
+    {
+      "t": 47600,
+      "downbeat": false
+    },
+    {
+      "t": 47940,
+      "downbeat": true,
+      "time_sig": "3/4"
+    },
+    {
+      "t": 48300,
+      "downbeat": false
+    },
+    {
+      "t": 48660,
+      "downbeat": false
+    },
+    {
+      "t": 49040,
+      "downbeat": true
+    },
+    {
+      "t": 49380,
+      "downbeat": false
+    },
+    {
+      "t": 49740,
+      "downbeat": false
+    },
+    {
+      "t": 50080,
+      "downbeat": true,
+      "time_sig": "6/4"
+    },
+    {
+      "t": 50440,
+      "downbeat": false
+    },
+    {
+      "t": 50800,
+      "downbeat": false
+    },
+    {
+      "t": 51160,
+      "downbeat": false
+    },
+    {
+      "t": 51520,
+      "downbeat": false
+    },
+    {
+      "t": 51880,
+      "downbeat": false
+    },
+    {
+      "t": 52220,
+      "downbeat": true,
+      "time_sig": "3/4"
+    },
+    {
+      "t": 52600,
+      "downbeat": false
+    },
+    {
+      "t": 52960,
+      "downbeat": false
+    },
+    {
+      "t": 53320,
+      "downbeat": true
+    },
+    {
+      "t": 53680,
+      "downbeat": false
+    },
+    {
+      "t": 54020,
+      "downbeat": false
+    },
+    {
+      "t": 54360,
+      "downbeat": true,
+      "bpm": 171.4
+    },
+    {
+      "t": 54740,
+      "downbeat": false,
+      "bpm": 176.5
+    },
+    {
+      "t": 55080,
+      "downbeat": false
+    },
+    {
+      "t": 55460,
+      "downbeat": true,
+      "bpm": 171.4
+    },
+    {
+      "t": 55800,
+      "downbeat": false,
+      "bpm": 166.7
+    },
+    {
+      "t": 56140,
+      "downbeat": false
+    },
+    {
+      "t": 56500,
+      "downbeat": true
+    },
+    {
+      "t": 56860,
+      "downbeat": false,
+      "bpm": 171.4
+    },
+    {
+      "t": 57220,
+      "downbeat": false,
+      "bpm": 166.7
+    },
+    {
+      "t": 57580,
+      "downbeat": true
+    },
+    {
+      "t": 57920,
+      "downbeat": false
+    },
+    {
+      "t": 58260,
+      "downbeat": false
+    },
+    {
+      "t": 58620,
+      "downbeat": true
+    },
+    {
+      "t": 58980,
+      "downbeat": false
+    },
+    {
+      "t": 59320,
+      "downbeat": false
+    },
+    {
+      "t": 59680,
+      "downbeat": true
+    },
+    {
+      "t": 60040,
+      "downbeat": false
+    },
+    {
+      "t": 60400,
+      "downbeat": false
+    },
+    {
+      "t": 60760,
+      "downbeat": true
+    },
+    {
+      "t": 61120,
+      "downbeat": false
+    },
+    {
+      "t": 61460,
+      "downbeat": false
+    },
+    {
+      "t": 61840,
+      "downbeat": true
+    },
+    {
+      "t": 62180,
+      "downbeat": false,
+      "bpm": 171.4
+    },
+    {
+      "t": 62540,
+      "downbeat": false
+    },
+    {
+      "t": 62880,
+      "downbeat": true
+    },
+    {
+      "t": 63240,
+      "downbeat": false
+    },
+    {
+      "t": 63580,
+      "downbeat": false
+    },
+    {
+      "t": 63940,
+      "downbeat": true
+    },
+    {
+      "t": 64280,
+      "downbeat": false,
+      "bpm": 166.7
+    },
+    {
+      "t": 64640,
+      "downbeat": false,
+      "bpm": 171.4
+    },
+    {
+      "t": 64960,
+      "downbeat": true
+    },
+    {
+      "t": 65320,
+      "downbeat": false
+    },
+    {
+      "t": 65680,
+      "downbeat": false
+    },
+    {
+      "t": 66020,
+      "downbeat": true
+    },
+    {
+      "t": 66360,
+      "downbeat": false,
+      "bpm": 166.7
+    },
+    {
+      "t": 66740,
+      "downbeat": false,
+      "bpm": 171.4
+    },
+    {
+      "t": 67060,
+      "downbeat": true
+    },
+    {
+      "t": 67420,
+      "downbeat": false
+    },
+    {
+      "t": 67780,
+      "downbeat": false
+    },
+    {
+      "t": 68120,
+      "downbeat": true
+    },
+    {
+      "t": 68480,
+      "downbeat": false,
+      "bpm": 166.7
+    },
+    {
+      "t": 68820,
+      "downbeat": false
+    },
+    {
+      "t": 69160,
+      "downbeat": true
+    },
+    {
+      "t": 69520,
+      "downbeat": false
+    },
+    {
+      "t": 69880,
+      "downbeat": false,
+      "bpm": 171.4
+    },
+    {
+      "t": 70240,
+      "downbeat": true,
+      "bpm": 166.7
+    },
+    {
+      "t": 70600,
+      "downbeat": false
+    },
+    {
+      "t": 70940,
+      "downbeat": false
+    },
+    {
+      "t": 71280,
+      "downbeat": true
+    },
+    {
+      "t": 71640,
+      "downbeat": false,
+      "bpm": 171.4
+    },
+    {
+      "t": 72000,
+      "downbeat": false
+    },
+    {
+      "t": 72340,
+      "downbeat": true
+    },
+    {
+      "t": 72700,
+      "downbeat": false,
+      "bpm": 166.7
+    },
+    {
+      "t": 73040,
+      "downbeat": false
+    },
+    {
+      "t": 73400,
+      "downbeat": true,
+      "time_sig": "6/4"
+    },
+    {
+      "t": 73740,
+      "downbeat": false
+    },
+    {
+      "t": 74100,
+      "downbeat": false,
+      "bpm": 171.4
+    },
+    {
+      "t": 74460,
+      "downbeat": false,
+      "bpm": 166.7
+    },
+    {
+      "t": 74820,
+      "downbeat": false,
+      "bpm": 171.4
+    },
+    {
+      "t": 75160,
+      "downbeat": false
+    },
+    {
+      "t": 75500,
+      "downbeat": true,
+      "time_sig": "3/4"
+    },
+    {
+      "t": 75880,
+      "downbeat": false,
+      "bpm": 176.5
+    },
+    {
+      "t": 76220,
+      "downbeat": false
+    },
+    {
+      "t": 76560,
+      "downbeat": true
+    },
+    {
+      "t": 76920,
+      "downbeat": false,
+      "bpm": 171.4
+    },
+    {
+      "t": 77260,
+      "downbeat": false
+    },
+    {
+      "t": 77600,
+      "downbeat": true
+    },
+    {
+      "t": 77960,
+      "downbeat": false,
+      "bpm": 166.7
+    },
+    {
+      "t": 78320,
+      "downbeat": false,
+      "bpm": 171.4
+    },
+    {
+      "t": 78680,
+      "downbeat": true,
+      "bpm": 166.7
+    },
+    {
+      "t": 79020,
+      "downbeat": false
+    },
+    {
+      "t": 79380,
+      "downbeat": false
+    },
+    {
+      "t": 79720,
+      "downbeat": true
+    },
+    {
+      "t": 80080,
+      "downbeat": false,
+      "bpm": 171.4
+    },
+    {
+      "t": 80440,
+      "downbeat": false,
+      "bpm": 166.7
+    },
+    {
+      "t": 80780,
+      "downbeat": true
+    },
+    {
+      "t": 81160,
+      "downbeat": false
+    },
+    {
+      "t": 81500,
+      "downbeat": false
+    },
+    {
+      "t": 81860,
+      "downbeat": true
+    },
+    {
+      "t": 82220,
+      "downbeat": false
+    },
+    {
+      "t": 82580,
+      "downbeat": false
+    },
+    {
+      "t": 82940,
+      "downbeat": true
+    },
+    {
+      "t": 83300,
+      "downbeat": false
+    },
+    {
+      "t": 83660,
+      "downbeat": false
+    },
+    {
+      "t": 83980,
+      "downbeat": true
+    },
+    {
+      "t": 84340,
+      "downbeat": false
+    },
+    {
+      "t": 84700,
+      "downbeat": false
+    },
+    {
+      "t": 85060,
+      "downbeat": true
+    },
+    {
+      "t": 85400,
+      "downbeat": false
+    },
+    {
+      "t": 85760,
+      "downbeat": false
+    },
+    {
+      "t": 86120,
+      "downbeat": true
+    },
+    {
+      "t": 86480,
+      "downbeat": false,
+      "bpm": 171.4
+    },
+    {
+      "t": 86820,
+      "downbeat": false,
+      "bpm": 166.7
+    },
+    {
+      "t": 87200,
+      "downbeat": true,
+      "bpm": 171.4
+    },
+    {
+      "t": 87540,
+      "downbeat": false
+    },
+    {
+      "t": 87880,
+      "downbeat": false
+    },
+    {
+      "t": 88240,
+      "downbeat": true,
+      "bpm": 166.7,
+      "time_sig": "6/4"
+    },
+    {
+      "t": 88560,
+      "downbeat": false
+    },
+    {
+      "t": 88940,
+      "downbeat": false
+    },
+    {
+      "t": 89300,
+      "downbeat": false
+    },
+    {
+      "t": 89680,
+      "downbeat": false
+    },
+    {
+      "t": 90040,
+      "downbeat": false
+    },
+    {
+      "t": 90380,
+      "downbeat": true,
+      "time_sig": "3/4"
+    },
+    {
+      "t": 90740,
+      "downbeat": false,
+      "bpm": 171.4
+    },
+    {
+      "t": 91080,
+      "downbeat": false,
+      "bpm": 176.5
+    },
+    {
+      "t": 91440,
+      "downbeat": true
+    },
+    {
+      "t": 91780,
+      "downbeat": false
+    },
+    {
+      "t": 92120,
+      "downbeat": false
+    },
+    {
+      "t": 92460,
+      "downbeat": true
+    },
+    {
+      "t": 92820,
+      "downbeat": false
+    },
+    {
+      "t": 93160,
+      "downbeat": false
+    },
+    {
+      "t": 93500,
+      "downbeat": true,
+      "bpm": 171.4
+    },
+    {
+      "t": 93860,
+      "downbeat": false,
+      "bpm": 166.7
+    },
+    {
+      "t": 94200,
+      "downbeat": false
+    },
+    {
+      "t": 94560,
+      "downbeat": true
+    },
+    {
+      "t": 94940,
+      "downbeat": false
+    },
+    {
+      "t": 95300,
+      "downbeat": false
+    },
+    {
+      "t": 95660,
+      "downbeat": true
+    },
+    {
+      "t": 96000,
+      "downbeat": false
+    },
+    {
+      "t": 96360,
+      "downbeat": false
+    },
+    {
+      "t": 96700,
+      "downbeat": true,
+      "time_sig": "6/4"
+    },
+    {
+      "t": 97060,
+      "downbeat": false,
+      "bpm": 171.4
+    },
+    {
+      "t": 97420,
+      "downbeat": false,
+      "bpm": 166.7
+    },
+    {
+      "t": 97760,
+      "downbeat": false
+    },
+    {
+      "t": 98120,
+      "downbeat": false
+    },
+    {
+      "t": 98460,
+      "downbeat": false
+    },
+    {
+      "t": 98820,
+      "downbeat": true
+    },
+    {
+      "t": 99200,
+      "downbeat": false
+    },
+    {
+      "t": 99540,
+      "downbeat": false
+    },
+    {
+      "t": 99900,
+      "downbeat": false
+    },
+    {
+      "t": 100260,
+      "downbeat": false
+    },
+    {
+      "t": 100600,
+      "downbeat": false
+    },
+    {
+      "t": 100960,
+      "downbeat": true
+    },
+    {
+      "t": 101320,
+      "downbeat": false
+    },
+    {
+      "t": 101680,
+      "downbeat": false,
+      "bpm": 171.4
+    },
+    {
+      "t": 102020,
+      "downbeat": false,
+      "bpm": 166.7
+    },
+    {
+      "t": 102400,
+      "downbeat": false,
+      "bpm": 171.4
+    },
+    {
+      "t": 102740,
+      "downbeat": false
+    },
+    {
+      "t": 103080,
+      "downbeat": true
+    },
+    {
+      "t": 103460,
+      "downbeat": false
+    },
+    {
+      "t": 103800,
+      "downbeat": false
+    },
+    {
+      "t": 104160,
+      "downbeat": false,
+      "bpm": 166.7
+    },
+    {
+      "t": 104520,
+      "downbeat": false
+    },
+    {
+      "t": 104860,
+      "downbeat": false
+    },
+    {
+      "t": 105220,
+      "downbeat": true
+    },
+    {
+      "t": 105580,
+      "downbeat": false
+    },
+    {
+      "t": 105960,
+      "downbeat": false
+    },
+    {
+      "t": 106300,
+      "downbeat": false
+    },
+    {
+      "t": 106660,
+      "downbeat": false
+    },
+    {
+      "t": 107000,
+      "downbeat": false
+    },
+    {
+      "t": 107360,
+      "downbeat": true,
+      "time_sig": "3/4"
+    },
+    {
+      "t": 107720,
+      "downbeat": false
+    },
+    {
+      "t": 108080,
+      "downbeat": false
+    },
+    {
+      "t": 108440,
+      "downbeat": true
+    },
+    {
+      "t": 108780,
+      "downbeat": false
+    },
+    {
+      "t": 109140,
+      "downbeat": false
+    },
+    {
+      "t": 109480,
+      "downbeat": true
+    },
+    {
+      "t": 109840,
+      "downbeat": false,
+      "bpm": 171.4
+    },
+    {
+      "t": 110200,
+      "downbeat": false,
+      "bpm": 166.7
+    },
+    {
+      "t": 110560,
+      "downbeat": true
+    },
+    {
+      "t": 110900,
+      "downbeat": false
+    },
+    {
+      "t": 111240,
+      "downbeat": false
+    },
+    {
+      "t": 111600,
+      "downbeat": true,
+      "bpm": 171.4
+    },
+    {
+      "t": 111960,
+      "downbeat": false
+    },
+    {
+      "t": 112300,
+      "downbeat": false
+    },
+    {
+      "t": 112660,
+      "downbeat": true,
+      "bpm": 166.7
+    },
+    {
+      "t": 113000,
+      "downbeat": false,
+      "bpm": 171.4
+    },
+    {
+      "t": 113360,
+      "downbeat": false
+    },
+    {
+      "t": 113700,
+      "downbeat": true
+    },
+    {
+      "t": 114080,
+      "downbeat": false,
+      "bpm": 176.5
+    },
+    {
+      "t": 114420,
+      "downbeat": false
+    },
+    {
+      "t": 114800,
+      "downbeat": true
+    },
+    {
+      "t": 115140,
+      "downbeat": false,
+      "bpm": 171.4
+    },
+    {
+      "t": 115480,
+      "downbeat": false
+    },
+    {
+      "t": 115820,
+      "downbeat": true
+    },
+    {
+      "t": 116200,
+      "downbeat": false
+    },
+    {
+      "t": 116560,
+      "downbeat": false
+    },
+    {
+      "t": 116920,
+      "downbeat": true,
+      "bpm": 166.7
+    },
+    {
+      "t": 117260,
+      "downbeat": false
+    },
+    {
+      "t": 117620,
+      "downbeat": false,
+      "bpm": 171.4
+    },
+    {
+      "t": 117920,
+      "downbeat": true,
+      "time_sig": "6/4"
+    },
+    {
+      "t": 118300,
+      "downbeat": false,
+      "bpm": 176.5
+    },
+    {
+      "t": 118640,
+      "downbeat": false
+    },
+    {
+      "t": 118980,
+      "downbeat": false
+    },
+    {
+      "t": 119340,
+      "downbeat": false
+    },
+    {
+      "t": 119680,
+      "downbeat": false
+    },
+    {
+      "t": 120000,
+      "downbeat": true,
+      "time_sig": "3/4"
+    },
+    {
+      "t": 120380,
+      "downbeat": false
+    },
+    {
+      "t": 120720,
+      "downbeat": false
+    },
+    {
+      "t": 121060,
+      "downbeat": true
+    },
+    {
+      "t": 121420,
+      "downbeat": false
+    },
+    {
+      "t": 121760,
+      "downbeat": false
+    },
+    {
+      "t": 122100,
+      "downbeat": true,
+      "bpm": 171.4
+    },
+    {
+      "t": 122460,
+      "downbeat": false
+    },
+    {
+      "t": 122800,
+      "downbeat": false,
+      "bpm": 176.5
+    },
+    {
+      "t": 123160,
+      "downbeat": true,
+      "bpm": 171.4
+    },
+    {
+      "t": 123520,
+      "downbeat": false,
+      "bpm": 166.7
+    },
+    {
+      "t": 123860,
+      "downbeat": false,
+      "bpm": 171.4
+    },
+    {
+      "t": 124200,
+      "downbeat": true,
+      "bpm": 166.7,
+      "time_sig": "6/4"
+    },
+    {
+      "t": 124560,
+      "downbeat": false,
+      "bpm": 171.4
+    },
+    {
+      "t": 124920,
+      "downbeat": false,
+      "bpm": 176.5
+    },
+    {
+      "t": 125260,
+      "downbeat": false
+    },
+    {
+      "t": 125620,
+      "downbeat": false,
+      "bpm": 171.4
+    },
+    {
+      "t": 125960,
+      "downbeat": false,
+      "bpm": 176.5
+    },
+    {
+      "t": 126300,
+      "downbeat": true,
+      "time_sig": "3/4"
+    },
+    {
+      "t": 126640,
+      "downbeat": false
+    },
+    {
+      "t": 127000,
+      "downbeat": false
+    },
+    {
+      "t": 127340,
+      "downbeat": true
+    },
+    {
+      "t": 127700,
+      "downbeat": false
+    },
+    {
+      "t": 128040,
+      "downbeat": false
+    },
+    {
+      "t": 128380,
+      "downbeat": true,
+      "time_sig": "6/4"
+    },
+    {
+      "t": 128740,
+      "downbeat": false
+    },
+    {
+      "t": 129080,
+      "downbeat": false
+    },
+    {
+      "t": 129420,
+      "downbeat": false,
+      "bpm": 171.4
+    },
+    {
+      "t": 129780,
+      "downbeat": false
+    },
+    {
+      "t": 130120,
+      "downbeat": false
+    },
+    {
+      "t": 130480,
+      "downbeat": true,
+      "bpm": 166.7,
+      "time_sig": "3/4"
+    },
+    {
+      "t": 130840,
+      "downbeat": false
+    },
+    {
+      "t": 131180,
+      "downbeat": false,
+      "bpm": 171.4
+    },
+    {
+      "t": 131540,
+      "downbeat": true,
+      "bpm": 166.7
+    },
+    {
+      "t": 131900,
+      "downbeat": false
+    },
+    {
+      "t": 132240,
+      "downbeat": false
+    },
+    {
+      "t": 132580,
+      "downbeat": true
+    },
+    {
+      "t": 132940,
+      "downbeat": false
+    },
+    {
+      "t": 133300,
+      "downbeat": false,
+      "bpm": 171.4
+    },
+    {
+      "t": 133660,
+      "downbeat": true,
+      "bpm": 166.7
+    },
+    {
+      "t": 134000,
+      "downbeat": false
+    },
+    {
+      "t": 134360,
+      "downbeat": false
+    },
+    {
+      "t": 134680,
+      "downbeat": true
+    },
+    {
+      "t": 135040,
+      "downbeat": false
+    },
+    {
+      "t": 135400,
+      "downbeat": false
+    },
+    {
+      "t": 135760,
+      "downbeat": true
+    },
+    {
+      "t": 136100,
+      "downbeat": false
+    },
+    {
+      "t": 136460,
+      "downbeat": false
+    },
+    {
+      "t": 136800,
+      "downbeat": true
+    },
+    {
+      "t": 137160,
+      "downbeat": false,
+      "bpm": 171.4
+    },
+    {
+      "t": 137520,
+      "downbeat": false,
+      "bpm": 166.7
+    },
+    {
+      "t": 137860,
+      "downbeat": true,
+      "bpm": 171.4
+    },
+    {
+      "t": 138220,
+      "downbeat": false,
+      "bpm": 166.7
+    },
+    {
+      "t": 138560,
+      "downbeat": false,
+      "bpm": 171.4
+    },
+    {
+      "t": 138920,
+      "downbeat": true
+    },
+    {
+      "t": 139260,
+      "downbeat": false
+    },
+    {
+      "t": 139620,
+      "downbeat": false,
+      "bpm": 176.5
+    },
+    {
+      "t": 139960,
+      "downbeat": true,
+      "bpm": 171.4
+    },
+    {
+      "t": 140320,
+      "downbeat": false,
+      "bpm": 176.5
+    },
+    {
+      "t": 140660,
+      "downbeat": false,
+      "bpm": 171.4
+    },
+    {
+      "t": 141000,
+      "downbeat": true,
+      "bpm": 176.5
+    },
+    {
+      "t": 141360,
+      "downbeat": false
+    },
+    {
+      "t": 141700,
+      "downbeat": false
+    },
+    {
+      "t": 142060,
+      "downbeat": true
+    },
+    {
+      "t": 142400,
+      "downbeat": false,
+      "bpm": 171.4
+    },
+    {
+      "t": 142720,
+      "downbeat": false,
+      "bpm": 176.5
+    },
+    {
+      "t": 143080,
+      "downbeat": true
+    },
+    {
+      "t": 143420,
+      "downbeat": false
+    },
+    {
+      "t": 143780,
+      "downbeat": false
+    },
+    {
+      "t": 144120,
+      "downbeat": true
+    },
+    {
+      "t": 144460,
+      "downbeat": false
+    },
+    {
+      "t": 144800,
+      "downbeat": false
+    },
+    {
+      "t": 145160,
+      "downbeat": true
+    },
+    {
+      "t": 145500,
+      "downbeat": false
+    },
+    {
+      "t": 145840,
+      "downbeat": false
+    },
+    {
+      "t": 146160,
+      "downbeat": true
+    },
+    {
+      "t": 146520,
+      "downbeat": false
+    },
+    {
+      "t": 146860,
+      "downbeat": false
+    },
+    {
+      "t": 147200,
+      "downbeat": true
+    },
+    {
+      "t": 147540,
+      "downbeat": false
+    },
+    {
+      "t": 147880,
+      "downbeat": false
+    },
+    {
+      "t": 148220,
+      "downbeat": true
+    },
+    {
+      "t": 148580,
+      "downbeat": false
+    },
+    {
+      "t": 148920,
+      "downbeat": false
+    },
+    {
+      "t": 149260,
+      "downbeat": true,
+      "bpm": 171.4
+    },
+    {
+      "t": 149640,
+      "downbeat": false
+    },
+    {
+      "t": 149980,
+      "downbeat": false,
+      "bpm": 176.5
+    },
+    {
+      "t": 150340,
+      "downbeat": true,
+      "bpm": 171.4
+    },
+    {
+      "t": 150700,
+      "downbeat": false,
+      "bpm": 166.7
+    },
+    {
+      "t": 151040,
+      "downbeat": false,
+      "bpm": 171.4
+    },
+    {
+      "t": 151380,
+      "downbeat": true,
+      "bpm": 166.7,
+      "time_sig": "6/4"
+    },
+    {
+      "t": 151740,
+      "downbeat": false,
+      "bpm": 171.4
+    },
+    {
+      "t": 152100,
+      "downbeat": false,
+      "bpm": 176.5
+    },
+    {
+      "t": 152420,
+      "downbeat": false,
+      "bpm": 171.4
+    },
+    {
+      "t": 152800,
+      "downbeat": false
+    },
+    {
+      "t": 153140,
+      "downbeat": false
+    },
+    {
+      "t": 153480,
+      "downbeat": true,
+      "bpm": 176.5,
+      "time_sig": "3/4"
+    },
+    {
+      "t": 153840,
+      "downbeat": false,
+      "bpm": 171.4
+    },
+    {
+      "t": 154180,
+      "downbeat": false,
+      "bpm": 176.5
+    },
+    {
+      "t": 154540,
+      "downbeat": true
+    },
+    {
+      "t": 154880,
+      "downbeat": false,
+      "bpm": 171.4
+    },
+    {
+      "t": 155240,
+      "downbeat": false,
+      "bpm": 176.5
+    },
+    {
+      "t": 155580,
+      "downbeat": true,
+      "bpm": 171.4,
+      "time_sig": "6/4"
+    },
+    {
+      "t": 155920,
+      "downbeat": false,
+      "bpm": 176.5
+    },
+    {
+      "t": 156280,
+      "downbeat": false
+    },
+    {
+      "t": 156620,
+      "downbeat": false
+    },
+    {
+      "t": 156980,
+      "downbeat": false,
+      "bpm": 171.4
+    },
+    {
+      "t": 157320,
+      "downbeat": false,
+      "bpm": 166.7
+    },
+    {
+      "t": 157660,
+      "downbeat": true,
+      "bpm": 171.4,
+      "time_sig": "3/4"
+    },
+    {
+      "t": 158020,
+      "downbeat": false,
+      "bpm": 166.7
+    },
+    {
+      "t": 158380,
+      "downbeat": false,
+      "bpm": 171.4
+    },
+    {
+      "t": 158740,
+      "downbeat": true,
+      "bpm": 166.7
+    },
+    {
+      "t": 159080,
+      "downbeat": false
+    },
+    {
+      "t": 159440,
+      "downbeat": false
+    },
+    {
+      "t": 159780,
+      "downbeat": true,
+      "time_sig": "6/4"
+    },
+    {
+      "t": 160140,
+      "downbeat": false,
+      "bpm": 171.4
+    },
+    {
+      "t": 160500,
+      "downbeat": false,
+      "bpm": 166.7
+    },
+    {
+      "t": 160840,
+      "downbeat": false
+    },
+    {
+      "t": 161220,
+      "downbeat": false
+    },
+    {
+      "t": 161540,
+      "downbeat": false
+    },
+    {
+      "t": 161900,
+      "downbeat": true
+    },
+    {
+      "t": 162260,
+      "downbeat": false
+    },
+    {
+      "t": 162620,
+      "downbeat": false
+    },
+    {
+      "t": 162980,
+      "downbeat": false
+    },
+    {
+      "t": 163320,
+      "downbeat": false
+    },
+    {
+      "t": 163680,
+      "downbeat": false
+    },
+    {
+      "t": 164020,
+      "downbeat": true,
+      "bpm": 171.4,
+      "time_sig": "3/4"
+    },
+    {
+      "t": 164380,
+      "downbeat": false,
+      "bpm": 176.5
+    },
+    {
+      "t": 164720,
+      "downbeat": false,
+      "bpm": 171.4
+    },
+    {
+      "t": 165080,
+      "downbeat": true
+    },
+    {
+      "t": 165420,
+      "downbeat": false
+    },
+    {
+      "t": 165760,
+      "downbeat": false,
+      "bpm": 176.5
+    },
+    {
+      "t": 166120,
+      "downbeat": true
+    },
+    {
+      "t": 166480,
+      "downbeat": false
+    },
+    {
+      "t": 166820,
+      "downbeat": false
+    },
+    {
+      "t": 167160,
+      "downbeat": true,
+      "bpm": 171.4
+    },
+    {
+      "t": 167500,
+      "downbeat": false,
+      "bpm": 176.5
+    },
+    {
+      "t": 167860,
+      "downbeat": false
+    },
+    {
+      "t": 168200,
+      "downbeat": true
+    },
+    {
+      "t": 168580,
+      "downbeat": false,
+      "bpm": 171.4
+    },
+    {
+      "t": 168920,
+      "downbeat": false
+    },
+    {
+      "t": 169260,
+      "downbeat": true
+    },
+    {
+      "t": 169620,
+      "downbeat": false,
+      "bpm": 166.7
+    },
+    {
+      "t": 169980,
+      "downbeat": false,
+      "bpm": 171.4
+    },
+    {
+      "t": 170300,
+      "downbeat": true,
+      "bpm": 166.7,
+      "time_sig": "6/4"
+    },
+    {
+      "t": 170660,
+      "downbeat": false
+    },
+    {
+      "t": 171020,
+      "downbeat": false
+    },
+    {
+      "t": 171360,
+      "downbeat": false,
+      "bpm": 171.4
+    },
+    {
+      "t": 171720,
+      "downbeat": false
+    },
+    {
+      "t": 172080,
+      "downbeat": false,
+      "bpm": 176.5
+    },
+    {
+      "t": 172420,
+      "downbeat": true,
+      "time_sig": "3/4"
+    },
+    {
+      "t": 172760,
+      "downbeat": false
+    },
+    {
+      "t": 173100,
+      "downbeat": false
+    },
+    {
+      "t": 173440,
+      "downbeat": true
+    },
+    {
+      "t": 173800,
+      "downbeat": false
+    },
+    {
+      "t": 174140,
+      "downbeat": false
+    },
+    {
+      "t": 174460,
+      "downbeat": true
+    },
+    {
+      "t": 174820,
+      "downbeat": false
+    },
+    {
+      "t": 175180,
+      "downbeat": false
+    },
+    {
+      "t": 175520,
+      "downbeat": true
+    },
+    {
+      "t": 175860,
+      "downbeat": false
+    },
+    {
+      "t": 176200,
+      "downbeat": false
+    },
+    {
+      "t": 176540,
+      "downbeat": true
+    },
+    {
+      "t": 176900,
+      "downbeat": false
+    },
+    {
+      "t": 177240,
+      "downbeat": false
+    },
+    {
+      "t": 177580,
+      "downbeat": true
+    },
+    {
+      "t": 177940,
+      "downbeat": false,
+      "bpm": 171.4
+    },
+    {
+      "t": 178280,
+      "downbeat": false
+    },
+    {
+      "t": 178600,
+      "downbeat": true
+    },
+    {
+      "t": 178960,
+      "downbeat": false
+    },
+    {
+      "t": 179320,
+      "downbeat": false
+    },
+    {
+      "t": 179680,
+      "downbeat": true,
+      "bpm": 166.7
+    },
+    {
+      "t": 180020,
+      "downbeat": false
+    },
+    {
+      "t": 180360,
+      "downbeat": false
+    },
+    {
+      "t": 180720,
+      "downbeat": true,
+      "bpm": 171.4
+    },
+    {
+      "t": 181080,
+      "downbeat": false,
+      "bpm": 176.5
+    },
+    {
+      "t": 181420,
+      "downbeat": false
+    },
+    {
+      "t": 181780,
+      "downbeat": true,
+      "bpm": 171.4
+    },
+    {
+      "t": 182120,
+      "downbeat": false,
+      "bpm": 176.5
+    },
+    {
+      "t": 182460,
+      "downbeat": false
+    },
+    {
+      "t": 182800,
+      "downbeat": true
+    },
+    {
+      "t": 183180,
+      "downbeat": false
+    },
+    {
+      "t": 183520,
+      "downbeat": false
+    },
+    {
+      "t": 183860,
+      "downbeat": true
+    },
+    {
+      "t": 184220,
+      "downbeat": false,
+      "bpm": 171.4
+    },
+    {
+      "t": 184560,
+      "downbeat": false,
+      "bpm": 176.5
+    },
+    {
+      "t": 184900,
+      "downbeat": true
+    },
+    {
+      "t": 185260,
+      "downbeat": false
+    },
+    {
+      "t": 185620,
+      "downbeat": false
+    },
+    {
+      "t": 185960,
+      "downbeat": true,
+      "bpm": 171.4
+    },
+    {
+      "t": 186300,
+      "downbeat": false,
+      "bpm": 166.7
+    },
+    {
+      "t": 186620,
+      "downbeat": false,
+      "bpm": 171.4
+    },
+    {
+      "t": 186980,
+      "downbeat": true
+    },
+    {
+      "t": 187340,
+      "downbeat": false
+    },
+    {
+      "t": 187700,
+      "downbeat": false
+    },
+    {
+      "t": 188040,
+      "downbeat": true,
+      "bpm": 166.7
+    },
+    {
+      "t": 188400,
+      "downbeat": false,
+      "bpm": 171.4
+    },
+    {
+      "t": 188740,
+      "downbeat": false
+    },
+    {
+      "t": 189080,
+      "downbeat": true
+    },
+    {
+      "t": 189440,
+      "downbeat": false
+    },
+    {
+      "t": 189780,
+      "downbeat": false,
+      "bpm": 176.5
+    },
+    {
+      "t": 190140,
+      "downbeat": true,
+      "bpm": 171.4
+    },
+    {
+      "t": 190500,
+      "downbeat": false,
+      "bpm": 166.7
+    },
+    {
+      "t": 190840,
+      "downbeat": false
+    },
+    {
+      "t": 191180,
+      "downbeat": true
+    },
+    {
+      "t": 191560,
+      "downbeat": false
+    },
+    {
+      "t": 191920,
+      "downbeat": false,
+      "bpm": 171.4
+    },
+    {
+      "t": 192280,
+      "downbeat": true,
+      "bpm": 166.7
+    },
+    {
+      "t": 192620,
+      "downbeat": false
+    },
+    {
+      "t": 192980,
+      "downbeat": false
+    },
+    {
+      "t": 193320,
+      "downbeat": true
+    },
+    {
+      "t": 193700,
+      "downbeat": false,
+      "bpm": 171.4
+    },
+    {
+      "t": 194040,
+      "downbeat": false,
+      "bpm": 166.7
+    },
+    {
+      "t": 194420,
+      "downbeat": true
+    },
+    {
+      "t": 194780,
+      "downbeat": false
+    },
+    {
+      "t": 195120,
+      "downbeat": false
+    },
+    {
+      "t": 195480,
+      "downbeat": true
+    },
+    {
+      "t": 195840,
+      "downbeat": false
+    },
+    {
+      "t": 196200,
+      "downbeat": false
+    },
+    {
+      "t": 196560,
+      "downbeat": true
+    },
+    {
+      "t": 196900,
+      "downbeat": false
+    },
+    {
+      "t": 197260,
+      "downbeat": false
+    },
+    {
+      "t": 197600,
+      "downbeat": true
+    },
+    {
+      "t": 197960,
+      "downbeat": false,
+      "bpm": 171.4
+    },
+    {
+      "t": 198320,
+      "downbeat": false
+    },
+    {
+      "t": 198660,
+      "downbeat": true
+    },
+    {
+      "t": 199020,
+      "downbeat": false
+    },
+    {
+      "t": 199360,
+      "downbeat": false,
+      "bpm": 176.5
+    },
+    {
+      "t": 199700,
+      "downbeat": true
+    },
+    {
+      "t": 200060,
+      "downbeat": false
+    },
+    {
+      "t": 200400,
+      "downbeat": false
+    },
+    {
+      "t": 200740,
+      "downbeat": true
+    },
+    {
+      "t": 201080,
+      "downbeat": false
+    },
+    {
+      "t": 201420,
+      "downbeat": false
+    },
+    {
+      "t": 201760,
+      "downbeat": true
+    },
+    {
+      "t": 202100,
+      "downbeat": false
+    },
+    {
+      "t": 202420,
+      "downbeat": false
+    },
+    {
+      "t": 202780,
+      "downbeat": true
+    },
+    {
+      "t": 203120,
+      "downbeat": false
+    },
+    {
+      "t": 203480,
+      "downbeat": false,
+      "bpm": 171.4
+    },
+    {
+      "t": 203820,
+      "downbeat": true
+    },
+    {
+      "t": 204180,
+      "downbeat": false
+    },
+    {
+      "t": 204520,
+      "downbeat": false
+    },
+    {
+      "t": 204900,
+      "downbeat": true
+    },
+    {
+      "t": 205240,
+      "downbeat": false
+    },
+    {
+      "t": 205600,
+      "downbeat": false,
+      "bpm": 176.5
+    },
+    {
+      "t": 205940,
+      "downbeat": true,
+      "bpm": 171.4
+    },
+    {
+      "t": 206320,
+      "downbeat": false
+    },
+    {
+      "t": 206660,
+      "downbeat": false,
+      "bpm": 166.7
+    },
+    {
+      "t": 207000,
+      "downbeat": true,
+      "bpm": 171.4
+    },
+    {
+      "t": 207360,
+      "downbeat": false
+    },
+    {
+      "t": 207720,
+      "downbeat": false
+    },
+    {
+      "t": 208080,
+      "downbeat": true,
+      "bpm": 166.7
+    },
+    {
+      "t": 208420,
+      "downbeat": false
+    },
+    {
+      "t": 208760,
+      "downbeat": false
+    },
+    {
+      "t": 209120,
+      "downbeat": true
+    },
+    {
+      "t": 209480,
+      "downbeat": false
+    },
+    {
+      "t": 209840,
+      "downbeat": false
+    },
+    {
+      "t": 210180,
+      "downbeat": true,
+      "time_sig": "6/4"
+    },
+    {
+      "t": 210540,
+      "downbeat": false
+    },
+    {
+      "t": 210900,
+      "downbeat": false
+    },
+    {
+      "t": 211240,
+      "downbeat": false
+    },
+    {
+      "t": 211600,
+      "downbeat": false
+    },
+    {
+      "t": 211940,
+      "downbeat": false
+    },
+    {
+      "t": 212300,
+      "downbeat": true,
+      "time_sig": "3/4"
+    },
+    {
+      "t": 212660,
+      "downbeat": false
+    },
+    {
+      "t": 213000,
+      "downbeat": false
+    },
+    {
+      "t": 213360,
+      "downbeat": true
+    },
+    {
+      "t": 213720,
+      "downbeat": false
+    },
+    {
+      "t": 214080,
+      "downbeat": false
+    },
+    {
+      "t": 214420,
+      "downbeat": true,
+      "time_sig": "6/4"
+    },
+    {
+      "t": 214780,
+      "downbeat": false
+    },
+    {
+      "t": 215140,
+      "downbeat": false,
+      "bpm": 171.4
+    },
+    {
+      "t": 215480,
+      "downbeat": false
+    },
+    {
+      "t": 215840,
+      "downbeat": false,
+      "bpm": 166.7
+    },
+    {
+      "t": 216180,
+      "downbeat": false,
+      "bpm": 171.4
+    },
+    {
+      "t": 216520,
+      "downbeat": true,
+      "bpm": 176.5,
+      "time_sig": "3/4"
+    },
+    {
+      "t": 216880,
+      "downbeat": false
+    },
+    {
+      "t": 217240,
+      "downbeat": false
+    },
+    {
+      "t": 217580,
+      "downbeat": true
+    },
+    {
+      "t": 217920,
+      "downbeat": false
+    },
+    {
+      "t": 218260,
+      "downbeat": false
+    },
+    {
+      "t": 218600,
+      "downbeat": true
+    },
+    {
+      "t": 218940,
+      "downbeat": false
+    },
+    {
+      "t": 219280,
+      "downbeat": false
+    },
+    {
+      "t": 219580,
+      "downbeat": true
+    },
+    {
+      "t": 219940,
+      "downbeat": false
+    },
+    {
+      "t": 220300,
+      "downbeat": false
+    },
+    {
+      "t": 220640,
+      "downbeat": true
+    },
+    {
+      "t": 220980,
+      "downbeat": false,
+      "bpm": 171.4
+    },
+    {
+      "t": 221320,
+      "downbeat": false,
+      "bpm": 176.5
+    },
+    {
+      "t": 221680,
+      "downbeat": true
+    },
+    {
+      "t": 222000,
+      "downbeat": false
+    },
+    {
+      "t": 222360,
+      "downbeat": false
+    },
+    {
+      "t": 222700,
+      "downbeat": true,
+      "bpm": 171.4
+    },
+    {
+      "t": 223060,
+      "downbeat": false,
+      "bpm": 176.5
+    },
+    {
+      "t": 223400,
+      "downbeat": false
+    },
+    {
+      "t": 223720,
+      "downbeat": true
+    },
+    {
+      "t": 224120,
+      "downbeat": false,
+      "bpm": 171.4
+    },
+    {
+      "t": 224460,
+      "downbeat": false
+    },
+    {
+      "t": 224800,
+      "downbeat": true,
+      "bpm": 166.7
+    },
+    {
+      "t": 225160,
+      "downbeat": false
+    },
+    {
+      "t": 225520,
+      "downbeat": false,
+      "bpm": 171.4
+    },
+    {
+      "t": 225880,
+      "downbeat": true,
+      "bpm": 166.7
+    },
+    {
+      "t": 226240,
+      "downbeat": false
+    },
+    {
+      "t": 226580,
+      "downbeat": false,
+      "bpm": 171.4
+    },
+    {
+      "t": 226920,
+      "downbeat": true,
+      "time_sig": "6/4"
+    },
+    {
+      "t": 227280,
+      "downbeat": false
+    },
+    {
+      "t": 227620,
+      "downbeat": false,
+      "bpm": 176.5
+    },
+    {
+      "t": 227960,
+      "downbeat": false,
+      "bpm": 171.4
+    },
+    {
+      "t": 228320,
+      "downbeat": false
+    },
+    {
+      "t": 228680,
+      "downbeat": false
+    },
+    {
+      "t": 229020,
+      "downbeat": true,
+      "bpm": 166.7,
+      "time_sig": "3/4"
+    },
+    {
+      "t": 229380,
+      "downbeat": false
+    },
+    {
+      "t": 229720,
+      "downbeat": false
+    },
+    {
+      "t": 230080,
+      "downbeat": true
+    },
+    {
+      "t": 230440,
+      "downbeat": false
+    },
+    {
+      "t": 230800,
+      "downbeat": false
+    },
+    {
+      "t": 231140,
+      "downbeat": true,
+      "time_sig": "6/4"
+    },
+    {
+      "t": 231500,
+      "downbeat": false
+    },
+    {
+      "t": 231860,
+      "downbeat": false,
+      "bpm": 171.4
+    },
+    {
+      "t": 232200,
+      "downbeat": false
+    },
+    {
+      "t": 232560,
+      "downbeat": false
+    },
+    {
+      "t": 232900,
+      "downbeat": false,
+      "bpm": 176.5
+    },
+    {
+      "t": 233240,
+      "downbeat": true,
+      "time_sig": "3/4"
+    },
+    {
+      "t": 233600,
+      "downbeat": false
+    },
+    {
+      "t": 233940,
+      "downbeat": false
+    },
+    {
+      "t": 234280,
+      "downbeat": true
+    },
+    {
+      "t": 234620,
+      "downbeat": false
+    },
+    {
+      "t": 234960,
+      "downbeat": false
+    },
+    {
+      "t": 235300,
+      "downbeat": true
+    },
+    {
+      "t": 235640,
+      "downbeat": false
+    },
+    {
+      "t": 236000,
+      "downbeat": false
+    },
+    {
+      "t": 236300,
+      "downbeat": true,
+      "bpm": 171.4
+    },
+    {
+      "t": 236660,
+      "downbeat": false,
+      "bpm": 166.7
+    },
+    {
+      "t": 237020,
+      "downbeat": false
+    },
+    {
+      "t": 237340,
+      "downbeat": true
+    },
+    {
+      "t": 237700,
+      "downbeat": false
+    },
+    {
+      "t": 238060,
+      "downbeat": false
+    },
+    {
+      "t": 238400,
+      "downbeat": true
+    },
+    {
+      "t": 238760,
+      "downbeat": false
+    },
+    {
+      "t": 239120,
+      "downbeat": false
+    },
+    {
+      "t": 239460,
+      "downbeat": true,
+      "time_sig": "6/4"
+    },
+    {
+      "t": 239820,
+      "downbeat": false
+    },
+    {
+      "t": 240180,
+      "downbeat": false
+    },
+    {
+      "t": 240540,
+      "downbeat": false
+    },
+    {
+      "t": 240880,
+      "downbeat": false
+    },
+    {
+      "t": 241240,
+      "downbeat": false,
+      "bpm": 171.4
+    },
+    {
+      "t": 241580,
+      "downbeat": true,
+      "time_sig": "3/4"
+    },
+    {
+      "t": 241940,
+      "downbeat": false
+    },
+    {
+      "t": 242280,
+      "downbeat": false
+    },
+    {
+      "t": 242620,
+      "downbeat": true
+    },
+    {
+      "t": 242980,
+      "downbeat": false
+    },
+    {
+      "t": 243340,
+      "downbeat": false,
+      "bpm": 176.5
+    },
+    {
+      "t": 243680,
+      "downbeat": true,
+      "bpm": 171.4,
+      "time_sig": "6/4"
+    },
+    {
+      "t": 244040,
+      "downbeat": false,
+      "bpm": 166.7
+    },
+    {
+      "t": 244380,
+      "downbeat": false,
+      "bpm": 171.4
+    },
+    {
+      "t": 244720,
+      "downbeat": false
+    },
+    {
+      "t": 245080,
+      "downbeat": false,
+      "bpm": 166.7
+    },
+    {
+      "t": 245440,
+      "downbeat": false
+    },
+    {
+      "t": 245760,
+      "downbeat": true
+    },
+    {
+      "t": 246120,
+      "downbeat": false
+    },
+    {
+      "t": 246480,
+      "downbeat": false
+    },
+    {
+      "t": 246840,
+      "downbeat": false
+    },
+    {
+      "t": 247200,
+      "downbeat": false
+    },
+    {
+      "t": 247560,
+      "downbeat": false
+    },
+    {
+      "t": 247900,
+      "downbeat": true
+    },
+    {
+      "t": 248260,
+      "downbeat": false
+    },
+    {
+      "t": 248600,
+      "downbeat": false
+    },
+    {
+      "t": 248960,
+      "downbeat": false
+    },
+    {
+      "t": 249320,
+      "downbeat": false
+    },
+    {
+      "t": 249660,
+      "downbeat": false
+    },
+    {
+      "t": 250020,
+      "downbeat": true,
+      "time_sig": "3/4"
+    },
+    {
+      "t": 250380,
+      "downbeat": false
+    },
+    {
+      "t": 250720,
+      "downbeat": false,
+      "bpm": 171.4
+    },
+    {
+      "t": 251080,
+      "downbeat": true
+    },
+    {
+      "t": 251420,
+      "downbeat": false,
+      "bpm": 176.5
+    },
+    {
+      "t": 251780,
+      "downbeat": false
+    },
+    {
+      "t": 252120,
+      "downbeat": true
+    },
+    {
+      "t": 252460,
+      "downbeat": false
+    },
+    {
+      "t": 252800,
+      "downbeat": false
+    },
+    {
+      "t": 253120,
+      "downbeat": true
+    },
+    {
+      "t": 253480,
+      "downbeat": false,
+      "bpm": 171.4
+    },
+    {
+      "t": 253840,
+      "downbeat": false,
+      "bpm": 166.7
+    },
+    {
+      "t": 254180,
+      "downbeat": true,
+      "time_sig": "6/4"
+    },
+    {
+      "t": 254540,
+      "downbeat": false
+    },
+    {
+      "t": 254900,
+      "downbeat": false
+    },
+    {
+      "t": 255260,
+      "downbeat": false
+    },
+    {
+      "t": 255600,
+      "downbeat": false
+    },
+    {
+      "t": 255960,
+      "downbeat": false
+    },
+    {
+      "t": 256300,
+      "downbeat": true
+    },
+    {
+      "t": 256660,
+      "downbeat": false
+    },
+    {
+      "t": 257020,
+      "downbeat": false
+    },
+    {
+      "t": 257380,
+      "downbeat": false
+    },
+    {
+      "t": 257720,
+      "downbeat": false
+    },
+    {
+      "t": 258080,
+      "downbeat": false
+    },
+    {
+      "t": 258420,
+      "downbeat": true
+    },
+    {
+      "t": 258780,
+      "downbeat": false,
+      "bpm": 171.4
+    },
+    {
+      "t": 259140,
+      "downbeat": false
+    },
+    {
+      "t": 259480,
+      "downbeat": false
+    },
+    {
+      "t": 259840,
+      "downbeat": false,
+      "bpm": 166.7
+    },
+    {
+      "t": 260180,
+      "downbeat": false,
+      "bpm": 171.4
+    },
+    {
+      "t": 260520,
+      "downbeat": true,
+      "bpm": 176.5
+    },
+    {
+      "t": 260880,
+      "downbeat": false,
+      "bpm": 171.4
+    },
+    {
+      "t": 261240,
+      "downbeat": false,
+      "bpm": 176.5
+    },
+    {
+      "t": 261580,
+      "downbeat": false,
+      "bpm": 171.4
+    },
+    {
+      "t": 261920,
+      "downbeat": false,
+      "bpm": 166.7
+    },
+    {
+      "t": 262280,
+      "downbeat": false,
+      "bpm": 171.4
+    },
+    {
+      "t": 262620,
+      "downbeat": true,
+      "time_sig": "3/4"
+    },
+    {
+      "t": 262980,
+      "downbeat": false,
+      "bpm": 166.7
+    },
+    {
+      "t": 263340,
+      "downbeat": false
+    },
+    {
+      "t": 263680,
+      "downbeat": true
+    },
+    {
+      "t": 264040,
+      "downbeat": false
+    },
+    {
+      "t": 264400,
+      "downbeat": false
+    },
+    {
+      "t": 264740,
+      "downbeat": true
+    },
+    {
+      "t": 265100,
+      "downbeat": false
+    },
+    {
+      "t": 265460,
+      "downbeat": false
+    },
+    {
+      "t": 265800,
+      "downbeat": true
+    },
+    {
+      "t": 266160,
+      "downbeat": false
+    },
+    {
+      "t": 266500,
+      "downbeat": false
+    },
+    {
+      "t": 266860,
+      "downbeat": true
+    },
+    {
+      "t": 267220,
+      "downbeat": false
+    },
+    {
+      "t": 267580,
+      "downbeat": false
+    },
+    {
+      "t": 267900,
+      "downbeat": true
+    },
+    {
+      "t": 268260,
+      "downbeat": false,
+      "bpm": 171.4
+    },
+    {
+      "t": 268600,
+      "downbeat": false,
+      "bpm": 176.5
+    },
+    {
+      "t": 268960,
+      "downbeat": true
+    },
+    {
+      "t": 269280,
+      "downbeat": false
+    },
+    {
+      "t": 269620,
+      "downbeat": false
+    },
+    {
+      "t": 269960,
+      "downbeat": true
+    },
+    {
+      "t": 270320,
+      "downbeat": false
+    },
+    {
+      "t": 270640,
+      "downbeat": false
+    },
+    {
+      "t": 270980,
+      "downbeat": true,
+      "bpm": 171.4
+    },
+    {
+      "t": 271340,
+      "downbeat": false
+    },
+    {
+      "t": 271700,
+      "downbeat": false,
+      "bpm": 176.5
+    },
+    {
+      "t": 272040,
+      "downbeat": true,
+      "bpm": 171.4
+    },
+    {
+      "t": 272400,
+      "downbeat": false
+    },
+    {
+      "t": 272740,
+      "downbeat": false
+    },
+    {
+      "t": 273080,
+      "downbeat": true,
+      "bpm": 176.5
+    },
+    {
+      "t": 273440,
+      "downbeat": false,
+      "bpm": 171.4
+    },
+    {
+      "t": 273780,
+      "downbeat": false,
+      "bpm": 176.5
+    },
+    {
+      "t": 274140,
+      "downbeat": false,
+      "bpm": 171.4
+    }
+  ],
+  "analysis": {
+    "fingerprint": {
+      "tool": "fpcalc",
+      "version": "1.6.0",
+      "date": "2026-04-29"
+    },
+    "mode": {
+      "tool": "light",
+      "date": "2026-04-29"
+    },
+    "separation": {
+      "tool": "demucs",
+      "version": "htdemucs",
+      "date": "2026-04-29"
+    },
+    "lyrics": {
+      "tool": "lrclib",
+      "date": "2026-04-29"
+    },
+    "words": {
+      "tool": "whisperx+lrclib",
+      "date": "2026-04-29"
+    },
+    "chords": {
+      "tool": "lv-chordia+cleanup",
+      "date": "2026-04-29"
+    },
+    "beats": {
+      "tool": "beat_this",
+      "date": "2026-04-29"
+    }
+  }
+}

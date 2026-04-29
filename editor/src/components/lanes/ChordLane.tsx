@@ -102,7 +102,7 @@ export function ChordLane({
 							style={{
 								fontSize: 11,
 								fontWeight: 700,
-								color: "#1a1a2e",
+								color: "#ffd93d",
 								whiteSpace: "nowrap",
 							}}
 						>

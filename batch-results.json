@@ -73,5 +73,1492 @@
       "beats(588)",
       "midi(4)"
     ]
+  },
+  {
+    "title": "Wonderwall",
+    "artist": "Oasis",
+    "url": "https://www.youtube.com/watch?v=bx1Bh8ZvH84",
+    "status": "success",
+    "duration_s": 179,
+    "map_id": "1ef66ec6-e03a-494b-bcd9-d0cf3953cc62",
+    "fields": [
+      "lyrics(31)",
+      "words(258)",
+      "chords(146)",
+      "beats(359)",
+      "midi(3)"
+    ]
+  },
+  {
+    "title": "Let It Be",
+    "artist": "The Beatles",
+    "url": "https://www.youtube.com/watch?v=QDYfEBY9NM4",
+    "status": "success",
+    "duration_s": 158,
+    "map_id": "0cdc9b5b-b16b-4ff1-9f16-5b4ba76f1c17",
+    "fields": [
+      "lyrics(39)",
+      "words(290)",
+      "chords(128)",
+      "beats(279)",
+      "midi(3)"
+    ]
+  },
+  {
+    "title": "Knockin' on Heaven's Door",
+    "artist": "Bob Dylan",
+    "url": "https://www.youtube.com/watch?v=rm9coqlk8fY",
+    "status": "success",
+    "duration_s": 103,
+    "map_id": "01cd9f25-27cf-4cc5-b646-ee4bb3213da4",
+    "fields": [
+      "lyrics(10)",
+      "words(102)",
+      "chords(65)",
+      "beats(172)",
+      "midi(3)"
+    ]
+  },
+  {
+    "title": "Wonderwall",
+    "artist": "Oasis",
+    "url": "https://www.youtube.com/watch?v=bx1Bh8ZvH84",
+    "status": "success",
+    "duration_s": 78,
+    "map_id": "1ef66ec6-e03a-494b-bcd9-d0cf3953cc62",
+    "fields": [
+      "lyrics(31)",
+      "words(258)",
+      "chords(146)",
+      "beats(359)"
+    ]
+  },
+  {
+    "title": "Let It Be",
+    "artist": "The Beatles",
+    "url": "https://www.youtube.com/watch?v=QDYfEBY9NM4",
+    "status": "success",
+    "duration_s": 69,
+    "map_id": "0cdc9b5b-b16b-4ff1-9f16-5b4ba76f1c17",
+    "fields": [
+      "lyrics(39)",
+      "words(282)",
+      "chords(128)",
+      "beats(279)"
+    ]
+  },
+  {
+    "title": "Knockin' on Heaven's Door",
+    "artist": "Bob Dylan",
+    "url": "https://www.youtube.com/watch?v=rm9coqlk8fY",
+    "status": "success",
+    "duration_s": 49,
+    "map_id": "01cd9f25-27cf-4cc5-b646-ee4bb3213da4",
+    "fields": [
+      "lyrics(10)",
+      "words(103)",
+      "chords(65)",
+      "beats(172)"
+    ]
+  },
+  {
+    "title": "Wonderwall",
+    "artist": "Oasis",
+    "url": "https://www.youtube.com/watch?v=bx1Bh8ZvH84",
+    "status": "success",
+    "duration_s": 69,
+    "map_id": "1ef66ec6-e03a-494b-bcd9-d0cf3953cc62",
+    "fields": [
+      "lyrics(31)",
+      "words(257)",
+      "chords(146)",
+      "beats(359)"
+    ]
+  },
+  {
+    "title": "Let It Be",
+    "artist": "The Beatles",
+    "url": "https://www.youtube.com/watch?v=QDYfEBY9NM4",
+    "status": "success",
+    "duration_s": 62,
+    "map_id": "0cdc9b5b-b16b-4ff1-9f16-5b4ba76f1c17",
+    "fields": [
+      "lyrics(39)",
+      "words(288)",
+      "chords(128)",
+      "beats(279)"
+    ]
+  },
+  {
+    "title": "Knockin' on Heaven's Door",
+    "artist": "Bob Dylan",
+    "url": "https://www.youtube.com/watch?v=rm9coqlk8fY",
+    "status": "success",
+    "duration_s": 43,
+    "map_id": "01cd9f25-27cf-4cc5-b646-ee4bb3213da4",
+    "fields": [
+      "lyrics(10)",
+      "words(103)",
+      "chords(65)",
+      "beats(172)"
+    ]
+  },
+  {
+    "title": "Horse with No Name",
+    "artist": "America",
+    "url": "https://www.youtube.com/watch?v=na47wMFfQCo",
+    "status": "success",
+    "duration_s": 65,
+    "map_id": "90141c46-0f99-4435-a90a-af666d6599b7",
+    "fields": [
+      "lyrics(44)",
+      "words(376)",
+      "chords(92)",
+      "beats(509)"
+    ]
+  },
+  {
+    "title": "Wish You Were Here",
+    "artist": "Pink Floyd",
+    "url": "https://www.youtube.com/watch?v=IXdNnw99-Ic",
+    "status": "success",
+    "duration_s": 69,
+    "map_id": "bf7e5e81-163b-4515-b461-4317db5a0fd1",
+    "fields": [
+      "lyrics(21)",
+      "words(127)",
+      "chords(66)",
+      "beats(369)"
+    ]
+  },
+  {
+    "title": "Hey Jude",
+    "artist": "The Beatles",
+    "url": "https://www.youtube.com/watch?v=A_MjCqQoLLA",
+    "status": "success",
+    "duration_s": 114,
+    "map_id": "7b0b9016-59c5-4a83-9bcc-a6051453e422",
+    "fields": [
+      "lyrics(59)",
+      "words(545)",
+      "chords(121)",
+      "beats(582)"
+    ]
+  },
+  {
+    "title": "Stand by Me",
+    "artist": "Ben E. King",
+    "url": "https://www.youtube.com/watch?v=hwZNL7QVJjE",
+    "status": "success",
+    "duration_s": 49,
+    "map_id": "74e2aff8-bcf9-4119-b51c-10f64f440a73",
+    "fields": [
+      "lyrics(64)",
+      "words(148)",
+      "chords(36)",
+      "beats(346)"
+    ]
+  },
+  {
+    "title": "Hallelujah",
+    "artist": "Leonard Cohen",
+    "url": "https://www.youtube.com/watch?v=ttEMYvpoR-k",
+    "status": "success",
+    "duration_s": 67,
+    "map_id": "0ef6d5e2-78e3-43e8-a32c-36e28fed4834",
+    "fields": [
+      "lyrics(28)",
+      "words(199)",
+      "chords(106)",
+      "beats(778)"
+    ]
+  },
+  {
+    "title": "Brown Eyed Girl",
+    "artist": "Van Morrison",
+    "url": "https://www.youtube.com/watch?v=UfmkgQRmmeE",
+    "status": "success",
+    "duration_s": 54,
+    "map_id": "06a60562-4da2-4d1c-b34c-f8b912fdc608",
+    "fields": [
+      "lyrics(38)",
+      "words(380)",
+      "chords(99)",
+      "beats(458)"
+    ]
+  },
+  {
+    "title": "Have You Ever Seen the Rain",
+    "artist": "Creedence Clearwater Revival",
+    "url": "https://www.youtube.com/watch?v=u1V8YRJnr4Q",
+    "status": "success",
+    "duration_s": 50,
+    "map_id": "5261ecd6-ac1d-44ad-997a-5a38fd18a0a6",
+    "fields": [
+      "lyrics(36)",
+      "words(173)",
+      "chords(48)",
+      "beats(301)"
+    ]
+  },
+  {
+    "title": "Redemption Song",
+    "artist": "Bob Marley",
+    "url": "https://www.youtube.com/watch?v=yv5xonFSC4c",
+    "status": "success",
+    "duration_s": 59,
+    "map_id": "44f78249-8f06-42b4-adb7-31573a463e30",
+    "fields": [
+      "lyrics(44)",
+      "words(218)",
+      "chords(139)",
+      "beats(432)"
+    ]
+  },
+  {
+    "title": "Blowin' in the Wind",
+    "artist": "Bob Dylan",
+    "url": "https://www.youtube.com/watch?v=MMFj8uDubsE",
+    "status": "success",
+    "duration_s": 46,
+    "map_id": "00e37446-2e4c-409a-a8a1-ed94f1b01a57",
+    "fields": [
+      "lyrics(24)",
+      "words(183)",
+      "chords(88)",
+      "beats(239)"
+    ]
+  },
+  {
+    "title": "House of the Rising Sun",
+    "artist": "The Animals",
+    "url": "https://www.youtube.com/watch?v=4-43lLKaqBQ",
+    "status": "success",
+    "duration_s": 59,
+    "map_id": "4a24bac2-15f6-49b9-a285-e3056214c649",
+    "fields": [
+      "lyrics(37)",
+      "words(153)",
+      "chords(158)",
+      "beats(929)"
+    ]
+  },
+  {
+    "title": "Lean on Me",
+    "artist": "Bill Withers",
+    "url": "https://www.youtube.com/watch?v=gOZgo8gMIoM",
+    "status": "success",
+    "duration_s": 65,
+    "map_id": "16d34e71-379d-4d6d-9920-495a65fb74ee",
+    "fields": [
+      "lyrics(42)",
+      "words(271)",
+      "chords(67)",
+      "beats(412)"
+    ]
+  },
+  {
+    "title": "Ain't No Sunshine",
+    "artist": "Bill Withers",
+    "url": "https://www.youtube.com/watch?v=YuKfiH0Scao",
+    "status": "success",
+    "duration_s": 42,
+    "map_id": "3442b706-8cef-4053-ab3e-dca0283c41dc",
+    "fields": [
+      "lyrics(26)",
+      "words(319)",
+      "chords(36)",
+      "beats(155)"
+    ]
+  },
+  {
+    "title": "Hotel California",
+    "artist": "Eagles",
+    "url": "https://www.youtube.com/watch?v=BciS5krYL80",
+    "status": "success",
+    "duration_s": 86,
+    "map_id": "0429fbf2-1dc3-4f4b-8b89-89e8accf42ca",
+    "fields": [
+      "lyrics(42)",
+      "words(343)",
+      "chords(124)",
+      "beats(573)"
+    ]
+  },
+  {
+    "title": "Imagine",
+    "artist": "John Lennon",
+    "url": "https://www.youtube.com/watch?v=YkgkThdzX-8",
+    "status": "success",
+    "duration_s": 59,
+    "map_id": "ec04e3c5-0548-4e73-bfc3-19a26108f302",
+    "fields": [
+      "lyrics(26)",
+      "words(130)",
+      "chords(69)",
+      "beats(223)"
+    ]
+  },
+  {
+    "title": "Take Me Home, Country Roads",
+    "artist": "John Denver",
+    "url": "https://www.youtube.com/watch?v=1vrEljMfXYo",
+    "status": "success",
+    "duration_s": 53,
+    "map_id": "3ed37956-e579-450c-9865-9c45c8a37cd9",
+    "fields": [
+      "lyrics(30)",
+      "words(177)",
+      "chords(63)",
+      "beats(457)"
+    ]
+  },
+  {
+    "title": "Let Her Go",
+    "artist": "Passenger",
+    "url": "https://www.youtube.com/watch?v=RBumgq5yVrA",
+    "status": "success",
+    "duration_s": 65,
+    "map_id": "07ff7407-8257-4ca8-9f7b-60142cfef991",
+    "fields": [
+      "lyrics(25)",
+      "words(401)",
+      "chords(126)",
+      "beats(341)"
+    ]
+  },
+  {
+    "title": "Riptide",
+    "artist": "Vance Joy",
+    "url": "https://www.youtube.com/watch?v=uJ_1HMAGb4k",
+    "status": "success",
+    "duration_s": 58,
+    "map_id": "380b5867-d562-4152-a590-49cfd4f80389",
+    "fields": [
+      "lyrics(50)",
+      "words(462)",
+      "chords(95)",
+      "beats(332)"
+    ]
+  },
+  {
+    "title": "I'm Yours",
+    "artist": "Jason Mraz",
+    "url": "https://www.youtube.com/watch?v=EkHTsc9PU2A",
+    "status": "success",
+    "duration_s": 61,
+    "map_id": "82d984e8-66bf-41f8-bb64-6826f3879077",
+    "fields": [
+      "lyrics(60)",
+      "words(429)",
+      "chords(71)",
+      "beats(530)"
+    ]
+  },
+  {
+    "title": "Love Yourself",
+    "artist": "Justin Bieber",
+    "url": "https://www.youtube.com/watch?v=oyEuk8j8imI",
+    "status": "success",
+    "duration_s": 69,
+    "map_id": "a9adb57f-6812-4bd8-98e6-deadb328ebd3",
+    "fields": [
+      "lyrics(55)",
+      "words(489)",
+      "chords(74)",
+      "beats(394)"
+    ]
+  },
+  {
+    "title": "Someone Like You",
+    "artist": "Adele",
+    "url": "https://www.youtube.com/watch?v=hLQl3WQQoQ0",
+    "status": "success",
+    "duration_s": 72,
+    "map_id": "028efe7f-cdfb-4135-846f-848f2fff15b1",
+    "fields": [
+      "lyrics(110)",
+      "words(332)",
+      "chords(116)",
+      "beats(621)"
+    ]
+  },
+  {
+    "title": "Stay with Me",
+    "artist": "Sam Smith",
+    "url": "https://www.youtube.com/watch?v=pB-5XG-DbAA",
+    "status": "success",
+    "duration_s": 56,
+    "map_id": "3a19c38a-b74f-42e1-acde-e3e9a8dfc472",
+    "fields": [
+      "lyrics(36)",
+      "words(165)",
+      "chords(1)",
+      "beats(243)"
+    ]
+  },
+  {
+    "title": "Perfect",
+    "artist": "Ed Sheeran",
+    "url": "https://www.youtube.com/watch?v=2Vv-BfVoq4g",
+    "status": "success",
+    "duration_s": 70,
+    "map_id": "1023bd4b-cfcd-4ec8-8438-5d2bf34f613c",
+    "fields": [
+      "lyrics(55)",
+      "words(289)",
+      "chords(103)",
+      "beats(807)"
+    ]
+  },
+  {
+    "title": "Thinking Out Loud",
+    "artist": "Ed Sheeran",
+    "url": "https://www.youtube.com/watch?v=lp-EO5I60KA",
+    "status": "success",
+    "duration_s": 72,
+    "map_id": "04a6f0d9-2f10-4a4f-b40e-c88ebf83d890",
+    "fields": [
+      "lyrics(54)",
+      "words(315)",
+      "chords(153)",
+      "beats(359)"
+    ]
+  },
+  {
+    "title": "Photograph",
+    "artist": "Ed Sheeran",
+    "url": "https://www.youtube.com/watch?v=nSDgHBxUbVQ",
+    "status": "success",
+    "duration_s": 69,
+    "map_id": "7dcbc1be-4257-4d64-b915-045dfb23ae88",
+    "fields": [
+      "lyrics(65)",
+      "words(315)",
+      "chords(64)",
+      "beats(462)"
+    ]
+  },
+  {
+    "title": "Shape of You",
+    "artist": "Ed Sheeran",
+    "url": "https://www.youtube.com/watch?v=JGwWNGJdvx8",
+    "status": "success",
+    "duration_s": 68,
+    "map_id": "02b238b4-2770-44c9-b7ee-a78a817c9102",
+    "fields": [
+      "lyrics(84)",
+      "words(604)",
+      "chords(86)",
+      "beats(374)"
+    ]
+  },
+  {
+    "title": "Hey There Delilah",
+    "artist": "Plain White T's",
+    "url": "https://www.youtube.com/watch?v=h_m-BjrxmgI",
+    "status": "success",
+    "duration_s": 63,
+    "map_id": "2095a610-4111-4fb5-9a79-e71ca0d2fb3c",
+    "fields": [
+      "lyrics(68)",
+      "words(376)",
+      "chords(104)",
+      "beats(390)"
+    ]
+  },
+  {
+    "title": "Chasing Cars",
+    "artist": "Snow Patrol",
+    "url": "https://www.youtube.com/watch?v=GemKqzILV4w",
+    "status": "success",
+    "duration_s": 56,
+    "map_id": "01325be3-3a32-45a5-a70c-7b9830bf3faf",
+    "fields": [
+      "lyrics(43)",
+      "words(175)",
+      "chords(37)",
+      "beats(381)"
+    ]
+  },
+  {
+    "title": "Zombie",
+    "artist": "The Cranberries",
+    "url": "https://www.youtube.com/watch?v=6Ejga4kJUts",
+    "status": "success",
+    "duration_s": 72,
+    "map_id": "15687e64-c1b8-45bd-b8e4-706cd1902f4d",
+    "fields": [
+      "lyrics(32)",
+      "words(145)",
+      "chords(101)",
+      "beats(455)"
+    ]
+  },
+  {
+    "title": "No Woman, No Cry",
+    "artist": "Bob Marley",
+    "url": "https://www.youtube.com/watch?v=IT8XvzIfi4U",
+    "status": "success",
+    "duration_s": 99,
+    "map_id": "5f92f7de-f6b4-4c52-9f87-e774a268e194",
+    "fields": [
+      "lyrics(62)",
+      "words(464)",
+      "chords(200)",
+      "beats(553)"
+    ]
+  },
+  {
+    "title": "Three Little Birds",
+    "artist": "Bob Marley",
+    "url": "https://www.youtube.com/watch?v=HNBCVM4KbUM",
+    "status": "success",
+    "duration_s": 54,
+    "map_id": "33b9b9fd-15a1-4e1f-a10a-3d15df5e58f0",
+    "fields": [
+      "lyrics(37)",
+      "words(275)",
+      "chords(32)",
+      "beats(441)"
+    ]
+  },
+  {
+    "title": "Good Riddance (Time of Your Life)",
+    "artist": "Green Day",
+    "url": "https://www.youtube.com/watch?v=CnQ8N1KacJc",
+    "status": "success",
+    "duration_s": 42,
+    "map_id": "0a35f4d7-1a61-4f74-8839-d8c8ba4b7e37",
+    "fields": [
+      "lyrics(16)",
+      "words(153)",
+      "chords(97)",
+      "beats(296)"
+    ]
+  },
+  {
+    "title": "Boulevard of Broken Dreams",
+    "artist": "Green Day",
+    "url": "https://www.youtube.com/watch?v=Soa3gO7tL-c",
+    "status": "success",
+    "duration_s": 70,
+    "map_id": "0ba72f0d-70ae-4655-94d9-c1069b5abcfb",
+    "fields": [
+      "lyrics(42)",
+      "words(267)",
+      "chords(2)",
+      "beats(372)"
+    ]
+  },
+  {
+    "title": "Creep",
+    "artist": "Radiohead",
+    "url": "https://www.youtube.com/watch?v=XFkzRNyygfk",
+    "status": "success",
+    "duration_s": 63,
+    "map_id": "1387bfbc-6a6e-4ed5-9e60-e990ed6d3cab",
+    "fields": [
+      "lyrics(37)",
+      "words(164)",
+      "chords(48)",
+      "beats(354)"
+    ]
+  },
+  {
+    "title": "Under the Bridge",
+    "artist": "Red Hot Chili Peppers",
+    "url": "https://www.youtube.com/watch?v=GLvohMXgcBo",
+    "status": "success",
+    "duration_s": 64,
+    "map_id": "10d1062a-7275-458f-ad0d-906eeaa22c57",
+    "fields": [
+      "lyrics(66)",
+      "words(218)",
+      "chords(151)",
+      "beats(362)"
+    ]
+  },
+  {
+    "title": "Californication",
+    "artist": "Red Hot Chili Peppers",
+    "url": "https://www.youtube.com/watch?v=YlUKcNNmywk",
+    "status": "success",
+    "duration_s": 76,
+    "map_id": "084a24a9-b289-4584-9fb5-1ca0f7500eb3",
+    "fields": [
+      "lyrics(30)",
+      "words(290)",
+      "chords(163)",
+      "beats(501)"
+    ]
+  },
+  {
+    "title": "Yellow",
+    "artist": "Coldplay",
+    "url": "https://www.youtube.com/watch?v=yKNxeF4KMsY",
+    "status": "success",
+    "duration_s": 66,
+    "map_id": "729cf505-94eb-4fbe-bc76-cbae44cff091",
+    "fields": [
+      "lyrics(26)",
+      "words(198)",
+      "chords(57)",
+      "beats(380)"
+    ]
+  },
+  {
+    "title": "The Scientist",
+    "artist": "Coldplay",
+    "url": "https://www.youtube.com/watch?v=RB-RcX5DS5A",
+    "status": "success",
+    "duration_s": 65,
+    "map_id": "214ee72a-2d29-4268-935e-15ba22952b43",
+    "fields": [
+      "lyrics(21)",
+      "words(177)",
+      "chords(57)",
+      "beats(314)"
+    ]
+  },
+  {
+    "title": "Clocks",
+    "artist": "Coldplay",
+    "url": "https://www.youtube.com/watch?v=d020hcWA_Wg",
+    "status": "success",
+    "duration_s": 62,
+    "map_id": "6a957544-049a-4e98-8f9a-d66c473d94b0",
+    "fields": [
+      "lyrics(14)",
+      "words(168)",
+      "chords(102)",
+      "beats(544)"
+    ]
+  },
+  {
+    "title": "Fix You",
+    "artist": "Coldplay",
+    "url": "https://www.youtube.com/watch?v=k4V3Mo61fJM",
+    "status": "success",
+    "duration_s": 72,
+    "map_id": "012462c9-142b-437c-aab9-50dc92bbf2a3",
+    "fields": [
+      "lyrics(27)",
+      "words(222)",
+      "chords(101)",
+      "beats(419)"
+    ]
+  },
+  {
+    "title": "Free Fallin'",
+    "artist": "Tom Petty",
+    "url": "https://www.youtube.com/watch?v=1lWJXDG2i0A",
+    "status": "success",
+    "duration_s": 66,
+    "map_id": "061fcc22-b4e8-48e7-ae64-5dd2b145a0b1",
+    "fields": [
+      "lyrics(62)",
+      "words(331)",
+      "chords(167)",
+      "beats(350)"
+    ]
+  },
+  {
+    "title": "Learning to Fly",
+    "artist": "Tom Petty",
+    "url": "https://www.youtube.com/watch?v=s5BJXwNeKsQ",
+    "status": "success",
+    "duration_s": 59,
+    "map_id": "0fae44e7-c361-4df2-b7a0-946ec41975be",
+    "fields": [
+      "lyrics(50)",
+      "words(170)",
+      "chords(220)",
+      "beats(464)"
+    ]
+  },
+  {
+    "title": "Wagon Wheel",
+    "artist": "Old Crow Medicine Show",
+    "url": "https://www.youtube.com/watch?v=1gX1EP6mG-E",
+    "status": "success",
+    "duration_s": 58,
+    "map_id": "80be7145-d704-418b-8aae-6f28bfd47b20",
+    "fields": [
+      "lyrics(83)",
+      "words(309)",
+      "chords(120)",
+      "beats(525)"
+    ]
+  },
+  {
+    "title": "Ring of Fire",
+    "artist": "Johnny Cash",
+    "url": "https://www.youtube.com/watch?v=5WyLhwYFgmk",
+    "status": "success",
+    "duration_s": 47,
+    "map_id": "11664338-8b1c-46ee-aeca-824e30952eb5",
+    "fields": [
+      "lyrics(31)",
+      "words(203)",
+      "chords(51)",
+      "beats(423)"
+    ]
+  },
+  {
+    "title": "Folsom Prison Blues",
+    "artist": "Johnny Cash",
+    "url": "https://www.youtube.com/watch?v=AeZRYhLDLeU",
+    "status": "success",
+    "duration_s": 48,
+    "map_id": "2f5f9a3b-2f74-4657-8c96-8af2d77fcfe0",
+    "fields": [
+      "lyrics(32)",
+      "words(183)",
+      "chords(28)",
+      "beats(324)"
+    ]
+  },
+  {
+    "title": "Jolene",
+    "artist": "Dolly Parton",
+    "url": "https://www.youtube.com/watch?v=Ixrje2rXLMA",
+    "status": "success",
+    "duration_s": 49,
+    "map_id": "52efd876-8a54-49c1-8ea7-7a37e89ecbe7",
+    "fields": [
+      "lyrics(31)",
+      "words(201)",
+      "chords(61)",
+      "beats(291)"
+    ]
+  },
+  {
+    "title": "Sweet Home Alabama",
+    "artist": "Lynyrd Skynyrd",
+    "url": "https://www.youtube.com/watch?v=-35W_FWCT9Q",
+    "status": "success",
+    "duration_s": 72,
+    "map_id": "21b53670-d576-4f12-a1e2-4c4e3526e516",
+    "fields": [
+      "lyrics(43)",
+      "words(224)",
+      "chords(185)",
+      "beats(460)"
+    ]
+  },
+  {
+    "title": "Leaving on a Jet Plane",
+    "artist": "John Denver",
+    "url": "https://www.youtube.com/watch?v=SneCkM0bJq0",
+    "status": "success",
+    "duration_s": 60,
+    "map_id": "9ca2aa8a-e8f8-4cfc-bb15-b9d023e466ab",
+    "fields": [
+      "lyrics(39)",
+      "words(284)",
+      "chords(97)",
+      "beats(470)"
+    ]
+  },
+  {
+    "title": "Blackbird",
+    "artist": "The Beatles",
+    "url": "https://www.youtube.com/watch?v=Man4Xw8Xypo",
+    "status": "success",
+    "duration_s": 41,
+    "map_id": "17416564-fb6e-471c-a4ad-0bfc45292cd9",
+    "fields": [
+      "lyrics(20)",
+      "words(126)",
+      "chords(93)",
+      "beats(207)"
+    ]
+  },
+  {
+    "title": "Here Comes the Sun",
+    "artist": "The Beatles",
+    "url": "https://www.youtube.com/watch?v=KQetemT1sWc",
+    "status": "success",
+    "duration_s": 51,
+    "map_id": "2685a315-282a-4dc3-98c5-31b71f3dedfc",
+    "fields": [
+      "lyrics(34)",
+      "words(168)",
+      "chords(90)",
+      "beats(460)"
+    ]
+  },
+  {
+    "title": "Come as You Are",
+    "artist": "Nirvana",
+    "url": "https://www.youtube.com/watch?v=vabnZ9-ex7o",
+    "status": "success",
+    "duration_s": 56,
+    "map_id": "5e29ccca-3e9a-40f3-a595-fa5c4a002190",
+    "fields": [
+      "lyrics(22)",
+      "words(141)",
+      "chords(105)",
+      "beats(424)"
+    ]
+  },
+  {
+    "title": "Smells Like Teen Spirit",
+    "artist": "Nirvana",
+    "url": "https://www.youtube.com/watch?v=hTWKbfoikeg",
+    "status": "success",
+    "duration_s": 69,
+    "map_id": "0ef2f43e-51d4-4930-9052-3820358044d5",
+    "fields": [
+      "lyrics(44)",
+      "words(294)",
+      "chords(231)",
+      "beats(519)"
+    ]
+  },
+  {
+    "title": "Nothing Else Matters",
+    "artist": "Metallica",
+    "url": "https://www.youtube.com/watch?v=tAGnKpE4NCI",
+    "status": "success",
+    "duration_s": 85,
+    "map_id": "0005582d-06eb-4b61-9749-5829351dfadb",
+    "fields": [
+      "lyrics(51)",
+      "words(217)",
+      "chords(145)",
+      "beats(893)"
+    ]
+  },
+  {
+    "title": "Stairway to Heaven",
+    "artist": "Led Zeppelin",
+    "url": "https://www.youtube.com/watch?v=QkF3oxziUI4",
+    "status": "success",
+    "duration_s": 108,
+    "map_id": "11b72c39-05a0-4155-8a7f-e60bfb1ba2a5",
+    "fields": [
+      "lyrics(51)",
+      "words(408)",
+      "chords(226)",
+      "beats(658)"
+    ]
+  },
+  {
+    "title": "Wonderful Tonight",
+    "artist": "Eric Clapton",
+    "url": "https://www.youtube.com/watch?v=vUSzL2leaFM",
+    "status": "success",
+    "duration_s": 83,
+    "map_id": "7ec90b54-88cb-4c97-b0f1-c1b4baf6d1c9",
+    "fields": [
+      "lyrics(149)",
+      "words(193)",
+      "chords(167)",
+      "beats(538)"
+    ]
+  },
+  {
+    "title": "Tears in Heaven",
+    "artist": "Eric Clapton",
+    "url": "https://www.youtube.com/watch?v=JxPj3GAYYZ0",
+    "status": "success",
+    "duration_s": 67,
+    "map_id": "21ddde6c-90f4-469e-bdd0-1f438d011917",
+    "fields": [
+      "lyrics(33)",
+      "words(156)",
+      "chords(132)",
+      "beats(333)"
+    ]
+  },
+  {
+    "title": "Can't Help Falling in Love",
+    "artist": "Elvis Presley",
+    "url": "https://www.youtube.com/watch?v=vGJTaP6anOU",
+    "status": "success",
+    "duration_s": 50,
+    "map_id": "05e6dacd-dbe5-4f53-8868-30bba1971732",
+    "fields": [
+      "lyrics(26)",
+      "words(110)",
+      "chords(85)",
+      "beats(563)"
+    ]
+  },
+  {
+    "title": "Unchained Melody",
+    "artist": "The Righteous Brothers",
+    "url": "https://www.youtube.com/watch?v=qiiyq2xrSI0",
+    "status": "success",
+    "duration_s": 57,
+    "map_id": "02910522-83b7-4097-9c4b-23fbb5a79dd9",
+    "fields": [
+      "lyrics(24)",
+      "words(115)",
+      "chords(59)",
+      "beats(893)"
+    ]
+  },
+  {
+    "title": "A Thousand Years",
+    "artist": "Christina Perri",
+    "url": "https://www.youtube.com/watch?v=rtOvBOTyX00",
+    "status": "success",
+    "duration_s": 71,
+    "map_id": "52b5da16-f390-451d-a367-17021916e449",
+    "fields": [
+      "lyrics(37)",
+      "words(221)",
+      "chords(85)",
+      "beats(627)"
+    ]
+  },
+  {
+    "title": "All of Me",
+    "artist": "John Legend",
+    "url": "https://www.youtube.com/watch?v=450p7goxZqg",
+    "status": "success",
+    "duration_s": 75,
+    "map_id": "2af9efb4-6b8c-4337-9bd1-a9539b5e8077",
+    "fields": [
+      "lyrics(57)",
+      "words(332)",
+      "chords(115)",
+      "beats(582)"
+    ]
+  },
+  {
+    "title": "Say You Won't Let Go",
+    "artist": "James Arthur",
+    "url": "https://www.youtube.com/watch?v=0yW7w8F2TVA",
+    "status": "success",
+    "duration_s": 57,
+    "map_id": "02e64240-03b1-4c06-b842-46fb8637c3b4",
+    "fields": [
+      "lyrics(33)",
+      "words(356)",
+      "chords(82)",
+      "beats(324)"
+    ]
+  },
+  {
+    "title": "Shallow",
+    "artist": "Lady Gaga & Bradley Cooper",
+    "url": "https://www.youtube.com/watch?v=bo_efYhYU2A",
+    "status": "success",
+    "duration_s": 58,
+    "map_id": "28f8a7d0-59b2-4f25-a869-c932f9b1600e",
+    "fields": [
+      "lyrics(38)",
+      "words(371)",
+      "chords(94)",
+      "beats(333)"
+    ]
+  },
+  {
+    "title": "Someone You Loved",
+    "artist": "Lewis Capaldi",
+    "url": "https://www.youtube.com/watch?v=zABLecsR5UE",
+    "status": "success",
+    "duration_s": 50,
+    "map_id": "07ea112f-a000-41e8-9f5b-47d5e81851e6",
+    "fields": [
+      "lyrics(64)",
+      "words(332)",
+      "chords(81)",
+      "beats(321)"
+    ]
+  },
+  {
+    "title": "Drivers License",
+    "artist": "Olivia Rodrigo",
+    "url": "https://www.youtube.com/watch?v=ZmDBbnmKpqQ",
+    "status": "success",
+    "duration_s": 64,
+    "map_id": "143f1c88-f47f-4f37-b25d-614c74269dea",
+    "fields": [
+      "lyrics(57)",
+      "words(335)",
+      "chords(62)",
+      "beats(382)"
+    ]
+  },
+  {
+    "title": "Easy on Me",
+    "artist": "Adele",
+    "url": "https://www.youtube.com/watch?v=U3ASj1L6_sY",
+    "status": "success",
+    "duration_s": 78,
+    "map_id": "a7720370-b5a1-49b0-983a-85081f0bcbfe",
+    "fields": [
+      "lyrics(76)",
+      "words(344)",
+      "chords(78)",
+      "beats(278)"
+    ]
+  },
+  {
+    "title": "Rolling in the Deep",
+    "artist": "Adele",
+    "url": "https://www.youtube.com/watch?v=rYEDA3JcQqw",
+    "status": "success",
+    "duration_s": 61,
+    "map_id": "11ce1f80-c2eb-477f-b65f-b032aa7ec259",
+    "fields": [
+      "lyrics(104)",
+      "words(306)",
+      "chords(79)",
+      "beats(395)"
+    ]
+  },
+  {
+    "title": "Ho Hey",
+    "artist": "The Lumineers",
+    "url": "https://www.youtube.com/watch?v=zvCBSSwgtg4",
+    "status": "success",
+    "duration_s": 46,
+    "map_id": "1243e386-d49c-48b8-aea7-ea14383eb67f",
+    "fields": [
+      "lyrics(17)",
+      "words(181)",
+      "chords(42)",
+      "beats(230)"
+    ]
+  },
+  {
+    "title": "I Will Wait",
+    "artist": "Mumford & Sons",
+    "url": "https://www.youtube.com/watch?v=rGKfrgqWcv0",
+    "status": "success",
+    "duration_s": 74,
+    "map_id": "d2e6f157-7e01-4b66-aa60-39297f199646",
+    "fields": [
+      "lyrics(44)",
+      "words(206)",
+      "chords(111)",
+      "beats(448)"
+    ]
+  },
+  {
+    "title": "Little Talks",
+    "artist": "Of Monsters and Men",
+    "url": "https://www.youtube.com/watch?v=ghb6eDopW8I",
+    "status": "success",
+    "duration_s": 69,
+    "map_id": "4e61e993-cde4-4414-a16f-c1332999433f",
+    "fields": [
+      "lyrics(49)",
+      "words(319)",
+      "chords(155)",
+      "beats(675)"
+    ]
+  },
+  {
+    "title": "Skinny Love",
+    "artist": "Bon Iver",
+    "url": "https://www.youtube.com/watch?v=ssdgFoHLwnk",
+    "status": "success",
+    "duration_s": 61,
+    "map_id": "10d2374a-a2bf-450b-896a-78fd34933c8c",
+    "fields": [
+      "lyrics(9)",
+      "words(220)",
+      "chords(79)",
+      "beats(501)"
+    ]
+  },
+  {
+    "title": "The A Team",
+    "artist": "Ed Sheeran",
+    "url": "https://www.youtube.com/watch?v=UAWcs5H-qgQ",
+    "status": "success",
+    "duration_s": 76,
+    "map_id": "6c40dbb7-2442-45b5-bc0e-eb2ec9dafde1",
+    "fields": [
+      "lyrics(71)",
+      "words(336)",
+      "chords(109)",
+      "beats(603)"
+    ]
+  },
+  {
+    "title": "Somewhere Over the Rainbow",
+    "artist": "Israel Kamakawiwo'ole",
+    "url": "https://www.youtube.com/watch?v=V1bFr2SWP1I",
+    "status": "success",
+    "duration_s": 62,
+    "map_id": "825e65d0-59c5-4944-bf24-fbc23feda814",
+    "fields": [
+      "lyrics(29)",
+      "words(132)",
+      "chords(75)",
+      "beats(501)"
+    ]
+  },
+  {
+    "title": "I Won't Give Up",
+    "artist": "Jason Mraz",
+    "url": "https://www.youtube.com/watch?v=O1-4u9W-bns",
+    "status": "success",
+    "duration_s": 70,
+    "map_id": "b5cec7d5-1ad0-44e6-9534-54f8870f3d1f",
+    "fields": [
+      "lyrics(94)",
+      "words(292)",
+      "chords(74)",
+      "beats(534)"
+    ]
+  },
+  {
+    "title": "Put Your Records On",
+    "artist": "Corinne Bailey Rae",
+    "url": "https://www.youtube.com/watch?v=rjOhZZyn30k",
+    "status": "success",
+    "duration_s": 64,
+    "map_id": "601e5cb7-c9f0-4227-b72a-f0a5abad1cd4",
+    "fields": [
+      "lyrics(56)",
+      "words(326)",
+      "chords(70)",
+      "beats(326)"
+    ]
+  },
+  {
+    "title": "Use Somebody",
+    "artist": "Kings of Leon",
+    "url": "https://www.youtube.com/watch?v=gnhXHvRoUd0",
+    "status": "success",
+    "duration_s": 65,
+    "map_id": "0afbef40-0bcf-43c0-a352-812184ad8b4f",
+    "fields": [
+      "lyrics(29)",
+      "words(263)",
+      "chords(100)",
+      "beats(541)"
+    ]
+  },
+  {
+    "title": "Iris",
+    "artist": "Goo Goo Dolls",
+    "url": "https://www.youtube.com/watch?v=NdYWuo9OFAw",
+    "status": "success",
+    "duration_s": 55,
+    "map_id": "1170aeb1-20d1-4605-a82e-77c8fe7bee1d",
+    "fields": [
+      "lyrics(24)",
+      "words(188)",
+      "chords(109)",
+      "beats(483)"
+    ]
+  },
+  {
+    "title": "Fast Car",
+    "artist": "Tracy Chapman",
+    "url": "https://www.youtube.com/watch?v=AIOAlaACuv4",
+    "status": "success",
+    "duration_s": 66,
+    "map_id": "47f7e706-2135-417c-8804-4cf50deef913",
+    "fields": [
+      "lyrics(118)",
+      "words(444)",
+      "chords(214)",
+      "beats(455)"
+    ]
+  },
+  {
+    "title": "Losing My Religion",
+    "artist": "R.E.M.",
+    "url": "https://www.youtube.com/watch?v=xwtdhWltSIg",
+    "status": "success",
+    "duration_s": 75,
+    "map_id": "0c87cc7a-41f7-4e55-9311-e021fb9370a2",
+    "fields": [
+      "lyrics(51)",
+      "words(351)",
+      "chords(99)",
+      "beats(538)"
+    ]
+  },
+  {
+    "title": "Every Breath You Take",
+    "artist": "The Police",
+    "url": "https://www.youtube.com/watch?v=OMOGaugKpzs",
+    "status": "success",
+    "duration_s": 62,
+    "map_id": "1619e7de-c0dc-4c78-8b25-5dd69d953959",
+    "fields": [
+      "lyrics(38)",
+      "words(199)",
+      "chords(67)",
+      "beats(446)"
+    ]
+  },
+  {
+    "title": "Message in a Bottle",
+    "artist": "The Police",
+    "url": "https://www.youtube.com/watch?v=MbXWrmQW-OE",
+    "status": "success",
+    "duration_s": 69,
+    "map_id": "b9264011-47c5-4603-b840-7c27b0ccb2b9",
+    "fields": [
+      "lyrics(33)",
+      "words(285)",
+      "chords(227)",
+      "beats(657)"
+    ]
+  },
+  {
+    "title": "With or Without You",
+    "artist": "U2",
+    "url": "https://www.youtube.com/watch?v=ujNeHIo7oTE",
+    "status": "success",
+    "duration_s": 75,
+    "map_id": "1605fc6f-128f-48f5-9366-df0201542c9b",
+    "fields": [
+      "lyrics(37)",
+      "words(174)",
+      "chords(115)",
+      "beats(534)"
+    ]
+  },
+  {
+    "title": "One",
+    "artist": "U2",
+    "url": "https://www.youtube.com/watch?v=ftjEcrrf7r0",
+    "status": "success",
+    "duration_s": 73,
+    "map_id": "2366ea8d-a9bf-4d72-b195-df6bd6e54dbc",
+    "fields": [
+      "lyrics(41)",
+      "words(293)",
+      "chords(88)",
+      "beats(407)"
+    ]
+  },
+  {
+    "title": "What's Going On",
+    "artist": "Marvin Gaye",
+    "url": "https://www.youtube.com/watch?v=o5TmORitlKk",
+    "status": "success",
+    "duration_s": 69,
+    "map_id": "5a80bd9b-4d50-4329-a392-005e9b4be48f",
+    "fields": [
+      "lyrics(62)",
+      "words(442)",
+      "chords(38)",
+      "beats(360)"
+    ]
+  },
+  {
+    "title": "Isn't She Lovely",
+    "artist": "Stevie Wonder",
+    "url": "https://www.youtube.com/watch?v=kHInwkOJm24",
+    "status": "success",
+    "duration_s": 58,
+    "map_id": "648075b9-9612-4cbc-a7ca-0cb202c4d3ab",
+    "fields": [
+      "lyrics(21)",
+      "words(108)",
+      "chords(90)",
+      "beats(393)"
+    ]
+  },
+  {
+    "title": "Superstition",
+    "artist": "Stevie Wonder",
+    "url": "https://www.youtube.com/watch?v=7_tmeHCO1IM",
+    "status": "success",
+    "duration_s": 64,
+    "map_id": "19e520e5-3ccc-4ac9-9998-abce5a0bdd39",
+    "fields": [
+      "lyrics(52)",
+      "words(142)",
+      "chords(19)",
+      "beats(402)"
+    ]
+  },
+  {
+    "title": "Just the Way You Are",
+    "artist": "Bruno Mars",
+    "url": "https://www.youtube.com/watch?v=LjhCEhWiKXk",
+    "status": "success",
+    "duration_s": 65,
+    "map_id": "2c03feb2-af77-483f-982e-8d82d3ffd03f",
+    "fields": [
+      "lyrics(93)",
+      "words(299)",
+      "chords(35)",
+      "beats(399)"
+    ]
+  },
+  {
+    "title": "Count on Me",
+    "artist": "Bruno Mars",
+    "url": "https://www.youtube.com/watch?v=6k8cpUkKK4c",
+    "status": "success",
+    "duration_s": 58,
+    "map_id": "0fed9c7c-add1-4e2a-b1b2-0165f3a448d0",
+    "fields": [
+      "lyrics(57)",
+      "words(365)",
+      "chords(84)",
+      "beats(368)"
+    ]
+  },
+  {
+    "title": "Viva la Vida",
+    "artist": "Coldplay",
+    "url": "https://www.youtube.com/watch?v=dvgZkm1xWPE",
+    "status": "success",
+    "duration_s": 66,
+    "map_id": "307ce9da-5690-4e21-ab71-9d12ea106e52",
+    "fields": [
+      "lyrics(22)",
+      "words(289)",
+      "chords(132)",
+      "beats(565)"
+    ]
+  },
+  {
+    "title": "Budapest",
+    "artist": "George Ezra",
+    "url": "https://www.youtube.com/watch?v=VHrLPs3_1Fs",
+    "status": "success",
+    "duration_s": 61,
+    "map_id": "7b3a8c39-627f-4a94-844e-3222d6f7f4cb",
+    "fields": [
+      "lyrics(66)",
+      "words(314)",
+      "chords(51)",
+      "beats(430)"
+    ]
+  },
+  {
+    "title": "Shotgun",
+    "artist": "George Ezra",
+    "url": "https://www.youtube.com/watch?v=aAiVsqfbn5g",
+    "status": "success",
+    "duration_s": 62,
+    "map_id": "81614e2f-298e-4644-aaed-36fe57fb1eb3",
+    "fields": [
+      "lyrics(54)",
+      "words(376)",
+      "chords(84)",
+      "beats(362)"
+    ]
+  },
+  {
+    "title": "Dance Monkey",
+    "artist": "Tones and I",
+    "url": "https://www.youtube.com/watch?v=q0hyYWKXF0Q",
+    "status": "success",
+    "duration_s": 68,
+    "map_id": "c0f89d6a-d740-4f91-b6e1-d5e8572268c1",
+    "fields": [
+      "lyrics(51)",
+      "words(450)",
+      "chords(77)",
+      "beats(351)"
+    ]
+  },
+  {
+    "title": "Heat Waves",
+    "artist": "Glass Animals",
+    "url": "https://www.youtube.com/watch?v=mRD0-GxqHVo",
+    "status": "success",
+    "duration_s": 64,
+    "map_id": "562fa8cd-cd74-45af-81bf-d6d93557a30d",
+    "fields": [
+      "lyrics(41)",
+      "words(409)",
+      "chords(118)",
+      "beats(300)"
+    ]
+  },
+  {
+    "title": "Blinding Lights",
+    "artist": "The Weeknd",
+    "url": "https://www.youtube.com/watch?v=4NRXx6U8ABQ",
+    "status": "success",
+    "duration_s": 69,
+    "map_id": "12a6dd5a-d5a7-457f-b585-c77db4772377",
+    "fields": [
+      "lyrics(34)",
+      "words(246)",
+      "chords(64)",
+      "beats(540)"
+    ]
+  },
+  {
+    "title": "Watermelon Sugar",
+    "artist": "Harry Styles",
+    "url": "https://www.youtube.com/watch?v=E07s5ZYygMg",
+    "status": "success",
+    "duration_s": 55,
+    "map_id": "1ab009f2-d713-4f85-b4a3-c383c344e24a",
+    "fields": [
+      "lyrics(44)",
+      "words(269)",
+      "chords(66)",
+      "beats(265)"
+    ]
+  },
+  {
+    "title": "Levitating",
+    "artist": "Dua Lipa",
+    "url": "https://www.youtube.com/watch?v=TUVcZfQe-Kw",
+    "status": "success",
+    "duration_s": 72,
+    "map_id": "3836db4d-c595-4a9b-a31a-69c5fb1de998",
+    "fields": [
+      "lyrics(126)",
+      "words(738)",
+      "chords(125)",
+      "beats(390)"
+    ]
+  },
+  {
+    "title": "Seven Nation Army",
+    "artist": "The White Stripes",
+    "url": "https://www.youtube.com/watch?v=0J2QdDbelmY",
+    "status": "success",
+    "duration_s": 62,
+    "map_id": "14f99a30-2a77-49c4-9e4e-1299b849f72a",
+    "fields": [
+      "lyrics(6)",
+      "words(190)",
+      "chords(161)",
+      "beats(461)"
+    ]
+  },
+  {
+    "title": "Smoke on the Water",
+    "artist": "Deep Purple",
+    "url": "https://www.youtube.com/watch?v=Q2FzZSBD5LE",
+    "status": "success",
+    "duration_s": 88,
+    "map_id": "9f6d644d-b1f9-4c29-8e7d-18cf12434d7b",
+    "fields": [
+      "lyrics(85)",
+      "words(204)",
+      "chords(92)",
+      "beats(704)"
+    ]
+  },
+  {
+    "title": "Sunshine of Your Love",
+    "artist": "Cream",
+    "url": "https://www.youtube.com/watch?v=HbqQL0J_Vr0",
+    "status": "success",
+    "duration_s": 72,
+    "map_id": "19520347-6c2a-4197-9a40-2374d9c85b62",
+    "fields": [
+      "lyrics(29)",
+      "words(186)",
+      "chords(45)",
+      "beats(554)"
+    ]
   }
 ]
