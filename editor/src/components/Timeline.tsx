@@ -3,7 +3,7 @@ import { type CSSProperties, useCallback, useEffect, useRef, useState } from "re
 import { COLORS, LANE_ORDER, type LaneName } from "../constants";
 import { type SnapSubdivision, useBeatSnap } from "../hooks/useBeatSnap";
 import { useTimeline } from "../hooks/useTimeline";
-import { deselectAction } from "../state/actions";
+import { deselectAction, selectAction } from "../state/actions";
 import { useEditor } from "../state/context";
 import type { EditableLane } from "../state/types";
 import type { ValidationIssue } from "../validation/types";
@@ -21,12 +21,51 @@ interface TimelineProps {
 	position: number;
 	playing: boolean;
 	onSeek: (ms: number) => void;
+	playbackReady: boolean;
 	snapEnabled: boolean;
 	snapSubdivision: SnapSubdivision;
 	onSnapEnabledChange: (enabled: boolean) => void;
 	onSnapSubdivisionChange: (subdivision: SnapSubdivision) => void;
 	validationIssues: ValidationIssue[];
 	validationColorsByLane: Map<EditableLane, Map<number, string>>;
+	deepLink: { t?: number; lane?: string; index?: number };
+}
+
+const EDITABLE_LANES: ReadonlySet<string> = new Set(["chords", "words", "lyrics", "sections"]);
+
+function laneEventCount(map: PulseMap, lane: EditableLane): number {
+	switch (lane) {
+		case "chords":
+			return map.chords?.length ?? 0;
+		case "words":
+			return map.words?.length ?? 0;
+		case "lyrics":
+			return map.lyrics?.length ?? 0;
+		case "sections":
+			return map.sections?.length ?? 0;
+	}
+}
+
+function nearestIndexAtT(map: PulseMap, lane: EditableLane, t: number): number | null {
+	const arr =
+		lane === "chords"
+			? map.chords
+			: lane === "words"
+				? map.words
+				: lane === "lyrics"
+					? map.lyrics
+					: map.sections;
+	if (!arr || arr.length === 0) return null;
+	let best = 0;
+	let bestDist = Math.abs(arr[0].t - t);
+	for (let i = 1; i < arr.length; i++) {
+		const d = Math.abs(arr[i].t - t);
+		if (d < bestDist) {
+			bestDist = d;
+			best = i;
+		}
+	}
+	return best;
 }
 
 function hasLaneData(map: PulseMap, lane: LaneName): boolean {
@@ -48,12 +87,14 @@ export function Timeline({
 	position,
 	playing,
 	onSeek,
+	playbackReady,
 	snapEnabled,
 	snapSubdivision,
 	onSnapEnabledChange,
 	onSnapSubdivisionChange,
 	validationIssues,
 	validationColorsByLane,
+	deepLink,
 }: TimelineProps) {
 	const { state, dispatch } = useEditor();
 	const workingMap = state.working;
@@ -77,6 +118,7 @@ export function Timeline({
 		containerRef,
 		enableFollow,
 		disableFollow,
+		setScrollMs,
 		zoomIn,
 		zoomOut,
 	} = useTimeline({
@@ -84,6 +126,62 @@ export function Timeline({
 		position,
 		playing,
 	});
+
+	// Deep-link routing: ?t=&lane=&index= drives scroll, seek, and selection.
+	// Runs once after the player is ready so the seek isn't dropped.
+	const deepLinkApplied = useRef(false);
+	useEffect(() => {
+		if (deepLinkApplied.current) return;
+		const { t, lane, index } = deepLink;
+		const hasTarget = t != null || (lane && EDITABLE_LANES.has(lane));
+		if (!hasTarget) {
+			deepLinkApplied.current = true;
+			return;
+		}
+		if (t != null && !playbackReady) return;
+		deepLinkApplied.current = true;
+
+		if (t != null) {
+			onSeek(t);
+			disableFollow();
+			const el = containerRef.current;
+			if (el) {
+				const viewportMs = el.clientWidth / pxPerMs;
+				const targetScroll = Math.max(0, t - viewportMs * 0.25);
+				const maxScrollMs = Math.max(
+					0,
+					workingMap.duration_ms - (el.clientWidth - 72) / pxPerMs,
+				);
+				setScrollMs(Math.min(targetScroll, maxScrollMs));
+			} else {
+				setScrollMs(Math.max(0, t - 1000));
+			}
+		}
+
+		if (lane && EDITABLE_LANES.has(lane)) {
+			const editableLane = lane as EditableLane;
+			const count = laneEventCount(workingMap, editableLane);
+			if (count > 0) {
+				let resolvedIndex: number | null | undefined = index;
+				if (resolvedIndex == null && t != null) {
+					resolvedIndex = nearestIndexAtT(workingMap, editableLane, t);
+				}
+				if (resolvedIndex != null && resolvedIndex >= 0 && resolvedIndex < count) {
+					dispatch(selectAction(editableLane, resolvedIndex));
+				}
+			}
+		}
+	}, [
+		deepLink,
+		playbackReady,
+		onSeek,
+		disableFollow,
+		setScrollMs,
+		pxPerMs,
+		containerRef,
+		workingMap,
+		dispatch,
+	]);
 
 	const { snapToNearestBeat } = useBeatSnap({
 		beats: workingMap.beats,

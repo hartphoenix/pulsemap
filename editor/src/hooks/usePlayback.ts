@@ -14,6 +14,8 @@ interface UsePlaybackResult {
 	setRate: (rate: number) => void;
 	/** Whether a YouTube playback target was found */
 	playbackAvailable: boolean;
+	/** Whether the player has emitted onReady (seek calls before this are no-ops) */
+	playbackReady: boolean;
 	/** Whether currently playing */
 	playing: boolean;
 	/** Current position in ms */
@@ -40,6 +42,7 @@ export function usePlayback(map: PulseMap | null): UsePlaybackResult {
 	const [playing, setPlaying] = useState(false);
 	const [position, setPosition] = useState(0);
 	const [playbackAvailable, setPlaybackAvailable] = useState(false);
+	const [playbackReady, setPlaybackReady] = useState(false);
 
 	const videoId = map ? findYouTubeVideoId(map) : null;
 
@@ -50,6 +53,8 @@ export function usePlayback(map: PulseMap | null): UsePlaybackResult {
 			adapterRef.current.destroy();
 			adapterRef.current = null;
 		}
+
+		setPlaybackReady(false);
 
 		if (!videoId) {
 			setPlaybackAvailable(false);
@@ -71,6 +76,9 @@ export function usePlayback(map: PulseMap | null): UsePlaybackResult {
 		});
 		adapterRef.current = adapter;
 		setPlaybackAvailable(true);
+		adapter.waitForReady().then(() => {
+			if (adapterRef.current === adapter) setPlaybackReady(true);
+		});
 
 		const unsubscribe = adapter.onStateChange((state: PlaybackState) => {
 			setPlaying(state === "playing");
@@ -105,6 +113,7 @@ export function usePlayback(map: PulseMap | null): UsePlaybackResult {
 		seek,
 		setRate,
 		playbackAvailable,
+		playbackReady,
 		playing,
 		position,
 	};

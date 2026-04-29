@@ -51,24 +51,28 @@ function EditorContent({
 	position,
 	containerId,
 	playbackAvailable,
+	playbackReady,
 	onPlay,
 	onPause,
 	onSeek,
 	onRateChange,
 	ghToken,
 	onAuthChange,
+	deepLink,
 }: {
 	map: PulseMap;
 	playing: boolean;
 	position: number;
 	containerId: string;
 	playbackAvailable: boolean;
+	playbackReady: boolean;
 	onPlay: () => void;
 	onPause: () => void;
 	onSeek: (ms: number) => void;
 	onRateChange: (rate: number) => void;
 	ghToken: string | null;
 	onAuthChange: (token: string | null, login: string | null) => void;
+	deepLink: { t?: number; lane?: string; index?: number };
 }) {
 	const { state, dispatch } = useEditor();
 	const workingMap = state.working;
@@ -270,12 +274,14 @@ function EditorContent({
 				position={position}
 				playing={playing}
 				onSeek={onSeek}
+				playbackReady={playbackReady}
 				snapEnabled={snapEnabled}
 				snapSubdivision={snapSubdivision}
 				onSnapEnabledChange={setSnapEnabled}
 				onSnapSubdivisionChange={setSnapSubdivision}
 				validationIssues={validationIssues}
 				validationColorsByLane={validationColorsByLane}
+				deepLink={deepLink}
 			/>
 
 			{showSubmitFlow && ghToken && (
@@ -305,10 +311,22 @@ function EditorContent({
 
 export function App() {
 	const mapId = getMapId();
-	const params = parseEditorParams(window.location.search);
+	// Snapshot URL params once at mount; they get cleaned from the URL by the
+	// SPA fallback rewrite and shouldn't be re-read on every render.
+	const deepLinkRef = useRef(parseEditorParams(window.location.search));
+	const deepLink = deepLinkRef.current;
 	const { map, loading, error } = useMap(mapId);
-	const { containerId, play, pause, seek, setRate, playbackAvailable, playing, position } =
-		usePlayback(map);
+	const {
+		containerId,
+		play,
+		pause,
+		seek,
+		setRate,
+		playbackAvailable,
+		playbackReady,
+		playing,
+		position,
+	} = usePlayback(map);
 
 	// --- GitHub OAuth state ---
 	const [ghToken, setGhToken] = useState<string | null>(null);
@@ -332,11 +350,6 @@ export function App() {
 		setGhToken(token);
 		setGhLogin(login);
 	}, []);
-
-	// Seek to ?t= param on first load
-	if (params.t != null && map && playbackAvailable && position === 0) {
-		seek(params.t);
-	}
 
 	if (!mapId) {
 		return (
@@ -380,12 +393,14 @@ export function App() {
 					position={position}
 					containerId={containerId}
 					playbackAvailable={playbackAvailable}
+					playbackReady={playbackReady}
 					onPlay={play}
 					onPause={pause}
 					onSeek={seek}
 					onRateChange={setRate}
 					ghToken={ghToken}
 					onAuthChange={handleAuthChange}
+					deepLink={deepLink}
 				/>
 			</EditorProvider>
 		</div>
