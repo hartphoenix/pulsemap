@@ -1,0 +1,3567 @@
+{
+  "version": "0.1.0",
+  "id": "1619e7de-c0dc-4c78-8b25-5dd69d953959",
+  "duration_ms": 228890,
+  "fingerprint": {
+    "chromaprint": "AQADtJm4JElERQn-F5-YQlWHVhfho-on6MeDVCGO3KgaCj7eEuKPFj0Pp8YHu0fuBWaE_IHPo1a04xNO50Hx5Ugno_fxHT3csWjSSB-uE3t0_EKeMDz0H5GSHzWPB9F_9DwaLntwxoTSKRG-oC_86EiZPEVFMcePGvlgWUcv5B_-49KNNjf8HV0WGnfwHLUP25iehXiP94islkLbQ5eyHKEadNEPZ8txnrhooz9u9ERznFGI4-mOSNqYStjqo092nA5C72i448mOvwg_4zrEC7kPNGFxHv2C5jiPnNDWWniG-_hh9_iEeoMm5DiHisS1o5Tg4wrxI5mXI89wtmhudFk-9OHhTKFRSjlyaM-CH2G2psUj4iqqo-kv5EuOawy0B82P423w59AOi8lxHa8Ex0F9PB--FE2aHH0VqFSO_KgOD1cPa9FxNSNyHskr9Bmu4rtxHz-ONydCcod4tBc-JUJ_7Ep24fgDRamOOzQeHeWEpn-RE_2OZjweSceToD989uhDHvs6PD66LBL8wI-OhylSo2fwRWiuoOyORxemH00lQVdiNLGEOn6Q6_iPdkQzJbgyb_jR_WjiHFePp8dDFSfR50KYD1fQP2gu6L3Q53Al5PCDkz--CZMYEd0LP0I_nCfyvFC3Hz0NN1SDT8JflOHIQD-RJw9qoXmIH5-SE1WjxIMnfch5iIzyHflyNM_x40bT3Zg-VB3CaFqgPsh54jmO2jkaF1-OXDg04lHwZL3gjkUP2WiOG6l49DvKZ_hxGSeuxYKrILkXxM4C67h0CU_CyriI9IGeIqSUoc873MZRY2wuvIlL5MtwQjNl-MQVSc3w4zf0EH2GS0ekOTtc1XgCV8eLJ4elCJ-ON4aPkjz233iEnEcXqchz4b3gyb3QZyb2C11zNE5xHE3UxBHyD-KWLBcik3heeMS3bMVr4dxhlUfl4tgTEZdyhH2HFz6PEFfQ8zBlI7TxQdGF3PCP0bAWoXaOfvAToz_-Ixf00egP1yT64se7CFU1uOqhk4TXCdUVXBmOiZRU_IW7HKHc40oxjSGa6KiP5sRPPGimo9cPhCm038izNAhT4_6RRHmOS8HD49Ey9IJvPAJVHdFzJAs54sF74lFa_CLKP2hWPDmOpnyIPsfVII53_MeVB_-QYvbw42SogbpwzFFeIf4y1D4aaVJwKej7oDl04WGO2pngTBdqPENDK6g3fEevSMcbw2PwfHgGO8cPaw5qHf-R56gd7NJRr0SO74W-4lsMJk3AHF96FLqSI2yGv8TRXDrqF2eI8i_Sp-iUQ5om1CWiXcfxKesGk49RHuF_-D_qR_iFH5N_hHEy8Mih88iZ4_gedENj4znCinC1QNuD5-gPV4dWJUMIH31ydC2Oh4adI5IcInkm9IEjGa_xrXAq4RKP8NCD0Ebj5sM5o3uEpsbDHGEDPYYf4T_a3LhRiVBPww7ChcWVo4Wr446OLzoeBm_GIVliXFGQpz6aUugReoddEZqPnOSOPhGaNsbRhMsu9B9-IY-Oc5Gh5UcfHfex58HDoImkXCjuQ08y1CIuHz3CKrnQVG_woAlVTGoS1PCLaYry4PfwG0Vz5thvHN1yXDR89MSPH56SHfFCE9pbI8yY0fh7PMo4TFwO_-iTHc9Ro8nx8Xg2Hd89RLKYQPxxGT3qw9dx7vicIH-wUcl-XMYZ-BNqx7hmD66Y40fO47lxZumg_Wh-PCkgF82DXluR36gT-BEOPxf8E-GP-hCZJMcFq_DD4xNx6MmJK7zg8cOJHoc-sNShTmE0vMgbHe6L6TkcUSiz4zvCdMt0aA_yC8dJDtWF_3CWPSg3cQgtNNcL_cPX4T_CcEeViDdelriEZhpxwlseC5UpCs9ynB8aHT3-4WKFUy_uoHnRNcN9_AifQ9-C9MdzOOfRdXlwdrgz9GHwHz6qJ8ePHMeNnwhZ4kh16DpCOThfXDgV4yZj_MbHGHmOZOGJKjveZMb5oJSYGQ25IyTEI6fQ5Goq5FG0EsmSxUc_HWeOt_COK7hCjDxuIen6IHrw4wkzHZey4ccPxw9-3BLO40vy4D_aF801nIosvEfz_Ki2Kcj5w6EOuVkq5Mf9olQuXDs8Hi0X_PmQ7IgzyThz_KMU5IdG5OPRHz76UPjx4DwRyxsDPfKCkKXhHD_qCs-S8fgd4S_xofGF8D_0oBJDNFeGP4SoXcaFPBnyo64MLc-R83ik_XCj4xR-YSb6BU0obsgeHrqyFNaFC7p6tDyaS0FHmCuuHeLx_Tg2K0ePN_h4fPiOshBb4TrKHx96oqFSK9Cbo0X-Y-4Ch8Z1nDqObgp4vbgePMuoI1wu-JkFVX7xNyjJ4_zQnEGfCPKE5kYvCd-OF19oPFICLVXRE3oy1BWRPju6cA_aiIVFZcfhXzjohcelHj_6DMd_oeQOZ5qR74U4Mgilm8NldOkM58XxY3vRB_8xWsKZIZyecHCV4U2RHz-c_ciTCG2eB6p5hD-uwy4ewscLJs9xJcdf4cgj5fgJJg6hjSJx1Af34ZN6vIe-gyK-g2mPN8aVQ-MPYIgwjgjBKKIEMAEcAIAAQhQAhgKCDFNIGIOUEQACQqQSgAkCABNCMAYoggYZIghhQAjknBPCAEUAAgoQhABBRAMkBAAEIKQMQMQwYYBQBDDEGGCGAAaMAggpJxRAQggqBdKGIiAAEgIIBAAhjiFhCAMECMqEQgIBBZ1ASiAABRAAaCWYAEABY4FRADDikCFIAQCEUUYg4ZRARBgCoDIGOSEQQAYIBJBxRBCLBDKGCEQQAQAZIYAzRAEhgAXOGADEMIghAAQFCHFLGBCGOAcQgtAAYApCwgigDFEIAoQggAAhaoQwQihFBALECKUYI8QgIQAgAgFljADCEOIgkcI4pIASVhAkMBBICEOUAoYYghAQiAgFjBACCMEAMAQpJ6mgCgghjAJGAMOVEAQ5SwwDyDBDACHKIIEUAMAYCQwiyAEFCACUCOQYgIAoCpilAgFgkTQAIcSRhgAYQhwQEAgAoACIGAQQQAIoZqgCjCAihAEGMUQYE4oZ4BhjCDBBhIIAECUgEIQABZBCQAHBBELAIiCEUMABZowBCghDDEBKIGeIEEYxYIhAEABEGEaCCAiJEIQAYwADigKDjBAACIQEEMQgaAAAhAlFADBQKSKQAEgIA4AFRgAhgGEAcCAMQgQLRygBQgiBnCHAKEakIE4IoBAkwiEBkDFMCMYlEQoRo4BBDEBCiJNAAAQAMggIAYVGWjEGpWEGKkScUURYQIwAkgDBBDHMIKOE4QYjQgAYBDKDGCAEEMOAEAgQgYBAkgBAkDAECAIQESIYBRQVUClFhARCCAMAckQBoSlDBgiEABLMAGCYQUQAghgACBCjECEWMUGAQUYpIpwgAgCqIEBgIGaIAAAZAIACAgGCmBHCACIcAgQkwoQRTAAhGBCGgkqAQMAQAKiRBAgEgBCIaEYVgIgCQoJhTAKJADDECGgUIgIC",
+    "algorithm": 2,
+    "duration": 228890
+  },
+  "metadata": {
+    "title": "Every Breath You Take",
+    "artist": "The Police",
+    "album": "Synchronicity",
+    "key": "Ab major",
+    "tempo": 115.4,
+    "time_signature": "4/4"
+  },
+  "playback": [
+    {
+      "platform": "youtube",
+      "uri": "https://www.youtube.com/watch?v=OMOGaugKpzs",
+      "id": "OMOGaugKpzs",
+      "capabilities": {
+        "play": true,
+        "pause": true,
+        "seek": true,
+        "setPosition": true,
+        "getPosition": true,
+        "rate": [
+          0.25,
+          0.5,
+          0.75,
+          1,
+          1.25,
+          1.5,
+          1.75,
+          2
+        ],
+        "volume": true,
+        "mute": true
+      },
+      "added": "2026-04-29"
+    }
+  ],
+  "lyrics": [
+    {
+      "t": 16360,
+      "text": "Every breath you take",
+      "end": 19080
+    },
+    {
+      "t": 20160,
+      "text": "and every move you make",
+      "end": 22600
+    },
+    {
+      "t": 24320,
+      "text": "Every bond you break",
+      "end": 26280
+    },
+    {
+      "t": 26400,
+      "text": "Every step you take",
+      "end": 28320
+    },
+    {
+      "t": 28400,
+      "text": "I'll be watching you",
+      "end": 30160
+    },
+    {
+      "t": 32680,
+      "text": "Every single day",
+      "end": 35960
+    },
+    {
+      "t": 36720,
+      "text": "and every word you say",
+      "end": 39080
+    },
+    {
+      "t": 40600,
+      "text": "Every game you play, every night you stay, I'll be watching you",
+      "end": 46520
+    },
+    {
+      "t": 49080,
+      "text": "Oh can't you see",
+      "end": 52560
+    },
+    {
+      "t": 53160,
+      "text": "you belong to me",
+      "end": 55960
+    },
+    {
+      "t": 57320,
+      "text": "My poor heart aches",
+      "end": 60480
+    },
+    {
+      "t": 61120,
+      "text": "with every step you take",
+      "end": 63960
+    },
+    {
+      "t": 65520,
+      "text": "Every move you make,",
+      "end": 67960
+    },
+    {
+      "t": 69520,
+      "text": "and every vow you break",
+      "end": 72040
+    },
+    {
+      "t": 73440,
+      "text": "Every smile you fake, every claim you steak, I'll be watching you",
+      "end": 79240
+    },
+    {
+      "t": 83600,
+      "text": "Since you've been gone I've been lost without a trace",
+      "end": 87640
+    },
+    {
+      "t": 87720,
+      "text": "I dream at night I can only see your face",
+      "end": 91680
+    },
+    {
+      "t": 91800,
+      "text": "I look around but its you I can't replace",
+      "end": 95800
+    },
+    {
+      "t": 95880,
+      "text": "I feel so cold and I long for your embrace",
+      "end": 99840
+    },
+    {
+      "t": 99920,
+      "text": "I keep crying baby baby please",
+      "end": 105880
+    },
+    {
+      "t": 135080,
+      "text": "Oh can't you see",
+      "end": 138440
+    },
+    {
+      "t": 139160,
+      "text": "you belong to me",
+      "end": 142280
+    },
+    {
+      "t": 143280,
+      "text": "How my poor heart aches",
+      "end": 146320
+    },
+    {
+      "t": 147240,
+      "text": "with every step you take",
+      "end": 150000
+    },
+    {
+      "t": 151480,
+      "text": "Every move you make,",
+      "end": 154240
+    },
+    {
+      "t": 155320,
+      "text": "and every vow you break",
+      "end": 157760
+    },
+    {
+      "t": 159400,
+      "text": "Every smile you fake, every claim you steak, I'll be watching you",
+      "end": 165120
+    },
+    {
+      "t": 167600,
+      "text": "Every move you make, every step you take, I'll be watching you",
+      "end": 173040
+    },
+    {
+      "t": 180160,
+      "text": "I'll be watching you",
+      "end": 182280
+    },
+    {
+      "t": 182360,
+      "text": "Every breath you take and every move you make",
+      "end": 185720
+    },
+    {
+      "t": 186040,
+      "text": "Every bond you break",
+      "end": 187760
+    },
+    {
+      "t": 188000,
+      "text": "Every step you take (I'll be watching) - I'll be watching you",
+      "end": 190320
+    },
+    {
+      "t": 190320,
+      "text": "Every single day every word you say",
+      "end": 193800
+    },
+    {
+      "t": 193880,
+      "text": "Every game you play, every night you stay (I'll be watching you)",
+      "end": 198320
+    },
+    {
+      "t": 198360,
+      "text": "Every move you make, and every vow you break",
+      "end": 202160
+    },
+    {
+      "t": 202280,
+      "text": "Every smile you fake, every claim you steak (I'll be watching you)",
+      "end": 206440
+    },
+    {
+      "t": 206520,
+      "text": "Every single day, every word you say",
+      "end": 210240
+    },
+    {
+      "t": 210520,
+      "text": "Every game you play, every night you stay (I'll be watching you)",
+      "end": 215280
+    }
+  ],
+  "words": [
+    {
+      "t": 16170,
+      "text": "Every",
+      "end": 16431
+    },
+    {
+      "t": 16471,
+      "text": "breath",
+      "end": 17011
+    },
+    {
+      "t": 17091,
+      "text": "you",
+      "end": 17572
+    },
+    {
+      "t": 17672,
+      "text": "take,",
+      "end": 18353
+    },
+    {
+      "t": 19874,
+      "text": "in",
+      "end": 19994
+    },
+    {
+      "t": 20235,
+      "text": "every",
+      "end": 20535
+    },
+    {
+      "t": 20595,
+      "text": "move",
+      "end": 21095
+    },
+    {
+      "t": 21155,
+      "text": "you",
+      "end": 21476
+    },
+    {
+      "t": 21636,
+      "text": "make,",
+      "end": 22036
+    },
+    {
+      "t": 24018,
+      "text": "every",
+      "end": 24339
+    },
+    {
+      "t": 24399,
+      "text": "bond",
+      "end": 24939
+    },
+    {
+      "t": 24999,
+      "text": "you",
+      "end": 25360
+    },
+    {
+      "t": 25420,
+      "text": "break,",
+      "end": 25720
+    },
+    {
+      "t": 26061,
+      "text": "every",
+      "end": 26341
+    },
+    {
+      "t": 26401,
+      "text": "step",
+      "end": 26721
+    },
+    {
+      "t": 26982,
+      "text": "you",
+      "end": 27462
+    },
+    {
+      "t": 27522,
+      "text": "take,",
+      "end": 27822
+    },
+    {
+      "t": 28143,
+      "text": "I'll",
+      "end": 28303
+    },
+    {
+      "t": 28323,
+      "text": "be",
+      "end": 28483
+    },
+    {
+      "t": 28543,
+      "text": "watching",
+      "end": 29324
+    },
+    {
+      "t": 29404,
+      "text": "you.",
+      "end": 29664
+    },
+    {
+      "t": 32527,
+      "text": "Every",
+      "end": 32788
+    },
+    {
+      "t": 32868,
+      "text": "single",
+      "end": 33909
+    },
+    {
+      "t": 34029,
+      "text": "day,",
+      "end": 35470
+    },
+    {
+      "t": 36251,
+      "text": "in",
+      "end": 36371
+    },
+    {
+      "t": 36652,
+      "text": "every",
+      "end": 36952
+    },
+    {
+      "t": 37012,
+      "text": "word",
+      "end": 37513
+    },
+    {
+      "t": 37593,
+      "text": "you",
+      "end": 37873
+    },
+    {
+      "t": 37993,
+      "text": "say,",
+      "end": 38534
+    },
+    {
+      "t": 40281,
+      "text": "Very",
+      "end": 40721
+    },
+    {
+      "t": 40781,
+      "text": "game",
+      "end": 41262
+    },
+    {
+      "t": 41342,
+      "text": "you",
+      "end": 41662
+    },
+    {
+      "t": 41702,
+      "text": "play,",
+      "end": 42062
+    },
+    {
+      "t": 42302,
+      "text": "very",
+      "end": 42802
+    },
+    {
+      "t": 42863,
+      "text": "nice,",
+      "end": 43303
+    },
+    {
+      "t": 43363,
+      "text": "you",
+      "end": 43723
+    },
+    {
+      "t": 43783,
+      "text": "stay,",
+      "end": 44123
+    },
+    {
+      "t": 44463,
+      "text": "I'll",
+      "end": 44644
+    },
+    {
+      "t": 44684,
+      "text": "be",
+      "end": 44824
+    },
+    {
+      "t": 44884,
+      "text": "watching.",
+      "end": 45904
+    },
+    {
+      "t": 48926,
+      "text": "Or",
+      "end": 49086
+    },
+    {
+      "t": 49186,
+      "text": "can",
+      "end": 49727
+    },
+    {
+      "t": 49767,
+      "text": "you",
+      "end": 50267
+    },
+    {
+      "t": 50407,
+      "text": "see,",
+      "end": 51828
+    },
+    {
+      "t": 52788,
+      "text": "you",
+      "end": 53129
+    },
+    {
+      "t": 53149,
+      "text": "belong",
+      "end": 53989
+    },
+    {
+      "t": 54049,
+      "text": "to",
+      "end": 54329
+    },
+    {
+      "t": 54569,
+      "text": "me?",
+      "end": 55450
+    },
+    {
+      "t": 57131,
+      "text": "I'm",
+      "end": 57331
+    },
+    {
+      "t": 57351,
+      "text": "a",
+      "end": 57371
+    },
+    {
+      "t": 57411,
+      "text": "poor",
+      "end": 58552
+    },
+    {
+      "t": 59352,
+      "text": "ex,",
+      "end": 59752
+    },
+    {
+      "t": 60813,
+      "text": "and",
+      "end": 60893
+    },
+    {
+      "t": 60913,
+      "text": "there",
+      "end": 61293
+    },
+    {
+      "t": 61353,
+      "text": "is",
+      "end": 61493
+    },
+    {
+      "t": 61574,
+      "text": "love",
+      "end": 62154
+    },
+    {
+      "t": 62214,
+      "text": "you",
+      "end": 62634
+    },
+    {
+      "t": 62714,
+      "text": "take.",
+      "end": 63295
+    },
+    {
+      "t": 65116,
+      "text": "Very",
+      "end": 65656
+    },
+    {
+      "t": 65696,
+      "text": "move",
+      "end": 66116
+    },
+    {
+      "t": 66176,
+      "text": "you",
+      "end": 66657
+    },
+    {
+      "t": 66797,
+      "text": "make.",
+      "end": 67237
+    },
+    {
+      "t": 69083,
+      "text": "And",
+      "end": 69344
+    },
+    {
+      "t": 69384,
+      "text": "every",
+      "end": 69644
+    },
+    {
+      "t": 69705,
+      "text": "value",
+      "end": 70226
+    },
+    {
+      "t": 70286,
+      "text": "will",
+      "end": 70807
+    },
+    {
+      "t": 70887,
+      "text": "break.",
+      "end": 71329
+    },
+    {
+      "t": 73133,
+      "text": "Every",
+      "end": 73434
+    },
+    {
+      "t": 73474,
+      "text": "smile",
+      "end": 74055
+    },
+    {
+      "t": 74115,
+      "text": "you",
+      "end": 74496
+    },
+    {
+      "t": 74536,
+      "text": "fake,",
+      "end": 74857
+    },
+    {
+      "t": 75178,
+      "text": "every",
+      "end": 75459
+    },
+    {
+      "t": 75519,
+      "text": "claim",
+      "end": 76080
+    },
+    {
+      "t": 76161,
+      "text": "you",
+      "end": 76501
+    },
+    {
+      "t": 76541,
+      "text": "stick,",
+      "end": 76942
+    },
+    {
+      "t": 77263,
+      "text": "I'll",
+      "end": 77444
+    },
+    {
+      "t": 77464,
+      "text": "be",
+      "end": 77604
+    },
+    {
+      "t": 77684,
+      "text": "watching",
+      "end": 78266
+    },
+    {
+      "t": 78326,
+      "text": "you.",
+      "end": 78506
+    },
+    {
+      "t": 83237,
+      "text": "Since",
+      "end": 83517
+    },
+    {
+      "t": 83557,
+      "text": "you've",
+      "end": 83757
+    },
+    {
+      "t": 83797,
+      "text": "gone",
+      "end": 84057
+    },
+    {
+      "t": 84417,
+      "text": "I've",
+      "end": 84537
+    },
+    {
+      "t": 84577,
+      "text": "been",
+      "end": 84738
+    },
+    {
+      "t": 84798,
+      "text": "lost",
+      "end": 85058
+    },
+    {
+      "t": 85278,
+      "text": "with",
+      "end": 85718
+    },
+    {
+      "t": 85738,
+      "text": "your",
+      "end": 86678
+    },
+    {
+      "t": 86758,
+      "text": "trace",
+      "end": 87118
+    },
+    {
+      "t": 87438,
+      "text": "I",
+      "end": 87559
+    },
+    {
+      "t": 87599,
+      "text": "dreamin'",
+      "end": 88119
+    },
+    {
+      "t": 88159,
+      "text": "that",
+      "end": 88419
+    },
+    {
+      "t": 88539,
+      "text": "I",
+      "end": 88659
+    },
+    {
+      "t": 88719,
+      "text": "can",
+      "end": 88879
+    },
+    {
+      "t": 88999,
+      "text": "only",
+      "end": 89679
+    },
+    {
+      "t": 89899,
+      "text": "see",
+      "end": 90419
+    },
+    {
+      "t": 90600,
+      "text": "your",
+      "end": 90820
+    },
+    {
+      "t": 90900,
+      "text": "face",
+      "end": 91200
+    },
+    {
+      "t": 91560,
+      "text": "I",
+      "end": 91680
+    },
+    {
+      "t": 91720,
+      "text": "look",
+      "end": 91860
+    },
+    {
+      "t": 92080,
+      "text": "around",
+      "end": 92700
+    },
+    {
+      "t": 92740,
+      "text": "but",
+      "end": 93020
+    },
+    {
+      "t": 93080,
+      "text": "it's",
+      "end": 93220
+    },
+    {
+      "t": 93300,
+      "text": "you",
+      "end": 93521
+    },
+    {
+      "t": 93721,
+      "text": "I",
+      "end": 93881
+    },
+    {
+      "t": 93941,
+      "text": "can't",
+      "end": 94761
+    },
+    {
+      "t": 94841,
+      "text": "replace",
+      "end": 95301
+    },
+    {
+      "t": 95621,
+      "text": "I",
+      "end": 95761
+    },
+    {
+      "t": 95801,
+      "text": "feel",
+      "end": 96041
+    },
+    {
+      "t": 96081,
+      "text": "so",
+      "end": 96282
+    },
+    {
+      "t": 96342,
+      "text": "cold",
+      "end": 96862
+    },
+    {
+      "t": 97002,
+      "text": "and",
+      "end": 97102
+    },
+    {
+      "t": 97182,
+      "text": "alone",
+      "end": 97822
+    },
+    {
+      "t": 97882,
+      "text": "for",
+      "end": 98082
+    },
+    {
+      "t": 98122,
+      "text": "your",
+      "end": 98422
+    },
+    {
+      "t": 98802,
+      "text": "embrace",
+      "end": 99423
+    },
+    {
+      "t": 99743,
+      "text": "I",
+      "end": 99883
+    },
+    {
+      "t": 99923,
+      "text": "keep",
+      "end": 100223
+    },
+    {
+      "t": 100423,
+      "text": "cutting",
+      "end": 101123
+    },
+    {
+      "t": 101203,
+      "text": "baby,",
+      "end": 101903
+    },
+    {
+      "t": 102204,
+      "text": "baby,",
+      "end": 102964
+    },
+    {
+      "t": 103184,
+      "text": "please",
+      "end": 103444
+    },
+    {
+      "t": 126918,
+      "text": "Oh,",
+      "end": 135103
+    },
+    {
+      "t": 135203,
+      "text": "can't",
+      "end": 135703
+    },
+    {
+      "t": 135763,
+      "text": "you",
+      "end": 136243
+    },
+    {
+      "t": 136424,
+      "text": "see?",
+      "end": 137764
+    },
+    {
+      "t": 138745,
+      "text": "You",
+      "end": 139065
+    },
+    {
+      "t": 139085,
+      "text": "belong",
+      "end": 139986
+    },
+    {
+      "t": 140046,
+      "text": "to",
+      "end": 140406
+    },
+    {
+      "t": 140526,
+      "text": "me.",
+      "end": 141627
+    },
+    {
+      "t": 142928,
+      "text": "Have",
+      "end": 143288
+    },
+    {
+      "t": 143308,
+      "text": "a",
+      "end": 143328
+    },
+    {
+      "t": 143408,
+      "text": "poor",
+      "end": 144509
+    },
+    {
+      "t": 145249,
+      "text": "ex.",
+      "end": 145609
+    },
+    {
+      "t": 146850,
+      "text": "There",
+      "end": 147290
+    },
+    {
+      "t": 147330,
+      "text": "was",
+      "end": 147471
+    },
+    {
+      "t": 147551,
+      "text": "never",
+      "end": 148111
+    },
+    {
+      "t": 148131,
+      "text": "but",
+      "end": 148191
+    },
+    {
+      "t": 148271,
+      "text": "you",
+      "end": 148671
+    },
+    {
+      "t": 148751,
+      "text": "take.",
+      "end": 149372
+    },
+    {
+      "t": 151219,
+      "text": "Every",
+      "end": 151579
+    },
+    {
+      "t": 151699,
+      "text": "move",
+      "end": 152119
+    },
+    {
+      "t": 152179,
+      "text": "you",
+      "end": 152579
+    },
+    {
+      "t": 152819,
+      "text": "make,",
+      "end": 153640
+    },
+    {
+      "t": 154980,
+      "text": "and",
+      "end": 155100
+    },
+    {
+      "t": 155320,
+      "text": "every",
+      "end": 155620
+    },
+    {
+      "t": 155680,
+      "text": "volume",
+      "end": 156680
+    },
+    {
+      "t": 156780,
+      "text": "break.",
+      "end": 157180
+    },
+    {
+      "t": 159141,
+      "text": "Every",
+      "end": 159361
+    },
+    {
+      "t": 159441,
+      "text": "smile",
+      "end": 160041
+    },
+    {
+      "t": 160101,
+      "text": "you",
+      "end": 160501
+    },
+    {
+      "t": 160561,
+      "text": "make,",
+      "end": 160821
+    },
+    {
+      "t": 161141,
+      "text": "every",
+      "end": 161461
+    },
+    {
+      "t": 161521,
+      "text": "claim",
+      "end": 162082
+    },
+    {
+      "t": 162142,
+      "text": "you",
+      "end": 162482
+    },
+    {
+      "t": 162522,
+      "text": "stick,",
+      "end": 162882
+    },
+    {
+      "t": 163202,
+      "text": "I'll",
+      "end": 163402
+    },
+    {
+      "t": 163422,
+      "text": "be",
+      "end": 163562
+    },
+    {
+      "t": 163622,
+      "text": "watching",
+      "end": 164222
+    },
+    {
+      "t": 164282,
+      "text": "you.",
+      "end": 164522
+    },
+    {
+      "t": 164542,
+      "text": "Every",
+      "end": 167663
+    },
+    {
+      "t": 167723,
+      "text": "move",
+      "end": 168203
+    },
+    {
+      "t": 168243,
+      "text": "you",
+      "end": 168683
+    },
+    {
+      "t": 168723,
+      "text": "make,",
+      "end": 168983
+    },
+    {
+      "t": 169303,
+      "text": "every",
+      "end": 169623
+    },
+    {
+      "t": 169683,
+      "text": "step",
+      "end": 169983
+    },
+    {
+      "t": 170243,
+      "text": "you",
+      "end": 170743
+    },
+    {
+      "t": 170783,
+      "text": "take,",
+      "end": 171044
+    },
+    {
+      "t": 171364,
+      "text": "I'll",
+      "end": 171564
+    },
+    {
+      "t": 171604,
+      "text": "be",
+      "end": 171744
+    },
+    {
+      "t": 171804,
+      "text": "watching",
+      "end": 172484
+    },
+    {
+      "t": 172564,
+      "text": "you.",
+      "end": 172724
+    },
+    {
+      "t": 179873,
+      "text": "I'll",
+      "end": 180033
+    },
+    {
+      "t": 180073,
+      "text": "be",
+      "end": 180233
+    },
+    {
+      "t": 180313,
+      "text": "watching",
+      "end": 181454
+    },
+    {
+      "t": 181555,
+      "text": "here.",
+      "end": 181915
+    },
+    {
+      "t": 182175,
+      "text": "I'll",
+      "end": 182335
+    },
+    {
+      "t": 182535,
+      "text": "be",
+      "end": 182976
+    },
+    {
+      "t": 183036,
+      "text": "watching",
+      "end": 183316
+    },
+    {
+      "t": 183576,
+      "text": "here.",
+      "end": 183916
+    },
+    {
+      "t": 184297,
+      "text": "I'll",
+      "end": 184597
+    },
+    {
+      "t": 184617,
+      "text": "be",
+      "end": 184877
+    },
+    {
+      "t": 184917,
+      "text": "watching",
+      "end": 185358
+    },
+    {
+      "t": 185658,
+      "text": "here.",
+      "end": 186078
+    },
+    {
+      "t": 186399,
+      "text": "I'll",
+      "end": 186619
+    },
+    {
+      "t": 186659,
+      "text": "be",
+      "end": 186939
+    },
+    {
+      "t": 186979,
+      "text": "watching",
+      "end": 187379
+    },
+    {
+      "t": 187660,
+      "text": "here.",
+      "end": 187920
+    },
+    {
+      "t": 188020,
+      "text": "I'll",
+      "end": 188200
+    },
+    {
+      "t": 188240,
+      "text": "be",
+      "end": 188420
+    },
+    {
+      "t": 188480,
+      "text": "watching",
+      "end": 189541
+    },
+    {
+      "t": 189681,
+      "text": "here.",
+      "end": 190162
+    },
+    {
+      "t": 190342,
+      "text": "I'll",
+      "end": 191203
+    },
+    {
+      "t": 191423,
+      "text": "be",
+      "end": 191483
+    },
+    {
+      "t": 191743,
+      "text": "watching",
+      "end": 192183
+    },
+    {
+      "t": 192304,
+      "text": "here.",
+      "end": 192764
+    },
+    {
+      "t": 207613,
+      "text": "Thank",
+      "end": 207913
+    },
+    {
+      "t": 207973,
+      "text": "you",
+      "end": 208114
+    },
+    {
+      "t": 208334,
+      "text": "very",
+      "end": 208654
+    },
+    {
+      "t": 208714,
+      "text": "much.",
+      "end": 209175
+    }
+  ],
+  "chords": [
+    {
+      "t": 1110,
+      "chord": "Ab",
+      "end": 5220
+    },
+    {
+      "t": 5220,
+      "chord": "Fm",
+      "end": 9310
+    },
+    {
+      "t": 9310,
+      "chord": "C#",
+      "end": 11350
+    },
+    {
+      "t": 11350,
+      "chord": "Eb",
+      "end": 13440
+    },
+    {
+      "t": 13440,
+      "chord": "Ab",
+      "end": 21590
+    },
+    {
+      "t": 21590,
+      "chord": "Fm",
+      "end": 25680
+    },
+    {
+      "t": 25680,
+      "chord": "C#",
+      "end": 27750
+    },
+    {
+      "t": 27750,
+      "chord": "Eb",
+      "end": 29840
+    },
+    {
+      "t": 29840,
+      "chord": "Fm",
+      "end": 33900
+    },
+    {
+      "t": 33900,
+      "chord": "Ab",
+      "end": 37960
+    },
+    {
+      "t": 37960,
+      "chord": "Fm",
+      "end": 42070
+    },
+    {
+      "t": 42070,
+      "chord": "C#",
+      "end": 44090
+    },
+    {
+      "t": 44090,
+      "chord": "Eb",
+      "end": 46180
+    },
+    {
+      "t": 46180,
+      "chord": "Ab",
+      "end": 50250
+    },
+    {
+      "t": 50250,
+      "chord": "C#",
+      "end": 54380
+    },
+    {
+      "t": 54380,
+      "chord": "Ab",
+      "end": 58440
+    },
+    {
+      "t": 58440,
+      "chord": "Bb",
+      "end": 62550
+    },
+    {
+      "t": 62550,
+      "chord": "Eb",
+      "end": 66620
+    },
+    {
+      "t": 66620,
+      "chord": "Ab",
+      "end": 70750
+    },
+    {
+      "t": 70750,
+      "chord": "Fm",
+      "end": 74810
+    },
+    {
+      "t": 74810,
+      "chord": "C#",
+      "end": 76900
+    },
+    {
+      "t": 76900,
+      "chord": "Eb",
+      "end": 78900
+    },
+    {
+      "t": 78900,
+      "chord": "Fm",
+      "end": 82990
+    },
+    {
+      "t": 82990,
+      "chord": "E",
+      "end": 87100
+    },
+    {
+      "t": 87100,
+      "chord": "F#",
+      "end": 91250
+    },
+    {
+      "t": 91250,
+      "chord": "E",
+      "end": 95290
+    },
+    {
+      "t": 95290,
+      "chord": "F#",
+      "end": 99400
+    },
+    {
+      "t": 99400,
+      "chord": "E",
+      "end": 103470
+    },
+    {
+      "t": 103470,
+      "chord": "Ab",
+      "end": 107580
+    },
+    {
+      "t": 107580,
+      "chord": "Fm",
+      "end": 111690
+    },
+    {
+      "t": 111690,
+      "chord": "C#",
+      "end": 113730
+    },
+    {
+      "t": 113730,
+      "chord": "Eb",
+      "end": 115730
+    },
+    {
+      "t": 115730,
+      "chord": "Fm",
+      "end": 119860
+    },
+    {
+      "t": 119860,
+      "chord": "Ab",
+      "end": 123970
+    },
+    {
+      "t": 123970,
+      "chord": "Fm",
+      "end": 128060
+    },
+    {
+      "t": 128060,
+      "chord": "C#",
+      "end": 130080
+    },
+    {
+      "t": 130080,
+      "chord": "Ab/Eb",
+      "end": 132140
+    },
+    {
+      "t": 132140,
+      "chord": "Ab",
+      "end": 136250
+    },
+    {
+      "t": 136250,
+      "chord": "C#",
+      "end": 140290
+    },
+    {
+      "t": 140290,
+      "chord": "Ab",
+      "end": 144400
+    },
+    {
+      "t": 144400,
+      "chord": "Bb",
+      "end": 148560
+    },
+    {
+      "t": 148560,
+      "chord": "Eb",
+      "end": 152600
+    },
+    {
+      "t": 152600,
+      "chord": "Ab",
+      "end": 156730
+    },
+    {
+      "t": 156730,
+      "chord": "Fm",
+      "end": 160800
+    },
+    {
+      "t": 160800,
+      "chord": "C#",
+      "end": 162840
+    },
+    {
+      "t": 162840,
+      "chord": "Eb",
+      "end": 164880
+    },
+    {
+      "t": 164880,
+      "chord": "Fm",
+      "end": 168990
+    },
+    {
+      "t": 168990,
+      "chord": "C#",
+      "end": 171040
+    },
+    {
+      "t": 171040,
+      "chord": "Eb",
+      "end": 173100
+    },
+    {
+      "t": 173100,
+      "chord": "Fm",
+      "end": 181250
+    },
+    {
+      "t": 181250,
+      "chord": "Ab",
+      "end": 185390
+    },
+    {
+      "t": 185390,
+      "chord": "Fm",
+      "end": 187360
+    },
+    {
+      "t": 187360,
+      "chord": "C#",
+      "end": 189470
+    },
+    {
+      "t": 189470,
+      "chord": "Ab",
+      "end": 193540
+    },
+    {
+      "t": 193540,
+      "chord": "Fm",
+      "end": 195580
+    },
+    {
+      "t": 195580,
+      "chord": "C#",
+      "end": 197670
+    },
+    {
+      "t": 197670,
+      "chord": "Ab",
+      "end": 201730
+    },
+    {
+      "t": 201730,
+      "chord": "Fm",
+      "end": 203780
+    },
+    {
+      "t": 203780,
+      "chord": "C#",
+      "end": 205870
+    },
+    {
+      "t": 205870,
+      "chord": "Ab",
+      "end": 209950
+    },
+    {
+      "t": 209950,
+      "chord": "Fm",
+      "end": 211970
+    },
+    {
+      "t": 211970,
+      "chord": "C#",
+      "end": 214000
+    },
+    {
+      "t": 214000,
+      "chord": "Ab",
+      "end": 218110
+    },
+    {
+      "t": 218110,
+      "chord": "Fm",
+      "end": 220170
+    },
+    {
+      "t": 220170,
+      "chord": "C#",
+      "end": 222190
+    },
+    {
+      "t": 222190,
+      "chord": "Ab",
+      "end": 226390
+    },
+    {
+      "t": 226390,
+      "chord": "Fm",
+      "end": 227880
+    }
+  ],
+  "beats": [
+    {
+      "t": 120,
+      "downbeat": false,
+      "bpm": 117.6,
+      "time_sig": "4/4"
+    },
+    {
+      "t": 640,
+      "downbeat": false,
+      "bpm": 115.4
+    },
+    {
+      "t": 1140,
+      "downbeat": true,
+      "bpm": 117.6,
+      "time_sig": "4/4"
+    },
+    {
+      "t": 1660,
+      "downbeat": false,
+      "bpm": 115.4
+    },
+    {
+      "t": 2160,
+      "downbeat": false
+    },
+    {
+      "t": 2680,
+      "downbeat": false
+    },
+    {
+      "t": 3180,
+      "downbeat": true
+    },
+    {
+      "t": 3700,
+      "downbeat": false
+    },
+    {
+      "t": 4220,
+      "downbeat": false
+    },
+    {
+      "t": 4740,
+      "downbeat": false
+    },
+    {
+      "t": 5240,
+      "downbeat": true
+    },
+    {
+      "t": 5760,
+      "downbeat": false
+    },
+    {
+      "t": 6280,
+      "downbeat": false
+    },
+    {
+      "t": 6780,
+      "downbeat": false,
+      "bpm": 117.6
+    },
+    {
+      "t": 7280,
+      "downbeat": true,
+      "bpm": 115.4
+    },
+    {
+      "t": 7800,
+      "downbeat": false,
+      "bpm": 117.6
+    },
+    {
+      "t": 8320,
+      "downbeat": false
+    },
+    {
+      "t": 8820,
+      "downbeat": false
+    },
+    {
+      "t": 9340,
+      "downbeat": true,
+      "bpm": 115.4
+    },
+    {
+      "t": 9840,
+      "downbeat": false
+    },
+    {
+      "t": 10360,
+      "downbeat": false,
+      "bpm": 117.6
+    },
+    {
+      "t": 10860,
+      "downbeat": false,
+      "bpm": 115.4
+    },
+    {
+      "t": 11380,
+      "downbeat": true
+    },
+    {
+      "t": 11900,
+      "downbeat": false
+    },
+    {
+      "t": 12400,
+      "downbeat": false
+    },
+    {
+      "t": 12920,
+      "downbeat": false
+    },
+    {
+      "t": 13440,
+      "downbeat": true
+    },
+    {
+      "t": 13940,
+      "downbeat": false
+    },
+    {
+      "t": 14460,
+      "downbeat": false
+    },
+    {
+      "t": 14960,
+      "downbeat": false
+    },
+    {
+      "t": 15480,
+      "downbeat": true
+    },
+    {
+      "t": 16000,
+      "downbeat": false
+    },
+    {
+      "t": 16520,
+      "downbeat": false
+    },
+    {
+      "t": 17040,
+      "downbeat": false
+    },
+    {
+      "t": 17540,
+      "downbeat": true,
+      "bpm": 117.6
+    },
+    {
+      "t": 18040,
+      "downbeat": false
+    },
+    {
+      "t": 18560,
+      "downbeat": false
+    },
+    {
+      "t": 19060,
+      "downbeat": false,
+      "bpm": 120
+    },
+    {
+      "t": 19560,
+      "downbeat": true,
+      "bpm": 117.6
+    },
+    {
+      "t": 20080,
+      "downbeat": false
+    },
+    {
+      "t": 20600,
+      "downbeat": false
+    },
+    {
+      "t": 21100,
+      "downbeat": false,
+      "bpm": 115.4
+    },
+    {
+      "t": 21620,
+      "downbeat": true
+    },
+    {
+      "t": 22120,
+      "downbeat": false
+    },
+    {
+      "t": 22640,
+      "downbeat": false
+    },
+    {
+      "t": 23160,
+      "downbeat": false
+    },
+    {
+      "t": 23660,
+      "downbeat": true
+    },
+    {
+      "t": 24180,
+      "downbeat": false
+    },
+    {
+      "t": 24700,
+      "downbeat": false
+    },
+    {
+      "t": 25200,
+      "downbeat": false,
+      "bpm": 117.6
+    },
+    {
+      "t": 25720,
+      "downbeat": true,
+      "bpm": 115.4
+    },
+    {
+      "t": 26220,
+      "downbeat": false
+    },
+    {
+      "t": 26740,
+      "downbeat": false
+    },
+    {
+      "t": 27240,
+      "downbeat": false
+    },
+    {
+      "t": 27760,
+      "downbeat": true
+    },
+    {
+      "t": 28280,
+      "downbeat": false
+    },
+    {
+      "t": 28800,
+      "downbeat": false
+    },
+    {
+      "t": 29300,
+      "downbeat": false
+    },
+    {
+      "t": 29820,
+      "downbeat": true
+    },
+    {
+      "t": 30320,
+      "downbeat": false,
+      "bpm": 117.6
+    },
+    {
+      "t": 30840,
+      "downbeat": false
+    },
+    {
+      "t": 31340,
+      "downbeat": false,
+      "bpm": 115.4
+    },
+    {
+      "t": 31860,
+      "downbeat": true,
+      "bpm": 117.6
+    },
+    {
+      "t": 32360,
+      "downbeat": false,
+      "bpm": 115.4
+    },
+    {
+      "t": 32880,
+      "downbeat": false,
+      "bpm": 117.6
+    },
+    {
+      "t": 33400,
+      "downbeat": false
+    },
+    {
+      "t": 33900,
+      "downbeat": true
+    },
+    {
+      "t": 34420,
+      "downbeat": false,
+      "bpm": 115.4
+    },
+    {
+      "t": 34920,
+      "downbeat": false,
+      "bpm": 117.6
+    },
+    {
+      "t": 35420,
+      "downbeat": false
+    },
+    {
+      "t": 35940,
+      "downbeat": true,
+      "bpm": 115.4
+    },
+    {
+      "t": 36460,
+      "downbeat": false,
+      "bpm": 117.6
+    },
+    {
+      "t": 36960,
+      "downbeat": false,
+      "bpm": 115.4
+    },
+    {
+      "t": 37480,
+      "downbeat": false
+    },
+    {
+      "t": 38000,
+      "downbeat": true
+    },
+    {
+      "t": 38500,
+      "downbeat": false
+    },
+    {
+      "t": 39020,
+      "downbeat": false
+    },
+    {
+      "t": 39540,
+      "downbeat": false
+    },
+    {
+      "t": 40040,
+      "downbeat": true,
+      "bpm": 117.6
+    },
+    {
+      "t": 40560,
+      "downbeat": false,
+      "bpm": 115.4
+    },
+    {
+      "t": 41060,
+      "downbeat": false
+    },
+    {
+      "t": 41580,
+      "downbeat": false,
+      "bpm": 117.6
+    },
+    {
+      "t": 42080,
+      "downbeat": true,
+      "bpm": 115.4
+    },
+    {
+      "t": 42600,
+      "downbeat": false,
+      "bpm": 117.6
+    },
+    {
+      "t": 43120,
+      "downbeat": false,
+      "bpm": 115.4
+    },
+    {
+      "t": 43620,
+      "downbeat": false
+    },
+    {
+      "t": 44140,
+      "downbeat": true
+    },
+    {
+      "t": 44640,
+      "downbeat": false
+    },
+    {
+      "t": 45160,
+      "downbeat": false,
+      "bpm": 117.6
+    },
+    {
+      "t": 45680,
+      "downbeat": false,
+      "bpm": 115.4
+    },
+    {
+      "t": 46180,
+      "downbeat": true,
+      "bpm": 117.6
+    },
+    {
+      "t": 46700,
+      "downbeat": false,
+      "bpm": 115.4
+    },
+    {
+      "t": 47200,
+      "downbeat": false
+    },
+    {
+      "t": 47720,
+      "downbeat": false
+    },
+    {
+      "t": 48220,
+      "downbeat": true
+    },
+    {
+      "t": 48740,
+      "downbeat": false,
+      "bpm": 117.6
+    },
+    {
+      "t": 49260,
+      "downbeat": false,
+      "bpm": 115.4
+    },
+    {
+      "t": 49780,
+      "downbeat": false
+    },
+    {
+      "t": 50280,
+      "downbeat": true
+    },
+    {
+      "t": 50780,
+      "downbeat": false
+    },
+    {
+      "t": 51300,
+      "downbeat": false
+    },
+    {
+      "t": 51820,
+      "downbeat": false,
+      "bpm": 117.6
+    },
+    {
+      "t": 52320,
+      "downbeat": true,
+      "bpm": 115.4
+    },
+    {
+      "t": 52840,
+      "downbeat": false
+    },
+    {
+      "t": 53360,
+      "downbeat": false
+    },
+    {
+      "t": 53860,
+      "downbeat": false,
+      "bpm": 117.6
+    },
+    {
+      "t": 54380,
+      "downbeat": true,
+      "bpm": 115.4
+    },
+    {
+      "t": 54880,
+      "downbeat": false,
+      "bpm": 117.6
+    },
+    {
+      "t": 55400,
+      "downbeat": false
+    },
+    {
+      "t": 55900,
+      "downbeat": false,
+      "bpm": 115.4
+    },
+    {
+      "t": 56420,
+      "downbeat": true,
+      "time_sig": "2/4"
+    },
+    {
+      "t": 56920,
+      "downbeat": false
+    },
+    {
+      "t": 57440,
+      "downbeat": true
+    },
+    {
+      "t": 57960,
+      "downbeat": false
+    },
+    {
+      "t": 58480,
+      "downbeat": true,
+      "time_sig": "4/4"
+    },
+    {
+      "t": 58980,
+      "downbeat": false
+    },
+    {
+      "t": 59500,
+      "downbeat": false
+    },
+    {
+      "t": 60000,
+      "downbeat": false,
+      "bpm": 117.6
+    },
+    {
+      "t": 60520,
+      "downbeat": true
+    },
+    {
+      "t": 61020,
+      "downbeat": false,
+      "bpm": 115.4
+    },
+    {
+      "t": 61540,
+      "downbeat": false,
+      "bpm": 117.6
+    },
+    {
+      "t": 62040,
+      "downbeat": false,
+      "bpm": 115.4
+    },
+    {
+      "t": 62560,
+      "downbeat": true
+    },
+    {
+      "t": 63080,
+      "downbeat": false
+    },
+    {
+      "t": 63580,
+      "downbeat": false
+    },
+    {
+      "t": 64100,
+      "downbeat": false
+    },
+    {
+      "t": 64620,
+      "downbeat": true
+    },
+    {
+      "t": 65120,
+      "downbeat": false,
+      "bpm": 117.6
+    },
+    {
+      "t": 65640,
+      "downbeat": false,
+      "bpm": 115.4
+    },
+    {
+      "t": 66160,
+      "downbeat": false,
+      "bpm": 117.6
+    },
+    {
+      "t": 66660,
+      "downbeat": true
+    },
+    {
+      "t": 67160,
+      "downbeat": false,
+      "bpm": 115.4
+    },
+    {
+      "t": 67680,
+      "downbeat": false,
+      "bpm": 117.6
+    },
+    {
+      "t": 68180,
+      "downbeat": false
+    },
+    {
+      "t": 68700,
+      "downbeat": true,
+      "bpm": 115.4
+    },
+    {
+      "t": 69220,
+      "downbeat": false
+    },
+    {
+      "t": 69720,
+      "downbeat": false
+    },
+    {
+      "t": 70240,
+      "downbeat": false
+    },
+    {
+      "t": 70760,
+      "downbeat": true
+    },
+    {
+      "t": 71260,
+      "downbeat": false,
+      "bpm": 117.6
+    },
+    {
+      "t": 71780,
+      "downbeat": false,
+      "bpm": 115.4
+    },
+    {
+      "t": 72280,
+      "downbeat": false,
+      "bpm": 117.6
+    },
+    {
+      "t": 72800,
+      "downbeat": true
+    },
+    {
+      "t": 73300,
+      "downbeat": false
+    },
+    {
+      "t": 73820,
+      "downbeat": false
+    },
+    {
+      "t": 74320,
+      "downbeat": false,
+      "bpm": 115.4
+    },
+    {
+      "t": 74840,
+      "downbeat": true
+    },
+    {
+      "t": 75340,
+      "downbeat": false
+    },
+    {
+      "t": 75860,
+      "downbeat": false
+    },
+    {
+      "t": 76380,
+      "downbeat": false
+    },
+    {
+      "t": 76900,
+      "downbeat": true
+    },
+    {
+      "t": 77400,
+      "downbeat": false
+    },
+    {
+      "t": 77920,
+      "downbeat": false
+    },
+    {
+      "t": 78420,
+      "downbeat": false
+    },
+    {
+      "t": 78940,
+      "downbeat": true,
+      "bpm": 117.6
+    },
+    {
+      "t": 79460,
+      "downbeat": false
+    },
+    {
+      "t": 79960,
+      "downbeat": false
+    },
+    {
+      "t": 80480,
+      "downbeat": false,
+      "bpm": 115.4
+    },
+    {
+      "t": 80980,
+      "downbeat": true
+    },
+    {
+      "t": 81480,
+      "downbeat": false,
+      "bpm": 117.6
+    },
+    {
+      "t": 82000,
+      "downbeat": false
+    },
+    {
+      "t": 82520,
+      "downbeat": false
+    },
+    {
+      "t": 83040,
+      "downbeat": true
+    },
+    {
+      "t": 83540,
+      "downbeat": false,
+      "bpm": 115.4
+    },
+    {
+      "t": 84040,
+      "downbeat": false
+    },
+    {
+      "t": 84560,
+      "downbeat": false,
+      "bpm": 117.6
+    },
+    {
+      "t": 85060,
+      "downbeat": true
+    },
+    {
+      "t": 85580,
+      "downbeat": false
+    },
+    {
+      "t": 86100,
+      "downbeat": false,
+      "bpm": 115.4
+    },
+    {
+      "t": 86600,
+      "downbeat": false,
+      "bpm": 117.6
+    },
+    {
+      "t": 87120,
+      "downbeat": true,
+      "bpm": 115.4
+    },
+    {
+      "t": 87620,
+      "downbeat": false
+    },
+    {
+      "t": 88140,
+      "downbeat": false
+    },
+    {
+      "t": 88640,
+      "downbeat": false
+    },
+    {
+      "t": 89160,
+      "downbeat": true,
+      "bpm": 117.6
+    },
+    {
+      "t": 89680,
+      "downbeat": false,
+      "bpm": 115.4
+    },
+    {
+      "t": 90200,
+      "downbeat": false,
+      "bpm": 117.6
+    },
+    {
+      "t": 90700,
+      "downbeat": false,
+      "bpm": 115.4
+    },
+    {
+      "t": 91200,
+      "downbeat": true
+    },
+    {
+      "t": 91720,
+      "downbeat": false,
+      "bpm": 117.6
+    },
+    {
+      "t": 92220,
+      "downbeat": false
+    },
+    {
+      "t": 92740,
+      "downbeat": false
+    },
+    {
+      "t": 93260,
+      "downbeat": true,
+      "bpm": 115.4
+    },
+    {
+      "t": 93760,
+      "downbeat": false,
+      "bpm": 117.6
+    },
+    {
+      "t": 94280,
+      "downbeat": false,
+      "bpm": 115.4
+    },
+    {
+      "t": 94780,
+      "downbeat": false,
+      "bpm": 117.6
+    },
+    {
+      "t": 95320,
+      "downbeat": true
+    },
+    {
+      "t": 95820,
+      "downbeat": false,
+      "bpm": 115.4
+    },
+    {
+      "t": 96340,
+      "downbeat": false,
+      "bpm": 117.6
+    },
+    {
+      "t": 96840,
+      "downbeat": false,
+      "bpm": 115.4
+    },
+    {
+      "t": 97360,
+      "downbeat": true
+    },
+    {
+      "t": 97880,
+      "downbeat": false
+    },
+    {
+      "t": 98380,
+      "downbeat": false,
+      "bpm": 117.6
+    },
+    {
+      "t": 98900,
+      "downbeat": false,
+      "bpm": 115.4
+    },
+    {
+      "t": 99420,
+      "downbeat": true
+    },
+    {
+      "t": 99920,
+      "downbeat": false,
+      "bpm": 117.6
+    },
+    {
+      "t": 100420,
+      "downbeat": false,
+      "bpm": 115.4
+    },
+    {
+      "t": 100940,
+      "downbeat": false
+    },
+    {
+      "t": 101460,
+      "downbeat": true
+    },
+    {
+      "t": 101960,
+      "downbeat": false
+    },
+    {
+      "t": 102480,
+      "downbeat": false
+    },
+    {
+      "t": 103000,
+      "downbeat": false
+    },
+    {
+      "t": 103520,
+      "downbeat": true
+    },
+    {
+      "t": 104020,
+      "downbeat": false
+    },
+    {
+      "t": 104540,
+      "downbeat": false
+    },
+    {
+      "t": 105060,
+      "downbeat": false
+    },
+    {
+      "t": 105560,
+      "downbeat": true,
+      "bpm": 117.6
+    },
+    {
+      "t": 106080,
+      "downbeat": false
+    },
+    {
+      "t": 106580,
+      "downbeat": false
+    },
+    {
+      "t": 107100,
+      "downbeat": false
+    },
+    {
+      "t": 107600,
+      "downbeat": true
+    },
+    {
+      "t": 108100,
+      "downbeat": false,
+      "bpm": 120
+    },
+    {
+      "t": 108620,
+      "downbeat": false,
+      "bpm": 117.6
+    },
+    {
+      "t": 109140,
+      "downbeat": false
+    },
+    {
+      "t": 109640,
+      "downbeat": true,
+      "bpm": 115.4
+    },
+    {
+      "t": 110140,
+      "downbeat": false
+    },
+    {
+      "t": 110660,
+      "downbeat": false
+    },
+    {
+      "t": 111180,
+      "downbeat": false,
+      "bpm": 117.6
+    },
+    {
+      "t": 111700,
+      "downbeat": true,
+      "bpm": 115.4
+    },
+    {
+      "t": 112220,
+      "downbeat": false
+    },
+    {
+      "t": 112720,
+      "downbeat": false
+    },
+    {
+      "t": 113220,
+      "downbeat": false
+    },
+    {
+      "t": 113740,
+      "downbeat": true,
+      "bpm": 117.6
+    },
+    {
+      "t": 114260,
+      "downbeat": false
+    },
+    {
+      "t": 114760,
+      "downbeat": false,
+      "bpm": 115.4
+    },
+    {
+      "t": 115280,
+      "downbeat": false
+    },
+    {
+      "t": 115780,
+      "downbeat": true
+    },
+    {
+      "t": 116300,
+      "downbeat": false,
+      "bpm": 117.6
+    },
+    {
+      "t": 116820,
+      "downbeat": false,
+      "bpm": 115.4
+    },
+    {
+      "t": 117320,
+      "downbeat": false
+    },
+    {
+      "t": 117840,
+      "downbeat": true
+    },
+    {
+      "t": 118340,
+      "downbeat": false
+    },
+    {
+      "t": 118860,
+      "downbeat": false,
+      "bpm": 117.6
+    },
+    {
+      "t": 119380,
+      "downbeat": false,
+      "bpm": 115.4
+    },
+    {
+      "t": 119880,
+      "downbeat": true,
+      "bpm": 117.6
+    },
+    {
+      "t": 120400,
+      "downbeat": false,
+      "bpm": 115.4
+    },
+    {
+      "t": 120900,
+      "downbeat": false
+    },
+    {
+      "t": 121420,
+      "downbeat": false,
+      "bpm": 117.6
+    },
+    {
+      "t": 121920,
+      "downbeat": true
+    },
+    {
+      "t": 122440,
+      "downbeat": false
+    },
+    {
+      "t": 122960,
+      "downbeat": false,
+      "bpm": 115.4
+    },
+    {
+      "t": 123460,
+      "downbeat": false,
+      "bpm": 117.6
+    },
+    {
+      "t": 123960,
+      "downbeat": true,
+      "bpm": 115.4
+    },
+    {
+      "t": 124480,
+      "downbeat": false,
+      "bpm": 117.6
+    },
+    {
+      "t": 125000,
+      "downbeat": false
+    },
+    {
+      "t": 125500,
+      "downbeat": false,
+      "bpm": 115.4
+    },
+    {
+      "t": 126020,
+      "downbeat": true
+    },
+    {
+      "t": 126520,
+      "downbeat": false
+    },
+    {
+      "t": 127040,
+      "downbeat": false
+    },
+    {
+      "t": 127560,
+      "downbeat": false
+    },
+    {
+      "t": 128060,
+      "downbeat": true
+    },
+    {
+      "t": 128580,
+      "downbeat": false
+    },
+    {
+      "t": 129100,
+      "downbeat": false
+    },
+    {
+      "t": 129600,
+      "downbeat": false
+    },
+    {
+      "t": 130120,
+      "downbeat": true
+    },
+    {
+      "t": 130620,
+      "downbeat": false
+    },
+    {
+      "t": 131140,
+      "downbeat": false,
+      "bpm": 117.6
+    },
+    {
+      "t": 131660,
+      "downbeat": false,
+      "bpm": 115.4
+    },
+    {
+      "t": 132160,
+      "downbeat": true,
+      "bpm": 117.6
+    },
+    {
+      "t": 132680,
+      "downbeat": false,
+      "bpm": 115.4
+    },
+    {
+      "t": 133180,
+      "downbeat": false,
+      "bpm": 117.6
+    },
+    {
+      "t": 133700,
+      "downbeat": false
+    },
+    {
+      "t": 134200,
+      "downbeat": true
+    },
+    {
+      "t": 134720,
+      "downbeat": false,
+      "bpm": 120
+    },
+    {
+      "t": 135220,
+      "downbeat": false,
+      "bpm": 117.6
+    },
+    {
+      "t": 135760,
+      "downbeat": false,
+      "bpm": 120
+    },
+    {
+      "t": 136260,
+      "downbeat": true,
+      "bpm": 117.6
+    },
+    {
+      "t": 136760,
+      "downbeat": false
+    },
+    {
+      "t": 137280,
+      "downbeat": false,
+      "bpm": 115.4
+    },
+    {
+      "t": 137780,
+      "downbeat": false,
+      "bpm": 117.6
+    },
+    {
+      "t": 138300,
+      "downbeat": true,
+      "bpm": 115.4
+    },
+    {
+      "t": 138820,
+      "downbeat": false
+    },
+    {
+      "t": 139340,
+      "downbeat": false
+    },
+    {
+      "t": 139840,
+      "downbeat": false
+    },
+    {
+      "t": 140360,
+      "downbeat": true
+    },
+    {
+      "t": 140860,
+      "downbeat": false
+    },
+    {
+      "t": 141380,
+      "downbeat": false,
+      "bpm": 117.6
+    },
+    {
+      "t": 141900,
+      "downbeat": false,
+      "bpm": 115.4
+    },
+    {
+      "t": 142400,
+      "downbeat": true,
+      "bpm": 117.6
+    },
+    {
+      "t": 142920,
+      "downbeat": false,
+      "bpm": 115.4
+    },
+    {
+      "t": 143420,
+      "downbeat": false
+    },
+    {
+      "t": 143940,
+      "downbeat": false,
+      "bpm": 117.6
+    },
+    {
+      "t": 144440,
+      "downbeat": true
+    },
+    {
+      "t": 144960,
+      "downbeat": false
+    },
+    {
+      "t": 145480,
+      "downbeat": false,
+      "bpm": 115.4
+    },
+    {
+      "t": 145980,
+      "downbeat": false
+    },
+    {
+      "t": 146480,
+      "downbeat": true
+    },
+    {
+      "t": 147000,
+      "downbeat": false
+    },
+    {
+      "t": 147520,
+      "downbeat": false,
+      "bpm": 117.6
+    },
+    {
+      "t": 148040,
+      "downbeat": false,
+      "bpm": 115.4
+    },
+    {
+      "t": 148540,
+      "downbeat": true
+    },
+    {
+      "t": 149060,
+      "downbeat": false
+    },
+    {
+      "t": 149560,
+      "downbeat": false
+    },
+    {
+      "t": 150080,
+      "downbeat": false,
+      "bpm": 117.6
+    },
+    {
+      "t": 150600,
+      "downbeat": true,
+      "bpm": 115.4
+    },
+    {
+      "t": 151100,
+      "downbeat": false
+    },
+    {
+      "t": 151620,
+      "downbeat": false
+    },
+    {
+      "t": 152120,
+      "downbeat": false
+    },
+    {
+      "t": 152640,
+      "downbeat": true,
+      "bpm": 117.6
+    },
+    {
+      "t": 153160,
+      "downbeat": false,
+      "bpm": 115.4
+    },
+    {
+      "t": 153660,
+      "downbeat": false
+    },
+    {
+      "t": 154180,
+      "downbeat": false
+    },
+    {
+      "t": 154680,
+      "downbeat": true
+    },
+    {
+      "t": 155200,
+      "downbeat": false,
+      "bpm": 117.6
+    },
+    {
+      "t": 155720,
+      "downbeat": false,
+      "bpm": 115.4
+    },
+    {
+      "t": 156220,
+      "downbeat": false,
+      "bpm": 117.6
+    },
+    {
+      "t": 156740,
+      "downbeat": true,
+      "bpm": 115.4
+    },
+    {
+      "t": 157240,
+      "downbeat": false,
+      "bpm": 117.6
+    },
+    {
+      "t": 157760,
+      "downbeat": false
+    },
+    {
+      "t": 158260,
+      "downbeat": false
+    },
+    {
+      "t": 158780,
+      "downbeat": true
+    },
+    {
+      "t": 159280,
+      "downbeat": false
+    },
+    {
+      "t": 159800,
+      "downbeat": false
+    },
+    {
+      "t": 160300,
+      "downbeat": false,
+      "bpm": 115.4
+    },
+    {
+      "t": 160820,
+      "downbeat": true
+    },
+    {
+      "t": 161320,
+      "downbeat": false
+    },
+    {
+      "t": 161840,
+      "downbeat": false
+    },
+    {
+      "t": 162360,
+      "downbeat": false
+    },
+    {
+      "t": 162880,
+      "downbeat": true
+    },
+    {
+      "t": 163380,
+      "downbeat": false
+    },
+    {
+      "t": 163900,
+      "downbeat": false
+    },
+    {
+      "t": 164400,
+      "downbeat": false
+    },
+    {
+      "t": 164920,
+      "downbeat": true,
+      "bpm": 117.6
+    },
+    {
+      "t": 165420,
+      "downbeat": false,
+      "bpm": 115.4
+    },
+    {
+      "t": 165940,
+      "downbeat": false
+    },
+    {
+      "t": 166460,
+      "downbeat": false
+    },
+    {
+      "t": 166960,
+      "downbeat": true,
+      "bpm": 117.6
+    },
+    {
+      "t": 167480,
+      "downbeat": false,
+      "bpm": 115.4
+    },
+    {
+      "t": 168000,
+      "downbeat": false
+    },
+    {
+      "t": 168500,
+      "downbeat": false,
+      "bpm": 117.6
+    },
+    {
+      "t": 169000,
+      "downbeat": true,
+      "bpm": 115.4
+    },
+    {
+      "t": 169520,
+      "downbeat": false,
+      "bpm": 117.6
+    },
+    {
+      "t": 170040,
+      "downbeat": false
+    },
+    {
+      "t": 170540,
+      "downbeat": false,
+      "bpm": 115.4
+    },
+    {
+      "t": 171060,
+      "downbeat": true
+    },
+    {
+      "t": 171560,
+      "downbeat": false
+    },
+    {
+      "t": 172080,
+      "downbeat": false,
+      "bpm": 117.6
+    },
+    {
+      "t": 172600,
+      "downbeat": false,
+      "bpm": 115.4
+    },
+    {
+      "t": 173100,
+      "downbeat": true
+    },
+    {
+      "t": 173620,
+      "downbeat": false
+    },
+    {
+      "t": 174120,
+      "downbeat": false
+    },
+    {
+      "t": 174640,
+      "downbeat": false,
+      "bpm": 117.6
+    },
+    {
+      "t": 175160,
+      "downbeat": true
+    },
+    {
+      "t": 175660,
+      "downbeat": false
+    },
+    {
+      "t": 176180,
+      "downbeat": false,
+      "bpm": 115.4
+    },
+    {
+      "t": 176680,
+      "downbeat": false,
+      "bpm": 117.6
+    },
+    {
+      "t": 177180,
+      "downbeat": true
+    },
+    {
+      "t": 177700,
+      "downbeat": false,
+      "bpm": 115.4
+    },
+    {
+      "t": 178220,
+      "downbeat": false
+    },
+    {
+      "t": 178720,
+      "downbeat": false
+    },
+    {
+      "t": 179240,
+      "downbeat": true
+    },
+    {
+      "t": 179760,
+      "downbeat": false
+    },
+    {
+      "t": 180280,
+      "downbeat": false
+    },
+    {
+      "t": 180780,
+      "downbeat": false
+    },
+    {
+      "t": 181300,
+      "downbeat": true
+    },
+    {
+      "t": 181800,
+      "downbeat": false
+    },
+    {
+      "t": 182320,
+      "downbeat": false
+    },
+    {
+      "t": 182840,
+      "downbeat": false
+    },
+    {
+      "t": 183340,
+      "downbeat": true
+    },
+    {
+      "t": 183860,
+      "downbeat": false
+    },
+    {
+      "t": 184380,
+      "downbeat": false,
+      "bpm": 117.6
+    },
+    {
+      "t": 184880,
+      "downbeat": false
+    },
+    {
+      "t": 185400,
+      "downbeat": true,
+      "bpm": 115.4
+    },
+    {
+      "t": 185900,
+      "downbeat": false,
+      "bpm": 117.6
+    },
+    {
+      "t": 186400,
+      "downbeat": false
+    },
+    {
+      "t": 186920,
+      "downbeat": false,
+      "bpm": 115.4
+    },
+    {
+      "t": 187440,
+      "downbeat": true,
+      "bpm": 117.6
+    },
+    {
+      "t": 187940,
+      "downbeat": false
+    },
+    {
+      "t": 188460,
+      "downbeat": false,
+      "bpm": 115.4
+    },
+    {
+      "t": 188980,
+      "downbeat": false
+    },
+    {
+      "t": 189480,
+      "downbeat": true,
+      "bpm": 117.6
+    },
+    {
+      "t": 189980,
+      "downbeat": false,
+      "bpm": 115.4
+    },
+    {
+      "t": 190500,
+      "downbeat": false
+    },
+    {
+      "t": 191020,
+      "downbeat": false,
+      "bpm": 117.6
+    },
+    {
+      "t": 191520,
+      "downbeat": true
+    },
+    {
+      "t": 192040,
+      "downbeat": false,
+      "bpm": 115.4
+    },
+    {
+      "t": 192560,
+      "downbeat": false
+    },
+    {
+      "t": 193060,
+      "downbeat": false,
+      "bpm": 117.6
+    },
+    {
+      "t": 193560,
+      "downbeat": true,
+      "bpm": 115.4
+    },
+    {
+      "t": 194080,
+      "downbeat": false,
+      "bpm": 117.6
+    },
+    {
+      "t": 194600,
+      "downbeat": false
+    },
+    {
+      "t": 195100,
+      "downbeat": false,
+      "bpm": 115.4
+    },
+    {
+      "t": 195620,
+      "downbeat": true
+    },
+    {
+      "t": 196120,
+      "downbeat": false
+    },
+    {
+      "t": 196640,
+      "downbeat": false
+    },
+    {
+      "t": 197160,
+      "downbeat": false
+    },
+    {
+      "t": 197680,
+      "downbeat": true
+    },
+    {
+      "t": 198180,
+      "downbeat": false
+    },
+    {
+      "t": 198700,
+      "downbeat": false
+    },
+    {
+      "t": 199200,
+      "downbeat": false
+    },
+    {
+      "t": 199720,
+      "downbeat": true,
+      "bpm": 117.6
+    },
+    {
+      "t": 200220,
+      "downbeat": false
+    },
+    {
+      "t": 200740,
+      "downbeat": false
+    },
+    {
+      "t": 201260,
+      "downbeat": false
+    },
+    {
+      "t": 201760,
+      "downbeat": true
+    },
+    {
+      "t": 202260,
+      "downbeat": false
+    },
+    {
+      "t": 202800,
+      "downbeat": false,
+      "bpm": 120
+    },
+    {
+      "t": 203300,
+      "downbeat": false
+    },
+    {
+      "t": 203820,
+      "downbeat": true,
+      "bpm": 117.6
+    },
+    {
+      "t": 204320,
+      "downbeat": false,
+      "bpm": 115.4
+    },
+    {
+      "t": 204820,
+      "downbeat": false,
+      "bpm": 117.6
+    },
+    {
+      "t": 205340,
+      "downbeat": false,
+      "bpm": 115.4
+    },
+    {
+      "t": 205860,
+      "downbeat": true
+    },
+    {
+      "t": 206380,
+      "downbeat": false
+    },
+    {
+      "t": 206880,
+      "downbeat": false
+    },
+    {
+      "t": 207400,
+      "downbeat": false
+    },
+    {
+      "t": 207920,
+      "downbeat": true
+    },
+    {
+      "t": 208420,
+      "downbeat": false,
+      "bpm": 117.6
+    },
+    {
+      "t": 208940,
+      "downbeat": false,
+      "bpm": 115.4
+    },
+    {
+      "t": 209440,
+      "downbeat": false,
+      "bpm": 117.6
+    },
+    {
+      "t": 209960,
+      "downbeat": true
+    },
+    {
+      "t": 210460,
+      "downbeat": false
+    },
+    {
+      "t": 210980,
+      "downbeat": false
+    },
+    {
+      "t": 211480,
+      "downbeat": false
+    },
+    {
+      "t": 212000,
+      "downbeat": true
+    },
+    {
+      "t": 212500,
+      "downbeat": false
+    },
+    {
+      "t": 213040,
+      "downbeat": false,
+      "bpm": 120
+    },
+    {
+      "t": 213540,
+      "downbeat": false,
+      "bpm": 117.6
+    },
+    {
+      "t": 214060,
+      "downbeat": true
+    },
+    {
+      "t": 214560,
+      "downbeat": false
+    },
+    {
+      "t": 215060,
+      "downbeat": false
+    },
+    {
+      "t": 215580,
+      "downbeat": false
+    },
+    {
+      "t": 216100,
+      "downbeat": true
+    },
+    {
+      "t": 216600,
+      "downbeat": false
+    },
+    {
+      "t": 217120,
+      "downbeat": false,
+      "bpm": 115.4
+    },
+    {
+      "t": 217620,
+      "downbeat": false,
+      "bpm": 117.6
+    },
+    {
+      "t": 218140,
+      "downbeat": true
+    },
+    {
+      "t": 218640,
+      "downbeat": false
+    },
+    {
+      "t": 219160,
+      "downbeat": false
+    },
+    {
+      "t": 219660,
+      "downbeat": false
+    },
+    {
+      "t": 220180,
+      "downbeat": true
+    },
+    {
+      "t": 220680,
+      "downbeat": false
+    },
+    {
+      "t": 221220,
+      "downbeat": false
+    },
+    {
+      "t": 221720,
+      "downbeat": false
+    },
+    {
+      "t": 222240,
+      "downbeat": true
+    },
+    {
+      "t": 222740,
+      "downbeat": false
+    },
+    {
+      "t": 223260,
+      "downbeat": false
+    },
+    {
+      "t": 223760,
+      "downbeat": false,
+      "bpm": 115.4
+    },
+    {
+      "t": 224280,
+      "downbeat": true
+    },
+    {
+      "t": 224780,
+      "downbeat": false
+    },
+    {
+      "t": 225300,
+      "downbeat": false
+    },
+    {
+      "t": 225820,
+      "downbeat": false
+    },
+    {
+      "t": 226340,
+      "downbeat": true
+    },
+    {
+      "t": 226840,
+      "downbeat": false
+    },
+    {
+      "t": 227360,
+      "downbeat": false
+    },
+    {
+      "t": 227880,
+      "downbeat": false
+    }
+  ],
+  "analysis": {
+    "fingerprint": {
+      "tool": "fpcalc",
+      "version": "1.6.0",
+      "date": "2026-04-29"
+    },
+    "mode": {
+      "tool": "light",
+      "date": "2026-04-29"
+    },
+    "separation": {
+      "tool": "demucs",
+      "version": "htdemucs",
+      "date": "2026-04-29"
+    },
+    "lyrics": {
+      "tool": "lrclib",
+      "date": "2026-04-29"
+    },
+    "words": {
+      "tool": "whisperx+lrclib",
+      "date": "2026-04-29"
+    },
+    "chords": {
+      "tool": "lv-chordia+cleanup",
+      "date": "2026-04-29"
+    },
+    "beats": {
+      "tool": "beat_this",
+      "date": "2026-04-29"
+    }
+  }
+}

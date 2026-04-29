@@ -1,0 +1,3160 @@
+{
+  "version": "0.1.0",
+  "id": "0ba72f0d-70ae-4655-94d9-c1069b5abcfb",
+  "duration_ms": 287590,
+  "fingerprint": {
+    "chromaprint": "AQADtEqTJVGWRLhthEl-_JDU4MXp4zQOjXwQWnVEmDp4ifgJZ8uHv0S0fNBODb9EtFWEKSPxg0lyo6Jy4vtx4Qt3lCx8SUPto2qy3KCU5NCJ-Id_wSe2o96xB6eE9MPHHewh__jx_9A-3DDK4xrKWxBv3M_QrAqJ77jRjAxKZsePx-gawoH2oTbRnPikoxG0x8IuoTIJP7ikQB51Y_yQ44tm4Ae7FFeswaFkrCV89kH5CudRiwhjLYd8H2eoIg2JS8OL5i16BTkqSZwk-K1wEf4GsYL2C5ctHD2aO3hwFv0h_sL-4kaeCf2NSnDF42im48gPLflihCeuH6eI9ghz6Ece5Udhsbjr4EF7zCfCPCT6ZIZ-NKHSwsuOPkHPI8cf9FlCDmfRf0dzWUH-ED-SzdfhK8G54-g_XEqPnmj-4Ahf-MfFw-uyQ3_w7qh_XEW_oymuQ1ZU5GGu4U45PDSaH7UYfEbOlujxIM3HHReO8_hhlUc-tdARH58afYH3BZ-twHlw-Ed_1KlJTKkYCQ9qFw9yZiUkRfo0HO3woz-8o4T248Txw-vx4_jwjEf4A_3hH21WtEfglS60r8jxLh3qM_By_AFcNfBxET1OIhcuVDwO8TiO4wfu4rCGC9EP3_jx48vhLYd7HP6PHPqR84G1lkWr48fRqFmK6YgNqZeG9iWo3cJ3vIfyIF9QZjp-_ELVodEe_EdIMmhI5UMPN36hZztx_Cly8UGdRMOV44djlnh-PByV48lR0Wh-5MYjQp-TBHlqCbUJLwvK9wI-EUeD6sWhoi8nXAm-wsweHM2J_EiuDlUTNH2CC32G5kGyD2F2zJEuZfgjJDyNPHjywEtsTFSko_nxFukPXRifDuHCGxtJ49JxHxdxHOFz6GJDhPlRSz-uSDruE7VehLmhE3mS4zoanBmD8IlkQ0cuPBqFJ8piVHrQ3DK-5XgwfcgDRc-F2KGD53EUHFdmfPmDL0f-BGUIsTqeH-iV4cf_IdyP-XiY53DuY_qRH6cKucedo0fzHFcU8Xj-IkyVHJV44g-OJ3zQdBf6HufxC_mgfkee5ZiVPKhtBY6zoNZR2GHgfuiZzUEO9ceYzsOl5KOQJyGLLzp-_IlRdoebSEHt40X4EKP14Q_07Hh3ODyg6AR-5CFLNJcRfjs-5fjLQUuVQ-uJ_7jCIXRSwfdR-cOzkEgu5MKtDF-STBxK6cF29DlOHX1zJBfCZ8Kf4_qioEumYxKTKBXuHHlyaPkZhMyHE25efDHeHM3R58H44cnBdkePRIqL8Bl-7MGVk2he9D3y7MKVXUHT5UIv4dlxHnmOpspR4c3yIP5IQ7WQ48k0XMoVVH3gh8dz2MFVNP8ROzT0EFWSI50k9rATJahtPLlwPkGZD65MPMmRHoea6oIfmah-zEdEJcqD_jhSNUTV4zr0DD15hGk74smSHI8uDk1-tD-uHw-abkH_42cQf4eOXMIjB090odnjBF1p3DmOJ8yRK0ie43PQWzoc_XCiKEGdG89u_FGOkkg_HZoj_EX4RIEv4emO7TlRGl9mlNLhI9KDt4eKC5-Rdj0u58QlBU0knShf48fxhEc9-EKfF7EFPfiRJwlT4VIO5zV-HE-DZ8cpImecQJOYw1IPMWIm5Fs8_LCJE88EOz2-xMSLT_DzIdmP4McpoezxC2-IfkF_GL3Q70iPqoem5LjC3PhxHJ5FqMoO_4Pm46KEeFzQjK6C_vjQbT-c44e_FuGPq4cuk8GFM9CXI9IPT7swHj2Jl0YtHk2aEB9ChiSakRbU5gpCwwoJRxnTo89xFn3gE88avHAeJFtuxMsZ4zt-PEcfphKa_cijDzqTDoerB3p2xM-LZvFRSjTupWh-VMfjI_yh5UXwfMilBxqzCHnzwzbcDUdz4UpwJVqOLtM6NHYRvhISdsd9eHkO60b142LQH-6F_iiz5MFZF1ZMDk574UX4jiiPhrJxbT56ovmg_QgT3MJzC2uWhRKO6imJ93CP7wiPG8o__EEbJaKQfB8-oseP2nCsH3UkHz38I3EepAuH_sFt4Q-aUdFxw_HRm3iMK1EueNRxZhcuLcR3hKlZPIsqJIujFy8aTqiO58Ev3MfOBk199M2IHH-KT7pw6pC8DU2P59CJLrKQH78yOHuO_XguNLyIZFyC6DIe2riO5nOHygETPeijF3Mu5HqOPoceIj16PMdFEeHRVDuh18UVPQito8lx5sQTEXW0w_mDhw6-IXwCvUN-7FkufBea8DH63OjR9EGdBGHeQ8-NiCe6pC6aSIoSH3WmI8yhP0XI8PDhRketoN8OY9KF_8IzcwjJ7IFPTFZwaDe6Hg_eK7CqjPiU40YY7hzaKF_w42LQa0QTii_-EXcWxNAT5FcxZyIuJTlqH82Z4jkKVzya5sh56Ijsx_g2PFEUJfh25Cgf6Dm0FHWCS0cfJfjxE5N8BVay7PiLiFRZPDmO3sSb4-oRXjoaTdGhLzq-c9BE5eTQHHmiHteJ0-jK8GiC-Dl0HXkX3IkiDU9OlDux3cJz4bngHn4Q6eyh-ojzXEUpHk-SLH3QC_mDQ2N44oabWEc-_OjxH1F_PPcKjcwDYJgBiBAHgQNMGCGkYMJRAwggyAEihAMOEUgB8kQBBYBgAAAjCBhGCCWAEYIhQwQwCiAAEClGOgGEIYAIRkQAHggijHFaiKeIAQBYIBQxzAkBqADOSYCUAgA4gBBgwiBBPGJCCACEIIQCIQxhCghBhIJPIIMMYYQAYAhwAAFgCHHIUgCUY8QIIYABQAkjBxGEMgTMM0IAwYwYFBGCpRHEGCSQM0wYRpwAlnIROHACGcS8EQwIYQQyhFlgBGNACYQY9QoYS5AgRhCBDAMCASUEYEQYAgEVggACkFFKOWQAYDAJQYCxTDjCQEEEAAqAkkYwwQRCRhECjGJKSMIQEUARIxggjigmnEJEIoQQUxQAgIghwAEpDALEUAOAEEYSAYwQhFHgAFHAACKAoMJIggARjBFolCCCIEmEF4AI4gAYBiAjBRAUGAIUAUgRQQgxRiEiDEKCMMYIQEoQYAEiiiEAjEBMGSAcQYgJQwwUDFgBwEMEAOAIIEQbSwwyRAAABSFKCQaRIAREwARBFDloDRBGCKBARAIZAYQxQAFBAFHCCCYEcEoYIgCkiBmonAHACCYMIEIgJSgwABhEhSDIKSCEUgYSZKgSjBJBDHIUIcaYQtQwTJgxVgihAAiGCIuIkIYIxqgBxCKnjDFAKEuEo4wIJAkgSwiABCnCMAGEocoyhgQhiBlHgCCEAI4QMIIIJgwVxADEhDJAoOiAUYQgAAgwSAkmIADACkeEpAIRA5xRQDiAqlFEAoWEFwIYg4QUhhgIhFQUECQAMIoRJIUA0grDgADGKGEAo0xYhQCQigEhGBOAEoGEAkAgAhhDWAFjJGCEAAQYFUgAIIgCggigBDJOMAGkocwAIIAhgDJAmUKEAEWIQoAIAxAQQAHAoEMKgAMAcmICxoyAzAFjiFEEACGRMcoBYQCgQigAiAGMAEAMUIwoCQAhCABEgGKIEAQcNQgAAQwBBg",
+    "algorithm": 2,
+    "duration": 287590
+  },
+  "metadata": {
+    "title": "Boulevard of Broken Dreams",
+    "artist": "Green Day",
+    "album": "Greatest Hits: God’s Favorite Band",
+    "key": "Ab major",
+    "tempo": 83.3,
+    "time_signature": "2/4"
+  },
+  "playback": [
+    {
+      "platform": "youtube",
+      "uri": "https://www.youtube.com/watch?v=Soa3gO7tL-c",
+      "id": "Soa3gO7tL-c",
+      "capabilities": {
+        "play": true,
+        "pause": true,
+        "seek": true,
+        "setPosition": true,
+        "getPosition": true,
+        "rate": [
+          0.25,
+          0.5,
+          0.75,
+          1,
+          1.25,
+          1.5,
+          1.75,
+          2
+        ],
+        "volume": true,
+        "mute": true
+      },
+      "added": "2026-04-29"
+    }
+  ],
+  "lyrics": [
+    {
+      "t": 37980,
+      "text": "I walk a lonely road",
+      "end": 40220
+    },
+    {
+      "t": 40360,
+      "text": "The only one that I have ever known",
+      "end": 43800
+    },
+    {
+      "t": 44000,
+      "text": "Don't know where it goes",
+      "end": 46060
+    },
+    {
+      "t": 46100,
+      "text": "But it's home to me and I walk alone",
+      "end": 49640
+    },
+    {
+      "t": 55200,
+      "text": "I walk this empty street",
+      "end": 57680
+    },
+    {
+      "t": 57780,
+      "text": "On the Boulevard of Broken Dreams",
+      "end": 61180
+    },
+    {
+      "t": 61360,
+      "text": "Where the city sleeps",
+      "end": 63360
+    },
+    {
+      "t": 63380,
+      "text": "And I'm the only one and I walk alone",
+      "end": 67040
+    },
+    {
+      "t": 69620,
+      "text": "I walk alone",
+      "end": 76500
+    },
+    {
+      "t": 76520,
+      "text": "I walk a",
+      "end": 77880
+    },
+    {
+      "t": 78580,
+      "text": "My shadow's the only one that walks beside me",
+      "end": 83820
+    },
+    {
+      "t": 84340,
+      "text": "My shallow heart's the only thing that's beating",
+      "end": 89640
+    },
+    {
+      "t": 90080,
+      "text": "Sometimes I wish someone out there will find me",
+      "end": 95320
+    },
+    {
+      "t": 95940,
+      "text": "'Til then I walk alone",
+      "end": 99920
+    },
+    {
+      "t": 101520,
+      "text": "Ah-ah, ah-ah, ah-ah, aaah-ah",
+      "end": 107320
+    },
+    {
+      "t": 107360,
+      "text": "Ah-ah, ah-ah, ah-ah",
+      "end": 111860
+    },
+    {
+      "t": 112760,
+      "text": "I'm walking down the line",
+      "end": 115180
+    },
+    {
+      "t": 115260,
+      "text": "That divides me somewhere in my mind",
+      "end": 118720
+    },
+    {
+      "t": 118860,
+      "text": "On the border line",
+      "end": 121020
+    },
+    {
+      "t": 121040,
+      "text": "Of the edge and where I walk alone",
+      "end": 124500
+    },
+    {
+      "t": 130420,
+      "text": "Read between the lines",
+      "end": 132520
+    },
+    {
+      "t": 132520,
+      "text": "Of what's f**ked up and everything's alright",
+      "end": 136020
+    },
+    {
+      "t": 136180,
+      "text": "Check my vital signs",
+      "end": 138100
+    },
+    {
+      "t": 138120,
+      "text": "To know I'm still alive and I walk alone",
+      "end": 141840
+    },
+    {
+      "t": 144420,
+      "text": "I walk alone",
+      "end": 151460
+    },
+    {
+      "t": 151460,
+      "text": "I walk a",
+      "end": 152720
+    },
+    {
+      "t": 153300,
+      "text": "My shadow's the only one that walks beside me",
+      "end": 158680
+    },
+    {
+      "t": 159100,
+      "text": "My shallow heart's the only thing that's beating",
+      "end": 164460
+    },
+    {
+      "t": 164760,
+      "text": "Sometimes I wish someone out there will find me",
+      "end": 170160
+    },
+    {
+      "t": 170640,
+      "text": "'Til then I walk alone",
+      "end": 174760
+    },
+    {
+      "t": 176480,
+      "text": "Ah-ah, ah-ah, ah-ah, aaah-ah",
+      "end": 182160
+    },
+    {
+      "t": 182180,
+      "text": "Ah-ah, ah-ah",
+      "end": 184240
+    },
+    {
+      "t": 184600,
+      "text": "I walk alone",
+      "end": 185960
+    },
+    {
+      "t": 186020,
+      "text": "I walk a",
+      "end": 187320
+    },
+    {
+      "t": 213480,
+      "text": "I walk this empty street",
+      "end": 215820
+    },
+    {
+      "t": 216000,
+      "text": "On the Boulevard of Broken Dreams",
+      "end": 219460
+    },
+    {
+      "t": 219620,
+      "text": "Where the city sleeps",
+      "end": 221680
+    },
+    {
+      "t": 221680,
+      "text": "And I'm the only one and I walk a",
+      "end": 224860
+    },
+    {
+      "t": 225380,
+      "text": "My shadow's the only one that walks beside me",
+      "end": 230580
+    },
+    {
+      "t": 231080,
+      "text": "My shallow heart's the only thing that's beating",
+      "end": 236360
+    },
+    {
+      "t": 236840,
+      "text": "Sometimes I wish someone out there will find me",
+      "end": 242120
+    },
+    {
+      "t": 242540,
+      "text": "'Til then I walk alone",
+      "end": 247640
+    }
+  ],
+  "words": [
+    {
+      "t": 37440,
+      "text": "I",
+      "end": 37600
+    },
+    {
+      "t": 37640,
+      "text": "walk",
+      "end": 38041
+    },
+    {
+      "t": 38241,
+      "text": "a",
+      "end": 38321
+    },
+    {
+      "t": 38361,
+      "text": "lonely",
+      "end": 39021
+    },
+    {
+      "t": 39102,
+      "text": "road,",
+      "end": 39582
+    },
+    {
+      "t": 39662,
+      "text": "the",
+      "end": 39842
+    },
+    {
+      "t": 40082,
+      "text": "only",
+      "end": 40443
+    },
+    {
+      "t": 40743,
+      "text": "one",
+      "end": 40903
+    },
+    {
+      "t": 40943,
+      "text": "that",
+      "end": 41103
+    },
+    {
+      "t": 41483,
+      "text": "I",
+      "end": 41604
+    },
+    {
+      "t": 41684,
+      "text": "have",
+      "end": 41984
+    },
+    {
+      "t": 42224,
+      "text": "ever",
+      "end": 42464
+    },
+    {
+      "t": 42524,
+      "text": "known",
+      "end": 42965
+    },
+    {
+      "t": 42985,
+      "text": "Don't",
+      "end": 43705
+    },
+    {
+      "t": 43785,
+      "text": "know",
+      "end": 44046
+    },
+    {
+      "t": 44126,
+      "text": "where",
+      "end": 44486
+    },
+    {
+      "t": 44586,
+      "text": "it",
+      "end": 44766
+    },
+    {
+      "t": 44846,
+      "text": "goes,",
+      "end": 45367
+    },
+    {
+      "t": 45567,
+      "text": "but",
+      "end": 45967
+    },
+    {
+      "t": 46067,
+      "text": "it's",
+      "end": 46247
+    },
+    {
+      "t": 46488,
+      "text": "only",
+      "end": 46788
+    },
+    {
+      "t": 46868,
+      "text": "me",
+      "end": 47248
+    },
+    {
+      "t": 47328,
+      "text": "and",
+      "end": 47428
+    },
+    {
+      "t": 47608,
+      "text": "I",
+      "end": 47709
+    },
+    {
+      "t": 47749,
+      "text": "walk",
+      "end": 48189
+    },
+    {
+      "t": 48229,
+      "text": "alone",
+      "end": 48889
+    },
+    {
+      "t": 48910,
+      "text": "I",
+      "end": 48930
+    },
+    {
+      "t": 54914,
+      "text": "walk",
+      "end": 55275
+    },
+    {
+      "t": 55315,
+      "text": "this",
+      "end": 55535
+    },
+    {
+      "t": 55775,
+      "text": "empty",
+      "end": 56215
+    },
+    {
+      "t": 56276,
+      "text": "street",
+      "end": 56776
+    },
+    {
+      "t": 57316,
+      "text": "on",
+      "end": 57456
+    },
+    {
+      "t": 57517,
+      "text": "the",
+      "end": 57677
+    },
+    {
+      "t": 57817,
+      "text": "boulevard",
+      "end": 58938
+    },
+    {
+      "t": 59078,
+      "text": "of",
+      "end": 59198
+    },
+    {
+      "t": 59258,
+      "text": "broken",
+      "end": 59758
+    },
+    {
+      "t": 59818,
+      "text": "dreams",
+      "end": 60319
+    },
+    {
+      "t": 60699,
+      "text": "Where",
+      "end": 61019
+    },
+    {
+      "t": 61079,
+      "text": "the",
+      "end": 61320
+    },
+    {
+      "t": 61380,
+      "text": "city",
+      "end": 62020
+    },
+    {
+      "t": 62080,
+      "text": "sleeps",
+      "end": 62681
+    },
+    {
+      "t": 62781,
+      "text": "and",
+      "end": 62901
+    },
+    {
+      "t": 63061,
+      "text": "only",
+      "end": 63221
+    },
+    {
+      "t": 63261,
+      "text": "the",
+      "end": 63601
+    },
+    {
+      "t": 63822,
+      "text": "only",
+      "end": 64102
+    },
+    {
+      "t": 64362,
+      "text": "one",
+      "end": 64522
+    },
+    {
+      "t": 64622,
+      "text": "and",
+      "end": 64722
+    },
+    {
+      "t": 64903,
+      "text": "I",
+      "end": 65003
+    },
+    {
+      "t": 65043,
+      "text": "walk",
+      "end": 65463
+    },
+    {
+      "t": 65503,
+      "text": "alone",
+      "end": 66104
+    },
+    {
+      "t": 69148,
+      "text": "I",
+      "end": 69269
+    },
+    {
+      "t": 69329,
+      "text": "walk",
+      "end": 69709
+    },
+    {
+      "t": 69789,
+      "text": "alone,",
+      "end": 70411
+    },
+    {
+      "t": 70591,
+      "text": "I",
+      "end": 70691
+    },
+    {
+      "t": 70751,
+      "text": "walk",
+      "end": 71172
+    },
+    {
+      "t": 71232,
+      "text": "alone.",
+      "end": 71873
+    },
+    {
+      "t": 74917,
+      "text": "I",
+      "end": 75037
+    },
+    {
+      "t": 75077,
+      "text": "walk",
+      "end": 75457
+    },
+    {
+      "t": 75517,
+      "text": "alone,",
+      "end": 76178
+    },
+    {
+      "t": 76338,
+      "text": "I",
+      "end": 76438
+    },
+    {
+      "t": 76498,
+      "text": "walk",
+      "end": 76858
+    },
+    {
+      "t": 77078,
+      "text": "up",
+      "end": 77218
+    },
+    {
+      "t": 77919,
+      "text": "My",
+      "end": 78159
+    },
+    {
+      "t": 78259,
+      "text": "shadow's",
+      "end": 79720
+    },
+    {
+      "t": 80220,
+      "text": "all",
+      "end": 80420
+    },
+    {
+      "t": 80460,
+      "text": "they",
+      "end": 80740
+    },
+    {
+      "t": 80800,
+      "text": "want",
+      "end": 81181
+    },
+    {
+      "t": 81201,
+      "text": "to",
+      "end": 81321
+    },
+    {
+      "t": 81381,
+      "text": "watch",
+      "end": 81821
+    },
+    {
+      "t": 81901,
+      "text": "beside",
+      "end": 82921
+    },
+    {
+      "t": 82941,
+      "text": "me",
+      "end": 82982
+    },
+    {
+      "t": 83682,
+      "text": "My",
+      "end": 83942
+    },
+    {
+      "t": 84022,
+      "text": "shadow's",
+      "end": 84762
+    },
+    {
+      "t": 85283,
+      "text": "all",
+      "end": 85483
+    },
+    {
+      "t": 85583,
+      "text": "hard",
+      "end": 85983
+    },
+    {
+      "t": 86023,
+      "text": "to",
+      "end": 86103
+    },
+    {
+      "t": 86163,
+      "text": "see",
+      "end": 86563
+    },
+    {
+      "t": 86583,
+      "text": "the",
+      "end": 86644
+    },
+    {
+      "t": 86804,
+      "text": "only",
+      "end": 87064
+    },
+    {
+      "t": 87144,
+      "text": "thing",
+      "end": 87584
+    },
+    {
+      "t": 87644,
+      "text": "that's",
+      "end": 87944
+    },
+    {
+      "t": 88004,
+      "text": "beating",
+      "end": 88785
+    },
+    {
+      "t": 89425,
+      "text": "Sometimes",
+      "end": 90546
+    },
+    {
+      "t": 90966,
+      "text": "I",
+      "end": 91146
+    },
+    {
+      "t": 91266,
+      "text": "wish",
+      "end": 91826
+    },
+    {
+      "t": 91906,
+      "text": "someone",
+      "end": 92707
+    },
+    {
+      "t": 92787,
+      "text": "up",
+      "end": 92867
+    },
+    {
+      "t": 92927,
+      "text": "there",
+      "end": 93307
+    },
+    {
+      "t": 93367,
+      "text": "will",
+      "end": 93647
+    },
+    {
+      "t": 93707,
+      "text": "find",
+      "end": 94088
+    },
+    {
+      "t": 94148,
+      "text": "me",
+      "end": 94468
+    },
+    {
+      "t": 95168,
+      "text": "Till",
+      "end": 95508
+    },
+    {
+      "t": 95588,
+      "text": "then",
+      "end": 95969
+    },
+    {
+      "t": 96749,
+      "text": "I",
+      "end": 96869
+    },
+    {
+      "t": 96989,
+      "text": "want",
+      "end": 97670
+    },
+    {
+      "t": 97690,
+      "text": "to",
+      "end": 97890
+    },
+    {
+      "t": 97970,
+      "text": "learn",
+      "end": 98790
+    },
+    {
+      "t": 103125,
+      "text": "I'm",
+      "end": 110352
+    },
+    {
+      "t": 112474,
+      "text": "walking",
+      "end": 113074
+    },
+    {
+      "t": 113195,
+      "text": "down",
+      "end": 113515
+    },
+    {
+      "t": 113595,
+      "text": "the",
+      "end": 113855
+    },
+    {
+      "t": 113935,
+      "text": "line",
+      "end": 114516
+    },
+    {
+      "t": 114636,
+      "text": "that",
+      "end": 114956
+    },
+    {
+      "t": 114996,
+      "text": "divides",
+      "end": 115717
+    },
+    {
+      "t": 115757,
+      "text": "me",
+      "end": 115877
+    },
+    {
+      "t": 116017,
+      "text": "somewhere",
+      "end": 116838
+    },
+    {
+      "t": 116978,
+      "text": "in",
+      "end": 117078
+    },
+    {
+      "t": 117178,
+      "text": "my",
+      "end": 117419
+    },
+    {
+      "t": 117499,
+      "text": "mind",
+      "end": 117919
+    },
+    {
+      "t": 118440,
+      "text": "On",
+      "end": 118580
+    },
+    {
+      "t": 118660,
+      "text": "the",
+      "end": 118840
+    },
+    {
+      "t": 118960,
+      "text": "borderline",
+      "end": 120381
+    },
+    {
+      "t": 120562,
+      "text": "of",
+      "end": 120702
+    },
+    {
+      "t": 120802,
+      "text": "the",
+      "end": 121062
+    },
+    {
+      "t": 121282,
+      "text": "edge",
+      "end": 121543
+    },
+    {
+      "t": 121623,
+      "text": "and",
+      "end": 121743
+    },
+    {
+      "t": 121823,
+      "text": "where",
+      "end": 122123
+    },
+    {
+      "t": 122403,
+      "text": "I",
+      "end": 122544
+    },
+    {
+      "t": 122604,
+      "text": "walk",
+      "end": 122984
+    },
+    {
+      "t": 123064,
+      "text": "along",
+      "end": 123645
+    },
+    {
+      "t": 129762,
+      "text": "Repeat",
+      "end": 130042
+    },
+    {
+      "t": 130103,
+      "text": "between",
+      "end": 130804
+    },
+    {
+      "t": 130824,
+      "text": "two",
+      "end": 131124
+    },
+    {
+      "t": 131184,
+      "text": "lines,",
+      "end": 131785
+    },
+    {
+      "t": 131865,
+      "text": "what's",
+      "end": 132165
+    },
+    {
+      "t": 132266,
+      "text": "fucked",
+      "end": 132646
+    },
+    {
+      "t": 132826,
+      "text": "up",
+      "end": 132947
+    },
+    {
+      "t": 133147,
+      "text": "and",
+      "end": 133307
+    },
+    {
+      "t": 133507,
+      "text": "everything's",
+      "end": 134449
+    },
+    {
+      "t": 134589,
+      "text": "alright",
+      "end": 135130
+    },
+    {
+      "t": 135470,
+      "text": "Check",
+      "end": 135790
+    },
+    {
+      "t": 135871,
+      "text": "my",
+      "end": 136131
+    },
+    {
+      "t": 136231,
+      "text": "vital",
+      "end": 136832
+    },
+    {
+      "t": 136932,
+      "text": "signs",
+      "end": 137493
+    },
+    {
+      "t": 137593,
+      "text": "and",
+      "end": 137693
+    },
+    {
+      "t": 137713,
+      "text": "know",
+      "end": 138074
+    },
+    {
+      "t": 138154,
+      "text": "I'm",
+      "end": 138314
+    },
+    {
+      "t": 138334,
+      "text": "still",
+      "end": 138795
+    },
+    {
+      "t": 138875,
+      "text": "alive",
+      "end": 139355
+    },
+    {
+      "t": 139415,
+      "text": "and",
+      "end": 139536
+    },
+    {
+      "t": 139676,
+      "text": "I",
+      "end": 139816
+    },
+    {
+      "t": 139836,
+      "text": "walk",
+      "end": 140257
+    },
+    {
+      "t": 140297,
+      "text": "alone",
+      "end": 140958
+    },
+    {
+      "t": 144002,
+      "text": "I",
+      "end": 144122
+    },
+    {
+      "t": 144182,
+      "text": "walk",
+      "end": 144563
+    },
+    {
+      "t": 144643,
+      "text": "alone",
+      "end": 145223
+    },
+    {
+      "t": 145244,
+      "text": "I",
+      "end": 145264
+    },
+    {
+      "t": 145604,
+      "text": "walk",
+      "end": 145985
+    },
+    {
+      "t": 146045,
+      "text": "alone",
+      "end": 146625
+    },
+    {
+      "t": 149707,
+      "text": "I",
+      "end": 149847
+    },
+    {
+      "t": 149887,
+      "text": "walk",
+      "end": 150267
+    },
+    {
+      "t": 150347,
+      "text": "alone,",
+      "end": 150987
+    },
+    {
+      "t": 151187,
+      "text": "I",
+      "end": 151288
+    },
+    {
+      "t": 151328,
+      "text": "walk",
+      "end": 151708
+    },
+    {
+      "t": 151928,
+      "text": "alone",
+      "end": 152088
+    },
+    {
+      "t": 152748,
+      "text": "My",
+      "end": 152988
+    },
+    {
+      "t": 153068,
+      "text": "shadows",
+      "end": 154528
+    },
+    {
+      "t": 155029,
+      "text": "only",
+      "end": 155569
+    },
+    {
+      "t": 155609,
+      "text": "want",
+      "end": 155989
+    },
+    {
+      "t": 156009,
+      "text": "to",
+      "end": 156149
+    },
+    {
+      "t": 156209,
+      "text": "watch",
+      "end": 156649
+    },
+    {
+      "t": 156709,
+      "text": "beside",
+      "end": 157729
+    },
+    {
+      "t": 157749,
+      "text": "me",
+      "end": 157789
+    },
+    {
+      "t": 158490,
+      "text": "We",
+      "end": 158750
+    },
+    {
+      "t": 158830,
+      "text": "shall",
+      "end": 159550
+    },
+    {
+      "t": 160050,
+      "text": "all",
+      "end": 160270
+    },
+    {
+      "t": 160350,
+      "text": "watch",
+      "end": 160890
+    },
+    {
+      "t": 160970,
+      "text": "the",
+      "end": 161370
+    },
+    {
+      "t": 161570,
+      "text": "only",
+      "end": 161911
+    },
+    {
+      "t": 161951,
+      "text": "thing",
+      "end": 162411
+    },
+    {
+      "t": 162451,
+      "text": "that's",
+      "end": 162771
+    },
+    {
+      "t": 162831,
+      "text": "beating",
+      "end": 163531
+    },
+    {
+      "t": 164211,
+      "text": "Sometimes",
+      "end": 165412
+    },
+    {
+      "t": 165852,
+      "text": "I",
+      "end": 166012
+    },
+    {
+      "t": 166072,
+      "text": "wish",
+      "end": 166632
+    },
+    {
+      "t": 166732,
+      "text": "someone",
+      "end": 167532
+    },
+    {
+      "t": 167592,
+      "text": "of",
+      "end": 167672
+    },
+    {
+      "t": 167712,
+      "text": "their",
+      "end": 168132
+    },
+    {
+      "t": 168192,
+      "text": "will",
+      "end": 168512
+    },
+    {
+      "t": 168552,
+      "text": "find",
+      "end": 169353
+    },
+    {
+      "t": 169373,
+      "text": "me",
+      "end": 169413
+    },
+    {
+      "t": 169993,
+      "text": "Till",
+      "end": 170333
+    },
+    {
+      "t": 170413,
+      "text": "then",
+      "end": 170773
+    },
+    {
+      "t": 171553,
+      "text": "I",
+      "end": 171713
+    },
+    {
+      "t": 171853,
+      "text": "walk",
+      "end": 172474
+    },
+    {
+      "t": 172714,
+      "text": "alone",
+      "end": 173674
+    },
+    {
+      "t": 176318,
+      "text": "Ah!",
+      "end": 176539
+    },
+    {
+      "t": 177219,
+      "text": "Ah!",
+      "end": 177879
+    },
+    {
+      "t": 177899,
+      "text": "Ah!",
+      "end": 177960
+    },
+    {
+      "t": 178640,
+      "text": "Ah!",
+      "end": 179361
+    },
+    {
+      "t": 181082,
+      "text": "Ah!",
+      "end": 181202
+    },
+    {
+      "t": 181222,
+      "text": "Ah!",
+      "end": 181282
+    },
+    {
+      "t": 182123,
+      "text": "Ah!",
+      "end": 182283
+    },
+    {
+      "t": 183403,
+      "text": "Ah!",
+      "end": 183624
+    },
+    {
+      "t": 184244,
+      "text": "Ah!",
+      "end": 184444
+    },
+    {
+      "t": 184604,
+      "text": "Ah!",
+      "end": 184804
+    },
+    {
+      "t": 184864,
+      "text": "Ah!",
+      "end": 185165
+    },
+    {
+      "t": 185285,
+      "text": "Ah!",
+      "end": 185445
+    },
+    {
+      "t": 185505,
+      "text": "Ah!",
+      "end": 185565
+    },
+    {
+      "t": 185705,
+      "text": "Ah!",
+      "end": 185845
+    },
+    {
+      "t": 186005,
+      "text": "Ah!",
+      "end": 186145
+    },
+    {
+      "t": 186185,
+      "text": "Ah!",
+      "end": 186305
+    },
+    {
+      "t": 186486,
+      "text": "Ah!",
+      "end": 186606
+    },
+    {
+      "t": 186626,
+      "text": "Ah!",
+      "end": 186686
+    },
+    {
+      "t": 213022,
+      "text": "I",
+      "end": 213162
+    },
+    {
+      "t": 213202,
+      "text": "walk",
+      "end": 213542
+    },
+    {
+      "t": 213622,
+      "text": "the",
+      "end": 213782
+    },
+    {
+      "t": 213842,
+      "text": "Simpty",
+      "end": 214463
+    },
+    {
+      "t": 214523,
+      "text": "Street",
+      "end": 214983
+    },
+    {
+      "t": 215523,
+      "text": "on",
+      "end": 215643
+    },
+    {
+      "t": 215743,
+      "text": "the",
+      "end": 215883
+    },
+    {
+      "t": 216023,
+      "text": "boulevard",
+      "end": 217164
+    },
+    {
+      "t": 217304,
+      "text": "of",
+      "end": 217424
+    },
+    {
+      "t": 217464,
+      "text": "broken",
+      "end": 218004
+    },
+    {
+      "t": 218064,
+      "text": "dreams",
+      "end": 218565
+    },
+    {
+      "t": 218885,
+      "text": "Where",
+      "end": 219245
+    },
+    {
+      "t": 219325,
+      "text": "the",
+      "end": 219505
+    },
+    {
+      "t": 219585,
+      "text": "city",
+      "end": 220185
+    },
+    {
+      "t": 220285,
+      "text": "sleeps",
+      "end": 220866
+    },
+    {
+      "t": 221006,
+      "text": "and",
+      "end": 221106
+    },
+    {
+      "t": 221286,
+      "text": "I'm",
+      "end": 221446
+    },
+    {
+      "t": 221526,
+      "text": "the",
+      "end": 221846
+    },
+    {
+      "t": 222046,
+      "text": "only",
+      "end": 222346
+    },
+    {
+      "t": 222606,
+      "text": "one",
+      "end": 222927
+    },
+    {
+      "t": 223127,
+      "text": "I",
+      "end": 223227
+    },
+    {
+      "t": 223267,
+      "text": "walk",
+      "end": 223647
+    },
+    {
+      "t": 223847,
+      "text": "up",
+      "end": 223947
+    },
+    {
+      "t": 224707,
+      "text": "My",
+      "end": 224927
+    },
+    {
+      "t": 225007,
+      "text": "shadow's",
+      "end": 226468
+    },
+    {
+      "t": 226968,
+      "text": "all",
+      "end": 227148
+    },
+    {
+      "t": 227208,
+      "text": "the",
+      "end": 227529
+    },
+    {
+      "t": 227569,
+      "text": "one",
+      "end": 227909
+    },
+    {
+      "t": 227949,
+      "text": "that",
+      "end": 228089
+    },
+    {
+      "t": 228129,
+      "text": "walks",
+      "end": 228409
+    },
+    {
+      "t": 228429,
+      "text": "beside",
+      "end": 228549
+    },
+    {
+      "t": 228629,
+      "text": "me",
+      "end": 228709
+    },
+    {
+      "t": 228729,
+      "text": "My",
+      "end": 228949
+    },
+    {
+      "t": 228989,
+      "text": "shadow's",
+      "end": 229249
+    },
+    {
+      "t": 229269,
+      "text": "all",
+      "end": 229329
+    },
+    {
+      "t": 229369,
+      "text": "the",
+      "end": 229449
+    },
+    {
+      "t": 229510,
+      "text": "one",
+      "end": 229630
+    },
+    {
+      "t": 229650,
+      "text": "that",
+      "end": 229730
+    },
+    {
+      "t": 230430,
+      "text": "walks",
+      "end": 230670
+    },
+    {
+      "t": 230690,
+      "text": "beside",
+      "end": 231190
+    },
+    {
+      "t": 231210,
+      "text": "me",
+      "end": 231330
+    },
+    {
+      "t": 231350,
+      "text": "My",
+      "end": 231470
+    },
+    {
+      "t": 231530,
+      "text": "shadow",
+      "end": 232211
+    },
+    {
+      "t": 232591,
+      "text": "I'd",
+      "end": 232811
+    },
+    {
+      "t": 232911,
+      "text": "see",
+      "end": 233231
+    },
+    {
+      "t": 233291,
+      "text": "the",
+      "end": 233351
+    },
+    {
+      "t": 233531,
+      "text": "only",
+      "end": 233831
+    },
+    {
+      "t": 233891,
+      "text": "thing",
+      "end": 234292
+    },
+    {
+      "t": 234372,
+      "text": "that's",
+      "end": 234692
+    },
+    {
+      "t": 234752,
+      "text": "beating",
+      "end": 235492
+    },
+    {
+      "t": 236152,
+      "text": "Sometimes",
+      "end": 237273
+    },
+    {
+      "t": 237733,
+      "text": "I",
+      "end": 237873
+    },
+    {
+      "t": 237993,
+      "text": "wish",
+      "end": 238534
+    },
+    {
+      "t": 238634,
+      "text": "someone",
+      "end": 239534
+    },
+    {
+      "t": 239654,
+      "text": "there",
+      "end": 240094
+    },
+    {
+      "t": 240134,
+      "text": "will",
+      "end": 240454
+    },
+    {
+      "t": 240514,
+      "text": "find",
+      "end": 240855
+    },
+    {
+      "t": 240895,
+      "text": "me",
+      "end": 241055
+    },
+    {
+      "t": 241915,
+      "text": "Jail",
+      "end": 242716
+    },
+    {
+      "t": 242836,
+      "text": "in",
+      "end": 243016
+    },
+    {
+      "t": 243057,
+      "text": "the",
+      "end": 243657
+    },
+    {
+      "t": 243737,
+      "text": "water",
+      "end": 244438
+    },
+    {
+      "t": 244518,
+      "text": "hall.",
+      "end": 244859
+    }
+  ],
+  "chords": [
+    {
+      "t": 25450,
+      "chord": "Fm",
+      "end": 206730
+    },
+    {
+      "t": 206730,
+      "chord": "C",
+      "end": 283100
+    }
+  ],
+  "beats": [
+    {
+      "t": 1080,
+      "downbeat": true,
+      "bpm": 9.5,
+      "time_sig": "2/4"
+    },
+    {
+      "t": 5060,
+      "downbeat": false,
+      "bpm": 15.1
+    },
+    {
+      "t": 7440,
+      "downbeat": true,
+      "bpm": 18.9
+    },
+    {
+      "t": 16780,
+      "downbeat": true,
+      "bpm": 25.2
+    },
+    {
+      "t": 25420,
+      "downbeat": true,
+      "bpm": 43.5,
+      "time_sig": "4/4"
+    },
+    {
+      "t": 25800,
+      "downbeat": false,
+      "bpm": 157.9
+    },
+    {
+      "t": 26180,
+      "downbeat": false,
+      "bpm": 162.2
+    },
+    {
+      "t": 26540,
+      "downbeat": false
+    },
+    {
+      "t": 26900,
+      "downbeat": true,
+      "bpm": 166.7
+    },
+    {
+      "t": 27260,
+      "downbeat": false
+    },
+    {
+      "t": 27620,
+      "downbeat": false
+    },
+    {
+      "t": 28000,
+      "downbeat": false
+    },
+    {
+      "t": 28340,
+      "downbeat": true
+    },
+    {
+      "t": 28700,
+      "downbeat": false
+    },
+    {
+      "t": 29060,
+      "downbeat": false
+    },
+    {
+      "t": 29440,
+      "downbeat": false
+    },
+    {
+      "t": 29800,
+      "downbeat": false
+    },
+    {
+      "t": 29960,
+      "downbeat": false,
+      "bpm": 162.2
+    },
+    {
+      "t": 30500,
+      "downbeat": false,
+      "bpm": 130.4
+    },
+    {
+      "t": 30680,
+      "downbeat": false,
+      "bpm": 111.1
+    },
+    {
+      "t": 31220,
+      "downbeat": true,
+      "bpm": 95.2
+    },
+    {
+      "t": 31940,
+      "downbeat": false,
+      "bpm": 83.3
+    },
+    {
+      "t": 32660,
+      "downbeat": false
+    },
+    {
+      "t": 33380,
+      "downbeat": false
+    },
+    {
+      "t": 34100,
+      "downbeat": true
+    },
+    {
+      "t": 34820,
+      "downbeat": false
+    },
+    {
+      "t": 35540,
+      "downbeat": false
+    },
+    {
+      "t": 36260,
+      "downbeat": false
+    },
+    {
+      "t": 36980,
+      "downbeat": true
+    },
+    {
+      "t": 37700,
+      "downbeat": false
+    },
+    {
+      "t": 38420,
+      "downbeat": false
+    },
+    {
+      "t": 39140,
+      "downbeat": false
+    },
+    {
+      "t": 39860,
+      "downbeat": true
+    },
+    {
+      "t": 40560,
+      "downbeat": false
+    },
+    {
+      "t": 41300,
+      "downbeat": false
+    },
+    {
+      "t": 42000,
+      "downbeat": false
+    },
+    {
+      "t": 42740,
+      "downbeat": true
+    },
+    {
+      "t": 43440,
+      "downbeat": false
+    },
+    {
+      "t": 44160,
+      "downbeat": false
+    },
+    {
+      "t": 44880,
+      "downbeat": false
+    },
+    {
+      "t": 45600,
+      "downbeat": true
+    },
+    {
+      "t": 46320,
+      "downbeat": false
+    },
+    {
+      "t": 47040,
+      "downbeat": false
+    },
+    {
+      "t": 47760,
+      "downbeat": false
+    },
+    {
+      "t": 48480,
+      "downbeat": true
+    },
+    {
+      "t": 49200,
+      "downbeat": false
+    },
+    {
+      "t": 49920,
+      "downbeat": false
+    },
+    {
+      "t": 50640,
+      "downbeat": false
+    },
+    {
+      "t": 51360,
+      "downbeat": true
+    },
+    {
+      "t": 52080,
+      "downbeat": false
+    },
+    {
+      "t": 52800,
+      "downbeat": false
+    },
+    {
+      "t": 53520,
+      "downbeat": false
+    },
+    {
+      "t": 54240,
+      "downbeat": true
+    },
+    {
+      "t": 54960,
+      "downbeat": false
+    },
+    {
+      "t": 55660,
+      "downbeat": false
+    },
+    {
+      "t": 56380,
+      "downbeat": false
+    },
+    {
+      "t": 57120,
+      "downbeat": true
+    },
+    {
+      "t": 57840,
+      "downbeat": false
+    },
+    {
+      "t": 58560,
+      "downbeat": false
+    },
+    {
+      "t": 59260,
+      "downbeat": false
+    },
+    {
+      "t": 59980,
+      "downbeat": true
+    },
+    {
+      "t": 60720,
+      "downbeat": false
+    },
+    {
+      "t": 61440,
+      "downbeat": false
+    },
+    {
+      "t": 62160,
+      "downbeat": false
+    },
+    {
+      "t": 62880,
+      "downbeat": true
+    },
+    {
+      "t": 63600,
+      "downbeat": false
+    },
+    {
+      "t": 64320,
+      "downbeat": false
+    },
+    {
+      "t": 65040,
+      "downbeat": false
+    },
+    {
+      "t": 65760,
+      "downbeat": true
+    },
+    {
+      "t": 66460,
+      "downbeat": false
+    },
+    {
+      "t": 67180,
+      "downbeat": false
+    },
+    {
+      "t": 67900,
+      "downbeat": false
+    },
+    {
+      "t": 68620,
+      "downbeat": true
+    },
+    {
+      "t": 69340,
+      "downbeat": false
+    },
+    {
+      "t": 70060,
+      "downbeat": false
+    },
+    {
+      "t": 70780,
+      "downbeat": false
+    },
+    {
+      "t": 71520,
+      "downbeat": true
+    },
+    {
+      "t": 72220,
+      "downbeat": false
+    },
+    {
+      "t": 72940,
+      "downbeat": false
+    },
+    {
+      "t": 73660,
+      "downbeat": false
+    },
+    {
+      "t": 74380,
+      "downbeat": true
+    },
+    {
+      "t": 75100,
+      "downbeat": false
+    },
+    {
+      "t": 75800,
+      "downbeat": false
+    },
+    {
+      "t": 76520,
+      "downbeat": false
+    },
+    {
+      "t": 77240,
+      "downbeat": true
+    },
+    {
+      "t": 77960,
+      "downbeat": false
+    },
+    {
+      "t": 78680,
+      "downbeat": false
+    },
+    {
+      "t": 79400,
+      "downbeat": false
+    },
+    {
+      "t": 80120,
+      "downbeat": true
+    },
+    {
+      "t": 80840,
+      "downbeat": false
+    },
+    {
+      "t": 81580,
+      "downbeat": false
+    },
+    {
+      "t": 82280,
+      "downbeat": false
+    },
+    {
+      "t": 83000,
+      "downbeat": true
+    },
+    {
+      "t": 83720,
+      "downbeat": false
+    },
+    {
+      "t": 84440,
+      "downbeat": false
+    },
+    {
+      "t": 85180,
+      "downbeat": false
+    },
+    {
+      "t": 85900,
+      "downbeat": true
+    },
+    {
+      "t": 86600,
+      "downbeat": false
+    },
+    {
+      "t": 87320,
+      "downbeat": false
+    },
+    {
+      "t": 88020,
+      "downbeat": false
+    },
+    {
+      "t": 88760,
+      "downbeat": true,
+      "time_sig": "2/4"
+    },
+    {
+      "t": 89460,
+      "downbeat": false
+    },
+    {
+      "t": 90200,
+      "downbeat": true
+    },
+    {
+      "t": 90920,
+      "downbeat": false
+    },
+    {
+      "t": 91640,
+      "downbeat": true
+    },
+    {
+      "t": 92340,
+      "downbeat": false
+    },
+    {
+      "t": 93060,
+      "downbeat": true
+    },
+    {
+      "t": 93780,
+      "downbeat": false
+    },
+    {
+      "t": 94500,
+      "downbeat": true
+    },
+    {
+      "t": 95220,
+      "downbeat": false
+    },
+    {
+      "t": 95940,
+      "downbeat": true
+    },
+    {
+      "t": 96660,
+      "downbeat": false
+    },
+    {
+      "t": 97400,
+      "downbeat": true,
+      "time_sig": "4/4"
+    },
+    {
+      "t": 98100,
+      "downbeat": false
+    },
+    {
+      "t": 98820,
+      "downbeat": false
+    },
+    {
+      "t": 99520,
+      "downbeat": false
+    },
+    {
+      "t": 100260,
+      "downbeat": true
+    },
+    {
+      "t": 100980,
+      "downbeat": false
+    },
+    {
+      "t": 101700,
+      "downbeat": false
+    },
+    {
+      "t": 102420,
+      "downbeat": false
+    },
+    {
+      "t": 103160,
+      "downbeat": true
+    },
+    {
+      "t": 103880,
+      "downbeat": false
+    },
+    {
+      "t": 104600,
+      "downbeat": false
+    },
+    {
+      "t": 105320,
+      "downbeat": false
+    },
+    {
+      "t": 106040,
+      "downbeat": true
+    },
+    {
+      "t": 106760,
+      "downbeat": false
+    },
+    {
+      "t": 107480,
+      "downbeat": false
+    },
+    {
+      "t": 108200,
+      "downbeat": false
+    },
+    {
+      "t": 108920,
+      "downbeat": true
+    },
+    {
+      "t": 109640,
+      "downbeat": false
+    },
+    {
+      "t": 110360,
+      "downbeat": false
+    },
+    {
+      "t": 111080,
+      "downbeat": false
+    },
+    {
+      "t": 111800,
+      "downbeat": true
+    },
+    {
+      "t": 112520,
+      "downbeat": false
+    },
+    {
+      "t": 113220,
+      "downbeat": false
+    },
+    {
+      "t": 113940,
+      "downbeat": false
+    },
+    {
+      "t": 114660,
+      "downbeat": true
+    },
+    {
+      "t": 115380,
+      "downbeat": false
+    },
+    {
+      "t": 116100,
+      "downbeat": false
+    },
+    {
+      "t": 116820,
+      "downbeat": false
+    },
+    {
+      "t": 117560,
+      "downbeat": true
+    },
+    {
+      "t": 118280,
+      "downbeat": false
+    },
+    {
+      "t": 118980,
+      "downbeat": false
+    },
+    {
+      "t": 119700,
+      "downbeat": false
+    },
+    {
+      "t": 120440,
+      "downbeat": true
+    },
+    {
+      "t": 121140,
+      "downbeat": false
+    },
+    {
+      "t": 121860,
+      "downbeat": false
+    },
+    {
+      "t": 122600,
+      "downbeat": false
+    },
+    {
+      "t": 123320,
+      "downbeat": true
+    },
+    {
+      "t": 124020,
+      "downbeat": false
+    },
+    {
+      "t": 124740,
+      "downbeat": false
+    },
+    {
+      "t": 125460,
+      "downbeat": false
+    },
+    {
+      "t": 126180,
+      "downbeat": true
+    },
+    {
+      "t": 126900,
+      "downbeat": false
+    },
+    {
+      "t": 127620,
+      "downbeat": false
+    },
+    {
+      "t": 128340,
+      "downbeat": false
+    },
+    {
+      "t": 129060,
+      "downbeat": true
+    },
+    {
+      "t": 129780,
+      "downbeat": false
+    },
+    {
+      "t": 130500,
+      "downbeat": false
+    },
+    {
+      "t": 131200,
+      "downbeat": false
+    },
+    {
+      "t": 131920,
+      "downbeat": true
+    },
+    {
+      "t": 132660,
+      "downbeat": false
+    },
+    {
+      "t": 133360,
+      "downbeat": false
+    },
+    {
+      "t": 134080,
+      "downbeat": false
+    },
+    {
+      "t": 134820,
+      "downbeat": true
+    },
+    {
+      "t": 135540,
+      "downbeat": false
+    },
+    {
+      "t": 136260,
+      "downbeat": false
+    },
+    {
+      "t": 136980,
+      "downbeat": false
+    },
+    {
+      "t": 137700,
+      "downbeat": true
+    },
+    {
+      "t": 138420,
+      "downbeat": false
+    },
+    {
+      "t": 139140,
+      "downbeat": false
+    },
+    {
+      "t": 139860,
+      "downbeat": false
+    },
+    {
+      "t": 140580,
+      "downbeat": true
+    },
+    {
+      "t": 141300,
+      "downbeat": false
+    },
+    {
+      "t": 142020,
+      "downbeat": false
+    },
+    {
+      "t": 142720,
+      "downbeat": false
+    },
+    {
+      "t": 143460,
+      "downbeat": true
+    },
+    {
+      "t": 144160,
+      "downbeat": false
+    },
+    {
+      "t": 144880,
+      "downbeat": false
+    },
+    {
+      "t": 145600,
+      "downbeat": false
+    },
+    {
+      "t": 146320,
+      "downbeat": true
+    },
+    {
+      "t": 147040,
+      "downbeat": false
+    },
+    {
+      "t": 147760,
+      "downbeat": false
+    },
+    {
+      "t": 148480,
+      "downbeat": false
+    },
+    {
+      "t": 149200,
+      "downbeat": true,
+      "time_sig": "2/4"
+    },
+    {
+      "t": 149920,
+      "downbeat": false
+    },
+    {
+      "t": 150640,
+      "downbeat": true
+    },
+    {
+      "t": 151340,
+      "downbeat": false
+    },
+    {
+      "t": 152060,
+      "downbeat": true
+    },
+    {
+      "t": 152780,
+      "downbeat": false
+    },
+    {
+      "t": 153500,
+      "downbeat": true
+    },
+    {
+      "t": 154220,
+      "downbeat": false
+    },
+    {
+      "t": 154940,
+      "downbeat": true,
+      "time_sig": "4/4"
+    },
+    {
+      "t": 155660,
+      "downbeat": false
+    },
+    {
+      "t": 156380,
+      "downbeat": false
+    },
+    {
+      "t": 157120,
+      "downbeat": false
+    },
+    {
+      "t": 157820,
+      "downbeat": true
+    },
+    {
+      "t": 158540,
+      "downbeat": false
+    },
+    {
+      "t": 159260,
+      "downbeat": false
+    },
+    {
+      "t": 159980,
+      "downbeat": false
+    },
+    {
+      "t": 160700,
+      "downbeat": true
+    },
+    {
+      "t": 161420,
+      "downbeat": false
+    },
+    {
+      "t": 162140,
+      "downbeat": false
+    },
+    {
+      "t": 162840,
+      "downbeat": false
+    },
+    {
+      "t": 163560,
+      "downbeat": true,
+      "time_sig": "2/4"
+    },
+    {
+      "t": 164280,
+      "downbeat": false
+    },
+    {
+      "t": 165020,
+      "downbeat": true
+    },
+    {
+      "t": 165740,
+      "downbeat": false
+    },
+    {
+      "t": 166440,
+      "downbeat": true,
+      "time_sig": "4/4"
+    },
+    {
+      "t": 167160,
+      "downbeat": false
+    },
+    {
+      "t": 167880,
+      "downbeat": false
+    },
+    {
+      "t": 168620,
+      "downbeat": false
+    },
+    {
+      "t": 169340,
+      "downbeat": true,
+      "time_sig": "2/4"
+    },
+    {
+      "t": 170040,
+      "downbeat": false
+    },
+    {
+      "t": 170780,
+      "downbeat": true
+    },
+    {
+      "t": 171500,
+      "downbeat": false
+    },
+    {
+      "t": 172220,
+      "downbeat": true,
+      "time_sig": "4/4"
+    },
+    {
+      "t": 172940,
+      "downbeat": false
+    },
+    {
+      "t": 173660,
+      "downbeat": false
+    },
+    {
+      "t": 174380,
+      "downbeat": false
+    },
+    {
+      "t": 175100,
+      "downbeat": true
+    },
+    {
+      "t": 175820,
+      "downbeat": false
+    },
+    {
+      "t": 176540,
+      "downbeat": false
+    },
+    {
+      "t": 177260,
+      "downbeat": false
+    },
+    {
+      "t": 177980,
+      "downbeat": true
+    },
+    {
+      "t": 178680,
+      "downbeat": false
+    },
+    {
+      "t": 179400,
+      "downbeat": false
+    },
+    {
+      "t": 180120,
+      "downbeat": false
+    },
+    {
+      "t": 180860,
+      "downbeat": true,
+      "time_sig": "2/4"
+    },
+    {
+      "t": 181580,
+      "downbeat": false
+    },
+    {
+      "t": 182300,
+      "downbeat": true
+    },
+    {
+      "t": 183020,
+      "downbeat": false
+    },
+    {
+      "t": 183740,
+      "downbeat": true
+    },
+    {
+      "t": 184440,
+      "downbeat": false
+    },
+    {
+      "t": 185160,
+      "downbeat": true
+    },
+    {
+      "t": 185880,
+      "downbeat": false
+    },
+    {
+      "t": 186600,
+      "downbeat": true
+    },
+    {
+      "t": 187300,
+      "downbeat": false
+    },
+    {
+      "t": 188020,
+      "downbeat": true
+    },
+    {
+      "t": 188740,
+      "downbeat": false
+    },
+    {
+      "t": 189460,
+      "downbeat": true
+    },
+    {
+      "t": 190180,
+      "downbeat": false
+    },
+    {
+      "t": 190900,
+      "downbeat": true
+    },
+    {
+      "t": 191620,
+      "downbeat": false
+    },
+    {
+      "t": 192340,
+      "downbeat": true
+    },
+    {
+      "t": 193060,
+      "downbeat": false
+    },
+    {
+      "t": 193780,
+      "downbeat": true,
+      "time_sig": "4/4"
+    },
+    {
+      "t": 194500,
+      "downbeat": false
+    },
+    {
+      "t": 195220,
+      "downbeat": false
+    },
+    {
+      "t": 195940,
+      "downbeat": false
+    },
+    {
+      "t": 196660,
+      "downbeat": true
+    },
+    {
+      "t": 197380,
+      "downbeat": false
+    },
+    {
+      "t": 198100,
+      "downbeat": false
+    },
+    {
+      "t": 198820,
+      "downbeat": false
+    },
+    {
+      "t": 199540,
+      "downbeat": true
+    },
+    {
+      "t": 200260,
+      "downbeat": false
+    },
+    {
+      "t": 200980,
+      "downbeat": false
+    },
+    {
+      "t": 201680,
+      "downbeat": false
+    },
+    {
+      "t": 202400,
+      "downbeat": true
+    },
+    {
+      "t": 203120,
+      "downbeat": false
+    },
+    {
+      "t": 203840,
+      "downbeat": false
+    },
+    {
+      "t": 204560,
+      "downbeat": false
+    },
+    {
+      "t": 205300,
+      "downbeat": true,
+      "time_sig": "2/4"
+    },
+    {
+      "t": 206020,
+      "downbeat": false
+    },
+    {
+      "t": 206720,
+      "downbeat": true
+    },
+    {
+      "t": 207440,
+      "downbeat": false
+    },
+    {
+      "t": 208140,
+      "downbeat": true
+    },
+    {
+      "t": 208880,
+      "downbeat": false
+    },
+    {
+      "t": 209600,
+      "downbeat": true
+    },
+    {
+      "t": 210320,
+      "downbeat": false
+    },
+    {
+      "t": 211040,
+      "downbeat": true
+    },
+    {
+      "t": 211760,
+      "downbeat": false
+    },
+    {
+      "t": 212520,
+      "downbeat": true,
+      "time_sig": "4/4"
+    },
+    {
+      "t": 213220,
+      "downbeat": false
+    },
+    {
+      "t": 213920,
+      "downbeat": false
+    },
+    {
+      "t": 214640,
+      "downbeat": false
+    },
+    {
+      "t": 215360,
+      "downbeat": true,
+      "time_sig": "2/4"
+    },
+    {
+      "t": 216080,
+      "downbeat": false
+    },
+    {
+      "t": 216800,
+      "downbeat": true
+    },
+    {
+      "t": 217520,
+      "downbeat": false
+    },
+    {
+      "t": 218240,
+      "downbeat": true,
+      "time_sig": "4/4"
+    },
+    {
+      "t": 218960,
+      "downbeat": false
+    },
+    {
+      "t": 219660,
+      "downbeat": false
+    },
+    {
+      "t": 220400,
+      "downbeat": false
+    },
+    {
+      "t": 221140,
+      "downbeat": true
+    },
+    {
+      "t": 221860,
+      "downbeat": false
+    },
+    {
+      "t": 222580,
+      "downbeat": false
+    },
+    {
+      "t": 223300,
+      "downbeat": false
+    },
+    {
+      "t": 224000,
+      "downbeat": true
+    },
+    {
+      "t": 224720,
+      "downbeat": false
+    },
+    {
+      "t": 225440,
+      "downbeat": false
+    },
+    {
+      "t": 226180,
+      "downbeat": false
+    },
+    {
+      "t": 226880,
+      "downbeat": true
+    },
+    {
+      "t": 227600,
+      "downbeat": false
+    },
+    {
+      "t": 228300,
+      "downbeat": false
+    },
+    {
+      "t": 229020,
+      "downbeat": false
+    },
+    {
+      "t": 229760,
+      "downbeat": true,
+      "time_sig": "2/4"
+    },
+    {
+      "t": 230460,
+      "downbeat": false
+    },
+    {
+      "t": 231180,
+      "downbeat": true
+    },
+    {
+      "t": 231900,
+      "downbeat": false
+    },
+    {
+      "t": 232640,
+      "downbeat": true
+    },
+    {
+      "t": 233360,
+      "downbeat": false
+    },
+    {
+      "t": 234060,
+      "downbeat": true
+    },
+    {
+      "t": 234780,
+      "downbeat": false
+    },
+    {
+      "t": 235500,
+      "downbeat": true
+    },
+    {
+      "t": 236200,
+      "downbeat": false
+    },
+    {
+      "t": 236940,
+      "downbeat": true
+    },
+    {
+      "t": 237660,
+      "downbeat": false
+    },
+    {
+      "t": 238380,
+      "downbeat": true
+    },
+    {
+      "t": 239100,
+      "downbeat": false
+    },
+    {
+      "t": 239820,
+      "downbeat": true
+    },
+    {
+      "t": 240540,
+      "downbeat": false
+    },
+    {
+      "t": 241260,
+      "downbeat": true,
+      "time_sig": "4/4"
+    },
+    {
+      "t": 241980,
+      "downbeat": false
+    },
+    {
+      "t": 242700,
+      "downbeat": false
+    },
+    {
+      "t": 243420,
+      "downbeat": false
+    },
+    {
+      "t": 244140,
+      "downbeat": true
+    },
+    {
+      "t": 244860,
+      "downbeat": false
+    },
+    {
+      "t": 245580,
+      "downbeat": false
+    },
+    {
+      "t": 246300,
+      "downbeat": false
+    },
+    {
+      "t": 247020,
+      "downbeat": true
+    },
+    {
+      "t": 247740,
+      "downbeat": false
+    },
+    {
+      "t": 248460,
+      "downbeat": false
+    },
+    {
+      "t": 249180,
+      "downbeat": false
+    },
+    {
+      "t": 249900,
+      "downbeat": true
+    },
+    {
+      "t": 250620,
+      "downbeat": false
+    },
+    {
+      "t": 251340,
+      "downbeat": false
+    },
+    {
+      "t": 252060,
+      "downbeat": false
+    },
+    {
+      "t": 252780,
+      "downbeat": true
+    },
+    {
+      "t": 253500,
+      "downbeat": false
+    },
+    {
+      "t": 254220,
+      "downbeat": false
+    },
+    {
+      "t": 254940,
+      "downbeat": false
+    },
+    {
+      "t": 255640,
+      "downbeat": true
+    },
+    {
+      "t": 256360,
+      "downbeat": false
+    },
+    {
+      "t": 257100,
+      "downbeat": false
+    },
+    {
+      "t": 257800,
+      "downbeat": false
+    },
+    {
+      "t": 258540,
+      "downbeat": true
+    },
+    {
+      "t": 259260,
+      "downbeat": false
+    },
+    {
+      "t": 259980,
+      "downbeat": false
+    },
+    {
+      "t": 260680,
+      "downbeat": false
+    },
+    {
+      "t": 261400,
+      "downbeat": true
+    },
+    {
+      "t": 262100,
+      "downbeat": false
+    },
+    {
+      "t": 262840,
+      "downbeat": false
+    },
+    {
+      "t": 263560,
+      "downbeat": false
+    },
+    {
+      "t": 264280,
+      "downbeat": true
+    },
+    {
+      "t": 264980,
+      "downbeat": false
+    },
+    {
+      "t": 265700,
+      "downbeat": false
+    },
+    {
+      "t": 266400,
+      "downbeat": false
+    },
+    {
+      "t": 267140,
+      "downbeat": true
+    },
+    {
+      "t": 267860,
+      "downbeat": false
+    },
+    {
+      "t": 268600,
+      "downbeat": false
+    },
+    {
+      "t": 269320,
+      "downbeat": false
+    },
+    {
+      "t": 270040,
+      "downbeat": true
+    },
+    {
+      "t": 270780,
+      "downbeat": false
+    },
+    {
+      "t": 271480,
+      "downbeat": false
+    },
+    {
+      "t": 272200,
+      "downbeat": false
+    },
+    {
+      "t": 272920,
+      "downbeat": true
+    },
+    {
+      "t": 273640,
+      "downbeat": false
+    },
+    {
+      "t": 274360,
+      "downbeat": false
+    },
+    {
+      "t": 275060,
+      "downbeat": false
+    },
+    {
+      "t": 275780,
+      "downbeat": true
+    },
+    {
+      "t": 276500,
+      "downbeat": false
+    },
+    {
+      "t": 277220,
+      "downbeat": false
+    },
+    {
+      "t": 277940,
+      "downbeat": false
+    },
+    {
+      "t": 278660,
+      "downbeat": true
+    },
+    {
+      "t": 279380,
+      "downbeat": false
+    },
+    {
+      "t": 280100,
+      "downbeat": false
+    },
+    {
+      "t": 280840,
+      "downbeat": false
+    },
+    {
+      "t": 281480,
+      "downbeat": true
+    },
+    {
+      "t": 281560,
+      "downbeat": true
+    },
+    {
+      "t": 282280,
+      "downbeat": false
+    },
+    {
+      "t": 283000,
+      "downbeat": false,
+      "bpm": 88.2
+    }
+  ],
+  "analysis": {
+    "fingerprint": {
+      "tool": "fpcalc",
+      "version": "1.6.0",
+      "date": "2026-04-29"
+    },
+    "mode": {
+      "tool": "light",
+      "date": "2026-04-29"
+    },
+    "separation": {
+      "tool": "demucs",
+      "version": "htdemucs",
+      "date": "2026-04-29"
+    },
+    "lyrics": {
+      "tool": "lrclib",
+      "date": "2026-04-29"
+    },
+    "words": {
+      "tool": "whisperx+lrclib",
+      "date": "2026-04-29"
+    },
+    "chords": {
+      "tool": "lv-chordia+cleanup",
+      "date": "2026-04-29"
+    },
+    "beats": {
+      "tool": "beat_this",
+      "date": "2026-04-29"
+    }
+  }
+}
