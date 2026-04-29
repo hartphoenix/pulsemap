@@ -23,15 +23,14 @@ export function useMap(mapId: string | null) {
 
 		async function fetchMap() {
 			try {
-				const headers: Record<string, string> = {
-					Accept: "application/json",
-				};
-				const token = localStorage.getItem("pulsemap-gh-token");
-				if (token) {
-					headers.Authorization = `token ${token}`;
-				}
-
-				const response = await fetch(`${BASE_URL}/${mapId}.json`, { headers });
+				// raw.githubusercontent.com is fetched anonymously: adding an
+				// Authorization header makes it a non-simple request that
+				// triggers a CORS preflight raw.githubusercontent.com doesn't
+				// satisfy. The "5000/hr with auth" rate limit applies to
+				// api.github.com, not raw content.
+				const response = await fetch(`${BASE_URL}/${mapId}.json`, {
+					headers: { Accept: "application/json" },
+				});
 				if (!response.ok) {
 					throw new Error(
 						response.status === 404
