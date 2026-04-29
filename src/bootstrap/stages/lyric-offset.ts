@@ -15,7 +15,7 @@ export interface LyricOffsetResult {
 
 const SIMILARITY_THRESHOLD = 0.25;
 const IMPROVEMENT_THRESHOLD = 0.15;
-const MIN_OFFSET_MS = 2000;
+const MIN_OFFSET_MS = 500;
 
 function clusterWords(words: WordEvent[], gapMs: number = 1000): TextCluster[] {
 	if (!words.length) return [];
