@@ -16,16 +16,15 @@ import { extractAudio } from "./stages/extract-audio";
 import { fingerprint as computeFingerprint } from "./stages/fingerprint";
 import { crossValidateMidiChords, inferChordsMidi } from "./stages/infer-chords-midi";
 import { lookupRecording } from "./stages/lookup";
+import { detectLyricOffset } from "./stages/lyric-offset";
 import {
 	cleanYouTubeTitle,
 	extractYouTubeLyrics,
 	lookupLyrics,
 	searchLyrics,
 } from "./stages/lyrics";
-
 import { type StemPaths, separateAudio, separateVocals } from "./stages/separate";
 import { type TranscriptionResult, transcribeStem } from "./stages/transcribe";
-import { detectLyricOffset } from "./stages/lyric-offset";
 import { alignWords } from "./stages/word-align";
 
 export interface BootstrapOptions {
@@ -256,7 +255,10 @@ export async function bootstrap(source: string, options: BootstrapOptions = {}):
 							`shifted ${cleanedLyrics.length} lyrics by ${(offsetResult.offsetMs / 1000).toFixed(1)}s (similarity: ${(offsetResult.avgSimilarity * 100).toFixed(0)}%, was ${(offsetResult.zeroSimilarity * 100).toFixed(0)}%)`,
 						);
 					} else {
-						log.stageOk("lyric-offset", `no correction needed (similarity: ${(offsetResult.zeroSimilarity * 100).toFixed(0)}%)`);
+						log.stageOk(
+							"lyric-offset",
+							`no correction needed (similarity: ${(offsetResult.zeroSimilarity * 100).toFixed(0)}%)`,
+						);
 					}
 				}
 

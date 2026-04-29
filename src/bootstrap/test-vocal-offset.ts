@@ -10,9 +10,9 @@
 import { mkdir } from "node:fs/promises";
 import { join } from "node:path";
 import type { PulseMap } from "../../schema/map";
+import { resolvePython } from "./python";
 import { extractAudio } from "./stages/extract-audio";
 import { separateAudio } from "./stages/separate";
-import { resolvePython } from "./python";
 
 async function main() {
 	const mapPath = process.argv[2];
@@ -79,7 +79,9 @@ async function main() {
 
 		const result = JSON.parse(stdout.trim());
 		const onsetMs: number = result.onset_ms;
-		console.log(`  → first vocal onset: ${onsetMs}ms (${(onsetMs / 1000).toFixed(1)}s), RMS: ${result.rms_db}dB`);
+		console.log(
+			`  → first vocal onset: ${onsetMs}ms (${(onsetMs / 1000).toFixed(1)}s), RMS: ${result.rms_db}dB`,
+		);
 
 		const firstLyricT = lyrics[0].t;
 		const offset = onsetMs - firstLyricT;
@@ -102,7 +104,9 @@ async function main() {
 
 		if (words.length) {
 			const wordDelta = words[0].t - onsetMs;
-			console.log(`\nWhisperX first word vs onset: ${wordDelta}ms (${(wordDelta / 1000).toFixed(1)}s)`);
+			console.log(
+				`\nWhisperX first word vs onset: ${wordDelta}ms (${(wordDelta / 1000).toFixed(1)}s)`,
+			);
 		}
 	} finally {
 		const proc = Bun.spawn(["rm", "-rf", workDir], { stdout: "ignore", stderr: "ignore" });

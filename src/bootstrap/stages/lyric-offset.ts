@@ -76,10 +76,7 @@ function scoreAtOffset(
 	return total;
 }
 
-export function detectLyricOffset(
-	lyrics: LyricLine[],
-	words: WordEvent[],
-): LyricOffsetResult {
+export function detectLyricOffset(lyrics: LyricLine[], words: WordEvent[]): LyricOffsetResult {
 	const clusters = clusterWords(words);
 	const linesNormed = lyrics.map((l) => ({ t: l.t, words: normalize(l.text) }));
 	const clustersNormed = clusters.map((c) => ({ t: c.t, words: normalize(c.text) }));
