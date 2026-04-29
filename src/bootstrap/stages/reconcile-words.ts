@@ -5,35 +5,75 @@ export interface ReconcileResult {
 	correctionCount: number;
 }
 
-const SYSTEM_PROMPT = `You reconcile word-level audio transcription with canonical lyrics for a song. You receive two representations:
+const SYSTEM_PROMPT = `You reconcile word-level audio transcription with canonical lyrics for a song. You receive lines grouped by timestamp window. Each group shows:
 
-1. LRCLIB lines: canonical text with line-start timestamps
-2. WhisperX words: transcribed text with per-word timestamps
+- The canonical LRCLIB text for that line
+- The WhisperX transcribed words (with indices) that fall in that time window
 
 Return JSON only: {"corrections": [{"i": <index>, "text": "<corrected>"}]}
 
 Rules:
 - Only include words that need text correction
-- Never add or remove words — only correct existing slots
+- Never add or remove words — only correct existing text at existing indices
 - Preserve original word boundaries (don't merge or split)
 - If a WhisperX word is an ad-lib or vocal flourish absent from LRCLIB, leave it unchanged
 - Prefer LRCLIB spelling/punctuation when the word clearly matches
 - If uncertain, leave unchanged`;
 
-function formatLrclibLines(lyrics: LyricLine[]): string {
-	return lyrics
-		.map((line) => {
-			const totalMs = line.t;
-			const minutes = Math.floor(totalMs / 60000);
-			const seconds = Math.floor((totalMs % 60000) / 1000);
-			const centiseconds = Math.floor((totalMs % 1000) / 10);
-			return `[${minutes}:${String(seconds).padStart(2, "0")}.${String(centiseconds).padStart(2, "0")}] ${line.text}`;
-		})
-		.join("\n");
+interface LineChunk {
+	lineText: string;
+	words: { index: number; text: string }[];
 }
 
-function formatWhisperXWords(words: WordEvent[]): string {
-	return words.map((w, i) => `${i}: "${w.text}" (${w.t}ms)`).join("\n");
+function buildChunks(lyrics: LyricLine[], words: WordEvent[]): LineChunk[] {
+	const sorted = [...words].map((w, i) => ({ ...w, origIndex: i })).sort((a, b) => a.t - b.t);
+	const chunks: LineChunk[] = [];
+
+	// Use midpoints between consecutive line starts as boundaries
+	const boundaries: number[] = [];
+	for (let l = 0; l < lyrics.length; l++) {
+		if (l === 0) {
+			boundaries.push(-Infinity);
+		} else {
+			boundaries.push((lyrics[l - 1].t + lyrics[l].t) / 2);
+		}
+	}
+
+	for (let l = 0; l < lyrics.length; l++) {
+		const windowStart = boundaries[l];
+		const windowEnd = l + 1 < boundaries.length ? boundaries[l + 1] : Number.POSITIVE_INFINITY;
+		const nextLineStart = l + 1 < lyrics.length ? (lyrics[l].t + lyrics[l + 1].t) / 2 : Number.POSITIVE_INFINITY;
+
+		const chunkWords: { index: number; text: string }[] = [];
+		for (const w of sorted) {
+			if (w.t >= windowStart && w.t < nextLineStart) {
+				chunkWords.push({ index: w.origIndex, text: w.text });
+			}
+		}
+
+		if (chunkWords.length > 0) {
+			chunks.push({ lineText: lyrics[l].text, words: chunkWords });
+		}
+	}
+
+	return chunks;
+}
+
+function formatChunkedPrompt(
+	chunks: LineChunk[],
+	metadata: { title?: string; artist?: string },
+): string {
+	const lines: string[] = [`Song: ${metadata.title || "Unknown"} by ${metadata.artist || "Unknown"}`, ""];
+
+	for (let c = 0; c < chunks.length; c++) {
+		const chunk = chunks[c];
+		lines.push(`Line ${c + 1} canonical: "${chunk.lineText}"`);
+		const wordList = chunk.words.map((w) => `${w.index}:"${w.text}"`).join(", ");
+		lines.push(`Line ${c + 1} transcribed: [${wordList}]`);
+		lines.push("");
+	}
+
+	return lines.join("\n");
 }
 
 interface Correction {
@@ -42,7 +82,6 @@ interface Correction {
 }
 
 function parseCorrections(raw: string): Correction[] | undefined {
-	// Try to extract JSON from the response (may be wrapped in markdown fences)
 	let jsonStr = raw.trim();
 	const fenceMatch = jsonStr.match(/```(?:json)?\s*([\s\S]*?)```/);
 	if (fenceMatch) {
@@ -63,23 +102,20 @@ export async function reconcileWords(
 	lyrics: LyricLine[],
 	metadata: { title?: string; artist?: string },
 ): Promise<ReconcileResult> {
-	// Fallback: empty lyrics means nothing to reconcile against
 	if (lyrics.length === 0) {
 		return { words, correctionCount: 0 };
 	}
 
-	// Check if claude CLI is available
 	if (!Bun.which("claude")) {
 		return { words, correctionCount: 0 };
 	}
 
-	const userPrompt = `Song: ${metadata.title || "Unknown"} by ${metadata.artist || "Unknown"}
+	const chunks = buildChunks(lyrics, words);
+	if (chunks.length === 0) {
+		return { words, correctionCount: 0 };
+	}
 
-LRCLIB lines:
-${formatLrclibLines(lyrics)}
-
-WhisperX words (${words.length} total):
-${formatWhisperXWords(words)}`;
+	const userPrompt = formatChunkedPrompt(chunks, metadata);
 
 	let stdout: string;
 	try {
@@ -98,24 +134,26 @@ ${formatWhisperXWords(words)}`;
 
 		stdout = await new Response(proc.stdout).text();
 	} catch {
+		console.error("[reconcile-words] claude CLI threw");
 		return { words, correctionCount: 0 };
 	}
+
+	console.error(`[reconcile-words] raw response (${stdout.length} chars): ${stdout.slice(0, 500)}`);
 
 	const corrections = parseCorrections(stdout);
 	if (!corrections) {
+		console.error("[reconcile-words] failed to parse corrections from response");
 		return { words, correctionCount: 0 };
 	}
 
-	// Apply valid corrections
+	console.error(`[reconcile-words] parsed ${corrections.length} corrections`);
+
 	const correctedWords = [...words];
 	let correctionCount = 0;
 
 	for (const c of corrections) {
-		// Discard out-of-bounds
 		if (c.i < 0 || c.i >= correctedWords.length) continue;
-		// Discard empty text
 		if (!c.text || c.text.trim().length === 0) continue;
-		// Discard no-ops
 		if (c.text === correctedWords[c.i].text) continue;
 
 		correctedWords[c.i] = { ...correctedWords[c.i], text: c.text };

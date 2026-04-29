@@ -109,8 +109,7 @@ Maps are JSON files describing the structure of a recording:
   `chords`, `beats`, `sections`, `midi`, `analysis`, `corrections`
 - `lyrics` and `words` are independent peer arrays (Model C). `lyrics`
   has line-level text from lyric databases. `words` has per-word
-  timestamps from WhisperX transcription, reconciled against LRCLIB
-  canonical text via Claude Haiku. A map can have one, both, or
+  timestamps from WhisperX transcription. A map can have one, both, or
   neither. Note: LRCLIB `end` timestamps on lyric lines are
   unreliable — they're always "next line start," not when the vocal
   actually ends. The `words` array is the authoritative timing source.
@@ -173,9 +172,7 @@ Generates maps from audio/video sources (~147s per song full,
      word-level alignment (WhisperX on vocal stem) →
      lyric offset correction (sliding-window Jaccard text similarity
      between LRCLIB lines and WhisperX clusters — detects and
-     corrects YouTube intro offset) →
-     word reconciliation (Claude Haiku corrects WhisperX text
-     against LRCLIB canonical lyrics)
+     corrects YouTube intro offset)
    - Audio analysis (essentia → chords, beats, key, tempo)
    - Per-stem MIDI transcription: drums (librosa), bass
      (basic-pitch + pitch bends), vocals (torchcrepe + expressive:
@@ -227,8 +224,8 @@ videos may be taken down or replaced. Spot-check before bulk runs.
 
 `--light` produces demo-ready maps (~65s/song) with lyrics,
 per-word timestamps, chords, and beats — skipping MIDI
-transcription, polyphony/vocal splitting, and Claude Haiku word
-reconciliation. Demucs still runs (vocal stem needed for WhisperX).
+transcription and polyphony/vocal splitting. Demucs still runs
+(vocal stem needed for WhisperX).
 
 ```bash
 bun run bootstrap <source> --light           # Single song
@@ -237,7 +234,7 @@ bun run batch songs.json --light --limit 10  # Batch
 
 Skipped stages: polyphony detection, MelBand RoFormer lead/backing
 split, all 5 MIDI transcriptions, MIDI beat alignment,
-cross-validation, Haiku word reconciliation. Light-mode maps have
+cross-validation. Light-mode maps have
 `analysis.mode.tool === "light"` in provenance.
 
 ### Lyric offset correction
@@ -343,10 +340,12 @@ reference document.
 - **MelBand RoFormer** for lead/backing vocal separation: Best
   published quality (SDR 11.1 dB lead) via python-audio-separator.
   Only runs when the polyphony detection gate fires.
-- **Claude Haiku** for word reconciliation: Corrects WhisperX
-  transcription errors against LRCLIB canonical lyrics. Sparse
-  corrections (~$0.004/song). Gracefully skips if `claude` CLI
-  unavailable.
+- **Claude Haiku** for word reconciliation: **Disabled.** The
+  infrastructure exists (`stages/reconcile-words.ts`) but Haiku
+  consistently returns zero corrections despite clear WhisperX
+  errors. The chunked line-bounded prompt approach was tested but
+  the model doesn't reliably identify corrections. Needs prompt
+  rework or a different model before re-enabling.
 
 ### Known limitations
 
@@ -354,14 +353,12 @@ reference document.
   (int8 compute type) because Apple's MPS GPU doesn't support float64
   operations. Alignment takes ~5-10s per song on CPU (acceptable).
 - **WhisperX text accuracy on sung lyrics.** WhisperX transcribes
-  what it hears, not canonical lyrics. Word reconciliation via Claude
-  Haiku corrects most errors, but ad-libs and vocal flourishes may
-  retain WhisperX's interpretation. The `lyrics` array carries
-  canonical LRCLIB text; the `words` array carries reconciled text
-  with WhisperX timing.
+  what it hears, not canonical lyrics. The `words` array carries
+  raw WhisperX text (no reconciliation). The `lyrics` array carries
+  canonical LRCLIB text. Players should prefer `lyrics` for display
+  text and `words` for timing.
 - **LRCLIB validation non-determinism.** WhisperX temperature
   sampling causes inconsistent mismatch detection across runs.
-  The offset correction (>2s threshold) mitigates the worst cases.
 - **Bass-chord concordance is low (13-42%):** The cross-validation
   between bass MIDI pitch classes and chord roots produces mostly
   noise. Likely caused by basic-pitch quality on bass frequencies
