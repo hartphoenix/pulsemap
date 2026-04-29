@@ -283,11 +283,19 @@ and GitHub PR submission.
   non-overlapping sections, non-empty text, end > start, chord
   format warning). Red/amber borders on invalid events.
   Submission blocked on errors.
-- **GitHub submission:** Device flow OAuth (no server-side token
-  exchange). Forks repo, creates branch, commits corrected map,
-  opens PR with structured diff from EditAction history. PR body
-  includes machine-readable `<!-- pulsemap-correction -->` block
-  parsed by the corrections provenance GitHub Action.
+- **GitHub submission:** OAuth web flow. Browser redirects to GitHub
+  for authorization, returns with a code, then a small Netlify
+  Function (`netlify/functions/oauth-token.ts`) does the
+  code-for-token exchange server-side (GitHub's token endpoint
+  doesn't send CORS headers, so a direct browser exchange is
+  impossible). Function reads `GITHUB_CLIENT_ID`,
+  `GITHUB_CLIENT_SECRET`, and `ALLOWED_ORIGIN` from Netlify env
+  vars and runs at `https://pulsemap-editor.netlify.app/oauth/token`.
+  Once authed, the editor forks the repo, creates a branch, commits
+  the corrected map, and opens a PR with a structured diff from
+  EditAction history. PR body includes a machine-readable
+  `<!-- pulsemap-correction -->` block parsed by the corrections
+  provenance GitHub Action.
 - **SDK integration:** Any player calls `openEditor()` from
   `sdk/editor/` to send users here. Pulseguide has context-menu
   integration on chords, words, sections, lyrics.
