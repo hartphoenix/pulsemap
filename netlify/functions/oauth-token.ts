@@ -62,29 +62,29 @@ export default async (req: Request): Promise<Response> => {
 	}
 
 	if (!clientId || !clientSecret) {
-		return new Response(
-			JSON.stringify({ error: "server_misconfigured" }),
-			{ status: 500, headers: { ...cors, "Content-Type": "application/json" } },
-		);
+		return new Response(JSON.stringify({ error: "server_misconfigured" }), {
+			status: 500,
+			headers: { ...cors, "Content-Type": "application/json" },
+		});
 	}
 
 	let body: ExchangeRequest;
 	try {
 		body = (await req.json()) as ExchangeRequest;
 	} catch {
-		return new Response(
-			JSON.stringify({ error: "invalid_json" }),
-			{ status: 400, headers: { ...cors, "Content-Type": "application/json" } },
-		);
+		return new Response(JSON.stringify({ error: "invalid_json" }), {
+			status: 400,
+			headers: { ...cors, "Content-Type": "application/json" },
+		});
 	}
 
 	const code = typeof body.code === "string" ? body.code : null;
 	const redirectUri = typeof body.redirect_uri === "string" ? body.redirect_uri : undefined;
 	if (!code) {
-		return new Response(
-			JSON.stringify({ error: "missing_code" }),
-			{ status: 400, headers: { ...cors, "Content-Type": "application/json" } },
-		);
+		return new Response(JSON.stringify({ error: "missing_code" }), {
+			status: 400,
+			headers: { ...cors, "Content-Type": "application/json" },
+		});
 	}
 
 	const ghRes = await fetch("https://github.com/login/oauth/access_token", {

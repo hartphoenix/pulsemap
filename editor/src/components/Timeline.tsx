@@ -148,10 +148,7 @@ export function Timeline({
 			if (el) {
 				const viewportMs = el.clientWidth / pxPerMs;
 				const targetScroll = Math.max(0, t - viewportMs * 0.25);
-				const maxScrollMs = Math.max(
-					0,
-					workingMap.duration_ms - (el.clientWidth - 72) / pxPerMs,
-				);
+				const maxScrollMs = Math.max(0, workingMap.duration_ms - (el.clientWidth - 72) / pxPerMs);
 				setScrollMs(Math.min(targetScroll, maxScrollMs));
 			} else {
 				setScrollMs(Math.max(0, t - 1000));
