@@ -270,6 +270,7 @@ function EditorContent({
 				position={position}
 				playing={playing}
 				onSeek={onSeek}
+				playbackAvailable={playbackAvailable}
 				playbackReady={playbackReady}
 				snapEnabled={snapEnabled}
 				snapSubdivision={snapSubdivision}

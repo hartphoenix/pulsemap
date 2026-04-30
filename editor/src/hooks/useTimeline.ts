@@ -136,6 +136,7 @@ export function useTimeline({
 			// Horizontal scroll component (trackpad swipe or shift+scroll)
 			if (e.deltaX !== 0) {
 				e.preventDefault();
+				if (!el) return;
 				const maxScrollMs = Math.max(0, (el.scrollWidth - el.clientWidth) / pxPerMs);
 				const deltaMs = e.deltaX / pxPerMs;
 				setScrollMs((prev) => Math.max(0, Math.min(prev + deltaMs, maxScrollMs)));

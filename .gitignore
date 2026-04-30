@@ -43,3 +43,6 @@ batch-results.json
 # maps/midi/*.mid IS tracked for distribution
 *.midi
 .venv/
+
+# Agent worktrees (orchestrator scaffolding)
+.claude/worktrees/

@@ -29,7 +29,10 @@ export function SubmitFlow({
 	const [prUrl, setPrUrl] = useState<string | undefined>();
 	const [submitError, setSubmitError] = useState<string | undefined>();
 
-	const entries = useMemo(() => diffMaps(original, working), [original, working]);
+	// Snapshot working at modal open so the diff doesn't shift under the
+	// user's checkboxes if they keep editing while the modal is open.
+	const [snapshot] = useState(working);
+	const entries = useMemo(() => diffMaps(original, snapshot), [original, snapshot]);
 	const [checkedIndices, setCheckedIndices] = useState<Set<number>>(
 		() => new Set(entries.map((_, i) => i)),
 	);

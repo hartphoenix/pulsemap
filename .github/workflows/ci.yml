@@ -24,7 +24,15 @@ jobs:
       # admin-override PRs without catching real bugs. Typecheck + tests
       # carry the load.
 
-      - name: Typecheck
+      - name: Typecheck (root)
+        run: bun run typecheck
+
+      - name: Install editor deps
+        working-directory: editor
+        run: bun install --frozen-lockfile
+
+      - name: Typecheck (editor)
+        working-directory: editor
         run: bun run typecheck
 
       - name: Test

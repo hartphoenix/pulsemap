@@ -2,47 +2,8 @@ import type { BeatEvent, ChordEvent } from "../../../schema/map";
 
 export interface ChordCleanupOptions {
 	beats: BeatEvent[];
+	/** Reserved for future diatonic-root filtering; currently unused. */
 	key?: string;
-}
-
-const NOTE_NAMES = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
-const ENHARMONIC: Record<string, string> = {
-	Db: "C#",
-	Eb: "D#",
-	Fb: "E",
-	Gb: "F#",
-	Ab: "G#",
-	Bb: "A#",
-	Cb: "B",
-	"E#": "F",
-	"B#": "C",
-};
-
-const MAJOR_SCALE_STEPS = [0, 2, 4, 5, 7, 9, 11];
-const MINOR_SCALE_STEPS = [0, 2, 3, 5, 7, 8, 10];
-
-function normalizeNote(note: string): string {
-	return ENHARMONIC[note] ?? note;
-}
-
-function noteIndex(note: string): number {
-	return NOTE_NAMES.indexOf(normalizeNote(note));
-}
-
-function parseChordRoot(chord: string): string | undefined {
-	const m = chord.match(/^([A-G][#b]?)/);
-	return m?.[1];
-}
-
-function getDiatonicRoots(key: string): Set<string> {
-	const parts = key.split(/\s+/);
-	const root = parts[0];
-	const mode = parts[1]?.toLowerCase();
-	const rootIdx = noteIndex(root);
-	if (rootIdx < 0) return new Set();
-
-	const steps = mode === "minor" ? MINOR_SCALE_STEPS : MAJOR_SCALE_STEPS;
-	return new Set(steps.map((s) => NOTE_NAMES[(rootIdx + s) % 12]));
 }
 
 function getBpm(beats: BeatEvent[]): number | undefined {
@@ -60,7 +21,6 @@ export function cleanChords(chords: ChordEvent[], options: ChordCleanupOptions):
 
 	const eighthMs = 60000 / bpm / 2;
 	const minChordMs = Math.max(300, eighthMs);
-	const diatonicRoots = options.key ? getDiatonicRoots(options.key) : undefined;
 
 	const filtered: ChordEvent[] = [];
 
