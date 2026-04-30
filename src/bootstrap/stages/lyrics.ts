@@ -93,15 +93,15 @@ export function parseVtt(vtt: string): LyricLine[] | undefined {
 		if (!m) continue;
 
 		const startMs =
-			Number.parseInt(m[1]) * 3_600_000 +
-			Number.parseInt(m[2]) * 60_000 +
-			Number.parseInt(m[3]) * 1000 +
-			Number.parseInt(m[4]);
+			Number.parseInt(m[1], 10) * 3_600_000 +
+			Number.parseInt(m[2], 10) * 60_000 +
+			Number.parseInt(m[3], 10) * 1000 +
+			Number.parseInt(m[4], 10);
 		const endMs =
-			Number.parseInt(m[5]) * 3_600_000 +
-			Number.parseInt(m[6]) * 60_000 +
-			Number.parseInt(m[7]) * 1000 +
-			Number.parseInt(m[8]);
+			Number.parseInt(m[5], 10) * 3_600_000 +
+			Number.parseInt(m[6], 10) * 60_000 +
+			Number.parseInt(m[7], 10) * 1000 +
+			Number.parseInt(m[8], 10);
 
 		const textParts = blockLines.slice(textStartIndex);
 		const text = textParts

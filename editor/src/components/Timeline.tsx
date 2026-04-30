@@ -21,6 +21,7 @@ interface TimelineProps {
 	position: number;
 	playing: boolean;
 	onSeek: (ms: number) => void;
+	playbackAvailable: boolean;
 	playbackReady: boolean;
 	snapEnabled: boolean;
 	snapSubdivision: SnapSubdivision;
@@ -87,6 +88,7 @@ export function Timeline({
 	position,
 	playing,
 	onSeek,
+	playbackAvailable,
 	playbackReady,
 	snapEnabled,
 	snapSubdivision,
@@ -138,11 +140,14 @@ export function Timeline({
 			deepLinkApplied.current = true;
 			return;
 		}
-		if (t != null && !playbackReady) return;
+		// Wait for the YouTube player to be ready before seeking, but only
+		// if playback is actually available — when no playback target was
+		// found (playbackAvailable=false) we still want to scroll/select.
+		if (t != null && playbackAvailable && !playbackReady) return;
 		deepLinkApplied.current = true;
 
 		if (t != null) {
-			onSeek(t);
+			if (playbackAvailable) onSeek(t);
 			disableFollow();
 			const el = containerRef.current;
 			if (el) {
@@ -170,6 +175,7 @@ export function Timeline({
 		}
 	}, [
 		deepLink,
+		playbackAvailable,
 		playbackReady,
 		onSeek,
 		disableFollow,

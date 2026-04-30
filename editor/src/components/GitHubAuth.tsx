@@ -1,5 +1,11 @@
 import { type CSSProperties, useCallback, useEffect, useState } from "react";
-import { beginOAuth, clearToken, getStoredToken, validateToken } from "../github/auth";
+import {
+	beginOAuth,
+	clearToken,
+	consumeOAuthError,
+	getStoredToken,
+	validateToken,
+} from "../github/auth";
 
 interface GitHubAuthProps {
 	onAuthChange: (token: string | null, login: string | null) => void;
@@ -8,8 +14,12 @@ interface GitHubAuthProps {
 export function GitHubAuth({ onAuthChange }: GitHubAuthProps) {
 	const [login, setLogin] = useState<string | null>(null);
 	const [checking, setChecking] = useState(true);
+	const [error, setError] = useState<string | null>(null);
 
 	useEffect(() => {
+		const oauthError = consumeOAuthError();
+		if (oauthError) setError(oauthError);
+
 		const token = getStoredToken();
 		if (!token) {
 			setChecking(false);
@@ -30,6 +40,7 @@ export function GitHubAuth({ onAuthChange }: GitHubAuthProps) {
 	}, [onAuthChange]);
 
 	const handleSignIn = useCallback(() => {
+		setError(null);
 		beginOAuth();
 	}, []);
 
@@ -59,6 +70,7 @@ export function GitHubAuth({ onAuthChange }: GitHubAuthProps) {
 			<button type="button" onClick={handleSignIn} style={styles.signIn}>
 				Sign in with GitHub
 			</button>
+			{error && <span style={styles.error}>{error}</span>}
 		</span>
 	);
 }
@@ -94,5 +106,10 @@ const styles: Record<string, CSSProperties> = {
 		color: "#8b949e",
 		fontSize: 11,
 		cursor: "pointer",
+	},
+	error: {
+		fontSize: 11,
+		color: "#f85149",
+		maxWidth: 240,
 	},
 };

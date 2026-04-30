@@ -18,6 +18,7 @@ const CLIENT_ID = "Ov23liuBjPclnX0rAr1s";
 const TOKEN_KEY = "pulsemap-gh-token";
 const STATE_KEY = "pulsemap-oauth-state";
 const RETURN_URL_KEY = "pulsemap-oauth-return-url";
+const ERROR_KEY = "pulsemap-oauth-error";
 const REDIRECT_URI = "https://hartphoenix.github.io/pulsemap/editor/";
 
 const PROXY_URL =
@@ -72,7 +73,12 @@ export async function handleOAuthCallback(): Promise<boolean> {
 		window.history.replaceState(null, "", target);
 	};
 
+	const surfaceError = (message: string) => {
+		sessionStorage.setItem(ERROR_KEY, message);
+	};
+
 	if (!expected || expected !== state) {
+		surfaceError("Sign-in state didn't match — please try again.");
 		restore();
 		return true;
 	}
@@ -87,14 +93,34 @@ export async function handleOAuthCallback(): Promise<boolean> {
 			const data = (await res.json()) as { access_token?: string };
 			if (data.access_token) {
 				localStorage.setItem(TOKEN_KEY, data.access_token);
+			} else {
+				surfaceError("Sign-in failed: no token returned. Please try again.");
 			}
+		} else {
+			let detail = `${res.status}`;
+			try {
+				const body = (await res.json()) as { error?: string; error_description?: string };
+				if (body.error_description) detail = body.error_description;
+				else if (body.error) detail = body.error;
+			} catch {
+				// non-JSON body — keep the status code as the detail
+			}
+			surfaceError(`Sign-in failed: ${detail}`);
 		}
-	} catch {
-		// network error — token not stored; user will see signed-out state
+	} catch (err) {
+		const detail = err instanceof Error ? err.message : "network error";
+		surfaceError(`Sign-in failed: ${detail}`);
 	}
 
 	restore();
 	return true;
+}
+
+/** Read and clear any pending OAuth error stashed by handleOAuthCallback. */
+export function consumeOAuthError(): string | null {
+	const msg = sessionStorage.getItem(ERROR_KEY);
+	if (msg) sessionStorage.removeItem(ERROR_KEY);
+	return msg;
 }
 
 /** Read stored token from localStorage. */

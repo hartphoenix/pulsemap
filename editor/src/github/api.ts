@@ -146,7 +146,10 @@ export async function submitCorrection(
 		// File doesn't exist yet — new map
 	}
 
-	const content = btoa(unescape(encodeURIComponent(JSON.stringify(map, null, 2))));
+	// Trailing newline matches the repo's existing JSON files (and what most
+	// formatters emit), so the diff stays clean instead of adding a "no
+	// newline at end of file" marker on every correction.
+	const content = btoa(unescape(encodeURIComponent(`${JSON.stringify(map, null, 2)}\n`)));
 	await ghJson<{ commit: { sha: string } }>(
 		`/repos/${username}/${UPSTREAM_REPO}/contents/${filePath}`,
 		token,
