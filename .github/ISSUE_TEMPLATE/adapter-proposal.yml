@@ -1,0 +1,74 @@
+name: Adapter proposal
+description: Propose a new playback adapter for a platform (Spotify, SoundCloud, Apple Music, HLS, DAW host, etc.)
+title: "feat(sdk): <PlatformName>Adapter"
+labels: ["adapter", "good first issue"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Building an adapter for your own app does not require contributing it back. This template is for adapters you'd like to live upstream so others can use them.
+
+        **Before opening:** if your adapter is small and uncontroversial, you can skip this issue and just open a PR. See [`sdk/ADAPTERS.md`](../blob/main/sdk/ADAPTERS.md).
+
+  - type: input
+    id: platform
+    attributes:
+      label: Platform
+      placeholder: "e.g. Spotify Web Playback SDK, SoundCloud Widget API, MusicKit JS"
+    validations:
+      required: true
+
+  - type: input
+    id: api
+    attributes:
+      label: Underlying API or embed
+      placeholder: "URL to the platform's developer docs"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: auth
+    attributes:
+      label: Authentication
+      description: What does the adapter require from end users?
+      options:
+        - No auth — public embed or stream
+        - Free account
+        - Premium / paid account required
+        - API key / OAuth token from the consumer app
+        - Other (explain below)
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: capabilities
+    attributes:
+      label: Capability matrix
+      description: Which `PlaybackCapabilities` does this platform support?
+      options:
+        - label: play
+        - label: pause
+        - label: seek (move playhead)
+        - label: getPosition
+        - label: setPosition
+        - label: rate (variable speed)
+        - label: volume
+        - label: mute
+        - label: state events (play / pause / ended / buffering)
+
+  - type: textarea
+    id: caveats
+    attributes:
+      label: Caveats and quirks
+      description: |
+        Anything unusual about the platform — sample-rate constraints, mobile/desktop divergence, latency characteristics, regional restrictions, undocumented behaviors.
+    validations:
+      required: false
+
+  - type: input
+    id: owner
+    attributes:
+      label: Are you planning to build this?
+      description: "Optional. Helps coordinate. 'Yes', 'No, just suggesting', or your GitHub handle."
+    validations:
+      required: false
