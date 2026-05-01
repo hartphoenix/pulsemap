@@ -72,6 +72,7 @@ export class HtmlAudioAdapter implements PlaybackAdapter {
 	private currentState: PlaybackState = "unstarted";
 	private readyPromise: Promise<void>;
 	private resolveReady!: () => void;
+	private boundHandlers: Array<[string, EventListener]> = [];
 
 	constructor(options: HtmlAudioOptions) {
 		const element = options.element ?? document.createElement("audio");
@@ -100,15 +101,20 @@ export class HtmlAudioAdapter implements PlaybackAdapter {
 	}
 
 	private bindEvents(): void {
-		const a = this.element;
 		const onReady = () => this.resolveReady();
-		a.addEventListener("loadedmetadata", onReady);
-		a.addEventListener("canplay", onReady);
-		a.addEventListener("play", () => this.emit("playing"));
-		a.addEventListener("playing", () => this.emit("playing"));
-		a.addEventListener("pause", () => this.emit(this.element.ended ? "ended" : "paused"));
-		a.addEventListener("waiting", () => this.emit("buffering"));
-		a.addEventListener("ended", () => this.emit("ended"));
+		const handlers: Array<[string, EventListener]> = [
+			["loadedmetadata", onReady],
+			["canplay", onReady],
+			["play", () => this.emit("playing")],
+			["playing", () => this.emit("playing")],
+			["pause", () => this.emit(this.element.ended ? "ended" : "paused")],
+			["waiting", () => this.emit("buffering")],
+			["ended", () => this.emit("ended")],
+		];
+		for (const [event, handler] of handlers) {
+			this.element.addEventListener(event, handler);
+		}
+		this.boundHandlers = handlers;
 	}
 
 	private emit(state: PlaybackState): void {
@@ -186,6 +192,11 @@ export class HtmlAudioAdapter implements PlaybackAdapter {
 	}
 
 	destroy(): void {
+		this.listeners.clear();
+		for (const [event, handler] of this.boundHandlers) {
+			this.element.removeEventListener(event, handler);
+		}
+		this.boundHandlers = [];
 		this.element.pause();
 		this.element.removeAttribute("src");
 		this.element.load();
@@ -196,6 +207,5 @@ export class HtmlAudioAdapter implements PlaybackAdapter {
 		if (this.ownsElement && this.element.parentNode) {
 			this.element.parentNode.removeChild(this.element);
 		}
-		this.listeners.clear();
 	}
 }
