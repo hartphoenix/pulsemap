@@ -1,7 +1,7 @@
 <!--
 Conventional commit prefix in the title: feat / fix / chore / docs / refactor.
-Map data corrections submitted via the editor get their own machine-readable
-provenance block — leave it intact.
+Map data corrections submitted via the editor end with `Pulsemap-*` git
+trailers — leave them intact so they ride into the squash-merge commit.
 -->
 
 ## Type
