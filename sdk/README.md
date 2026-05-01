@@ -114,6 +114,7 @@ Full walk-through: [`ADAPTERS.md`](./ADAPTERS.md) — anatomy of a 50-line adapt
 | Adapter | Platform | Environment |
 |---------|----------|-------------|
 | `YouTubeEmbedAdapter` | YouTube | Browser (iframe API) |
+| `HtmlAudioAdapter` | `<audio>` element (URL, Blob, File) | Browser |
 
 ## Wanted — open invitations
 
@@ -121,7 +122,6 @@ Each row links to the [adapter-proposal issue template](https://github.com/hartp
 
 | Adapter | Platform |
 |---|---|
-| `HtmlAudioAdapter` | `<audio>` element (URL, Blob, File) |
 | `WebAudioAdapter` | `AudioContext` graph + analyzer |
 | `SpotifyAdapter` | Spotify Web Playback (premium) |
 | `SoundCloudAdapter` | SoundCloud Widget API |
