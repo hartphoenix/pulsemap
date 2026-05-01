@@ -12,7 +12,7 @@ The schema, the SDK, the bootstrap pipeline, the deployed Map Editor, and the 10
 
 ## See it running
 
-<!-- TODO(SCREENSHOT): docs/screenshots/pulseguide-leadsheet.png — Pulseguide showing a synced lead sheet (chords + lyrics) for a real song. Replace this comment with: ![Pulseguide playing a song](docs/screenshots/pulseguide-leadsheet.png) -->
+![PulseGuide playing a song — chord chart over synced lyrics](docs/screenshots/pulseguide-leadsheet.png)
 
 | | |
 |---|---|
