@@ -6,7 +6,8 @@
   "exports": {
     "./sdk": "./sdk/index.ts",
     "./sdk/adapters": "./sdk/adapters/index.ts",
-    "./schema": "./schema/map.ts"
+    "./schema": "./schema/map.ts",
+    "./schema/journey": "./schema/journey.ts"
   },
   "scripts": {
     "bootstrap": "bun run src/bootstrap/cli.ts",
