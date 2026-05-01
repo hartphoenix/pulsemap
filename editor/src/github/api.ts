@@ -5,6 +5,7 @@
  */
 import type { PulseMap } from "pulsemap/schema";
 import { type DiffEntry, describeEntry, fieldCountsByLane, laneSummary } from "./diff";
+import { roundEntryTimestamps, roundMapTimestamps } from "./roundTimestamps";
 
 const UPSTREAM_OWNER = "hartphoenix";
 const UPSTREAM_REPO = "pulsemap";
@@ -108,7 +109,9 @@ export async function submitCorrection(
 	params: SubmitCorrectionParams,
 	onProgress?: ProgressCallback,
 ): Promise<SubmitCorrectionResult> {
-	const { token, mapId, map, entries, playbackAvailable, source } = params;
+	const { token, mapId, playbackAvailable, source } = params;
+	const map = roundMapTimestamps(params.map);
+	const entries = params.entries.map(roundEntryTimestamps);
 
 	const user = await ghJson<{ login: string }>("/user", token);
 	const username = user.login;
