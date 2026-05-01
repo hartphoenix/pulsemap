@@ -1,0 +1,13 @@
+blank_issues_enabled: true
+contact_links:
+  - name: 🎵 Map data correction (use the editor)
+    url: https://hartphoenix.github.io/pulsemap/editor/
+    about: |
+      Fixing a chord, lyric, word, or section timing in a map? Use the
+      Map Editor — it generates a PR with the right structural diff and
+      provenance block. Map corrections do NOT go through issues.
+  - name: 💬 Discussions
+    url: https://github.com/hartphoenix/pulsemap/discussions
+    about: |
+      Open-ended questions, "show & tell" for things you've built with
+      PulseMap, or design conversations that aren't bug reports.

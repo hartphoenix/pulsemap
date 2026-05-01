@@ -1,6 +1,18 @@
 # PulseMap Adapter SDK
 
-Reference playback adapters for the PulseMap protocol. Use these to build players that consume PulseMap files.
+Reference playback adapters for the PulseMap protocol. Use these to build players that consume PulseMap files, or implement your own.
+
+## Why this exists
+
+Every player that wants to consume PulseMap data needs to control playback on *some* underlying media source — YouTube, Spotify, an `<audio>` element, a Web Audio graph, a DAW host. The protocol defines [`PlaybackCapabilities`](../schema/map.ts) as a *catalog* of what platforms can do (play, pause, seek, rate, volume, mute). The SDK ships an implementation of that catalog: the `PlaybackAdapter` interface and a few reference adapters.
+
+Programming against `PlaybackAdapter` instead of the platform's native API means the rest of your app — sync engine, lead sheet rendering, lyric highlighting, recording, corrections — does not need to know whether the source is YouTube or local audio. You swap adapters; everything downstream just works.
+
+The adapter contract is small, public, and unowned. Build whatever adapters your app needs in your own repo, on your own terms. If you want to contribute one back upstream the handshake is documented in [`ADAPTERS.md`](./ADAPTERS.md), but that's optional.
+
+## Used in
+
+- [PulseGuide](https://hartphoenix.github.io/pulseguide/) ([repo](https://github.com/hartphoenix/pulseguide)) — synced lead-sheet player. Imports the SDK directly via `pulsemap/sdk`.
 
 ## Quick start
 
@@ -76,7 +88,7 @@ if (result) {
 
 ## Building a custom adapter
 
-Implement `PlaybackAdapter` and provide an `AdapterMatcher`:
+Implement `PlaybackAdapter` and (optionally) provide an `AdapterMatcher`:
 
 ```typescript
 import type { PlaybackAdapter, AdapterMatcher } from "pulsemap/sdk";
@@ -95,7 +107,7 @@ export class MyAdapter implements PlaybackAdapter {
 }
 ```
 
-Contributions welcome — if your adapter works well, consider opening a PR to add it to the SDK.
+Full walk-through: [`ADAPTERS.md`](./ADAPTERS.md) — anatomy of a 50-line adapter, capability declaration, testing patterns, and the optional handshake for upstreaming.
 
 ## Available adapters
 
@@ -103,3 +115,17 @@ Contributions welcome — if your adapter works well, consider opening a PR to a
 |---------|----------|-------------|
 | `YouTubeEmbedAdapter` | YouTube | Browser (iframe API) |
 | `HtmlAudioAdapter` | `<audio>` element (URL, Blob, File) | Browser |
+
+## Wanted — open invitations
+
+Each row links to the [adapter-proposal issue template](https://github.com/hartphoenix/pulsemap/issues/new?template=adapter-proposal.yml). If you're already building one for your own app, you don't need to file an issue first — feel free to ship it as a PR directly.
+
+| Adapter | Platform |
+|---|---|
+| `WebAudioAdapter` | `AudioContext` graph + analyzer |
+| `SpotifyAdapter` | Spotify Web Playback (premium) |
+| `SoundCloudAdapter` | SoundCloud Widget API |
+| `AppleMusicAdapter` | MusicKit JS |
+| `BandcampAdapter` | Bandcamp embed |
+| `HlsAdapter` / `DashAdapter` | Shaka Player (live and pre-recorded streams) |
+| Native DAW bridge | OSC / MIDI / WebSocket to a host (Ableton, Reaper, Logic) |
