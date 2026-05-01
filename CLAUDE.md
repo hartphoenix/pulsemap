@@ -106,7 +106,7 @@ python -c "from audio_separator.separator import Separator; s = Separator(); s.l
 Maps are JSON files describing the structure of a recording:
 - Required: `version`, `id` (MusicBrainz recording ID), `duration_ms`
 - Optional: `fingerprint`, `metadata`, `playback`, `lyrics`, `words`,
-  `chords`, `beats`, `sections`, `midi`, `analysis`, `corrections`
+  `chords`, `beats`, `sections`, `midi`, `analysis`
 - `lyrics` and `words` are independent peer arrays (Model C). `lyrics`
   has line-level text from lyric databases. `words` has per-word
   timestamps from WhisperX transcription. A map can have one, both, or
@@ -116,9 +116,11 @@ Maps are JSON files describing the structure of a recording:
 - Text fields (`words[].text`, `lyrics[].text`, `chords[].chord`,
   `sections[].type`) enforce `minLength: 1` — empty strings are
   rejected by the schema.
-- `corrections` tracks human edit provenance: who, which PR, which
-  fields, how many edits. Written by a GitHub Action on PR merge,
-  not by the editor directly.
+- **Edit provenance lives in git, not the map.** The map JSON is the
+  recording's structural data only. To find who corrected a map, run
+  `git log --follow maps/<id>.json` — every correction PR's squash
+  commit carries `Pulsemap-Map-ID:`, `Pulsemap-Words-Edits:` (etc.)
+  trailers written by the editor.
 - Source-agnostic: same map works across YouTube, Spotify, local files
 - Musical data is transposable at render time (chords as standard names,
   MIDI as pitch numbers)
@@ -297,9 +299,10 @@ and GitHub PR submission.
   vars and runs at `https://pulsemap-editor.netlify.app/oauth/token`.
   Once authed, the editor forks the repo, creates a branch, commits
   the corrected map, and opens a PR with a structured diff from
-  EditAction history. PR body includes a machine-readable
-  `<!-- pulsemap-correction -->` block parsed by the corrections
-  provenance GitHub Action.
+  EditAction history. PR body ends with `Pulsemap-*` git trailers
+  (`Pulsemap-Map-ID:`, `Pulsemap-Words-Edits:`, etc.) — these become
+  part of the squash-merge commit on `main`, so edit provenance is
+  queryable via `git log` without polluting the map JSON.
 - **SDK integration:** Any player calls `openEditor()` from
   `sdk/editor/` to send users here. Pulseguide has context-menu
   integration on chords, words, sections, lyrics.

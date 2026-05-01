@@ -8,7 +8,7 @@ Thank you for considering a contribution. PulseMap is a small, alpha-stage proje
 
 **Use the [Map Editor](https://hartphoenix.github.io/pulsemap/editor/), not GitHub issues.**
 
-The editor signs in with your GitHub account, lets you fix individual events in a song's map (chords, lyrics, words, sections), and submits a PR with a structured diff and machine-readable provenance block. The corrections audit trail is automatically populated when the PR merges.
+The editor signs in with your GitHub account, lets you fix individual events in a song's map (chords, lyrics, words, sections), and submits a PR with a structured diff. Edit provenance lives in the squash-merge commit message as `Pulsemap-*` git trailers — queryable via `git log --follow maps/<id>.json` without bloating the map JSON itself.
 
 Issues are not the right channel for this — they don't carry the provenance the editor produces, and a typed-out correction is harder to review than the editor's structural diff. The "New issue" page at the top has a contact link routing you to the editor for exactly this reason.
 

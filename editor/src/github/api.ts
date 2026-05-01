@@ -69,10 +69,12 @@ function buildPrBody(params: {
 		? "\n**Note:** Edited without audio playback available.\n"
 		: "";
 
-	const correctionMeta = JSON.stringify({
-		fields: fieldCountsByLane(entries),
-		playback_available: playbackAvailable,
-	});
+	const fieldCounts = fieldCountsByLane(entries);
+	const trailers = [
+		`Pulsemap-Map-ID: ${mapId}`,
+		...Object.entries(fieldCounts).map(([lane, n]) => `Pulsemap-${capitalize(lane)}-Edits: ${n}`),
+		`Pulsemap-Playback-Available: ${playbackAvailable}`,
+	];
 
 	return [
 		`## Map correction: "${title}" — ${artist}`,
@@ -92,10 +94,14 @@ function buildPrBody(params: {
 		"",
 		"</details>",
 		"",
-		"<!-- pulsemap-correction",
-		correctionMeta,
-		"-->",
+		"---",
+		"",
+		trailers.join("\n"),
 	].join("\n");
+}
+
+function capitalize(s: string): string {
+	return s.length === 0 ? s : s[0].toUpperCase() + s.slice(1);
 }
 
 export async function submitCorrection(
