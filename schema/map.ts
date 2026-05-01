@@ -183,7 +183,10 @@ export const CorrectionEntrySchema = Type.Object({
 export type CorrectionEntry = Static<typeof CorrectionEntrySchema>;
 
 export const PulseMapSchema = Type.Object({
-	version: Type.String({ description: "Schema version (semver)." }),
+	version: Type.String({
+		description:
+			"Schema version (semver). Matches the PulseMap package version: one source of truth, one number. See schema/VERSIONING.md.",
+	}),
 	id: Type.String({ description: "MusicBrainz recording ID." }),
 	duration_ms: Type.Number({
 		description: "Total duration of the recording in milliseconds.",
