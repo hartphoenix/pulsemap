@@ -17,10 +17,8 @@ The schema, the SDK, the bootstrap pipeline, the deployed Map Editor, and the 10
 | | |
 |---|---|
 | **PulseGuide** (live demo player) | <https://hartphoenix.github.io/pulseguide/> |
-| **Map Editor** (correct any map) | <https://hartphoenix.github.io/pulsemap/editor/0cdc9b5b-b16b-4ff1-9f16-5b4ba76f1c17> |
+| **Map Editor** (correct any map) | <https://hartphoenix.github.io/pulsemap/editor/17416564-fb6e-471c-a4ad-0bfc45292cd9> |
 | **Maps catalog** (100+ maps, JSON) | <https://hartphoenix.github.io/pulsemap/maps/manifest.json> |
-
-<!-- TODO(DEMO-MAP-ID): the editor link above points at "Let It Be" (0cdc9b5b-...). Hart should pick a final demo map. Strong candidates: Bob Dylan – Blowin' in the Wind (00e37446-...), The Beatles – Let It Be (0cdc9b5b-...), Leonard Cohen – Hallelujah (0ef6d5e2-...), Adele – Someone Like You (028efe7f-...). -->
 
 ## What a map looks like
 
