@@ -1,3 +1,5 @@
+export type { HtmlAudioOptions } from "./html-audio";
+export { HtmlAudioAdapter, htmlAudioMatcher } from "./html-audio";
 export type { AdapterRegistry, ResolveResult } from "./registry";
 export { createRegistry } from "./registry";
 export type { AdapterMatcher, PlaybackAdapter, PlaybackState } from "./types";

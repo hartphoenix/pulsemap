@@ -102,3 +102,4 @@ Contributions welcome — if your adapter works well, consider opening a PR to a
 | Adapter | Platform | Environment |
 |---------|----------|-------------|
 | `YouTubeEmbedAdapter` | YouTube | Browser (iframe API) |
+| `HtmlAudioAdapter` | `<audio>` element (URL, Blob, File) | Browser |

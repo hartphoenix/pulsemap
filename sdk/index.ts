@@ -1,6 +1,7 @@
 export type {
 	AdapterMatcher,
 	AdapterRegistry,
+	HtmlAudioOptions,
 	PlaybackAdapter,
 	PlaybackState,
 	ResolveResult,
@@ -8,6 +9,8 @@ export type {
 } from "./adapters";
 export {
 	createRegistry,
+	HtmlAudioAdapter,
+	htmlAudioMatcher,
 	parseYouTubeVideoId,
 	YouTubeEmbedAdapter,
 	youTubeEmbedMatcher,
