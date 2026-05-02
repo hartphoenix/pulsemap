@@ -71,7 +71,7 @@ Methods for unsupported capabilities are safe to call but should no-op. Consumer
 
 Reference adapters in [`sdk/adapters/`](./adapters/) — copy one as a starting point. The two reference implementations (`YouTubeEmbedAdapter` and `HtmlAudioAdapter`) cover the two most common shapes: an iframe-with-message-bus platform and a direct DOM media element.
 
-The minimum viable adapter is around 50 lines of mostly-mechanical code:
+The minimum viable adapter is around 50 lines of mostly-mechanical code. **The skeleton below type-checks but is non-functional as-is** — `init()` and `play/pause/seek` are stubs, and `emit()` is never wired to the platform's events. To make it real you must (a) implement the bodies of `init`, `play`, `pause`, `seek`, `getPosition`, and (b) call `emit("playing" | "paused" | "ended" | "buffering")` from the platform's state callbacks. Both reference adapters in [`sdk/adapters/`](./adapters/) show what that wiring looks like.
 
 ```ts
 import type { PlaybackAdapter, AdapterMatcher, PlaybackState } from "pulsemap/sdk";

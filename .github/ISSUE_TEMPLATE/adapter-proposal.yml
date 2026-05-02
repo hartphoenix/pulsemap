@@ -8,7 +8,7 @@ body:
       value: |
         Building an adapter for your own app does not require contributing it back. This template is for adapters you'd like to live upstream so others can use them.
 
-        **Before opening:** if your adapter is small and uncontroversial, you can skip this issue and just open a PR. See [`sdk/ADAPTERS.md`](../blob/main/sdk/ADAPTERS.md).
+        **Before opening:** if your adapter is small and uncontroversial, you can skip this issue and just open a PR. See [`sdk/ADAPTERS.md`](https://github.com/hartphoenix/pulsemap/blob/main/sdk/ADAPTERS.md).
 
   - type: input
     id: platform
@@ -54,7 +54,6 @@ body:
         - label: rate (variable speed)
         - label: volume
         - label: mute
-        - label: state events (play / pause / ended / buffering)
 
   - type: textarea
     id: caveats
