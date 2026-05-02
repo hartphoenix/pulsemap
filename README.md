@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="docs/badges/pulsemap-logo.png" alt="PulseMap" width="360">
+</p>
+
 # PulseMap
 
 **An open-source protocol for mapping time-based media and layering synchronized experiences on top.**
@@ -131,6 +135,21 @@ docs/proposals/      RFCs for protocol extensions
 PulseMap is alpha. The map schema is stable in shape but not in semver — breaking changes are possible until `v1.0`. Versioning is unified: the package version *is* the schema version (see [`schema/VERSIONING.md`](./schema/VERSIONING.md)). Journeys are an open layer on top — the [`schema/journey.ts`](./schema/journey.ts) reference shape is a suggestion, not a controlled spec.
 
 The flagship open problem is **windowed-fingerprint partial-audio recognition** — see [`docs/proposals/0001-windowed-fingerprints.md`](./docs/proposals/0001-windowed-fingerprints.md). If you've worked on audio fingerprinting, ANN search, or indexing, that proposal is where to start the conversation.
+
+## Powered by PulseMap
+
+Building on PulseMap? Drop a badge on your project's README, site, or pitch deck. Pick whichever fits the surrounding design — full kit (the four variants below plus a 2×2 contact sheet) lives in [`docs/badges/`](./docs/badges/).
+
+<table>
+  <tr>
+    <td><a href="./docs/badges/"><img src="docs/badges/powered-by-pulsemap-dark-glass.png" alt="powered by PulseMap — dark glass" width="320"></a></td>
+    <td><a href="./docs/badges/"><img src="docs/badges/powered-by-pulsemap-dark-metal.png" alt="powered by PulseMap — dark metal" width="320"></a></td>
+  </tr>
+  <tr>
+    <td><a href="./docs/badges/"><img src="docs/badges/powered-by-pulsemap-dark-blue.png" alt="powered by PulseMap — dark blue" width="320"></a></td>
+    <td><a href="./docs/badges/"><img src="docs/badges/powered-by-pulsemap-white.png" alt="powered by PulseMap — white" width="320"></a></td>
+  </tr>
+</table>
 
 ## License
 
