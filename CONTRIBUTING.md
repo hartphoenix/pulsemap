@@ -46,7 +46,29 @@ bun install
 bun run dev      # localhost:5173
 ```
 
-The bootstrap pipeline shells out to Python; see the project's top-level `CLAUDE.md` for setup details if you want to regenerate maps.
+### Python (bootstrap pipeline)
+
+The bootstrap pipeline (`src/bootstrap/`) shells out to Python for audio
+analysis, source separation, and MIDI transcription. It needs **Python 3.11**
+(pinned in `.python-version`) — the audio/ML wheels (torch, torchaudio,
+essentia) are built per Python minor version, so 3.12+ will fail to resolve.
+
+```bash
+python3.11 -m venv .venv
+./.venv/bin/pip install -r requirements.txt
+```
+
+`requirements.txt` is the fully-pinned lockfile (exact versions of every
+package, transitive deps included) — install from it for a reproducible
+environment. `requirements.in` lists just the direct dependencies; edit that
+when adding or removing one, then refresh the lock:
+
+```bash
+./.venv/bin/pip freeze > requirements.txt
+```
+
+See the project's top-level `CLAUDE.md` for the per-tool notes (model paths,
+external binaries) used when regenerating maps.
 
 ## Pull requests
 
