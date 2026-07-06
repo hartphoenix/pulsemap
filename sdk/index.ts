@@ -5,13 +5,18 @@ export type {
 	PlaybackAdapter,
 	PlaybackState,
 	ResolveResult,
+	SoundCloudWidgetLike,
+	SoundCloudWidgetOptions,
 	YouTubeEmbedOptions,
 } from "./adapters";
 export {
 	createRegistry,
 	HtmlAudioAdapter,
 	htmlAudioMatcher,
+	parseSoundCloudTrackUrl,
 	parseYouTubeVideoId,
+	SoundCloudWidgetAdapter,
+	soundCloudWidgetMatcher,
 	YouTubeEmbedAdapter,
 	youTubeEmbedMatcher,
 } from "./adapters";
