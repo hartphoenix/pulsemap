@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<!--
+  SoundCloud adapter test harness.
+
+  Serve:  bun run inspect   →  http://localhost:3333/tools/soundcloud-harness.html
+  (serve.ts serves any file from the project root)
+
+  Exercises SoundCloudWidgetAdapter end-to-end against the real widget:
+  controls, position interpolation, volume/mute emulation, state events —
+  and measures raw PLAY_PROGRESS event granularity via getWidget(),
+  answering the open question in soundcloud-adapter-plan.md.
+
+  tools/soundcloud-widget.js is generated from the SDK source. Regenerate
+  after editing the adapter:
+
+    bunx tsc sdk/adapters/soundcloud-widget.ts --ignoreConfig \
+      --target es2020 --module esnext --lib es2020,dom \
+      --outDir tools --skipLibCheck
+    mv tools/sdk/adapters/soundcloud-widget.js tools/soundcloud-widget.js
+    rm tools/schema/map.js tools/sdk/adapters/types.js
+    rmdir tools/sdk/adapters tools/sdk tools/schema
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SoundCloud Adapter Harness</title>
+<style>
+  :root { color-scheme: dark; }
+  body { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; background: #14161a; color: #d7dae0; margin: 0; padding: 24px; max-width: 860px; }
+  h1 { font-size: 16px; margin: 0 0 16px; color: #8ab4f8; }
+  fieldset { border: 1px solid #2b2f36; border-radius: 6px; margin: 0 0 14px; padding: 12px 14px; }
+  legend { color: #9aa3af; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; padding: 0 6px; }
+  input[type=text] { width: 70%; background: #1d2026; border: 1px solid #333842; color: #d7dae0; padding: 7px 9px; border-radius: 4px; font: inherit; }
+  button { background: #24292f; border: 1px solid #3a414b; color: #d7dae0; padding: 7px 14px; border-radius: 4px; font: inherit; cursor: pointer; margin-right: 6px; }
+  button:hover { background: #2f353d; }
+  button:disabled { opacity: 0.4; cursor: default; }
+  input[type=range] { vertical-align: middle; width: 240px; }
+  #widget-container { margin: 14px 0; min-height: 166px; }
+  table { border-collapse: collapse; width: 100%; }
+  td { padding: 3px 10px 3px 0; font-size: 13px; }
+  td.k { color: #9aa3af; width: 160px; }
+  td.v { color: #7ee787; }
+  #log { background: #101215; border: 1px solid #2b2f36; border-radius: 4px; padding: 8px 10px; height: 130px; overflow-y: auto; font-size: 12px; white-space: pre-wrap; }
+  .err { color: #ff7b72; }
+  .warn { color: #e3b341; }
+  small { color: #9aa3af; }
+</style>
+</head>
+<body>
+<h1>SoundCloud Adapter Harness</h1>
+
+<fieldset>
+  <legend>Track</legend>
+  <input id="url" type="text" placeholder="https://soundcloud.com/artist/track" value="">
+  <button id="load">Load</button>
+  <div><small id="resolved">Paste any SoundCloud track URL (permalink, short link, or widget URL). The matcher normalizes it.</small></div>
+</fieldset>
+
+<div id="widget-container"></div>
+
+<fieldset>
+  <legend>Transport</legend>
+  <button id="play" disabled>Play</button>
+  <button id="pause" disabled>Pause</button>
+  <button id="back" disabled>−10s</button>
+  <button id="fwd" disabled>+10s</button>
+  <label>Seek <input id="seekbar" type="range" min="0" max="1000" value="0" disabled></label>
+</fieldset>
+
+<fieldset>
+  <legend>Volume</legend>
+  <label>Volume <input id="vol" type="range" min="0" max="100" value="100" disabled></label>
+  <button id="mute" disabled>Mute</button>
+</fieldset>
+
+<fieldset>
+  <legend>Adapter state (polled every frame — tests interpolation)</legend>
+  <table>
+    <tr><td class="k">getPosition()</td><td class="v" id="pos">—</td></tr>
+    <tr><td class="k">getState()</td><td class="v" id="state">—</td></tr>
+    <tr><td class="k">isPlaying()</td><td class="v" id="playing">—</td></tr>
+    <tr><td class="k">getDuration()</td><td class="v" id="dur">—</td></tr>
+    <tr><td class="k">getVolume() / isMuted()</td><td class="v" id="volread">—</td></tr>
+  </table>
+</fieldset>
+
+<fieldset>
+  <legend>PLAY_PROGRESS granularity (raw widget events via getWidget())</legend>
+  <table>
+    <tr><td class="k">events</td><td class="v" id="g-count">0</td></tr>
+    <tr><td class="k">delta min / median / p90 / max</td><td class="v" id="g-stats">—</td></tr>
+    <tr><td class="k">interpolation drift*</td><td class="v" id="g-drift">—</td></tr>
+  </table>
+  <small>*getPosition() minus event currentPosition at each PLAY_PROGRESS — how far interpolation strays between events. Record these numbers in soundcloud-adapter-plan.md.</small>
+</fieldset>
+
+<fieldset>
+  <legend>Event log</legend>
+  <div id="log"></div>
+</fieldset>
+
+<script type="module">
+import { SoundCloudWidgetAdapter, parseSoundCloudTrackUrl } from "./soundcloud-widget.js";
+
+const $ = (id) => document.getElementById(id);
+const log = (msg, cls = "") => {
+  const t = new Date().toISOString().slice(11, 23);
+  const line = document.createElement("div");
+  if (cls) line.className = cls;
+  line.textContent = `${t}  ${msg}`;
+  $("log").prepend(line);
+};
+const fmt = (ms) => {
+  if (!Number.isFinite(ms)) return "—";
+  const s = Math.floor(ms / 1000);
+  return `${String(Math.floor(s / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}.${String(Math.floor(ms % 1000)).padStart(3, "0")} (${Math.round(ms)} ms)`;
+};
+
+let adapter = null;
+let deltas = [];
+let drifts = [];
+let lastProgressAt = 0;
+let seeking = false;
+
+const controls = ["play", "pause", "back", "fwd", "seekbar", "vol", "mute"];
+
+$("load").onclick = async () => {
+  const raw = $("url").value.trim();
+  const resolved = parseSoundCloudTrackUrl(raw);
+  if (!resolved) {
+    $("resolved").textContent = "✗ matcher rejected this URL";
+    $("resolved").className = "err";
+    return;
+  }
+  $("resolved").textContent = `✓ resolved: ${resolved}`;
+  $("resolved").className = "";
+
+  if (adapter) { adapter.destroy(); adapter = null; }
+  $("widget-container").innerHTML = "";
+  deltas = []; drifts = []; lastProgressAt = 0;
+
+  log(`loading ${resolved}`);
+  adapter = new SoundCloudWidgetAdapter({ url: resolved, elementId: "widget-container" });
+  adapter.onStateChange((s) => log(`state → ${s}`));
+  await adapter.waitForReady();
+  log(`ready. duration ${fmt(adapter.getDuration())}`);
+  $("vol").value = Math.round(adapter.getVolume() * 100);
+
+  const widget = adapter.getWidget();
+  widget.bind("playProgress", (e) => {
+    const now = performance.now();
+    if (lastProgressAt) deltas.push(now - lastProgressAt);
+    lastProgressAt = now;
+    drifts.push(adapter.getPosition() - e.currentPosition);
+    if (deltas.length > 500) deltas.shift();
+    if (drifts.length > 500) drifts.shift();
+  });
+  widget.bind("error", (e) => log(`widget ERROR ${JSON.stringify(e ?? {})}`, "err"));
+
+  for (const id of controls) $(id).disabled = false;
+};
+
+$("play").onclick = () => adapter?.play();
+$("pause").onclick = () => adapter?.pause();
+$("back").onclick = () => adapter?.seek(Math.max(0, adapter.getPosition() - 10_000));
+$("fwd").onclick = () => adapter?.seek(adapter.getPosition() + 10_000);
+$("seekbar").onmousedown = () => { seeking = true; };
+$("seekbar").onchange = (e) => {
+  seeking = false;
+  if (adapter?.getDuration()) adapter.seek((e.target.value / 1000) * adapter.getDuration());
+};
+$("vol").oninput = (e) => adapter?.setVolume(e.target.value / 100);
+$("mute").onclick = () => {
+  if (!adapter) return;
+  adapter.setMuted(!adapter.isMuted());
+  $("mute").textContent = adapter.isMuted() ? "Unmute" : "Mute";
+};
+
+const q = (arr, p) => arr.length ? [...arr].sort((a, b) => a - b)[Math.min(arr.length - 1, Math.floor(p * arr.length))] : NaN;
+
+function tick() {
+  if (adapter) {
+    $("pos").textContent = fmt(adapter.getPosition());
+    $("state").textContent = adapter.getState();
+    $("playing").textContent = String(adapter.isPlaying());
+    $("dur").textContent = fmt(adapter.getDuration());
+    $("volread").textContent = `${adapter.getVolume().toFixed(2)} / muted=${adapter.isMuted()}`;
+    if (!seeking && adapter.getDuration() > 0) {
+      $("seekbar").value = Math.round((adapter.getPosition() / adapter.getDuration()) * 1000);
+    }
+    $("g-count").textContent = String(deltas.length);
+    if (deltas.length > 3) {
+      $("g-stats").textContent =
+        `${Math.round(Math.min(...deltas))} / ${Math.round(q(deltas, 0.5))} / ${Math.round(q(deltas, 0.9))} / ${Math.round(Math.max(...deltas))} ms`;
+      const absDrifts = drifts.map(Math.abs);
+      $("g-drift").textContent = `median ${Math.round(q(absDrifts, 0.5))} ms · p90 ${Math.round(q(absDrifts, 0.9))} ms · max ${Math.round(Math.max(...absDrifts))} ms`;
+    }
+  }
+  requestAnimationFrame(tick);
+}
+tick();
+</script>
+</body>
+</html>

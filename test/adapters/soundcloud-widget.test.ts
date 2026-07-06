@@ -286,6 +286,11 @@ describe("SoundCloudWidgetAdapter", () => {
 		expect(adapter.isMuted()).toBe(false);
 	});
 
+	it("getWidget returns the underlying widget for extra event bindings", () => {
+		const { adapter, fake } = makeAdapter();
+		expect(adapter.getWidget()).toBe(fake as unknown as SoundCloudWidgetLike);
+	});
+
 	it("destroy unbinds all widget events and clears listeners", () => {
 		const { adapter, fake } = makeAdapter();
 		const states: string[] = [];

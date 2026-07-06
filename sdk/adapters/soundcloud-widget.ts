@@ -380,6 +380,17 @@ export class SoundCloudWidgetAdapter implements PlaybackAdapter {
 		return this.durationMs;
 	}
 
+	/**
+	 * Escape hatch: returns the underlying widget (null before init
+	 * completes). Use to bind additional widget events (e.g. raw
+	 * PLAY_PROGRESS or ERROR) or call widget methods the adapter
+	 * doesn't wrap. Binding the same events the adapter uses is safe —
+	 * the widget keeps a listener list per event.
+	 */
+	getWidget(): SoundCloudWidgetLike | null {
+		return this.widget;
+	}
+
 	destroy(): void {
 		if (this.widget) {
 			for (const event of Object.values(EVENTS)) {
