@@ -172,7 +172,10 @@ export class SoundCloudWidgetAdapter {
         iframe.src = `https://w.soundcloud.com/player/?${params.toString()}`;
         iframe.width = "100%";
         iframe.height = String(options.height ?? 166);
-        iframe.allow = "autoplay";
+        // encrypted-media is required in Chrome: the widget's player probes
+        // EME, and cross-origin iframes need explicit delegation. Without it
+        // playback silently fails (track "skips" to the end with no audio).
+        iframe.allow = "autoplay; encrypted-media";
         iframe.style.border = "none";
         container.appendChild(iframe);
         this.iframe = iframe;
