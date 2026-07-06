@@ -115,6 +115,7 @@ Full walk-through: [`ADAPTERS.md`](./ADAPTERS.md) — anatomy of a 50-line adapt
 |---------|----------|-------------|
 | `YouTubeEmbedAdapter` | YouTube | Browser (iframe API) |
 | `HtmlAudioAdapter` | `<audio>` element (URL, Blob, File) | Browser |
+| `SoundCloudWidgetAdapter` | SoundCloud (Widget API) | Browser (iframe + postMessage) |
 
 ## Wanted — open invitations
 
@@ -123,8 +124,7 @@ Each row links to the [adapter-proposal issue template](https://github.com/hartp
 | Adapter | Platform |
 |---|---|
 | `WebAudioAdapter` | `AudioContext` graph + analyzer |
-| `SpotifyAdapter` | Spotify Web Playback (premium) |
-| `SoundCloudAdapter` | SoundCloud Widget API |
+| `SpotifyAdapter` | Spotify Web Playback (premium; [policy-blocked as of Feb 2026](https://github.com/hartphoenix/pulsemap/issues/51)) |
 | `AppleMusicAdapter` | MusicKit JS |
 | `BandcampAdapter` | Bandcamp embed |
 | `HlsAdapter` / `DashAdapter` | Shaka Player (live and pre-recorded streams) |

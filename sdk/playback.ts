@@ -1,8 +1,26 @@
 import type { PlaybackTarget } from "../schema/map";
+import { parseSoundCloudTrackUrl } from "./adapters/soundcloud-widget";
 
 export function parsePlaybackTarget(url: string): PlaybackTarget | undefined {
 	try {
 		const parsed = new URL(url);
+
+		const soundCloudTrack = parseSoundCloudTrackUrl(url);
+		if (soundCloudTrack) {
+			return {
+				platform: "soundcloud",
+				uri: soundCloudTrack,
+				capabilities: {
+					play: true,
+					pause: true,
+					seek: true,
+					setPosition: true,
+					getPosition: true,
+					volume: true,
+					mute: true,
+				},
+			};
+		}
 
 		if (parsed.hostname.includes("youtube.com") || parsed.hostname.includes("youtu.be")) {
 			const videoId = parsed.hostname.includes("youtu.be")
