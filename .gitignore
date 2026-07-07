@@ -46,3 +46,6 @@ batch-results.json
 
 # Agent worktrees (orchestrator scaffolding)
 .claude/worktrees/
+
+# Generated MusicBrainz submission pages (pipeline identity fallback)
+mb-submissions/

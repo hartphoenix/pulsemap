@@ -1,6 +1,7 @@
 import { copyFile, mkdir } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import type { AnalysisProvenance, MidiReference, PulseMap, WordEvent } from "../../schema/map";
+import { parseSoundCloudTrackUrl } from "../../sdk/adapters/soundcloud-widget";
 import { parsePlaybackTarget } from "../../sdk/playback";
 import { assertValid } from "../validate";
 import { PipelineLogger } from "./logger";
@@ -23,6 +24,7 @@ import {
 	lookupLyrics,
 	searchLyrics,
 } from "./stages/lyrics";
+import { submitAcoustId, writeMbSubmission } from "./stages/mb-submit";
 import { type StemPaths, separateAudio, separateVocals } from "./stages/separate";
 import { type TranscriptionResult, transcribeStem } from "./stages/transcribe";
 import { alignWords } from "./stages/word-align";
@@ -58,6 +60,28 @@ export async function bootstrap(source: string, options: BootstrapOptions = {}):
 		const durSec = (durationMs / 1000).toFixed(0);
 		log.stageOk("fingerprint", `${durSec}s duration, algorithm v${fp.algorithm}`);
 
+		// Preview guards: never map a truncated stream as the recording.
+		if (
+			audio.duration &&
+			Math.abs(durationMs - audio.duration) > Math.max(15000, audio.duration * 0.2)
+		) {
+			throw new Error(
+				`Extracted audio is ${durSec}s but source metadata says ${(audio.duration / 1000).toFixed(0)}s. ` +
+					"The download is likely a preview or region-restricted stream — refusing to map it.",
+			);
+		}
+		if (
+			audio.sourceUrl &&
+			parseSoundCloudTrackUrl(audio.sourceUrl) &&
+			durationMs >= 29500 &&
+			durationMs <= 31000
+		) {
+			throw new Error(
+				"Extracted audio is ~30s from a SoundCloud source — almost certainly a Go+ preview " +
+					"(premium-catalog tracks only stream 30s snippets without a Go+ session). Refusing to map it.",
+			);
+		}
+
 		let recordingId = options.id;
 		let title = audio.title;
 		let artist = audio.artist;
@@ -78,8 +102,26 @@ export async function bootstrap(source: string, options: BootstrapOptions = {}):
 				log.stageOk("lookup", `"${mbTitle}" by ${mbArtist} (score: ${recording.score.toFixed(2)})`);
 			} catch (err) {
 				log.stageFail("lookup", err instanceof Error ? err.message : String(err));
+				// The recording may simply not exist in MusicBrainz yet
+				// (common for SoundCloud-native releases). Emit a seeded
+				// submission page so registering it is one review + click.
+				let submissionNote = "";
+				try {
+					const submissionPath = await writeMbSubmission("mb-submissions", {
+						title: audio.title,
+						artist: audio.artist,
+						durationMs,
+						sourceUrl: audio.sourceUrl,
+						source,
+					});
+					submissionNote =
+						`\n  If this recording isn't in MusicBrainz yet, open ${submissionPath} in a browser —` +
+						"\n  it links a prefilled MusicBrainz form. Submit, copy the new MBID, rerun with --id <mbid>.";
+				} catch {
+					// best-effort; the original lookup error is what matters
+				}
 				throw new Error(
-					`Could not identify recording. Provide --id <musicbrainz-id> manually.\n  Cause: ${err instanceof Error ? err.message : err}`,
+					`Could not identify recording. Provide --id <musicbrainz-id> manually.${submissionNote}\n  Cause: ${err instanceof Error ? err.message : err}`,
 				);
 			}
 		} else {
@@ -710,6 +752,36 @@ export async function bootstrap(source: string, options: BootstrapOptions = {}):
 		await mkdir(dirname(outputPath), { recursive: true });
 		await Bun.write(outputPath, `${JSON.stringify(map, null, 2)}\n`);
 		log.info(`Map written to ${outputPath}`);
+
+		// When the MBID was provided manually, AcoustID doesn't know this
+		// fingerprint yet. Submit the association so future lookups of
+		// this track resolve automatically for everyone.
+		if (options.id) {
+			const clientKey = options.acoustIdKey || process.env.ACOUSTID_API_KEY;
+			const userKey = process.env.ACOUSTID_USER_KEY;
+			if (clientKey && userKey) {
+				log.stage("acoustid-submit");
+				try {
+					await submitAcoustId({
+						clientKey,
+						userKey,
+						chromaprint: fp.chromaprint,
+						durationMs,
+						mbid: options.id,
+					});
+					log.stageOk("acoustid-submit", "fingerprint→MBID association submitted");
+				} catch (err) {
+					log.stageFail("acoustid-submit", err instanceof Error ? err.message : String(err));
+				}
+			} else {
+				log.stageSkip(
+					"acoustid-submit",
+					userKey
+						? "no AcoustID client key"
+						: "set ACOUSTID_USER_KEY (from https://acoustid.org/api-key) to submit the fingerprint",
+				);
+			}
+		}
 
 		log.summary(mapFields);
 
