@@ -189,6 +189,22 @@ Generates maps from audio/video sources (~147s per song full,
    - Empty text filter (remove words/lyrics/chords with empty text)
 7. **Assembly** (validate schema, write map JSON + MIDI files)
 
+SoundCloud URLs work as sources (yt-dlp extracts them; the playback
+target gets the SoundCloud capability profile). Preview guards
+refuse to map truncated streams: extracted duration far off the
+source metadata's, or a ~30s download from SoundCloud (Go+
+premium-catalog preview).
+
+**MusicBrainz identity fallback.** When AcoustID can't identify a
+recording (common for SoundCloud-native indie tracks), the pipeline
+writes a prefilled "Add Standalone Recording" submission page to
+`mb-submissions/` (gitignored). Submit it in a browser — the MBID
+exists instantly — then rerun with `--id <mbid>`. On `--id` runs the
+pipeline submits the fingerprint→MBID association to AcoustID
+(requires `ACOUSTID_USER_KEY` from acoustid.org/api-key, alongside
+the existing `ACOUSTID_API_KEY`) so future lookups of that track
+resolve automatically. Stage code: `src/bootstrap/stages/mb-submit.ts`.
+
 ### Batch pipeline
 
 Runs the bootstrap pipeline on a list of songs from a JSON file.

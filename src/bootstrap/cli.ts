@@ -6,7 +6,12 @@ async function main() {
 	if (args.length === 0 || args.includes("--help")) {
 		console.log(`Usage: bun run bootstrap <source> [options]
 
-Source can be a URL (YouTube, etc.) or a local audio file path.
+Source can be a URL (YouTube, SoundCloud, etc.) or a local audio file path.
+
+When AcoustID can't identify the recording, a prefilled MusicBrainz
+submission page is written to mb-submissions/ — submit it, then rerun
+with --id <mbid>. On --id runs, the fingerprint is submitted to
+AcoustID (set ACOUSTID_USER_KEY) so future lookups resolve.
 
 Options:
   --id <mbid>            MusicBrainz recording ID (skips AcoustID lookup)

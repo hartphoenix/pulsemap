@@ -36,7 +36,8 @@
 			"!**/dist",
 			"!**/.venv",
 			"!**/*.json",
-			"!.claude/worktrees"
+			"!.claude/worktrees",
+			"!tools/soundcloud-widget.js"
 		]
 	}
 }
